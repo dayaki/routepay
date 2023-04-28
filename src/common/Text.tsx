@@ -33,19 +33,17 @@ export const DoubleText = ({ text, style }: TextProps) => (
 const styles = StyleSheet.create({
   title: {
     color: Black,
-    fontFamily: 'Causten-Bold',
+    fontFamily: 'DMSans-Bold',
     fontSize: 24,
   },
   medium: {
     color: Black,
-    fontFamily: 'Causten-Medium',
+    fontFamily: 'DMSans-Medium',
     fontSize: 18,
-    opacity: 0.7,
   },
   regular: {
     color: Black,
-    fontFamily: 'Causten-Regular',
+    fontFamily: 'DMSans-Regular',
     fontSize: 16,
-    opacity: 0.8,
   },
 });
