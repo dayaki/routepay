@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: '#fff',
-    fontFamily: 'Causten-SemiBold',
+    fontFamily: 'DMSans-Bold',
     fontSize: 16,
   },
 });

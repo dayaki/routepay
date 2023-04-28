@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   input: {
     color: Black,
-    fontFamily: 'Causten-Regular',
+    fontFamily: 'DMSans-Regular',
     fontSize: 16,
     width: '100%',
     height: ms(46),
