@@ -19,13 +19,11 @@ module.exports = {
         alias: {
           '@images': './assets/images',
           '@icons': './assets/icons.tsx',
-          '@lottie': './assets/lottie',
           '@common': './src/common',
           '@store': './src/store',
           '@utils': './src/utils',
           '@screens/*': './src/screens/*',
           '@types': './src/types',
-          '@apptypes': ['./src/types'],
         },
       },
     ],
