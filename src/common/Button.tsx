@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 // import { InAppBrowser } from 'react-native-inappbrowser-reborn';
-import { Black } from './Colors';
+import { Primary, White } from './Colors';
 import { ms } from '@utils';
 
 interface ButtonProps {
@@ -15,8 +15,7 @@ interface ButtonProps {
   disabled?: boolean;
   style?: object;
   textStyle?: object;
-  url?: string;
-  blue?: boolean;
+  textOnly?: boolean;
   onPress: () => void;
 }
 
@@ -26,8 +25,8 @@ export const Button = ({
   isLoading,
   style,
   textStyle,
-  blue,
   disabled,
+  textOnly,
 }: ButtonProps) => {
   const handlePress = () => {
     if (disabled) {
@@ -41,13 +40,13 @@ export const Button = ({
       activeOpacity={disabled ? 1 : 0.8}
       style={[
         styles.btn,
-        blue && { backgroundColor: Black },
         style,
         disabled && styles.disabledBtn,
+        textOnly && styles.textOnly,
       ]}
       onPress={handlePress}>
       {isLoading ? (
-        <ActivityIndicator size="small" color="#fff" />
+        <ActivityIndicator size="small" color={White} />
       ) : (
         <Text style={[styles.btnText, textStyle]}>{text}</Text>
       )}
@@ -57,19 +56,22 @@ export const Button = ({
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: '#0F172A',
+    backgroundColor: Primary,
     width: '100%',
-    height: ms(50),
+    height: ms(54),
     borderRadius: ms(8),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  textOnly: {
+    backgroundColor: 'transparent',
   },
   disabledBtn: {
     backgroundColor: 'rgba(0,0,0,0.6)',
   },
   btnText: {
-    color: '#fff',
-    fontFamily: 'DMSans-Bold',
-    fontSize: 16,
+    color: White,
+    fontFamily: 'DMSans-Medium',
+    fontSize: 14,
   },
 });

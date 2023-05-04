@@ -1,16 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-// import AuthStack from './AuthStack';
-// import MainStack from './MainStack';
-// import { useAppSelector } from '@store';
+import AuthStack from './AuthStack';
 
 const Router = () => {
-  //   const { isAuthenticated } = useAppSelector(state => state.user);
-  return (
-    <View style={{ flex: 1 }}>
-      <Text>Hello World!</Text>
-    </View>
-  );
+  return <AuthStack />;
 };
 
 export default Router;

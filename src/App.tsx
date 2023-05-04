@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, useColorScheme } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import { ToastProvider } from 'react-native-toast-notifications';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '@store';
 import Router from './navigation';
 import { navigationRef } from './navigation/RootNavigation';
+import { DarkMode, LightMode, ViewWrapper } from '@common';
 // import { refreshToken, MonoSetup } from '@utils';
 
 axios.interceptors.request.use(
@@ -53,6 +54,8 @@ axios.interceptors.response.use(
 );
 
 const App = () => {
+  const scheme = useColorScheme();
+
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -70,8 +73,12 @@ const App = () => {
           offsetBottom={50}
           swipeEnabled={true}>
           <StatusBar barStyle="dark-content" />
-          <NavigationContainer ref={navigationRef}>
-            <Router />
+          <NavigationContainer
+            ref={navigationRef}
+            theme={scheme === 'dark' ? DarkMode : LightMode}>
+            <ViewWrapper>
+              <Router />
+            </ViewWrapper>
           </NavigationContainer>
         </ToastProvider>
       </PersistGate>

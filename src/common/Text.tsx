@@ -1,49 +1,78 @@
 import React from 'react';
 import { Text, StyleSheet, TextStyle } from 'react-native';
-import { Black } from './Colors';
+import { useTheme } from '@react-navigation/native';
 
 type TextProps = {
   text: string;
   size?: number;
-  style?: TextStyle | TextStyle[];
+  color?: string;
+  style?: {};
+  // style?: TextStyle | TextStyle[];
 };
 
-export const TitleText = ({ text, size, style }: TextProps) => (
-  <Text style={[styles.title, style, size ? { fontSize: size } : null]}>
-    {text}
-  </Text>
-);
+export const TitleText = ({ text, size, style, color }: TextProps) => {
+  const styles = useStyles();
+  return (
+    <Text
+      style={[
+        styles.title,
+        style,
+        size && { fontSize: size },
+        color && { color: color },
+      ]}>
+      {text}
+    </Text>
+  );
+};
 
-export const MediumText = ({ text, size, style }: TextProps) => (
-  <Text style={[styles.medium, style, size ? { fontSize: size } : null]}>
-    {text}
-  </Text>
-);
+export const MediumText = ({ text, size, style, color }: TextProps) => {
+  const styles = useStyles();
+  return (
+    <Text
+      style={[
+        styles.medium,
+        style,
+        size && { fontSize: size },
+        color && { color: color },
+      ]}>
+      {text}
+    </Text>
+  );
+};
 
-export const RegularText = ({ text, size, style }: TextProps) => (
-  <Text style={[styles.regular, style, size ? { fontSize: size } : null]}>
-    {text}
-  </Text>
-);
+export const RegularText = ({ text, size, style, color }: TextProps) => {
+  const styles = useStyles();
+  return (
+    <Text
+      style={[
+        styles.regular,
+        style,
+        size && { fontSize: size },
+        color && { color: color },
+      ]}>
+      {text}
+    </Text>
+  );
+};
 
-export const DoubleText = ({ text, style }: TextProps) => (
-  <Text style={[styles.regular, style]}>{text}</Text>
-);
-
-const styles = StyleSheet.create({
-  title: {
-    color: Black,
-    fontFamily: 'DMSans-Bold',
-    fontSize: 24,
-  },
-  medium: {
-    color: Black,
-    fontFamily: 'DMSans-Medium',
-    fontSize: 18,
-  },
-  regular: {
-    color: Black,
-    fontFamily: 'DMSans-Regular',
-    fontSize: 16,
-  },
-});
+const useStyles = () => {
+  const { colors } = useTheme();
+  return StyleSheet.create({
+    title: {
+      fontFamily: 'DMSans-Bold',
+      fontWeight: '700',
+      fontSize: 20,
+      color: colors.text,
+    },
+    medium: {
+      fontFamily: 'DMSans-Medium',
+      fontSize: 18,
+      color: colors.text,
+    },
+    regular: {
+      fontFamily: 'DMSans-Regular',
+      fontSize: 16,
+      color: colors.text,
+    },
+  });
+};
