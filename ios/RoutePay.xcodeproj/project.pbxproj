@@ -13,9 +13,6 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2411DF4152D440CB90C8E51F /* DMSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53C8008F4ECD4A27B68D9054 /* DMSans-Medium.ttf */; };
-		60403850E02242A497639941 /* DMSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09887CB8A95F4BEB9E557970 /* DMSans-BoldItalic.ttf */; };
-		61A0E43BA80E431298519E3F /* DMSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8968F31EBEBE45D6BC10B9C2 /* DMSans-MediumItalic.ttf */; };
-		7541AFADDD3246329F498ED4 /* DMSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A20E065670B34388BE669D6B /* DMSans-Italic.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-RoutePay-RoutePayTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-RoutePay-RoutePayTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A80BF668BD334D9A89005332 /* DMSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1194439E899F4947A992B9A4 /* DMSans-Regular.ttf */; };
@@ -36,7 +33,6 @@
 		00E356EE1AD99517003FC87E /* RoutePayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoutePayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* RoutePayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoutePayTests.m; sourceTree = "<group>"; };
-		09887CB8A95F4BEB9E557970 /* DMSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-BoldItalic.ttf"; path = "../assets/fonts/DMSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		1194439E899F4947A992B9A4 /* DMSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Regular.ttf"; path = "../assets/fonts/DMSans-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* RoutePay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoutePay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = RoutePay/AppDelegate.h; sourceTree = "<group>"; };
@@ -51,10 +47,8 @@
 		5B7EB9410499542E8C5724F5 /* Pods-RoutePay-RoutePayTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RoutePay-RoutePayTests.debug.xcconfig"; path = "Target Support Files/Pods-RoutePay-RoutePayTests/Pods-RoutePay-RoutePayTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-RoutePay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RoutePay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RoutePay/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8968F31EBEBE45D6BC10B9C2 /* DMSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-MediumItalic.ttf"; path = "../assets/fonts/DMSans-MediumItalic.ttf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-RoutePay-RoutePayTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RoutePay-RoutePayTests.release.xcconfig"; path = "Target Support Files/Pods-RoutePay-RoutePayTests/Pods-RoutePay-RoutePayTests.release.xcconfig"; sourceTree = "<group>"; };
 		982968ABB8CF4EDB8C6530E9 /* DMSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Bold.ttf"; path = "../assets/fonts/DMSans-Bold.ttf"; sourceTree = "<group>"; };
-		A20E065670B34388BE669D6B /* DMSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "DMSans-Italic.ttf"; path = "../assets/fonts/DMSans-Italic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -154,10 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				982968ABB8CF4EDB8C6530E9 /* DMSans-Bold.ttf */,
-				09887CB8A95F4BEB9E557970 /* DMSans-BoldItalic.ttf */,
-				A20E065670B34388BE669D6B /* DMSans-Italic.ttf */,
 				53C8008F4ECD4A27B68D9054 /* DMSans-Medium.ttf */,
-				8968F31EBEBE45D6BC10B9C2 /* DMSans-MediumItalic.ttf */,
 				1194439E899F4947A992B9A4 /* DMSans-Regular.ttf */,
 			);
 			name = Resources;
@@ -271,10 +262,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				BCF68A805BE04B83804FE73A /* DMSans-Bold.ttf in Resources */,
-				60403850E02242A497639941 /* DMSans-BoldItalic.ttf in Resources */,
-				7541AFADDD3246329F498ED4 /* DMSans-Italic.ttf in Resources */,
 				2411DF4152D440CB90C8E51F /* DMSans-Medium.ttf in Resources */,
-				61A0E43BA80E431298519E3F /* DMSans-MediumItalic.ttf in Resources */,
 				A80BF668BD334D9A89005332 /* DMSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -518,8 +506,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L65638VWK6;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = RoutePay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RoutePay;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -531,6 +523,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.routepay;
 				PRODUCT_NAME = RoutePay;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -545,7 +538,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L65638VWK6;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = RoutePay/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RoutePay;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -557,6 +554,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.routepay;
 				PRODUCT_NAME = RoutePay;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
