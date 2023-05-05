@@ -58,6 +58,7 @@ export const useStyles = () => {
       borderRadius: ms(6),
       borderColor: White,
       borderWidth: 0.5,
+      borderColor: colors.pagination,
       backgroundColor: 'transparent',
       marginRight: ms(5),
     },

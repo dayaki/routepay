@@ -49,7 +49,7 @@ const Onboarding = ({ navigation }) => {
             <Button
               text="Create an account"
               style={styles.registerBtn}
-              onPress={() => navigation.navigate('set_pin')}
+              onPress={() => navigation.navigate('signup')}
             />
             <Button
               text="Log In"

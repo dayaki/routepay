@@ -36,7 +36,7 @@ const ResetPassword = ({ navigation }) => {
         <View style={styles.row}>
           <Button
             text="Continue"
-            onPress={() => navigation.navigate('welcome')}
+            onPress={() => navigation.navigate('set_pin')}
             style={styles.loginBtn}
           />
         </View>

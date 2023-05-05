@@ -32,6 +32,7 @@ export const Button = ({
   textOnly,
 }: ButtonProps) => {
   const styles = useStyles();
+  const { colors } = useTheme();
   const handlePress = () => {
     if (disabled) {
       return;
@@ -52,7 +53,14 @@ export const Button = ({
       {isLoading ? (
         <ActivityIndicator size="small" color={White} />
       ) : (
-        <Text style={[styles.btnText, textStyle]}>{text}</Text>
+        <Text
+          style={[
+            styles.btnText,
+            textStyle,
+            { color: textOnly ? colors.text : 'white' },
+          ]}>
+          {text}
+        </Text>
       )}
     </TouchableOpacity>
   );
@@ -122,7 +130,7 @@ const useStyles = () => {
       backgroundColor: 'rgba(0,0,0,0.6)',
     },
     btnText: {
-      color: White,
+      color: colors.text,
       fontFamily: 'DMSans-Medium',
       fontSize: 14,
     },
