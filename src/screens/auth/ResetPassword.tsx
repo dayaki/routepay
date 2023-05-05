@@ -34,7 +34,11 @@ const ResetPassword = ({ navigation }) => {
           />
         </View>
         <View style={styles.row}>
-          <Button text="Continue" onPress={() => {}} style={styles.loginBtn} />
+          <Button
+            text="Continue"
+            onPress={() => navigation.navigate('welcome')}
+            style={styles.loginBtn}
+          />
         </View>
       </View>
     </BackgroundView>

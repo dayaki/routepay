@@ -66,3 +66,20 @@ export const Lock = (props: Props) => (
     />
   </Svg>
 );
+
+export const CloseIcon = (props: Props) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={props.size || 24}
+    height={props.size || 24}
+    fill="none"
+    {...props}>
+    <Path
+      stroke="#fff"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={0.667}
+      d="M23.451 12.549 12.548 23.45M12.548 12.549 23.451 23.45M27 1.286H9A7.714 7.714 0 0 0 1.284 9v18A7.714 7.714 0 0 0 9 34.714h18A7.714 7.714 0 0 0 34.714 27V9a7.714 7.714 0 0 0-7.715-7.714Z"
+    />
+  </Svg>
+);

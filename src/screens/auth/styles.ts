@@ -159,5 +159,17 @@ export const useLoginStyles = () => {
     centeredTexts: {
       alignItems: 'center',
     },
+    indicator: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: ms(30),
+    },
+    pinDot: {
+      width: ms(11),
+      height: ms(11),
+      borderRadius: 6,
+      marginRight: ms(7),
+      backgroundColor: colors.input,
+    },
   });
 };

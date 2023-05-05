@@ -8,6 +8,7 @@ import ForgotPassword from '../screens/auth/ForgotPassword';
 import ResetPassword from '../screens/auth/ResetPassword';
 import OTPVerification from '../screens/auth/OTPVerification';
 import Welcome from '../screens/auth/Welcome';
+import SetPIN from '../screens/auth/SetPIN';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
@@ -22,6 +23,7 @@ const AuthStack = () => {
       <Stack.Screen name="forgot_password" component={ForgotPassword} />
       <Stack.Screen name="reset_password" component={ResetPassword} />
       <Stack.Screen name="otp_verification" component={OTPVerification} />
+      <Stack.Screen name="set_pin" component={SetPIN} />
       <Stack.Screen name="welcome" component={Welcome} />
     </Stack.Navigator>
   );

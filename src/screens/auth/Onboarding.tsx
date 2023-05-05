@@ -49,14 +49,12 @@ const Onboarding = ({ navigation }) => {
             <Button
               text="Create an account"
               style={styles.registerBtn}
-              onPress={() => navigation.navigate('otp_verification')}
+              onPress={() => navigation.navigate('set_pin')}
             />
             <Button
               text="Log In"
               textOnly
-              onPress={() =>
-                navigation.navigate('otp_verification', { type: 'email' })
-              }
+              onPress={() => navigation.navigate('login')}
             />
           </View>
         </View>
