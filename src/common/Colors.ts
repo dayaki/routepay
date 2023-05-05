@@ -5,13 +5,14 @@ export const LightMode = {
   dark: false,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'rgb(255, 45, 85)',
+    primary: '#FF6600',
     background: '#fff',
     card: 'rgb(255, 255, 255)',
     text: '#0B0827',
     border: 'rgb(199, 199, 204)',
     notification: 'rgb(255, 69, 58)',
     pagination: '#0B0827',
+    input: '#F9F7F6',
   },
 };
 
@@ -20,13 +21,14 @@ export const DarkMode = {
   dark: true,
   colors: {
     ...DarkTheme.colors,
-    primary: 'rgb(255, 45, 85)',
+    primary: '#FF6600',
     background: '#0B0827',
     card: 'rgb(255, 255, 255)',
     text: '#FFFFFF',
     border: 'rgb(199, 199, 204)',
     notification: 'rgb(255, 69, 58)',
     pagination: '#fff',
+    input: '#1D1B32',
   },
 };
 

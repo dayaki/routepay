@@ -70,5 +70,94 @@ export const useStyles = () => {
     registerBtn: {
       marginBottom: ms(10),
     },
+    welcomeTitle: {
+      textAlign: 'center',
+      lineHeight: 30,
+      width: '80%',
+      alignSelf: 'center',
+      marginBottom: ms(20),
+    },
+    welcomeText: {
+      fontSize: 14,
+      lineHeight: 25,
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: ms(30),
+    },
+    bold: {
+      fontWeight: '700',
+    },
+    brand: {
+      fontWeight: '700',
+      color: colors.primary,
+    },
+  });
+};
+
+export const useLoginStyles = () => {
+  const { colors } = useTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    content: {
+      flex: 1,
+      justifyContent: 'space-between',
+      paddingBottom: ms(50),
+    },
+    title: {
+      marginBottom: ms(10),
+    },
+    texts: {
+      marginTop: ms(10),
+      width: '100%',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      alignItems: 'center',
+      marginBottom: ms(40),
+    },
+    label: {
+      fontFamily: 'DMSans-Regular',
+      fontSize: 16,
+      color: colors.text,
+      lineHeight: 25,
+    },
+    brandName: {
+      fontFamily: 'DMSans-Bold',
+      fontWeight: '700',
+      fontSize: 14,
+      color: colors.primary,
+      lineHeight: 25,
+    },
+    loginBtn: {
+      marginVertical: ms(20),
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    resetBtn: {
+      fontSize: 14,
+      marginLeft: 4,
+      // color: colors.,
+    },
+    brand: {
+      color: colors.primary,
+    },
+    forgotLabel: {
+      marginTop: ms(10),
+      marginBottom: ms(40),
+      lineHeight: 25,
+    },
+    otpLabel: {
+      marginTop: ms(10),
+      marginBottom: ms(30),
+      textAlign: 'center',
+    },
+    centeredTexts: {
+      alignItems: 'center',
+    },
   });
 };

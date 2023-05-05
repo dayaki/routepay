@@ -1,6 +1,7 @@
 package com.routepay;
 
 import android.os.Bundle;
+import com.zoontek.rnbars.RNBars;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactActivityDelegate;
@@ -21,6 +22,7 @@ public class MainActivity extends ReactActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     SplashScreen.show(this);
+    RNBars.init(this, "light-content"); // initialize with initial bars styles (could be dark-content)
     super.onCreate(null);
   }
 

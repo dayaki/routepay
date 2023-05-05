@@ -5,6 +5,7 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 // import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { Primary, White } from './Colors';
 import { ms } from '@utils';
@@ -16,6 +17,8 @@ interface ButtonProps {
   style?: object;
   textStyle?: object;
   textOnly?: boolean;
+  textLink?: boolean;
+  color?: string;
   onPress: () => void;
 }
 
@@ -28,6 +31,7 @@ export const Button = ({
   disabled,
   textOnly,
 }: ButtonProps) => {
+  const styles = useStyles();
   const handlePress = () => {
     if (disabled) {
       return;
@@ -54,24 +58,73 @@ export const Button = ({
   );
 };
 
-const styles = StyleSheet.create({
-  btn: {
-    backgroundColor: Primary,
-    width: '100%',
-    height: ms(54),
-    borderRadius: ms(8),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textOnly: {
-    backgroundColor: 'transparent',
-  },
-  disabledBtn: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
-  },
-  btnText: {
-    color: White,
-    fontFamily: 'DMSans-Medium',
-    fontSize: 14,
-  },
-});
+export const TextButton = ({
+  text,
+  onPress,
+  style,
+  textStyle,
+  disabled,
+  color,
+}: ButtonProps) => {
+  const styles = useStyles();
+
+  const handlePress = () => {
+    if (disabled) {
+      return;
+    }
+    onPress();
+  };
+
+  return (
+    <TouchableOpacity
+      activeOpacity={disabled ? 1 : 0.8}
+      style={[styles.textBtn, style]}
+      onPress={handlePress}>
+      <Text
+        style={[
+          styles.textBtnText,
+          textStyle,
+          color ? { color: color } : null,
+        ]}>
+        {text}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+const useStyles = () => {
+  const { colors } = useTheme();
+  return StyleSheet.create({
+    btn: {
+      backgroundColor: Primary,
+      width: '100%',
+      height: ms(54),
+      borderRadius: ms(8),
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    textBtn: {
+      alignSelf: 'flex-start',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: ms(2),
+    },
+    textBtnText: {
+      fontFamily: 'DMSans-Bold',
+      fontWeight: '700',
+      fontSize: 14,
+      color: colors.text,
+    },
+    textOnly: {
+      backgroundColor: 'transparent',
+    },
+    disabledBtn: {
+      backgroundColor: 'rgba(0,0,0,0.6)',
+    },
+    btnText: {
+      color: White,
+      fontFamily: 'DMSans-Medium',
+      fontSize: 14,
+    },
+  });
+};

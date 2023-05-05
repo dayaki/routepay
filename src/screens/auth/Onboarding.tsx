@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, View } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { useStyles } from './styles';
-import { Button, TitleText } from '@common';
+import { Button, TitleText, ViewWrapper } from '@common';
 
 const slides = [
   {
@@ -22,12 +22,16 @@ const slides = [
   },
 ];
 
-const Onboarding = () => {
+const Onboarding = ({ navigation }) => {
   const styles = useStyles();
-  const renderSlide = ({ item }) => (
+  const renderSlide = ({ item, index }: { item: any; index: number }) => (
     <>
       <Image
-        source={require('@images/brand_waves.png')}
+        source={
+          index === 1
+            ? require('@images/brand_waves_inverse.png')
+            : require('@images/brand_waves.png')
+        }
         resizeMode="cover"
         style={styles.waves}
       />
@@ -42,8 +46,18 @@ const Onboarding = () => {
           </View>
           <TitleText text={item.title} style={styles.title} />
           <View style={styles.buttons}>
-            <Button text="Create an account" style={styles.registerBtn} />
-            <Button text="Log In" textOnly />
+            <Button
+              text="Create an account"
+              style={styles.registerBtn}
+              onPress={() => navigation.navigate('otp_verification')}
+            />
+            <Button
+              text="Log In"
+              textOnly
+              onPress={() =>
+                navigation.navigate('otp_verification', { type: 'email' })
+              }
+            />
           </View>
         </View>
       </View>
@@ -75,12 +89,14 @@ const Onboarding = () => {
 
   return (
     <View style={styles.container}>
-      <AppIntroSlider
-        renderItem={renderSlide}
-        data={slides}
-        renderPagination={renderPagination}
-        bottomButton={true}
-      />
+      <ViewWrapper>
+        <AppIntroSlider
+          renderItem={renderSlide}
+          data={slides}
+          renderPagination={renderPagination}
+          bottomButton={true}
+        />
+      </ViewWrapper>
     </View>
   );
 };

@@ -76,9 +76,9 @@ const App = () => {
           <NavigationContainer
             ref={navigationRef}
             theme={scheme === 'dark' ? DarkMode : LightMode}>
-            <ViewWrapper>
-              <Router />
-            </ViewWrapper>
+            {/* <ViewWrapper> */}
+            <Router />
+            {/* </ViewWrapper> */}
           </NavigationContainer>
         </ToastProvider>
       </PersistGate>
