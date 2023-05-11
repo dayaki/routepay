@@ -37,6 +37,24 @@ export const obscureNumber = (accountNumber: string) => {
   // return `${name[0]}${new Array(name.length).join('*')}@${domain}`;
 };
 
+export const formatPhone = (phoneNum: string): string => {
+  const phone = phoneNum.replace(/-/g, '');
+  const phoneNumber = phone?.split(' ').join('');
+  const countryLine = phoneNumber.startsWith('+');
+  const defaultLine = phoneNumber.startsWith('0') && phoneNumber.length === 11;
+  const phoneIndex = phoneNumber.length - 10;
+  console.log('phoneNumber', countryLine);
+  if (phoneNumber.length) {
+    if (defaultLine || countryLine) {
+      return `234${phoneNumber.slice(phoneIndex)}`;
+    } else {
+      return phoneNumber;
+    }
+  } else {
+    return 'hello world...';
+  }
+};
+
 // export const refreshToken = async () => {
 //   try {
 //     const resp = await apiService(getRefreshToken, 'get');

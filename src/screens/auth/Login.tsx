@@ -33,14 +33,14 @@ const Login = ({ navigation }) => {
             value={email}
             onChangeText={setEmail}
             placeholder="Email or mobile number"
-            leftIcon={<Mail />}
+            leftIcon={<Mail size={14} />}
           />
           <Input
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
             isPassword
-            leftIcon={<Lock />}
+            leftIcon={<Lock size={16} />}
             rightIcon={<Mail />}
           />
           <Button text="Login" onPress={handleLogin} style={styles.loginBtn} />

@@ -6114,6 +6114,14 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-app-auth@^6.4.3:
+  version "6.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-app-auth/-/react-native-app-auth-6.4.3.tgz#14e6d0b66087c60fd72cd98cc0219f0420195071"
+  integrity sha512-3Qi9D11WwB96h56UBkdUPfemOxhsp+lLryPy7YRmETrC0Our4AfgyHMfackJp7eCMKO/oB5LxU99Yh19ueIriA==
+  dependencies:
+    invariant "2.2.4"
+    react-native-base64 "0.0.2"
+
 react-native-app-intro-slider@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-4.0.4.tgz#fa5cda7057db62c448ac975ffd2ba0cff94cc8d8"
@@ -6123,6 +6131,11 @@ react-native-bars@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-native-bars/-/react-native-bars-2.2.0.tgz#a58f680d8b04717f1c9f10f3d906412e1150fa48"
   integrity sha512-gcIOUhMSHsTZ0oKCCOr40DvyyUx+8TtyRPF6RB6IPTVtJXZ64fo+6Cmu6xHDjzGPi1xwC+z6DAA/nNalBCqHog==
+
+react-native-base64@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-base64/-/react-native-base64-0.0.2.tgz#c28463c2c6779ac3ec5fdd12979ebc8c5f9b410a"
+  integrity sha512-Fu/J1a2y0X22EJDWqJR2oEa1fpP4gTFjYxk8ElJdt1Yak3HOXmFJ7EohLVHU2DaQkgmKfw8qb7u/48gpzveRbg==
 
 react-native-codegen@^0.71.5:
   version "0.71.5"

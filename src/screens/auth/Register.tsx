@@ -10,9 +10,11 @@ import {
   TextButton,
   TitleText,
 } from '@common';
-import { Lock, Mail } from '@icons';
+import { Lock, Mail, PhoneIcon, UserIcon } from '@icons';
+import { AuthNavigationProps } from '@types';
+import { formatPhone } from '@utils';
 
-const Register = ({ navigation }) => {
+const Register = ({ navigation }: AuthNavigationProps) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -20,7 +22,9 @@ const Register = ({ navigation }) => {
   const [referral, setReferral] = useState('');
   const styles = useLoginStyles();
 
-  const handleSignup = async () => {};
+  const handleSignup = async () => {
+    navigation.navigate('phone_verification', { phone });
+  };
 
   return (
     <BackgroundView hasBack>
@@ -38,19 +42,22 @@ const Register = ({ navigation }) => {
           value={name}
           onChangeText={setName}
           placeholder="Full name"
-          leftIcon={<Mail />}
+          leftIcon={<UserIcon size={16} />}
         />
         <Input
           value={email}
           onChangeText={setEmail}
+          autoCapitalize="none"
           placeholder="Email address"
-          leftIcon={<Mail />}
+          keyboardType="email-address"
+          leftIcon={<Mail size={14} />}
         />
         <Input
           value={phone}
           onChangeText={setPhone}
           placeholder="Mobile number"
-          leftIcon={<Mail />}
+          keyboardType="number-pad"
+          leftIcon={<PhoneIcon />}
         />
         <Input
           value={password}
@@ -58,13 +65,13 @@ const Register = ({ navigation }) => {
           placeholder="Password"
           isPassword
           leftIcon={<Lock />}
-          rightIcon={<Mail />}
         />
         <Input
           value={referral}
           onChangeText={setReferral}
           placeholder="Referral Mobile (Optional)"
-          leftIcon={<Mail />}
+          keyboardType="number-pad"
+          leftIcon={<PhoneIcon />}
         />
         <Button
           text="Create an account"

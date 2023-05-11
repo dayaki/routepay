@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@react-navigation/native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {
@@ -12,6 +12,7 @@ import { Black } from './Colors';
 import { ms } from '@utils';
 import { RegularText } from './Text';
 import { TextButton } from './Button';
+import { EyeIcon } from '@icons';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -31,11 +32,11 @@ export const Input = ({
   onChangeText,
   placeholder,
   leftIcon,
-  rightIcon,
   isPassword,
-  onPress,
   ...props
 }: InputProps) => {
+  const [showPassword, setShowPassword] = useState(isPassword);
+
   const styles = useStyles();
   const { colors } = useTheme();
   return (
@@ -45,53 +46,107 @@ export const Input = ({
         placeholder={placeholder}
         placeholderTextColor={colors.text}
         value={value}
-        secureTextEntry={isPassword}
+        secureTextEntry={showPassword}
         onChangeText={onChangeText}
         style={styles.input}
         {...props}
       />
-      {rightIcon && (
+      {showPassword && (
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={onPress}
+          onPress={() => setShowPassword(!showPassword)}
           style={styles.rightIcon}>
-          {rightIcon}
+          <EyeIcon size={16} />
         </TouchableOpacity>
       )}
     </View>
   );
 };
 
-export const OTPInput = ({ secure }: { secure?: boolean }) => {
+export const OTPInput = ({
+  secure,
+  onResend,
+  setCode,
+}: {
+  secure?: boolean;
+  onResend: () => void;
+  setCode: (otp: string) => void;
+}) => {
+  const [seconds, setSeconds] = useState(59);
+  const [minutes, setMinutes] = useState(0);
   const [canResend, setCanResend] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval>>();
+  const otpRef = useRef<OTPInputView>(null);
   const styles = useStyles();
   const { colors } = useTheme();
 
+  useEffect(() => {
+    intervalRef.current = setInterval(() => timeInterval(), 1000);
+    if (otpRef.current) {
+      setTimeout(() => {
+        otpRef?.current?.focusField(0);
+      }, 500);
+    }
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      if (minutes === 0) {
+        clearInterval(intervalRef.current);
+        setCanResend(true);
+      } else {
+        setMinutes(minutes - 1);
+        setSeconds(59);
+        setCanResend(false);
+      }
+    }
+  }, [seconds, minutes]);
+
+  const timeInterval = () => {
+    if (seconds > 0) {
+      setSeconds(prevSeconds => {
+        return prevSeconds - 1;
+      });
+    }
+  };
+
   const resendCode = async () => {
+    onResend();
+    intervalRef.current = setInterval(() => timeInterval(), 1000);
     setCanResend(false);
   };
+
   return (
     <View style={styles.otpWrapper}>
       <OTPInputView
+        ref={otpRef}
         secureTextEntry={secure}
         pinCount={6}
         codeInputFieldStyle={styles.otpInput}
         codeInputHighlightStyle={styles.otpInputFocus}
         selectionColor={colors.text}
-        onCodeFilled={code => {
-          console.log(`Code is ${code}, you are good to go!`);
-        }}
+        onCodeFilled={setCode}
       />
       <View style={styles.countdown}>
-        <RegularText text="Resend code in " />
         {canResend ? (
-          <TextButton
-            text="Resend code"
-            color={colors.primary}
-            onPress={resendCode}
-          />
+          <>
+            <RegularText text="Didn’t receive a code? " />
+            <TextButton
+              text="Resend code"
+              color={colors.primary}
+              onPress={resendCode}
+            />
+          </>
         ) : (
-          <RegularText text="00:30" />
+          <>
+            <RegularText text="Resend code in " />
+            <RegularText
+              text={`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+            />
+          </>
         )}
       </View>
     </View>
