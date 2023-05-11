@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import { RegularText } from './Text';
 import { ms } from '@utils';
-import { CloseIcon } from '@icons';
+import { CancelKey } from '@icons';
 
 export const Keyboard = ({
   handleDelete,
@@ -57,7 +57,7 @@ export const Keyboard = ({
           <RegularText style={styles.keyText} text="0" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.deleteKey} onPress={handleDelete}>
-          <CloseIcon />
+          <CancelKey size={37} />
         </TouchableOpacity>
       </View>
     </View>
