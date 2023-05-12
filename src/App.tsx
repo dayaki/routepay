@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { StatusBar, useColorScheme } from 'react-native';
+import { StatusBar, Text, useColorScheme } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import { ToastProvider } from 'react-native-toast-notifications';
 import { PersistGate } from 'redux-persist/integration/react';
-import { NavigationContainer } from '@react-navigation/native';
 import axios, { AxiosHeaders } from 'axios';
 import { Provider } from 'react-redux';
 import { persistor, store } from '@store';
@@ -53,6 +53,15 @@ axios.interceptors.response.use(
   },
 );
 
+const linking = {
+  prefixes: ['routepay://', 'https://applink.routepay.com'],
+  config: {
+    screens: {
+      Register: 'auth/callback',
+    },
+  },
+};
+
 const App = () => {
   const scheme = useColorScheme();
 
@@ -75,6 +84,8 @@ const App = () => {
           <StatusBar barStyle="dark-content" />
           <NavigationContainer
             ref={navigationRef}
+            linking={linking}
+            fallback={<Text>Loading...</Text>}
             theme={scheme === 'dark' ? DarkMode : LightMode}>
             {/* <ViewWrapper> */}
             <Router />
