@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@react-navigation/native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {
   StyleSheet,
   TextInput,
   View,
   TextInputProps,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { Black } from './Colors';
 import { ms } from '@utils';
 import { RegularText } from './Text';
 import { TextButton } from './Button';
-import { EyeIcon } from '@icons';
+import { CheckMark, EyeIcon } from '@icons';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -20,6 +22,7 @@ interface InputProps extends TextInputProps {
   placeholder: string;
   leftIcon?: any;
   rightIcon?: any;
+  inputStyle?: any;
   onChangeText: (val: string) => void;
   onPress?: () => void;
   keyboardType?: 'number-pad' | 'default' | 'email-address';
@@ -31,6 +34,7 @@ export const Input = ({
   value,
   onChangeText,
   placeholder,
+  inputStyle,
   leftIcon,
   isPassword,
   ...props
@@ -48,7 +52,7 @@ export const Input = ({
         value={value}
         secureTextEntry={showPassword}
         onChangeText={onChangeText}
-        style={styles.input}
+        style={[styles.input, inputStyle]}
         {...props}
       />
       {isPassword && showPassword && (
@@ -153,9 +157,34 @@ export const OTPInput = ({
   );
 };
 
+export const Checkbox = ({
+  onPress,
+  isChecked,
+}: {
+  isChecked: boolean;
+  onPress: (isChecked: boolean) => void;
+}) => {
+  const { colors } = useTheme();
+  const styles = useStyles();
+  return (
+    <BouncyCheckbox
+      onPress={onPress}
+      disableBuiltInState
+      isChecked={isChecked}
+      text=""
+      innerIconStyle={styles.checkbox}
+      fillColor={colors.selector}
+      checkIconImageSource={require('@images/checkmark.png')}
+    />
+  );
+};
+
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
+    checkbox: {
+      borderColor: colors.inputColor,
+    },
     otpWrapper: {
       height: ms(60),
     },
@@ -179,7 +208,8 @@ const useStyles = () => {
     },
     inputWrapper: {
       backgroundColor: colors.input,
-      width: ms(350),
+      width: '100%',
+      // width: ms(350),
       height: ms(54),
       marginBottom: ms(20),
       borderRadius: ms(8),
