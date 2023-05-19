@@ -35,7 +35,8 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
       pin_time_to_live: 1,
       pin_length: 6,
       pin_placeholder: '< 1234 >',
-      message_text: 'Hi there, your RoutePay verification code is < 1234 >',
+      // message_text: 'Hi there, your RoutePay verification code is < 1234 >',
+      message_text: 'Hi Ayodeji, your CARVIVA Fuel Wallet code is < 1234 >',
       from: 'CARVIVA',
     };
 

@@ -51,7 +51,7 @@ export const Input = ({
         style={styles.input}
         {...props}
       />
-      {showPassword && (
+      {isPassword && showPassword && (
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => setShowPassword(!showPassword)}
@@ -207,8 +207,9 @@ const useStyles = () => {
       justifyContent: 'center',
       alignItems: 'center',
       // backgroundColor: 'pink',
+      padding: ms(10),
       position: 'absolute',
-      right: ms(20),
+      right: ms(30),
     },
   });
 };

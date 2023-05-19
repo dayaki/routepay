@@ -9,14 +9,17 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '@store';
 import Router from './navigation';
 import { navigationRef } from './navigation/RootNavigation';
-import { DarkMode, LightMode, ViewWrapper } from '@common';
+import { DarkMode, LightMode } from '@common';
 // import { refreshToken, MonoSetup } from '@utils';
 
 axios.interceptors.request.use(
   config => {
-    if (!config.url?.includes('/auth/')) {
-      const token = store.getState().user.token?.access_token;
+    if (!config.url?.includes('/register')) {
+      // const token = store.getState().user.token?.access_token;
+      const token =
+        'eyJhbGciOiJSUzI1NiIsImtpZCI6IkRFNkYwNDYyQjQyMzc4NEJGM0JCMTNGMTc2OTNDNUJEIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2ODQzNjQ3NDEsImV4cCI6MTY4NDM2ODM0MSwiaXNzIjoiaHR0cHM6Ly9hdXRoZGV2LnJvdXRlcGF5LmNvbSIsImF1ZCI6WyJSb3V0ZVBheS5NZXJjaGFudEFwaSIsIlJvdXRlUGF5LlBheW1lbnRBcGkiLCJSb3V0ZVBheS5CaWxsc1BheW1lbnRBcGkiXSwiY2xpZW50X2lkIjoiYmlsbHNQb3J0YWwiLCJzdWIiOiIxNzEyNGYzNy1lYjg4LTQ0YmYtYTQ0Yy1lM2EzMzQ5MzFhNDkiLCJhdXRoX3RpbWUiOjE2ODQzNjQ3MzgsImlkcCI6ImxvY2FsIiwiZW1haWwiOiJkYXlvYWtpbmt1b3dvQGdtYWlsLmNvbSIsInJvbGUiOiJDdXN0b21lciIsIm5hbWUiOiJEYXlvIEphbWVzb24iLCJwaWN0dXJlIjoibnVsbCIsInNvdXJjZSI6IiIsImp0aSI6IjQ0RjRGNzk1RjJCMTJGMUY4NkI2RUUxNDNEMTUwMDAxIiwic2lkIjoiMjYxMzFGRjVGRTUyMDU1REEzQjYzMDE3NTUxOEE5MDMiLCJpYXQiOjE2ODQzNjQ3NDEsInNjb3BlIjpbIm9wZW5pZCIsInByb2ZpbGUiLCJSb3V0ZVBheS5NZXJjaGFudEFwaS5yZWFkIiwiUm91dGVQYXkuTWVyY2hhbnRBcGkud3JpdGUiLCJSb3V0ZVBheS5QYXltZW50QXBpLnJlYWQiLCJSb3V0ZVBheS5QYXltZW50QXBpLndyaXRlIiwiUm91dGVQYXkuQmlsbHNQYXltZW50LnJlYWQiLCJSb3V0ZVBheS5CaWxsc1BheW1lbnQud3JpdGUiXSwiYW1yIjpbInB3ZCJdfQ.ev5TwA4cTGX9eUvrHeBW8Fq5eWNH5HZV4aszooSJbZAOPJ4cya5iMTDslubTjAw5WDQ3rKJj6BE7objs3mEbLJf4_CZ1ltCYe3EMrSsbH7V4KrmxDM6GisqA2DXuwZaTfcSP3dHKlAm-2DrOSf7NGQpuVgQgTeBlGkMGA4zbvYWHLY25JCFhydDzFH7CTSgqlaJMNKufVzeB467xWKe1WmCcrQFmh2opErOBXJODGw92zolXF0NQKjNDN0yznu-UVEUYCXUsERf_KwLym4A6fGGS4Rcj-MWF4wfXSmQKfJOcsCXQQtm1tC86RlhpUnfc29tBAbdnpS9-T4n8qjVDAg';
       if (config.headers) {
+        console.log('token', token);
         (config.headers as AxiosHeaders).set(
           'Authorization',
           `Bearer ${token}`,
