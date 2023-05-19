@@ -1,6 +1,6 @@
 import React from 'react';
 import { useColorScheme } from 'react-native';
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from 'react-native-svg';
+import Svg, { SvgProps, G, Path, Defs, ClipPath, Rect } from 'react-native-svg';
 
 interface Props extends SvgProps {
   size?: number;
@@ -70,22 +70,52 @@ export const Mail = (props: Props) => {
   );
 };
 
-export const MenuRightArrow = (props: Props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={props.size || 13}
-    height={props.size || 10}
-    fill="none"
-    {...props}>
-    <Path
-      stroke="#15151A"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={0.875}
-      d="M.416 4h13M9.916.5l3.5 3.5-3.5 3.5"
-    />
-  </Svg>
-);
+export const Exclamation = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={24}
+      height={24}
+      fill="none"
+      {...props}>
+      <Rect
+        width={23.5}
+        height={23.5}
+        x={0.25}
+        y={0.25}
+        fill={scheme === 'dark' ? '#1F1F23' : '#F9F7F6'}
+        stroke="#F60"
+        strokeWidth={0.5}
+        rx={11.75}
+      />
+      <Path
+        fill="#F60"
+        d="M11.246 14.102 11.078 7.2h1.596l-.168 6.902h-1.26Zm.672 2.982a.995.995 0 0 1-.714-.266.924.924 0 0 1-.266-.658c0-.261.089-.48.266-.658a.967.967 0 0 1 .714-.28c.27 0 .495.093.672.28.187.177.28.397.28.658a.9.9 0 0 1-.28.658.91.91 0 0 1-.672.266Z"
+      />
+    </Svg>
+  );
+};
+
+export const MenuRightArrow = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 13}
+      height={props.size || 10}
+      fill="none"
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#fff' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={0.875}
+        d="M.416 4h13M9.916.5l3.5 3.5-3.5 3.5"
+      />
+    </Svg>
+  );
+};
 
 export const Lock = (props: Props) => {
   const scheme = useColorScheme();

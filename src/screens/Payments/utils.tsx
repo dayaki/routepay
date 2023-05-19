@@ -2,33 +2,42 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { RegularText, TitleText, pink300, woodsmoke } from '@common';
-import { BackArrow, ChevronBack } from '@icons';
+import { ChevronBack } from '@icons';
 import { ms } from '@utils';
 
 export const Header = ({
   title,
   centered,
+  hideBalance,
 }: {
   title: string;
+  hideBalance?: boolean;
   centered?: boolean;
 }) => {
   const styles = useStyles();
   const { goBack } = useNavigation();
   return (
-    <View style={[styles.header, centered && styles.centeredHeader]}>
+    <View
+      style={[
+        styles.header,
+        centered && styles.centeredHeader,
+        hideBalance && styles.paddedHeader,
+      ]}>
       {centered && (
         <TouchableOpacity
           activeOpacity={0.7}
-          style={styles.backBtn}
+          style={[styles.backBtn, hideBalance && styles.backBtnHide]}
           onPress={goBack}>
           <ChevronBack />
         </TouchableOpacity>
       )}
       <TitleText text={title} color={woodsmoke} />
-      <View style={styles.walletBalance}>
-        <RegularText text="Your wallet balance: " size={11} />
-        <TitleText text="N0.00" size={11} />
-      </View>
+      {!hideBalance && (
+        <View style={styles.walletBalance}>
+          <RegularText text="Your wallet balance: " size={11} color="#15151A" />
+          <TitleText text="N0.00" size={11} color="#15151A" />
+        </View>
+      )}
     </View>
   );
 };
@@ -49,6 +58,9 @@ export const useStyles = () => {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    paddedHeader: {
+      paddingBottom: ms(30),
+    },
     walletBalance: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -58,9 +70,11 @@ export const useStyles = () => {
       position: 'absolute',
       left: ms(10),
       bottom: ms(35),
-      //   backgroundColor: 'pink',
       paddingVertical: ms(10),
       paddingHorizontal: ms(20),
+    },
+    backBtnHide: {
+      bottom: ms(25),
     },
   });
 };

@@ -172,5 +172,11 @@ export const useLoginStyles = () => {
       marginRight: ms(7),
       backgroundColor: colors.input,
     },
+    forgotPinBtn: {
+      alignSelf: 'center',
+    },
+    forgotPinBtnText: {
+      color: colors.primary,
+    },
   });
 };

@@ -31,7 +31,9 @@ const NETWORKS = [
   },
 ];
 
-const BuyAirtime = () => {
+const AMOUNTS = ['100', '200', '500', '1000'];
+
+const BuyAirtime = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [amount, setAmount] = useState<string>('');
   const [selectedAmount, setSelectedAmount] = useState('');
@@ -64,44 +66,22 @@ const BuyAirtime = () => {
             onChangeText={setAmount}
             keyboardType="number-pad"
             inputStyle={styles.input}
+            hasError
+            errorMessage="Your wallet balance is too low for this transaction."
           />
           <View style={styles.selector}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={[
-                styles.selectorBox,
-                selectedAmount === '100' && styles.selectorActive,
-              ]}
-              onPress={() => handleSelection('100')}>
-              <RegularText text="₦100" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={[
-                styles.selectorBox,
-                selectedAmount === '200' && styles.selectorActive,
-              ]}
-              onPress={() => handleSelection('200')}>
-              <RegularText text="₦200" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={[
-                styles.selectorBox,
-                selectedAmount === '500' && styles.selectorActive,
-              ]}
-              onPress={() => handleSelection('500')}>
-              <RegularText text="₦500" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={[
-                styles.selectorBox,
-                selectedAmount === '1000' && styles.selectorActive,
-              ]}
-              onPress={() => handleSelection('1000')}>
-              <RegularText text="₦1000" />
-            </TouchableOpacity>
+            {AMOUNTS.map((amt, index) => (
+              <TouchableOpacity
+                key={index}
+                activeOpacity={0.7}
+                style={[
+                  styles.selectorBox,
+                  selectedAmount === amt && styles.selectorActive,
+                ]}
+                onPress={() => handleSelection(amt)}>
+                <RegularText text={`₦${amt}`} style={styles.selectorText} />
+              </TouchableOpacity>
+            ))}
           </View>
 
           <View style={styles.networks}>
@@ -130,7 +110,7 @@ const BuyAirtime = () => {
         </View>
         <Button
           text="Continue"
-          onPress={() => {}}
+          onPress={() => navigation.navigate('review_payment')}
           disabled={!phone || !amount || !selectedNetwork}
         />
       </View>

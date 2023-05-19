@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { pink300 } from '@common';
 import { ms } from '@utils';
 
 export const useStyles = () => {
@@ -21,20 +20,20 @@ export const useStyles = () => {
       marginBottom: ms(15),
       borderBottomWidth: 0.3,
       borderBottomColor: colors.dash,
-      // backgroundColor: 'pink',
     },
     row: {
       flexDirection: 'row',
       alignItems: 'center',
     },
+    spread: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
     icon: {
       width: ms(30),
       height: ms(30),
       marginRight: ms(20),
-      // borderRadius: ms(30 / 2),
-      // backgroundColor: colors.input,
-      // justifyContent: 'center',
-      // alignItems: 'center',
     },
     content: {
       flex: 1,
@@ -60,6 +59,11 @@ export const useStyles = () => {
     selectorActive: {
       backgroundColor: colors.pink300,
     },
+    selectorText: {
+      color: colors.inputColor,
+      fontSize: 11,
+      lineHeight: 20,
+    },
     networks: {
       backgroundColor: colors.selector,
       marginTop: ms(15),
@@ -83,6 +87,37 @@ export const useStyles = () => {
       width: ms(24),
       height: ms(24),
       marginRight: ms(8),
+    },
+    review: {
+      backgroundColor: colors.selector,
+      padding: ms(20),
+      paddingBottom: ms(0),
+      borderRadius: ms(8),
+    },
+    reviewItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: ms(21),
+    },
+    reviewInfo: {
+      backgroundColor: colors.selector,
+      paddingVertical: ms(16),
+      paddingHorizontal: ms(20),
+      marginBottom: ms(20),
+      borderRadius: ms(8),
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    infoIcon: {
+      width: ms(24),
+      height: ms(24),
+      marginRight: ms(15),
+    },
+    reviewInfoText: {
+      lineHeight: 25,
+      color: colors.inputColor,
+      marginLeft: ms(15),
     },
   });
 };

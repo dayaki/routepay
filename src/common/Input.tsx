@@ -9,6 +9,7 @@ import {
   TextInputProps,
   TouchableOpacity,
   Image,
+  useColorScheme,
 } from 'react-native';
 import { Black } from './Colors';
 import { ms } from '@utils';
@@ -23,6 +24,8 @@ interface InputProps extends TextInputProps {
   leftIcon?: any;
   rightIcon?: any;
   inputStyle?: any;
+  hasError?: boolean;
+  errorMessage?: string;
   onChangeText: (val: string) => void;
   onPress?: () => void;
   keyboardType?: 'number-pad' | 'default' | 'email-address';
@@ -37,6 +40,8 @@ export const Input = ({
   inputStyle,
   leftIcon,
   isPassword,
+  hasError,
+  errorMessage,
   ...props
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(isPassword);
@@ -44,26 +49,35 @@ export const Input = ({
   const styles = useStyles();
   const { colors } = useTheme();
   return (
-    <View style={styles.inputWrapper}>
-      {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
-      <TextInput
-        placeholder={placeholder}
-        placeholderTextColor={colors.text}
-        value={value}
-        secureTextEntry={showPassword}
-        onChangeText={onChangeText}
-        style={[styles.input, inputStyle]}
-        {...props}
-      />
-      {isPassword && showPassword && (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => setShowPassword(!showPassword)}
-          style={styles.rightIcon}>
-          <EyeIcon size={16} />
-        </TouchableOpacity>
+    <>
+      <View style={styles.inputWrapper}>
+        {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
+        <TextInput
+          placeholder={placeholder}
+          placeholderTextColor={colors.text}
+          value={value}
+          secureTextEntry={showPassword}
+          onChangeText={onChangeText}
+          style={[styles.input, inputStyle]}
+          {...props}
+        />
+        {isPassword && showPassword && (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.rightIcon}>
+            <EyeIcon size={16} />
+          </TouchableOpacity>
+        )}
+      </View>
+      {hasError && (
+        <RegularText
+          text={errorMessage || ''}
+          size={11}
+          style={styles.errorText}
+        />
       )}
-    </View>
+    </>
   );
 };
 
@@ -160,21 +174,32 @@ export const OTPInput = ({
 export const Checkbox = ({
   onPress,
   isChecked,
+  text,
+  textStyle,
 }: {
+  text?: string;
   isChecked: boolean;
+  textStyle?: any;
   onPress: (isChecked: boolean) => void;
 }) => {
   const { colors } = useTheme();
   const styles = useStyles();
+  const scheme = useColorScheme();
   return (
     <BouncyCheckbox
       onPress={onPress}
       disableBuiltInState
       isChecked={isChecked}
-      text=""
+      disableText={!text}
+      text={text}
       innerIconStyle={styles.checkbox}
       fillColor={colors.selector}
-      checkIconImageSource={require('@images/checkmark.png')}
+      textStyle={[styles.textStyle, textStyle]}
+      checkIconImageSource={
+        scheme === 'dark'
+          ? require('@images/checkmark.png')
+          : require('@images/checkmark_dark.png')
+      }
     />
   );
 };
@@ -240,6 +265,17 @@ const useStyles = () => {
       padding: ms(10),
       position: 'absolute',
       right: ms(30),
+    },
+    textStyle: {
+      textDecorationLine: 'none',
+      color: colors.inputColor,
+      fontSize: 14,
+      fontFamily: 'DMSans-Regular',
+    },
+    errorText: {
+      color: '#FF0000',
+      marginTop: ms(-10),
+      marginBottom: ms(20),
     },
   });
 };

@@ -1,81 +1,67 @@
 import React from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
-import { RegularText, TitleText, woodsmoke } from '@common';
+import { Image, TouchableOpacity, View, useColorScheme } from 'react-native';
+import { TitleText } from '@common';
 import { useStyles } from './styles';
-import { AirtimeIcon, DataIcon, MenuRightArrow } from '@icons';
+import { MenuRightArrow } from '@icons';
 import { Header } from './utils';
+
+const NAV_ITEMS = [
+  {
+    name: 'Buy Airtime',
+    icon: require('@images/payments/airtime.png'),
+    darkIcon: require('@images/payments/airtime_dark.png'),
+    link: 'buy_airtime',
+  },
+  {
+    name: 'Buy Data',
+    icon: require('@images/payments/data.png'),
+    darkIcon: require('@images/payments/data_dark.png'),
+    link: 'buy_data',
+  },
+  {
+    name: 'Buy Fuel',
+    icon: require('@images/payments/fuel.png'),
+    darkIcon: require('@images/payments/fuel_dark.png'),
+    link: 'buy_fuel',
+  },
+  {
+    name: 'Buy Pins',
+    icon: require('@images/payments/pins.png'),
+    darkIcon: require('@images/payments/pins_dark.png'),
+    link: 'buy_pins',
+  },
+  {
+    name: 'Pay Bills',
+    icon: require('@images/payments/bills.png'),
+    darkIcon: require('@images/payments/bills_dark.png'),
+    link: 'buy_bills',
+  },
+];
 
 const Payments = ({ navigation }) => {
   const styles = useStyles();
+  const scheme = useColorScheme();
   return (
     <View style={styles.container}>
       <Header title="Payments" />
       <View style={styles.menuList}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.listBtn}
-          onPress={() => navigation.navigate('buy_airtime')}>
-          <View style={styles.row}>
-            <Image
-              source={require('@images/test1.png')}
-              resizeMode="cover"
-              style={styles.icon}
-            />
-            <TitleText text="Buy Airtime" size={14} />
-          </View>
-          <MenuRightArrow />
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.listBtn}>
-          <View style={styles.row}>
-            {/* <View style={styles.icon}>
-              <DataIcon size={16} />
-            </View> */}
-            <Image
-              source={require('@images/test1.png')}
-              resizeMode="cover"
-              style={styles.icon}
-            />
-            <TitleText text="Buy Data" size={14} />
-          </View>
-          <MenuRightArrow />
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.listBtn}>
-          <View style={styles.row}>
-            <Image
-              source={require('@images/test1.png')}
-              resizeMode="cover"
-              style={styles.icon}
-            />
-            <TitleText text="Buy Fuel" size={14} />
-          </View>
-          <MenuRightArrow />
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.listBtn}>
-          <View style={styles.row}>
-            <Image
-              source={require('@images/test1.png')}
-              resizeMode="cover"
-              style={styles.icon}
-            />
-            <TitleText text="Buy Pins" size={14} />
-          </View>
-          <MenuRightArrow />
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.listBtn}>
-          <View style={styles.row}>
-            <Image
-              source={require('@images/test1.png')}
-              resizeMode="cover"
-              style={styles.icon}
-            />
-            <TitleText text="Pay bills" size={14} />
-          </View>
-          <MenuRightArrow />
-        </TouchableOpacity>
+        {NAV_ITEMS.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            activeOpacity={0.8}
+            style={styles.listBtn}
+            onPress={() => navigation.navigate(item.link)}>
+            <View style={styles.row}>
+              <Image
+                source={scheme === 'dark' ? item.darkIcon : item.icon}
+                resizeMode="cover"
+                style={styles.icon}
+              />
+              <TitleText text={item.name} size={14} />
+            </View>
+            <MenuRightArrow />
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
