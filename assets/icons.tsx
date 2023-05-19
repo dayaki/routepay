@@ -97,6 +97,46 @@ export const Exclamation = (props: Props) => {
   );
 };
 
+export const ChevronDown = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      fill="none"
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#1F1F23' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={0.571}
+        d="M.286 1.2 3.8 4.714a.274.274 0 0 0 .4 0L7.714 1.2"
+      />
+    </Svg>
+  );
+};
+
+export const Close = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      fill="none"
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#1F1F23' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.125}
+        d="M17.358.643.644 17.357M.644.643l16.714 16.714"
+      />
+    </Svg>
+  );
+};
+
 export const MenuRightArrow = (props: Props) => {
   const scheme = useColorScheme();
   return (

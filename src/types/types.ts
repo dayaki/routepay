@@ -12,6 +12,18 @@ export interface IsUser {
   created_at: Date;
 }
 
+export interface IsBillCategory {
+  billCategoryId: number;
+  billCategoryName: string;
+}
+
+export interface IsBillProvider {
+  billCode: string;
+  billCategoryId: number;
+  minAmount: number;
+  maxAmount: number;
+}
+
 export interface isCard {
   id: number;
   user_id: string;

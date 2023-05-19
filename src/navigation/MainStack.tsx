@@ -8,6 +8,7 @@ import ReviewPayment from '../screens/Payments/ReviewPayment';
 import PaymentOptions from '../screens/Payments/PaymentOptions';
 import WalletPIN from '../screens/WalletPIN';
 import TransactionSuccess from '../screens/TransactionSuccess';
+import BuyData from '../screens/Payments/BuyData';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -18,6 +19,7 @@ const MainStack = () => {
       <Stack.Screen name="home" component={BottomTabs} />
       <Stack.Screen name="payments" component={Payments} />
       <Stack.Screen name="buy_airtime" component={BuyAirtime} />
+      <Stack.Screen name="buy_data" component={BuyData} />
       <Stack.Screen name="review_payment" component={ReviewPayment} />
       <Stack.Screen name="payment_options" component={PaymentOptions} />
       <Stack.Screen name="wallet_pin" component={WalletPIN} />
