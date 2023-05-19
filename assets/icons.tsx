@@ -107,7 +107,7 @@ export const ChevronDown = (props: Props) => {
       fill="none"
       {...props}>
       <Path
-        stroke={scheme === 'dark' ? '#1F1F23' : '#15151A'}
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={0.571}
@@ -127,7 +127,7 @@ export const Close = (props: Props) => {
       fill="none"
       {...props}>
       <Path
-        stroke={scheme === 'dark' ? '#1F1F23' : '#15151A'}
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.125}
@@ -312,37 +312,40 @@ export const RewardTabIcon = (props: Props) => (
   </Svg>
 );
 
-export const PaymentTabIcon = (props: Props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={props.size || 24}
-    height={props.size || 24}
-    fill="none"
-    {...props}>
-    <Path
-      fill="#F60"
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M16.072 1.152H1.93c-.71 0-1.285.575-1.285 1.286v9c0 .71.575 1.285 1.285 1.285h14.143c.71 0 1.286-.575 1.286-1.285v-9c0-.71-.576-1.286-1.286-1.286Z"
-    />
-    <Path
-      fill="#F60"
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.286}
-      d="M9 8.866A1.929 1.929 0 1 0 9 5.01a1.929 1.929 0 0 0 0 3.857Z"
-    />
-    <Path
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.286}
-      d="M3.857 4.366H4.5M13.501 9.509h.643"
-    />
-  </Svg>
-);
+export const PaymentTabIcon = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      fill="none"
+      {...props}>
+      <Path
+        fill="#F60"
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M16.072 1.152H1.93c-.71 0-1.285.575-1.285 1.286v9c0 .71.575 1.285 1.285 1.285h14.143c.71 0 1.286-.575 1.286-1.285v-9c0-.71-.576-1.286-1.286-1.286Z"
+      />
+      <Path
+        fill="#F60"
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.286}
+        d="M9 8.866A1.929 1.929 0 1 0 9 5.01a1.929 1.929 0 0 0 0 3.857Z"
+      />
+      <Path
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.286}
+        d="M3.857 4.366H4.5M13.501 9.509h.643"
+      />
+    </Svg>
+  );
+};
 
 export const WalletTabIcon = (props: Props) => (
   <Svg
@@ -366,28 +369,31 @@ export const WalletTabIcon = (props: Props) => (
   </Svg>
 );
 
-export const HomeTabIcon = (props: Props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={props.size || 24}
-    height={props.size || 24}
-    fill="none"
-    {...props}>
-    <G clipPath="url(#a)">
-      <Path
-        stroke={props.color || '#15151A'}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15.928 8.369a1.143 1.143 0 0 0-.365-.846L8.5 1.01 1.437 7.523a1.143 1.143 0 0 0-.366.846v6.354a1.143 1.143 0 0 0 1.143 1.143h12.572a1.143 1.143 0 0 0 1.143-1.143V8.37Z"
-      />
-    </G>
-    <Defs>
-      <ClipPath id="a">
-        <Path fill="#fff" d="M.5.438h16v16H.5z" />
-      </ClipPath>
-    </Defs>
-  </Svg>
-);
+export const HomeTabIcon = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      fill="none"
+      {...props}>
+      <G clipPath="url(#a)">
+        <Path
+          stroke={props.color || '#15151A'}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15.928 8.369a1.143 1.143 0 0 0-.365-.846L8.5 1.01 1.437 7.523a1.143 1.143 0 0 0-.366.846v6.354a1.143 1.143 0 0 0 1.143 1.143h12.572a1.143 1.143 0 0 0 1.143-1.143V8.37Z"
+        />
+      </G>
+      <Defs>
+        <ClipPath id="a">
+          <Path fill="#fff" d="M.5.438h16v16H.5z" />
+        </ClipPath>
+      </Defs>
+    </Svg>
+  );
+};
 
 export const AirtimeIcon = (props: Props) => {
   const scheme = useColorScheme();

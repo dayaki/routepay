@@ -11,7 +11,8 @@ import { Button, TitleText, ViewWrapper } from '@common';
 import { useTheme } from '@react-navigation/native';
 import { ms } from '@utils';
 
-const TransactionSuccess = ({ navigation }) => {
+const TransactionSuccess = ({ navigation, route }) => {
+  const { type, message } = route.params;
   const styles = useStyles();
   return (
     <ViewWrapper>
@@ -39,9 +40,7 @@ const TransactionSuccess = ({ navigation }) => {
             text="Transaction Successful!"
             style={styles.welcomeTitle}
           />
-          <Text style={styles.welcomeText}>
-            You’ve just recharged 08145169426 with N100 airtime
-          </Text>
+          <Text style={styles.welcomeText}>{message}</Text>
           <Button
             text="Continue to dashboard"
             style={styles.registerBtn}

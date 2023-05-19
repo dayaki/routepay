@@ -119,5 +119,30 @@ export const useStyles = () => {
       color: colors.inputColor,
       marginLeft: ms(15),
     },
+    billsWrapper: {
+      paddingHorizontal: ms(20),
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
+    },
+    bill: {
+      borderRadius: ms(8),
+      // width: ms(170),
+      width: '48%',
+      height: ms(145),
+      paddingVertical: ms(20),
+      paddingHorizontal: ms(15),
+      backgroundColor: colors.selector,
+      marginBottom: ms(17),
+    },
+    billIcon: {
+      width: ms(30),
+      height: ms(30),
+      marginBottom: ms(15),
+    },
+    billTitle: {
+      marginBottom: ms(5),
+    },
   });
 };

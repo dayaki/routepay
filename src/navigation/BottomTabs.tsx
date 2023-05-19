@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Payments from '../screens/Payments';
 import {
@@ -12,6 +13,7 @@ import {
 const TabStack = createBottomTabNavigator();
 
 const BottomTabs = () => {
+  const { colors } = useTheme();
   return (
     <TabStack.Navigator
       screenOptions={{
@@ -23,14 +25,12 @@ const BottomTabs = () => {
           fontFamily: 'DMSans-Regular',
           fontSize: 11,
           lineHeight: 16,
-          //   marginTop: 7,
+          color: colors.inputColor,
         },
-        // tabBarStyle: {
-        //   paddingTop: 13,
-        //   backgroundColor: '#FDFDFF',
-        //   // borderTopLeftRadius: 10,
-        //   // borderTopRightRadius: 10,
-        // },
+        tabBarStyle: {
+          paddingTop: 13,
+          backgroundColor: colors.selector,
+        },
       }}>
       <TabStack.Screen
         name="home"
@@ -38,7 +38,7 @@ const BottomTabs = () => {
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
-            <HomeTabIcon color={focused ? '#1A75FD' : '#94A3B8'} />
+            <HomeTabIcon color={focused ? '#1A75FD' : '#15151A'} />
           ),
         }}
       />

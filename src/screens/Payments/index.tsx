@@ -34,7 +34,7 @@ const NAV_ITEMS = [
     name: 'Pay Bills',
     icon: require('@images/payments/bills.png'),
     darkIcon: require('@images/payments/bills_dark.png'),
-    link: 'buy_bills',
+    link: 'bills',
   },
 ];
 
