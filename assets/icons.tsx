@@ -273,44 +273,50 @@ export const CancelKey = (props: Props) => {
   );
 };
 
-export const UserTabIcon = (props: Props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={props.size || 24}
-    height={props.size || 24}
-    fill="none"
-    {...props}>
-    <Path
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.031}
-      d="M8.5 8.438a3.83 3.83 0 1 0 0-7.661 3.83 3.83 0 0 0 0 7.66ZM15.784 16.098a7.648 7.648 0 0 0-14.567 0h14.567Z"
-    />
-  </Svg>
-);
+export const UserTabIcon = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      fill={props.fill || 'none'}
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.031}
+        d="M8.5 8.438a3.83 3.83 0 1 0 0-7.661 3.83 3.83 0 0 0 0 7.66ZM15.784 16.098a7.648 7.648 0 0 0-14.567 0h14.567Z"
+      />
+    </Svg>
+  );
+};
 
-export const RewardTabIcon = (props: Props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={props.size || 24}
-    height={props.size || 24}
-    fill="none"
-    {...props}>
-    <Path
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M14.787 3.866H2.215c-.631 0-1.143.512-1.143 1.143v3.429c0 .63.512 1.143 1.143 1.143h12.572c.63 0 1.142-.512 1.142-1.143V5.009c0-.631-.511-1.143-1.142-1.143Z"
-    />
-    <Path
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M14.786 9.58v5.143a1.143 1.143 0 0 1-1.143 1.143H3.358a1.143 1.143 0 0 1-1.143-1.143V9.581M8.501 3.866v12M11.93 1.009 8.5 3.866 5.073 1.01"
-    />
-  </Svg>
-);
+export const RewardTabIcon = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      fill={props.fill || 'none'}
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M14.787 3.866H2.215c-.631 0-1.143.512-1.143 1.143v3.429c0 .63.512 1.143 1.143 1.143h12.572c.63 0 1.142-.512 1.142-1.143V5.009c0-.631-.511-1.143-1.142-1.143Z"
+      />
+      <Path
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M14.786 9.58v5.143a1.143 1.143 0 0 1-1.143 1.143H3.358a1.143 1.143 0 0 1-1.143-1.143V9.581M8.501 3.866v12M11.93 1.009 8.5 3.866 5.073 1.01"
+      />
+    </Svg>
+  );
+};
 
 export const PaymentTabIcon = (props: Props) => {
   const scheme = useColorScheme();
@@ -322,14 +328,14 @@ export const PaymentTabIcon = (props: Props) => {
       fill="none"
       {...props}>
       <Path
-        fill="#F60"
+        fill={props.fill || 'none'}
         stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M16.072 1.152H1.93c-.71 0-1.285.575-1.285 1.286v9c0 .71.575 1.285 1.285 1.285h14.143c.71 0 1.286-.575 1.286-1.285v-9c0-.71-.576-1.286-1.286-1.286Z"
       />
       <Path
-        fill="#F60"
+        fill={props.fill || 'none'}
         stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -347,27 +353,30 @@ export const PaymentTabIcon = (props: Props) => {
   );
 };
 
-export const WalletTabIcon = (props: Props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={props.size || 24}
-    height={props.size || 24}
-    fill="none"
-    {...props}>
-    <Path
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M14.892 9.027V6.67a1.178 1.178 0 0 0-1.178-1.179H2.517A1.179 1.179 0 0 0 1.34 6.67v8.25a1.179 1.179 0 0 0 1.178 1.178h11.197a1.179 1.179 0 0 0 1.178-1.178v-2.947M5.274 2.545 11.957.8a.578.578 0 0 1 .719.425l.33 1.32"
-    />
-    <Path
-      stroke={props.color || '#15151A'}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M16.07 9.027h-2.946a.59.59 0 0 0-.589.59v1.767c0 .325.264.59.59.59h2.946a.59.59 0 0 0 .59-.59V9.616a.59.59 0 0 0-.59-.59Z"
-    />
-  </Svg>
-);
+export const WalletTabIcon = (props: Props) => {
+  const scheme = useColorScheme();
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      fill={props.fill || 'none'}
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M14.892 9.027V6.67a1.178 1.178 0 0 0-1.178-1.179H2.517A1.179 1.179 0 0 0 1.34 6.67v8.25a1.179 1.179 0 0 0 1.178 1.178h11.197a1.179 1.179 0 0 0 1.178-1.178v-2.947M5.274 2.545 11.957.8a.578.578 0 0 1 .719.425l.33 1.32"
+      />
+      <Path
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M16.07 9.027h-2.946a.59.59 0 0 0-.589.59v1.767c0 .325.264.59.59.59h2.946a.59.59 0 0 0 .59-.59V9.616a.59.59 0 0 0-.59-.59Z"
+      />
+    </Svg>
+  );
+};
 
 export const HomeTabIcon = (props: Props) => {
   const scheme = useColorScheme();
@@ -376,11 +385,11 @@ export const HomeTabIcon = (props: Props) => {
       xmlns="http://www.w3.org/2000/svg"
       width={props.size || 24}
       height={props.size || 24}
-      fill="none"
+      fill={props.fill || 'none'}
       {...props}>
       <G clipPath="url(#a)">
         <Path
-          stroke={props.color || '#15151A'}
+          stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
           strokeLinecap="round"
           strokeLinejoin="round"
           d="M15.928 8.369a1.143 1.143 0 0 0-.365-.846L8.5 1.01 1.437 7.523a1.143 1.143 0 0 0-.366.846v6.354a1.143 1.143 0 0 0 1.143 1.143h12.572a1.143 1.143 0 0 0 1.143-1.143V8.37Z"

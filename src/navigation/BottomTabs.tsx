@@ -1,7 +1,7 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { useTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Payments from '../screens/Payments';
 import {
   HomeTabIcon,
   PaymentTabIcon,
@@ -9,8 +9,16 @@ import {
   UserTabIcon,
   WalletTabIcon,
 } from '@icons';
+import Payments from '../screens/payments';
+import Dashboard from '../screens/dashboard';
 
 const TabStack = createBottomTabNavigator();
+
+// const BottomTabIcon = ({type, isFocus }) => {
+//   return (
+//     <HomeTabIcon fill={focused ? '#FF6600' : 'none'} />
+//   )
+// }
 
 const BottomTabs = () => {
   const { colors } = useTheme();
@@ -18,8 +26,8 @@ const BottomTabs = () => {
     <TabStack.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#15151A',
-        tabBarInactiveTintColor: '#15151A',
+        // tabBarActiveTintColor: '#15151A',
+        // tabBarInactiveTintColor: '#15151A',
         tabBarLabelStyle: {
           textTransform: 'capitalize',
           fontFamily: 'DMSans-Regular',
@@ -30,15 +38,16 @@ const BottomTabs = () => {
         tabBarStyle: {
           paddingTop: 13,
           backgroundColor: colors.selector,
+          borderTopColor: colors.selector,
         },
       }}>
       <TabStack.Screen
-        name="home"
-        component={Payments}
+        name="dashboard"
+        component={Dashboard}
         options={{
           title: 'Home',
           tabBarIcon: ({ focused }) => (
-            <HomeTabIcon color={focused ? '#1A75FD' : '#15151A'} />
+            <HomeTabIcon fill={focused ? '#FF6600' : 'none'} />
           ),
         }}
       />
@@ -48,7 +57,7 @@ const BottomTabs = () => {
         options={{
           title: 'Wallet',
           tabBarIcon: ({ focused }) => (
-            <WalletTabIcon color={focused ? '#15151A' : '#94A3B8'} />
+            <WalletTabIcon fill={focused ? '#FF6600' : 'none'} />
           ),
         }}
       />
@@ -58,7 +67,7 @@ const BottomTabs = () => {
         options={{
           title: 'Payments',
           tabBarIcon: ({ focused }) => (
-            <PaymentTabIcon color={focused ? '#1A75FD' : '#94A3B8'} />
+            <PaymentTabIcon fill={focused ? '#FF6600' : 'none'} />
           ),
         }}
       />
@@ -67,7 +76,7 @@ const BottomTabs = () => {
         component={Payments}
         options={{
           tabBarIcon: ({ focused }) => (
-            <RewardTabIcon color={focused ? '#1A75FD' : '#94A3B8'} />
+            <RewardTabIcon fill={focused ? '#FF6600' : 'none'} />
           ),
         }}
       />
@@ -76,7 +85,7 @@ const BottomTabs = () => {
         component={Payments}
         options={{
           tabBarIcon: ({ focused }) => (
-            <UserTabIcon color={focused ? '#1A75FD' : '#94A3B8'} />
+            <UserTabIcon fill={focused ? '#FF6600' : 'none'} />
           ),
         }}
       />

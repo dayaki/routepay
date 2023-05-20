@@ -1,17 +1,17 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { AuthStackParamList } from '@types';
-import Payments from '../screens/Payments';
-import BuyAirtime from '../screens/Payments/BuyAirtime';
+import Payments from '../screens/payments';
+import BuyAirtime from '../screens/payments/BuyAirtime';
 import BottomTabs from './BottomTabs';
-import ReviewPayment from '../screens/Payments/ReviewPayment';
-import PaymentOptions from '../screens/Payments/PaymentOptions';
+import ReviewPayment from '../screens/payments/ReviewPayment';
+import PaymentOptions from '../screens/payments/PaymentOptions';
 import WalletPIN from '../screens/WalletPIN';
 import TransactionSuccess from '../screens/TransactionSuccess';
-import BuyData from '../screens/Payments/BuyData';
-import BuyFuel from '../screens/Payments/BuyFuel';
-import Bills from '../screens/Payments/Bills';
-import CableTV from '../screens/Payments/Bills/CableTV';
+import BuyData from '../screens/payments/BuyData';
+import BuyFuel from '../screens/payments/BuyFuel';
+import Bills from '../screens/payments/Bills';
+import CableTV from '../screens/payments/Bills/CableTV';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
