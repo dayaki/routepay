@@ -56,8 +56,8 @@ export const Button = ({
         <Text
           style={[
             styles.btnText,
-            textStyle,
             { color: textOnly ? colors.text : 'white' },
+            textStyle,
           ]}>
           {text}
         </Text>

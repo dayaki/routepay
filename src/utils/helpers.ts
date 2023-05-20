@@ -55,6 +55,15 @@ export const formatPhone = (phoneNum: string): string => {
   }
 };
 
+export const getImage = (slug: string) => {
+  switch (slug) {
+    case 'mtn':
+      return require('@images/networks/mtn.png');
+    default:
+      return require('@images/networks/mtn.png');
+  }
+};
+
 // export const refreshToken = async () => {
 //   try {
 //     const resp = await apiService(getRefreshToken, 'get');

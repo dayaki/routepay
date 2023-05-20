@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '@react-navigation/native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import {
   StyleSheet,
   TextInput,
   View,
   TextInputProps,
   TouchableOpacity,
+  Image,
+  useColorScheme,
 } from 'react-native';
 import { Black } from './Colors';
-import { ms } from '@utils';
-import { RegularText } from './Text';
+import { getImage, ms } from '@utils';
+import { RegularText, TitleText } from './Text';
 import { TextButton } from './Button';
-import { EyeIcon } from '@icons';
+import { CheckMark, ChevronDown, EyeIcon } from '@icons';
+import { DataModal, NetworkModal } from './Modal';
+import { ProviderIcon } from './View';
+import { capitalize } from 'lodash';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -20,6 +26,9 @@ interface InputProps extends TextInputProps {
   placeholder: string;
   leftIcon?: any;
   rightIcon?: any;
+  inputStyle?: any;
+  hasError?: boolean;
+  errorMessage?: string;
   onChangeText: (val: string) => void;
   onPress?: () => void;
   keyboardType?: 'number-pad' | 'default' | 'email-address';
@@ -31,8 +40,11 @@ export const Input = ({
   value,
   onChangeText,
   placeholder,
+  inputStyle,
   leftIcon,
   isPassword,
+  hasError,
+  errorMessage,
   ...props
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState(isPassword);
@@ -40,26 +52,103 @@ export const Input = ({
   const styles = useStyles();
   const { colors } = useTheme();
   return (
-    <View style={styles.inputWrapper}>
-      {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
-      <TextInput
-        placeholder={placeholder}
-        placeholderTextColor={colors.text}
-        value={value}
-        secureTextEntry={showPassword}
-        onChangeText={onChangeText}
-        style={styles.input}
-        {...props}
-      />
-      {isPassword && showPassword && (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => setShowPassword(!showPassword)}
-          style={styles.rightIcon}>
-          <EyeIcon size={16} />
-        </TouchableOpacity>
+    <>
+      <View style={styles.inputWrapper}>
+        {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
+        <TextInput
+          placeholder={placeholder}
+          placeholderTextColor={colors.text}
+          value={value}
+          secureTextEntry={showPassword}
+          onChangeText={onChangeText}
+          style={[styles.input, inputStyle]}
+          {...props}
+        />
+        {isPassword && showPassword && (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setShowPassword(!showPassword)}
+            style={styles.rightIcon}>
+            <EyeIcon size={16} />
+          </TouchableOpacity>
+        )}
+      </View>
+      {hasError && (
+        <RegularText
+          text={errorMessage || ''}
+          size={11}
+          style={styles.errorText}
+        />
       )}
-    </View>
+    </>
+  );
+};
+
+export const Select = ({ label, selected, onSelect }) => {
+  const [showModal, setShowModal] = useState(false);
+  const styles = useStyles();
+  const { colors } = useTheme();
+  return (
+    <>
+      <NetworkModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={onSelect}
+        selectedNetwork={selected}
+      />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={[styles.select]}
+        onPress={() => setShowModal(true)}>
+        {selected ? (
+          <View style={styles.row}>
+            <ProviderIcon name="mtn" />
+            <TitleText
+              text={capitalize(selected)}
+              size={14}
+              color={colors.inputColor}
+            />
+          </View>
+        ) : (
+          <RegularText text={label} size={14} color={colors.inputColor} />
+        )}
+        <ChevronDown size={8} />
+      </TouchableOpacity>
+    </>
+  );
+};
+
+export const DataSelect = ({ label, selected, onSelect }) => {
+  const [showModal, setShowModal] = useState(false);
+  const styles = useStyles();
+  const { colors } = useTheme();
+  return (
+    <>
+      <DataModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={onSelect}
+        selectedNetwork={selected}
+      />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={[styles.select]}
+        onPress={() => setShowModal(true)}>
+        {selected ? (
+          <View style={styles.row}>
+            <ProviderIcon name="mtn" />
+            <TitleText
+              text={capitalize(selected)}
+              size={14}
+              color={colors.inputColor}
+            />
+          </View>
+        ) : (
+          <RegularText text={label} size={14} color={colors.inputColor} />
+        )}
+        <ChevronDown size={8} />
+      </TouchableOpacity>
+    </>
   );
 };
 
@@ -153,9 +242,45 @@ export const OTPInput = ({
   );
 };
 
+export const Checkbox = ({
+  onPress,
+  isChecked,
+  text,
+  textStyle,
+}: {
+  text?: string;
+  isChecked: boolean;
+  textStyle?: any;
+  onPress: (isChecked: boolean) => void;
+}) => {
+  const { colors } = useTheme();
+  const styles = useStyles();
+  const scheme = useColorScheme();
+  return (
+    <BouncyCheckbox
+      onPress={onPress}
+      disableBuiltInState
+      isChecked={isChecked}
+      disableText={!text}
+      text={text}
+      innerIconStyle={styles.checkbox}
+      fillColor={colors.selector}
+      textStyle={[styles.textStyle, textStyle]}
+      checkIconImageSource={
+        scheme === 'dark'
+          ? require('@images/checkmark.png')
+          : require('@images/checkmark_dark.png')
+      }
+    />
+  );
+};
+
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
+    checkbox: {
+      borderColor: colors.inputColor,
+    },
     otpWrapper: {
       height: ms(60),
     },
@@ -171,6 +296,15 @@ const useStyles = () => {
     otpInputFocus: {
       color: 'red',
     },
+    spread: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
     countdown: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -179,13 +313,27 @@ const useStyles = () => {
     },
     inputWrapper: {
       backgroundColor: colors.input,
-      width: ms(350),
+      width: '100%',
+      // width: ms(350),
+      height: ms(54),
+      marginBottom: ms(20),
+      borderRadius: ms(8),
+      // paddingLeft: ms(15),
+      paddingHorizontal: ms(15),
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    select: {
+      backgroundColor: colors.input,
+      width: '100%',
       height: ms(54),
       marginBottom: ms(20),
       borderRadius: ms(8),
       paddingLeft: ms(15),
+      paddingRight: ms(25),
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'space-between',
     },
     input: {
       color: colors.text,
@@ -210,6 +358,17 @@ const useStyles = () => {
       padding: ms(10),
       position: 'absolute',
       right: ms(30),
+    },
+    textStyle: {
+      textDecorationLine: 'none',
+      color: colors.inputColor,
+      fontSize: 14,
+      fontFamily: 'DMSans-Regular',
+    },
+    errorText: {
+      color: '#FF0000',
+      marginTop: ms(-10),
+      marginBottom: ms(20),
     },
   });
 };
