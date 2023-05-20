@@ -5,7 +5,8 @@ import { useStyles } from './styles';
 import { Header } from './utils';
 import { Exclamation } from '@icons';
 
-const ReviewPayment = ({ navigation }) => {
+const ReviewPayment = ({ navigation, route }) => {
+  const { type, data_plan } = route.params;
   const styles = useStyles();
   return (
     <View style={styles.container}>
@@ -16,29 +17,45 @@ const ReviewPayment = ({ navigation }) => {
             <RegularText text="Phone number" size={14} />
             <TitleText text="08123456789" size={14} />
           </View>
-          <View style={styles.reviewItem}>
-            <RegularText text="Network provider" size={14} />
-            <View style={styles.row}>
-              <Image
-                source={require('@images/networks/mtn.png')}
-                resizeMode="cover"
-                style={styles.networkLogo}
-              />
-              <TitleText text="MTN" size={14} />
+          {!type ||
+            (type !== 'fuel' && (
+              <View style={styles.reviewItem}>
+                <RegularText text="Network provider" size={14} />
+                <View style={styles.row}>
+                  <Image
+                    source={require('@images/networks/mtn.png')}
+                    resizeMode="cover"
+                    style={styles.networkLogo}
+                  />
+                  <TitleText text="MTN" size={14} />
+                </View>
+              </View>
+            ))}
+          {type === 'data' && (
+            <View style={styles.reviewItem}>
+              <RegularText text="Data plan" size={14} />
+              <TitleText text="2GB for Monthly - Monthly" size={14} />
             </View>
-          </View>
+          )}
+          {type === 'fuel' && (
+            <View style={styles.reviewItem}>
+              <RegularText text="Filling station" size={14} />
+              <TitleText text="RAINOIL" size={14} />
+            </View>
+          )}
           <View style={styles.reviewItem}>
             <RegularText text="Amount" size={14} />
             <TitleText text="₦200" size={14} />
           </View>
+          {type === 'fuel' && (
+            <View style={styles.reviewItem}>
+              <RegularText text="Email" size={14} />
+              <TitleText text="janedoe@gmail.com" size={14} />
+            </View>
+          )}
         </View>
         <View>
           <View style={styles.reviewInfo}>
-            {/* <Image
-              source={require('@images/info.png')}
-              resizeMode="cover"
-              style={styles.infoIcon}
-            /> */}
             <Exclamation />
             <RegularText
               text="Kindly review the payment details before continuing your transaction."

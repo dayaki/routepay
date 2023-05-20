@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import { Button, Checkbox, Input, RegularText, TitleText } from '@common';
-import { useStyles } from '../styles';
-import { Header } from '../utils';
+import { useStyles } from './styles';
+import { Header } from './utils';
 
 const NETWORKS = [
   {

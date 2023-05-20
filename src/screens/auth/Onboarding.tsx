@@ -52,9 +52,9 @@ const Onboarding = ({ navigation }) => {
 
   const handleLogin = async () => {
     // login();
-    // getBillsM();
+    getBillsM();
     // makePayment();
-    createWallet();
+    // createWallet();
     // navigation.navigate('login');
   };
 
@@ -62,8 +62,10 @@ const Onboarding = ({ navigation }) => {
     setIsLoading(true);
     try {
       const resp = await authorize(config);
+      const { accessToken } = resp;
       // result includes accessToken, accessTokenExpirationDate and refreshToken
       console.log('handleLogin', JSON.stringify(resp));
+      console.log(accessToken);
       setIsLoading(false);
     } catch (error) {
       console.log('handleLogin ERR', error);

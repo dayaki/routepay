@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   StyleSheet,
   useColorScheme,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import { useTheme, useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native-bars';
-import { ms } from '@utils';
+import { getImage, ms } from '@utils';
 import { BackArrow } from '@icons';
 
 export const ViewWrapper = ({ children }: { children: any }) => {
@@ -49,6 +50,17 @@ export const BackgroundView = ({
   );
 };
 
+export const ProviderIcon = ({ name }: { name: string }) => {
+  const styles = useStyles();
+  return (
+    <Image
+      source={getImage(name)}
+      resizeMode="cover"
+      style={styles.networkLogo}
+    />
+  );
+};
+
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
@@ -67,6 +79,11 @@ const useStyles = () => {
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: ms(40),
+    },
+    networkLogo: {
+      width: ms(24),
+      height: ms(24),
+      marginRight: ms(8),
     },
   });
 };

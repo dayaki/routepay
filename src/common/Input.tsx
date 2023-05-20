@@ -12,10 +12,13 @@ import {
   useColorScheme,
 } from 'react-native';
 import { Black } from './Colors';
-import { ms } from '@utils';
-import { RegularText } from './Text';
+import { getImage, ms } from '@utils';
+import { RegularText, TitleText } from './Text';
 import { TextButton } from './Button';
-import { CheckMark, EyeIcon } from '@icons';
+import { CheckMark, ChevronDown, EyeIcon } from '@icons';
+import { DataModal, NetworkModal } from './Modal';
+import { ProviderIcon } from './View';
+import { capitalize } from 'lodash';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -77,6 +80,74 @@ export const Input = ({
           style={styles.errorText}
         />
       )}
+    </>
+  );
+};
+
+export const Select = ({ label, selected, onSelect }) => {
+  const [showModal, setShowModal] = useState(false);
+  const styles = useStyles();
+  const { colors } = useTheme();
+  return (
+    <>
+      <NetworkModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={onSelect}
+        selectedNetwork={selected}
+      />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={[styles.select]}
+        onPress={() => setShowModal(true)}>
+        {selected ? (
+          <View style={styles.row}>
+            <ProviderIcon name="mtn" />
+            <TitleText
+              text={capitalize(selected)}
+              size={14}
+              color={colors.inputColor}
+            />
+          </View>
+        ) : (
+          <RegularText text={label} size={14} color={colors.inputColor} />
+        )}
+        <ChevronDown size={8} />
+      </TouchableOpacity>
+    </>
+  );
+};
+
+export const DataSelect = ({ label, selected, onSelect }) => {
+  const [showModal, setShowModal] = useState(false);
+  const styles = useStyles();
+  const { colors } = useTheme();
+  return (
+    <>
+      <DataModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={onSelect}
+        selectedNetwork={selected}
+      />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={[styles.select]}
+        onPress={() => setShowModal(true)}>
+        {selected ? (
+          <View style={styles.row}>
+            <ProviderIcon name="mtn" />
+            <TitleText
+              text={capitalize(selected)}
+              size={14}
+              color={colors.inputColor}
+            />
+          </View>
+        ) : (
+          <RegularText text={label} size={14} color={colors.inputColor} />
+        )}
+        <ChevronDown size={8} />
+      </TouchableOpacity>
     </>
   );
 };
@@ -225,6 +296,15 @@ const useStyles = () => {
     otpInputFocus: {
       color: 'red',
     },
+    spread: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
     countdown: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -238,9 +318,22 @@ const useStyles = () => {
       height: ms(54),
       marginBottom: ms(20),
       borderRadius: ms(8),
-      paddingLeft: ms(15),
+      // paddingLeft: ms(15),
+      paddingHorizontal: ms(15),
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    select: {
+      backgroundColor: colors.input,
+      width: '100%',
+      height: ms(54),
+      marginBottom: ms(20),
+      borderRadius: ms(8),
+      paddingLeft: ms(15),
+      paddingRight: ms(25),
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
     input: {
       color: colors.text,

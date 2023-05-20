@@ -16,7 +16,7 @@ const Welcome = ({ navigation }) => {
         <View style={styles.slider}>
           <View style={styles.imageWraper}>
             <Image
-              source={require('@images/success_woman.png')}
+              source={require('@images/success/success_4.png')}
               resizeMode="cover"
               style={styles.image}
             />
