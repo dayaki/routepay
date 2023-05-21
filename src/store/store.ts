@@ -13,15 +13,19 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import logger from 'redux-logger';
 import userSlice from './user-slice';
+import billSlice from './bill-slice';
+import miscSlice from './misc-slice';
 
 const reducers = combineReducers({
   user: userSlice,
+  bill: billSlice,
+  misc: miscSlice,
 });
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user'],
+  whitelist: ['user', 'bill', 'misc'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

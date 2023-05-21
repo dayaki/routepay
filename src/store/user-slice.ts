@@ -7,16 +7,6 @@ import { UserState } from '@types';
 //   return data;
 // });
 
-// export const accountSetUp = () => (dispatch: any) => {
-//   dispatch(getUserHome());
-//   dispatch(getUserHomeBills());
-//   dispatch(getUserCards());
-//   dispatch(getUserWallet());
-//   dispatch(getWalletTransactions());
-//   dispatch(getBillCategories());
-//   dispatch(getBillFrequencies());
-// };
-
 const initialState = {
   user: undefined,
   token: undefined,
@@ -29,7 +19,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     userLogin: (state, { payload }) => {
-      state.user = payload;
+      state.user = payload.user;
+      state.token = payload.token;
       state.isAuthenticated = true;
       state.onboarded = true;
     },

@@ -3,8 +3,8 @@ import { StatusBar, Text, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import { ToastProvider } from 'react-native-toast-notifications';
-import { PersistGate } from 'redux-persist/integration/react';
 import axios, { AxiosHeaders } from 'axios';
+import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { persistor, store } from '@store';
 import Router from './navigation';
@@ -90,9 +90,7 @@ const App = () => {
             linking={linking}
             fallback={<Text>Loading...</Text>}
             theme={scheme === 'dark' ? DarkMode : LightMode}>
-            {/* <ViewWrapper> */}
             <Router />
-            {/* </ViewWrapper> */}
           </NavigationContainer>
         </ToastProvider>
       </PersistGate>
