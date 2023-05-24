@@ -5,9 +5,8 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 // import { InAppBrowser } from 'react-native-inappbrowser-reborn';
-import { Primary, White } from './Colors';
+import { Primary, White, useTheme } from './Colors';
 import { ms } from '@utils';
 
 interface ButtonProps {

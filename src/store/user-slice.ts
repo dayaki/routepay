@@ -24,6 +24,11 @@ export const userSlice = createSlice({
       state.isAuthenticated = true;
       state.onboarded = true;
     },
+    updateToken: (state, { payload }) => {
+      state.token = payload;
+      state.isAuthenticated = true;
+      state.onboarded = true;
+    },
     updateUser: (state, action) => {
       state.user = { ...state.user, ...action.payload };
     },
@@ -41,6 +46,7 @@ export const userSlice = createSlice({
   //   );
   // },
 });
-export const { userLogin, updateUser, userLogout } = userSlice.actions;
+export const { userLogin, updateUser, userLogout, updateToken } =
+  userSlice.actions;
 
 export default userSlice.reducer;

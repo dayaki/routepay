@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import { ms } from '@utils';
+import { useTheme } from '@common';
 
 export const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
     container: {
       flex: 1,
+      backgroundColor: colors.background,
     },
     menuList: {
       paddingHorizontal: ms(20),
@@ -42,7 +43,7 @@ export const useStyles = () => {
       paddingBottom: ms(40),
     },
     input: {
-      fontWeight: '700',
+      // fontWeight: '700',
       color: colors.inputColor,
     },
     selector: {

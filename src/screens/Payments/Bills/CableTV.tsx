@@ -65,6 +65,7 @@ const CableTV = ({ navigation }) => {
           <Input
             placeholder="Phone number"
             value={phone}
+            maxLength={11}
             onChangeText={setPhone}
             textContentType="telephoneNumber"
             keyboardType="number-pad"

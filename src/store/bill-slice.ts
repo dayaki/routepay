@@ -5,14 +5,14 @@ import { BillState, IsBillCategory, IsBillProvider } from '@types';
 export const getBillCategories = createAsyncThunk(
   'bills/categories',
   async () => {
-    const { data } = await apiService(getBillsCategory, 'get');
+    const data = await apiService(getBillsCategory, 'get');
     console.log('getBillCategories', data);
     return data;
   },
 );
 
 export const getAllBills = createAsyncThunk('bills/bills', async () => {
-  const { data } = await apiService(getBills, 'get');
+  const data = await apiService(getBills, 'get');
   console.log('getAllBills', data);
   return data;
 });

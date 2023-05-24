@@ -13,6 +13,7 @@ import {
 } from '@common';
 import { Lock, Mail } from '@icons';
 import { apiService, postToken } from '@utils';
+import { updateToken, useAppDispatch } from '@store';
 
 // const { CLIENT_ID, CLIENT_SECRET } = Config;
 
@@ -32,34 +33,26 @@ const config = {
     'RoutePay.BillsPayment.write',
   ],
 };
-// const config = {
-//   issuer: 'https://authdev.routepay.com/',
-//   clientId: 'mobileclient',
-//   redirectUrl: 'routepay://auth/callback',
-//   scopes: [
-//     'openid',
-//     'profile',
-//     'RoutePay.MerchantApi.read',
-//     'RoutePay.MerchantApi.write',
-//     'RoutePay.PaymentApi.read',
-//     'RoutePay.PaymentApi.write',
-//   ],
-// };
 
-const Login = ({ navigation }) => {
+const Login = ({ navigation, route }) => {
+  const goBack = route.params?.goBack || true;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const styles = useLoginStyles();
+  const dispatch = useAppDispatch();
 
   const handleLogin = async () => {
     // fetchData();
+    // navigation.navigate('home');
     setIsLoading(true);
     // use the client to make the auth request and receive the authState
     try {
-      const { accessToken } = await authorize(config);
+      const result = await authorize(config);
       // result includes accessToken, accessTokenExpirationDate and refreshToken
+      const { accessToken } = result;
       console.log('handleLogin', result);
+      dispatch(updateToken(accessToken));
     } catch (error) {
       console.log('handleLogin ERR', error);
     } finally {
@@ -105,7 +98,7 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <BackgroundView hasBack>
+    <BackgroundView hasBack={goBack}>
       <View style={styles.content}>
         <View>
           <TitleText text="Welcome back, Jane!" />

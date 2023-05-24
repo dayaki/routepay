@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { BackgroundView, Keyboard, RegularText, TitleText } from '@common';
+import {
+  BackgroundView,
+  Keyboard,
+  Loader,
+  RegularText,
+  TitleText,
+} from '@common';
 import { useLoginStyles } from './auth/styles';
 
 const WalletPIN = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [pin, setPin] = useState('');
   const styles = useLoginStyles();
@@ -11,6 +18,7 @@ const WalletPIN = ({ navigation }) => {
   useEffect(() => {
     if (pin.length === 4) {
       // submit data
+      handleSubmit();
       console.log('submut pin', pin);
     }
   }, [pin]);
@@ -34,8 +42,13 @@ const WalletPIN = ({ navigation }) => {
     }
   };
 
+  const handleSubmit = () => {
+    setIsLoading(true);
+  };
+
   return (
     <BackgroundView hasBack>
+      <Loader show={isLoading} />
       <View style={styles.content}>
         <View style={styles.centeredTexts}>
           <TitleText text="Enter your wallet pin" />

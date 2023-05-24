@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { apiService } from '@utils';
 import { MiscState } from '@types';
 import { getAllBills, getBillCategories } from './bill-slice';
+import { DarkMode, LightMode } from '@common';
 
 export const accountSetUp = () => (dispatch: any) => {
   dispatch(getBillCategories());
@@ -10,14 +11,16 @@ export const accountSetUp = () => (dispatch: any) => {
 
 const initialState = {
   theme: 'dark',
+  colors: DarkMode,
 } as MiscState;
 
 export const miscSlice = createSlice({
   name: 'misc',
   initialState,
   reducers: {
-    setTheme: (state, { payload }) => {
+    updateTheme: (state, { payload }) => {
       state.theme = payload;
+      state.colors = payload === 'light' ? LightMode : DarkMode;
     },
   },
   //   extraReducers: builder => {
@@ -38,6 +41,6 @@ export const miscSlice = createSlice({
   //       });
   //   },
 });
-export const { setTheme } = miscSlice.actions;
+export const { updateTheme } = miscSlice.actions;
 
 export default miscSlice.reducer;

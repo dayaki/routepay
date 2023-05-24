@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Checkbox, RegularText } from '@common';
+import { Button, Checkbox } from '@common';
 import { useStyles } from './styles';
 import { Header } from './utils';
 

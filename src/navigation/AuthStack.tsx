@@ -10,14 +10,16 @@ import OTPVerification from '../screens/auth/OTPVerification';
 import Welcome from '../screens/auth/Welcome';
 import SetPIN from '../screens/auth/SetPIN';
 import EmailVerification from '../screens/auth/EmailVerification';
+import { useAppSelector } from '@store';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStack = () => {
+  const { onboarded } = useAppSelector(state => state.user);
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="onboarding">
+      initialRouteName={onboarded ? 'login' : 'onboarding'}>
       <Stack.Screen name="onboarding" component={Onboarding} />
       <Stack.Screen name="login" component={Login} />
       <Stack.Screen name="signup" component={Register} />

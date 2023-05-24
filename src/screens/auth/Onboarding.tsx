@@ -52,10 +52,10 @@ const Onboarding = ({ navigation }) => {
 
   const handleLogin = async () => {
     // login();
-    getBillsM();
+    // getBillsM();
     // makePayment();
     // createWallet();
-    // navigation.navigate('login');
+    navigation.navigate('login');
   };
 
   const login = async () => {

@@ -1,10 +1,11 @@
-import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+// import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { Theme } from '@types';
+import { store } from '@store';
 
-export const LightMode = {
-  ...DefaultTheme,
+export const LightMode: Theme = {
   dark: false,
   colors: {
-    ...DefaultTheme.colors,
+    // ...DefaultTheme.colors,
     primary: '#FF6600',
     background: '#fff',
     card: 'rgb(255, 255, 255)',
@@ -21,11 +22,10 @@ export const LightMode = {
   },
 };
 
-export const DarkMode = {
-  ...DarkTheme,
+export const DarkMode: Theme = {
   dark: true,
   colors: {
-    ...DarkTheme.colors,
+    // ...DarkTheme.colors,
     primary: '#FF6600',
     background: '#15151A',
     card: 'rgb(255, 255, 255)',
@@ -40,6 +40,11 @@ export const DarkMode = {
     dash: 'rgba(249, 247, 246, 0.6)',
     selector: '#1F1F23',
   },
+};
+
+export const useTheme = () => {
+  const theme = store.getState().misc.theme;
+  return theme === 'dark' ? DarkMode : LightMode;
 };
 
 export const White = '#FFFFFF';

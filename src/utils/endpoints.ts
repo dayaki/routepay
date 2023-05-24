@@ -16,5 +16,10 @@ export const postToken = `${BASE_URL}/connect/token`;
 export const getBills = `${billsApi}/bill`;
 export const getBillsCategory = `${billsApi}/billcategory`;
 export const postBillPayment = `${billsApi}/Payment/charge`;
+export const postBundleLookup = `${billsApi}/Payment/lookup`;
 export const getWalletBalance = (id: string) => `${billsApi}/Wallet/${id}`;
 export const postCreateWallet = `${billsApi}/wallet`;
+
+// Profile
+export const getProfile = (userId: number | string) =>
+  `/users/profile/${userId}`;

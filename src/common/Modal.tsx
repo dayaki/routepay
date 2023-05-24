@@ -1,12 +1,19 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Modal from 'react-native-modal';
-import { ms } from '@utils';
+import { getImage, getName, ms, nairaFormat } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { Close } from '@icons';
 import { Checkbox } from './Input';
 import { Button } from './Button';
+import { DataProps, ModalProps } from '@types';
+import { useTheme } from './Colors';
 
 const NETWORKS = [
   {
@@ -40,12 +47,9 @@ export const NetworkModal = ({
   onClose,
   selectedNetwork,
   onSelect,
-}: {
-  selectedNetwork: string;
-  show: boolean;
-  onClose: () => void;
-  onSelect: (text: string) => void;
-}) => {
+  data,
+  title,
+}: ModalProps) => {
   const styles = useStyles();
   return (
     <View>
@@ -59,28 +63,31 @@ export const NetworkModal = ({
                 onPress={onClose}>
                 <Close size={18} />
               </TouchableOpacity>
-              <TitleText text="Choose Network Provider" size={14} />
+              <TitleText text={title} size={14} />
             </View>
             <View style={styles.networks}>
-              {NETWORKS.map(network => (
-                <View style={styles.network} key={network.id}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={() => onSelect(network.slug)}
-                    style={styles.row}>
-                    <Image
-                      source={network.image}
-                      resizeMode="cover"
-                      style={styles.networkLogo}
+              {data &&
+                data.map((network, index) => (
+                  <View style={styles.network} key={index}>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => onSelect(network)}
+                      style={styles.row}>
+                      <Image
+                        source={getImage(
+                          getName(network.billCode).toLowerCase(),
+                        )}
+                        resizeMode="cover"
+                        style={styles.networkLogo}
+                      />
+                      <TitleText text={getName(network.billCode)} size={11} />
+                    </TouchableOpacity>
+                    <Checkbox
+                      isChecked={selectedNetwork?.billCode === network.billCode}
+                      onPress={() => onSelect(network)}
                     />
-                    <TitleText text={network.name} size={11} />
-                  </TouchableOpacity>
-                  <Checkbox
-                    isChecked={selectedNetwork === network.slug}
-                    onPress={() => onSelect(network.slug)}
-                  />
-                </View>
-              ))}
+                  </View>
+                ))}
             </View>
           </View>
           <Button text="Continue" onPress={onClose} />
@@ -95,12 +102,10 @@ export const DataModal = ({
   onClose,
   selectedNetwork,
   onSelect,
-}: {
-  selectedNetwork: string;
-  show: boolean;
-  onClose: () => void;
-  onSelect: (text: string) => void;
-}) => {
+  title,
+  data,
+  networkName,
+}: DataProps) => {
   const styles = useStyles();
   return (
     <View>
@@ -114,43 +119,55 @@ export const DataModal = ({
                 onPress={onClose}>
                 <Close size={18} />
               </TouchableOpacity>
-              <TitleText text="Choose Data Plan" size={14} />
+              <TitleText text={title} size={14} />
             </View>
             <View style={styles.networks}>
-              {NETWORKS.map(network => (
-                <View style={styles.network} key={network.id}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.row}
-                    onPress={() => onSelect(network.slug)}>
-                    <Image
-                      source={network.image}
-                      resizeMode="cover"
-                      style={styles.networkLogo}
+              {data &&
+                data.map((network, index) => (
+                  <View style={styles.network} key={index}>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={styles.row}
+                      onPress={() => onSelect(network)}>
+                      <Image
+                        source={getImage(networkName)}
+                        resizeMode="cover"
+                        style={styles.networkLogo}
+                      />
+                      <View>
+                        <RegularText
+                          text={network.dataName}
+                          size={11}
+                          style={styles.dataType}
+                        />
+                        <RegularText
+                          text={nairaFormat(network.amount)}
+                          size={11}
+                          style={styles.dataType}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                    <Checkbox
+                      isChecked={selectedNetwork.dataCode === network.dataCode}
+                      onPress={() => onSelect(network)}
                     />
-                    <View>
-                      <RegularText
-                        text="100MB Daily for Daily - Daily"
-                        size={11}
-                        style={styles.dataType}
-                      />
-                      <RegularText
-                        text="N100.00"
-                        size={11}
-                        style={styles.dataType}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <Checkbox
-                    isChecked={selectedNetwork === network.slug}
-                    onPress={() => onSelect(network.slug)}
-                  />
-                </View>
-              ))}
+                  </View>
+                ))}
             </View>
           </View>
           <Button text="Continue" onPress={onClose} />
         </View>
+      </Modal>
+    </View>
+  );
+};
+
+export const Loader = ({ show }: { show: boolean }) => {
+  const styles = useStyles();
+  return (
+    <View>
+      <Modal isVisible={show} style={styles.modal}>
+        <ActivityIndicator size="small" color="rgba(249, 247, 246, 0.6)" />
       </Modal>
     </View>
   );

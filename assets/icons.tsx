@@ -1,6 +1,6 @@
 import React from 'react';
-import { useColorScheme } from 'react-native';
 import Svg, { SvgProps, G, Path, Defs, ClipPath, Rect } from 'react-native-svg';
+import { useAppSelector } from '@store';
 
 interface Props extends SvgProps {
   size?: number;
@@ -9,7 +9,7 @@ interface Props extends SvgProps {
 }
 
 export const BackArrow = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ export const ChevronBack = (props: Props) => (
 );
 
 export const Mail = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ export const Mail = (props: Props) => {
 };
 
 export const Exclamation = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +98,7 @@ export const Exclamation = (props: Props) => {
 };
 
 export const ChevronDown = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +118,7 @@ export const ChevronDown = (props: Props) => {
 };
 
 export const Close = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -138,7 +138,7 @@ export const Close = (props: Props) => {
 };
 
 export const MenuRightArrow = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +158,7 @@ export const MenuRightArrow = (props: Props) => {
 };
 
 export const Lock = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +183,7 @@ export const Lock = (props: Props) => {
 };
 
 export const EyeIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +208,7 @@ export const EyeIcon = (props: Props) => {
 };
 
 export const UserIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -228,7 +228,7 @@ export const UserIcon = (props: Props) => {
 };
 
 export const PhoneIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -254,7 +254,7 @@ export const PhoneIcon = (props: Props) => {
 };
 
 export const CancelKey = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +274,7 @@ export const CancelKey = (props: Props) => {
 };
 
 export const UserTabIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -294,7 +294,7 @@ export const UserTabIcon = (props: Props) => {
 };
 
 export const RewardTabIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -319,7 +319,7 @@ export const RewardTabIcon = (props: Props) => {
 };
 
 export const PaymentTabIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -354,7 +354,7 @@ export const PaymentTabIcon = (props: Props) => {
 };
 
 export const WalletTabIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -379,7 +379,7 @@ export const WalletTabIcon = (props: Props) => {
 };
 
 export const HomeTabIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
@@ -405,7 +405,7 @@ export const HomeTabIcon = (props: Props) => {
 };
 
 export const AirtimeIcon = (props: Props) => {
-  const scheme = useColorScheme();
+  const { theme: scheme } = useAppSelector(state => state.misc);
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"

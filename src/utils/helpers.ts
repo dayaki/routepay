@@ -1,8 +1,6 @@
 import { moderateScale } from 'react-native-size-matters';
 import accounting from 'accounting';
 import { truncate } from 'lodash';
-import { apiService } from './apiService';
-// import { getRefreshToken } from './endpoints';
 
 export const ms = (number: number) => moderateScale(number);
 
@@ -59,9 +57,21 @@ export const getImage = (slug: string) => {
   switch (slug) {
     case 'mtn':
       return require('@images/networks/mtn.png');
+    case 'airtel':
+      return require('@images/networks/airtel.png');
+    case 'etisalat':
+      return require('@images/networks/9mobile.png');
+    case 'glo':
+      return require('@images/networks/glo.png');
+    case 'smile':
+      return require('@images/networks/smile.png');
     default:
       return require('@images/networks/mtn.png');
   }
+};
+
+export const getName = (name: string) => {
+  return `${name.split('_')[0].toUpperCase()}`;
 };
 
 // export const refreshToken = async () => {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import { RegularText } from './Text';
 import { ms } from '@utils';
 import { CancelKey } from '@icons';
+import { useTheme } from './Colors';
 
 export const Keyboard = ({
   handleDelete,

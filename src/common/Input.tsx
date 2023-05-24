@@ -1,24 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useTheme } from '@react-navigation/native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { capitalize } from 'lodash';
 import {
   StyleSheet,
   TextInput,
   View,
   TextInputProps,
   TouchableOpacity,
-  Image,
-  useColorScheme,
 } from 'react-native';
-import { Black } from './Colors';
-import { getImage, ms } from '@utils';
+import { getName, ms } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { TextButton } from './Button';
-import { CheckMark, ChevronDown, EyeIcon } from '@icons';
+import { ChevronDown, EyeIcon } from '@icons';
 import { DataModal, NetworkModal } from './Modal';
 import { ProviderIcon } from './View';
-import { capitalize } from 'lodash';
+import { IsBillProvider, IsDataPlan } from '@types';
+import { useAppSelector } from '@store';
+import { useTheme } from './Colors';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -34,6 +33,14 @@ interface InputProps extends TextInputProps {
   keyboardType?: 'number-pad' | 'default' | 'email-address';
   capitalize?: 'sentences' | 'none' | 'words' | 'characters' | undefined;
   isPassword?: boolean;
+}
+
+interface SelectProps {
+  label: string;
+  selected: IsBillProvider | undefined;
+  data: IsBillProvider[];
+  title: string;
+  onSelect: (data: IsBillProvider) => void;
 }
 
 export const Input = ({
@@ -84,7 +91,7 @@ export const Input = ({
   );
 };
 
-export const Select = ({ label, selected, onSelect }) => {
+export const Select = ({ label, selected, onSelect }: { label: string }) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
   const { colors } = useTheme();
@@ -118,13 +125,21 @@ export const Select = ({ label, selected, onSelect }) => {
   );
 };
 
-export const DataSelect = ({ label, selected, onSelect }) => {
+export const NetworkSelect = ({
+  label,
+  selected,
+  onSelect,
+  data,
+  title,
+}: SelectProps) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
   const { colors } = useTheme();
   return (
     <>
-      <DataModal
+      <NetworkModal
+        title={title}
+        data={data}
         show={showModal}
         onClose={() => setShowModal(false)}
         onSelect={onSelect}
@@ -136,9 +151,9 @@ export const DataSelect = ({ label, selected, onSelect }) => {
         onPress={() => setShowModal(true)}>
         {selected ? (
           <View style={styles.row}>
-            <ProviderIcon name="mtn" />
+            <ProviderIcon name={getName(selected?.billCode).toLowerCase()} />
             <TitleText
-              text={capitalize(selected)}
+              text={capitalize(getName(selected?.billCode))}
               size={14}
               color={colors.inputColor}
             />
@@ -146,6 +161,50 @@ export const DataSelect = ({ label, selected, onSelect }) => {
         ) : (
           <RegularText text={label} size={14} color={colors.inputColor} />
         )}
+        <ChevronDown size={8} />
+      </TouchableOpacity>
+    </>
+  );
+};
+
+export const DataSelect = ({
+  label,
+  selectedNetwork,
+  onSelect,
+  title,
+  networkName,
+  data,
+}: {
+  title: string;
+  label: string;
+  selectedNetwork: IsDataPlan | undefined;
+  networkName: string;
+  data: IsDataPlan[];
+  onSelect: (text: IsDataPlan) => void;
+}) => {
+  const [showModal, setShowModal] = useState(false);
+  const styles = useStyles();
+  const { colors } = useTheme();
+  return (
+    <>
+      <DataModal
+        data={data}
+        title={title}
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        onSelect={onSelect}
+        selectedNetwork={selectedNetwork}
+        networkName={networkName}
+      />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={[styles.select]}
+        onPress={() => setShowModal(true)}>
+        <RegularText
+          text={selectedNetwork ? selectedNetwork.dataName : label}
+          size={14}
+          color={colors.inputColor}
+        />
         <ChevronDown size={8} />
       </TouchableOpacity>
     </>
@@ -253,9 +312,9 @@ export const Checkbox = ({
   textStyle?: any;
   onPress: (isChecked: boolean) => void;
 }) => {
+  const { theme } = useAppSelector(state => state.misc);
   const { colors } = useTheme();
   const styles = useStyles();
-  const scheme = useColorScheme();
   return (
     <BouncyCheckbox
       onPress={onPress}
@@ -267,7 +326,7 @@ export const Checkbox = ({
       fillColor={colors.selector}
       textStyle={[styles.textStyle, textStyle]}
       checkIconImageSource={
-        scheme === 'dark'
+        theme === 'dark'
           ? require('@images/checkmark.png')
           : require('@images/checkmark_dark.png')
       }

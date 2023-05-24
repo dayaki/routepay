@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useTheme, useNavigation } from '@react-navigation/native';
-import { RegularText, TitleText, pink300, woodsmoke } from '@common';
+import { useNavigation } from '@react-navigation/native';
+import { RegularText, TitleText, pink300, useTheme, woodsmoke } from '@common';
 import { ChevronBack } from '@icons';
 import { ms } from '@utils';
 

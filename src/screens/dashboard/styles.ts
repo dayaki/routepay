@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import { ms } from '@utils';
+import { useTheme } from '@common';
 
 export const useStyles = () => {
   const { colors } = useTheme();

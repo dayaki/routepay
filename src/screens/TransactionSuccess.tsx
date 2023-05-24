@@ -7,8 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import { Button, TitleText, ViewWrapper } from '@common';
-import { useTheme } from '@react-navigation/native';
+import { Button, TitleText, ViewWrapper, useTheme } from '@common';
 import { ms } from '@utils';
 
 const TransactionSuccess = ({ navigation, route }) => {

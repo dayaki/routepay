@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import { White } from '@common';
+import { White, useTheme } from '@common';
 import { ms } from '@utils';
 
 export const useStyles = () => {

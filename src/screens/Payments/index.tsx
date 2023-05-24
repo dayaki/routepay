@@ -1,22 +1,23 @@
 import React from 'react';
-import { Image, TouchableOpacity, View, useColorScheme } from 'react-native';
-import { TitleText } from '@common';
+import { Image, TouchableOpacity, View } from 'react-native';
+import { RegularText } from '@common';
 import { useStyles } from './styles';
 import { MenuRightArrow } from '@icons';
 import { Header } from './utils';
+import { useAppSelector } from '@store';
 
 const NAV_ITEMS = [
   {
     name: 'Buy Airtime',
     icon: require('@images/payments/airtime.png'),
     darkIcon: require('@images/payments/airtime_dark.png'),
-    link: 'buy_airtime',
+    link: 'airtime',
   },
   {
     name: 'Buy Data',
     icon: require('@images/payments/data.png'),
     darkIcon: require('@images/payments/data_dark.png'),
-    link: 'buy_data',
+    link: 'data',
   },
   {
     name: 'Buy Fuel',
@@ -28,7 +29,13 @@ const NAV_ITEMS = [
     name: 'Buy Pins',
     icon: require('@images/payments/pins.png'),
     darkIcon: require('@images/payments/pins_dark.png'),
-    link: 'buy_pins',
+    link: 'pins_landing',
+  },
+  {
+    name: 'Scan to Pay',
+    icon: require('@images/payments/scan.png'),
+    darkIcon: require('@images/payments/scan_dark.png'),
+    link: 'scan_landing',
   },
   {
     name: 'Pay Bills',
@@ -39,8 +46,8 @@ const NAV_ITEMS = [
 ];
 
 const Payments = ({ navigation }) => {
+  const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
-  const scheme = useColorScheme();
   return (
     <View style={styles.container}>
       <Header title="Payments" />
@@ -53,11 +60,11 @@ const Payments = ({ navigation }) => {
             onPress={() => navigation.navigate(item.link)}>
             <View style={styles.row}>
               <Image
-                source={scheme === 'dark' ? item.darkIcon : item.icon}
+                source={theme === 'dark' ? item.darkIcon : item.icon}
                 resizeMode="cover"
                 style={styles.icon}
               />
-              <TitleText text={item.name} size={14} />
+              <RegularText text={item.name} size={14} />
             </View>
             <MenuRightArrow />
           </TouchableOpacity>

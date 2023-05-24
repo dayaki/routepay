@@ -7,7 +7,7 @@ import { Header } from './utils';
 const BuyFuel = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [amount, setAmount] = useState<string>('');
-  const [selectedNetwork, setSelectedNetwork] = useState('');
+  const [selectedStation, setSelectedStation] = useState('');
   const styles = useStyles();
 
   return (
@@ -17,12 +17,13 @@ const BuyFuel = ({ navigation }) => {
         <View>
           <Select
             label="Select filling station"
-            selected={selectedNetwork}
-            onSelect={setSelectedNetwork}
+            selected={selectedStation}
+            onSelect={setSelectedStation}
           />
           <Input
             placeholder="Phone number"
             value={phone}
+            maxLength={11}
             onChangeText={setPhone}
             textContentType="telephoneNumber"
             keyboardType="number-pad"
@@ -43,10 +44,15 @@ const BuyFuel = ({ navigation }) => {
           onPress={() =>
             navigation.navigate('review_payment', {
               type: 'fuel',
-              data_plan: '2GB for Monthly - Monthly',
+              data: {
+                amount,
+                phone,
+                station: 'RAINOIL',
+                email: 'janedoe@gmail.com',
+              },
             })
           }
-          disabled={!phone || !amount || !selectedNetwork}
+          disabled={!phone || !amount || !selectedStation}
         />
       </View>
     </View>

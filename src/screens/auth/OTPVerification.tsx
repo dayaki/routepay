@@ -10,10 +10,10 @@ import {
 } from '@common';
 import { useLoginStyles } from './styles';
 import { AuthNavigationProps } from '@types';
-import { formatPhone } from '@utils';
+import { apiService, formatPhone, postRegister } from '@utils';
 
 const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
-  const { phone } = route.params;
+  const { payload } = route.params;
   const [otpCode, setOtpCode] = useState('');
   const [codeId, setCodeId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -21,16 +21,16 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
   const styles = useLoginStyles();
 
   useEffect(() => {
-    sendPhoneOTP();
+    // sendPhoneOTP();
   }, []);
 
   const sendPhoneOTP = async () => {
-    const payload = {
+    const dataToSend = {
       api_key: 'TLbD71MthTFVBoQMnynZBYV42rB3vacQmBersDbpwxeW7uzCjWBIwJNRufK4mq',
       message_type: 'NUMERIC',
       pin_type: 'NUMERIC',
       channel: 'generic',
-      to: formatPhone(phone),
+      to: formatPhone(payload.phoneNumber),
       pin_attempts: 3,
       pin_time_to_live: 1,
       pin_length: 6,
@@ -46,7 +46,7 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(dataToSend),
       });
       const { pinId } = await resp.json();
       console.log('response', pinId);
@@ -59,33 +59,74 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
   };
 
   const verifyOtp = async () => {
-    setIsLoading(true);
-    const payload = {
-      api_key: 'TLbD71MthTFVBoQMnynZBYV42rB3vacQmBersDbpwxeW7uzCjWBIwJNRufK4mq',
-      pin_id: codeId,
-      pin: otpCode,
-    };
+    navigation.navigate('welcome', { name: payload.firstName });
+    // setIsLoading(true);
+    // try {
+    //   const resp = await fetch('https://api.ng.termii.com/api/sms/otp/verify', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       api_key:
+    //         'TLbD71MthTFVBoQMnynZBYV42rB3vacQmBersDbpwxeW7uzCjWBIwJNRufK4mq',
+    //       pin_id: codeId,
+    //       pin: otpCode,
+    //     }),
+    //   });
+    //   const response = await resp.json();
+    //   const { verified } = response;
+    //   console.log('verifyOtp response', response);
+    //   if (verified === 'Expired') {
+    //     toast.show('Confirmation code has expired!', { type: 'warning' });
+    //     setIsLoading(false);
+    //     return;
+    //   } else if (verified === false) {
+    //     toast.show('Invalid confirmation code.', { type: 'warning' });
+    //     setIsLoading(false);
+    //     return;
+    //   }
+    //   registerUser();
+    // } catch (error: any) {
+    //   console.log('verifyOtp ERR', error);
+    //   toast.show(error.message, { type: 'warning' });
+    //   setIsLoading(false);
+    // }
+  };
+
+  const registerUser = async () => {
     try {
-      const resp = await fetch('https://api.ng.termii.com/api/sms/otp/verify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-      const response = await resp.json();
-      console.log('verifyOtp response', response);
-      if (response.verified) {
+      const resp = await apiService(postRegister, 'post', payload);
+      const { message, succeeded } = resp;
+      console.log('handleSignup', resp);
+      if (succeeded) {
+        console.log('successed', succeeded);
         navigation.navigate('welcome');
       } else {
-        toast.show('Invalid confirmation code.', { type: 'warning' });
+        let errorMessage: string = '';
+        if (message.includes('Duplicate Email')) {
+          errorMessage = 'Your email address is already in use!';
+        } else if (
+          message.includes('PasswordTooShort,PasswordRequiresNonAlphanumeric')
+        ) {
+          errorMessage = 'Password requires special characters and uppercase.';
+        }
+        toast.show(errorMessage, {
+          type: 'warning',
+        });
+        navigation.navigate('signup', { error: errorMessage });
       }
-      setIsLoading(false);
-      // {"attemptsRemaining": 0, "msisdn": "2347038327370", "pinId": "35a06912-e864-42e2-bae8-9b21e804c8b3", "verified": false}
-      //
-    } catch (error: any) {
-      console.log('verifyOtp ERR', error);
-      toast.show(error.message, { type: 'warning' });
+      // {
+      //   "id": "17124f37-eb88-44bf-a44c-e3a334931a49",
+      //   "message": "Succeeded",
+      //   "succeeded": true
+      // }
+    } catch (error) {
+      console.log('handleSignup ERR', error);
+      navigation.navigate('signup', {
+        error: 'Network error, please try again.',
+      });
+    } finally {
       setIsLoading(false);
     }
   };

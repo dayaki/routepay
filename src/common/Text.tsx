@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, StyleSheet, TextStyle } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import { Text, StyleSheet } from 'react-native';
+import { useTheme } from './Colors';
 
 type TextProps = {
   text: string;

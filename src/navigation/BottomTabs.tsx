@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import { useTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   HomeTabIcon,
@@ -11,23 +10,20 @@ import {
 } from '@icons';
 import Payments from '../screens/payments';
 import Dashboard from '../screens/dashboard';
+import ProfileStack from './ProfileStack';
+import { useAppSelector } from '@store';
 
 const TabStack = createBottomTabNavigator();
 
-// const BottomTabIcon = ({type, isFocus }) => {
-//   return (
-//     <HomeTabIcon fill={focused ? '#FF6600' : 'none'} />
-//   )
-// }
-
 const BottomTabs = () => {
-  const { colors } = useTheme();
+  const {
+    colors: { colors },
+  } = useAppSelector(state => state.misc);
+  console.log('BottomTabs', colors);
   return (
     <TabStack.Navigator
       screenOptions={{
         headerShown: false,
-        // tabBarActiveTintColor: '#15151A',
-        // tabBarInactiveTintColor: '#15151A',
         tabBarLabelStyle: {
           textTransform: 'capitalize',
           fontFamily: 'DMSans-Regular',
@@ -82,7 +78,7 @@ const BottomTabs = () => {
       />
       <TabStack.Screen
         name="account"
-        component={Payments}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({ focused }) => (
             <UserTabIcon fill={focused ? '#FF6600' : 'none'} />

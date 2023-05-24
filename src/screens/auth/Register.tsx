@@ -6,6 +6,7 @@ import {
   BackgroundView,
   Button,
   Input,
+  Loader,
   RegularText,
   TextButton,
   TitleText,
@@ -14,8 +15,11 @@ import { Lock, Mail, PhoneIcon, UserIcon } from '@icons';
 import { AuthNavigationProps } from '@types';
 import { apiService, postRegister } from '@utils';
 import { useToast } from 'react-native-toast-notifications';
+import { useMutation } from '@tanstack/react-query';
+import { createUserFn, registerUser } from '../../api/auth';
 
-const Register = ({ navigation }: AuthNavigationProps) => {
+const Register = ({ navigation, route }: AuthNavigationProps) => {
+  const { error } = route.params || false;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -23,7 +27,7 @@ const Register = ({ navigation }: AuthNavigationProps) => {
   const [referral, setReferral] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasErrors, setHasErrors] = useState(true);
-  // const [errors, setErrors] = useState<string | null>(null);
+  const [errors, setErrors] = useState(error);
   const styles = useLoginStyles();
   const toast = useToast();
 
@@ -35,8 +39,23 @@ const Register = ({ navigation }: AuthNavigationProps) => {
     }
   };
 
-  const handleSignup = async () => {
+  const goVerify = () => {
     setIsLoading(true);
+    const payload = {
+      email,
+      phoneNumber: phone,
+      password: password,
+      firstName: name.split(' ')[0],
+      lastName: name.split(' ')[1],
+      status: true,
+    };
+    setTimeout(() => {
+      setIsLoading(false);
+      navigation.navigate('phone_verification', { payload });
+    }, 5000);
+  };
+
+  const handleSignup = async () => {
     try {
       const payload = {
         email,
@@ -51,28 +70,28 @@ const Register = ({ navigation }: AuthNavigationProps) => {
       console.log('handleSignup', resp);
       if (succeeded) {
         console.log('successed', succeeded);
-        navigation.navigate('phone_verification', { phone });
+        navigation.navigate('welcome');
       } else {
+        let errorMessage: string = '';
         if (message.includes('Duplicate Email')) {
-          toast.show('Your email address is already in use!', {
-            type: 'warning',
-          });
+          errorMessage = 'Your email address is already in use!';
         } else if (
           message.includes('PasswordTooShort,PasswordRequiresNonAlphanumeric')
         ) {
-          toast.show('Password requires special characters and uppercase.', {
-            type: 'warning',
-          });
-        } else {
+          errorMessage = 'Password requires special characters and uppercase.';
         }
+        setErrors(errorMessage);
+        toast.show(errorMessage, {
+          type: 'warning',
+        });
       }
       // {
       //   "id": "17124f37-eb88-44bf-a44c-e3a334931a49",
       //   "message": "Succeeded",
       //   "succeeded": true
       // }
-    } catch (error) {
-      console.log('handleSignup ERR', error);
+    } catch (err) {
+      console.log('handleSignup ERR', err);
     } finally {
       setIsLoading(false);
     }
@@ -90,14 +109,14 @@ const Register = ({ navigation }: AuthNavigationProps) => {
             <Text style={styles.brandName}>routepay</Text>.
           </Text>
         </View>
-        {/* {errors && (
+        {!!errors && (
           <RegularText
             text={errors}
             color="red"
             size={13}
             style={{ marginBottom: 10 }}
           />
-        )} */}
+        )}
         <Input
           value={name}
           onChangeText={setName}
@@ -143,7 +162,7 @@ const Register = ({ navigation }: AuthNavigationProps) => {
           disabled={hasErrors}
           text="Create an account"
           isLoading={isLoading}
-          onPress={handleSignup}
+          onPress={error ? handleSignup : goVerify}
           style={styles.loginBtn}
         />
         <View style={styles.row}>

@@ -1,12 +1,13 @@
 import React from 'react';
-import { Image, TouchableOpacity, View, useColorScheme } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { RegularText, TitleText } from '@common';
 import { useStyles } from '../styles';
 import { Header } from '../utils';
+import { useAppSelector } from '@store';
 
 const Bills = ({ navigation }) => {
+  const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
-  const scheme = useColorScheme();
   return (
     <View style={styles.container}>
       <Header title="Pay Bills" centered />
@@ -17,7 +18,7 @@ const Bills = ({ navigation }) => {
           onPress={() => navigation.navigate('cable_tv')}>
           <Image
             source={
-              scheme === 'dark'
+              theme === 'dark'
                 ? require('@images/bills/cable_dark.png')
                 : require('@images/bills/cable.png')
             }
@@ -31,10 +32,13 @@ const Bills = ({ navigation }) => {
           />
         </TouchableOpacity>
         {/*  */}
-        <TouchableOpacity activeOpacity={0.8} style={styles.bill}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.bill}
+          onPress={() => navigation.navigate('electricity')}>
           <Image
             source={
-              scheme === 'dark'
+              theme === 'dark'
                 ? require('@images/bills/electricity_dark.png')
                 : require('@images/bills/electricity.png')
             }
@@ -51,7 +55,7 @@ const Bills = ({ navigation }) => {
         <TouchableOpacity activeOpacity={1} style={styles.bill}>
           <Image
             source={
-              scheme === 'dark'
+              theme === 'dark'
                 ? require('@images/bills/airline_dark.png')
                 : require('@images/bills/airline.png')
             }
@@ -69,7 +73,7 @@ const Bills = ({ navigation }) => {
         <TouchableOpacity activeOpacity={1} style={styles.bill}>
           <Image
             source={
-              scheme === 'dark'
+              theme === 'dark'
                 ? require('@images/bills/toll_dark.png')
                 : require('@images/bills/toll.png')
             }
