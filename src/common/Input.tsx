@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { capitalize } from 'lodash';
 import {
   StyleSheet,
@@ -12,12 +13,13 @@ import {
 import { getName, ms } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { TextButton } from './Button';
-import { ChevronDown, EyeIcon } from '@icons';
+import { ChevronDown, EyeIcon, Lock } from '@icons';
 import { DataModal, NetworkModal } from './Modal';
 import { ProviderIcon } from './View';
 import { IsBillProvider, IsDataPlan } from '@types';
 import { useAppSelector } from '@store';
 import { useTheme } from './Colors';
+import moment from 'moment';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -340,6 +342,46 @@ export const Checkbox = ({
           : require('@images/checkmark_dark.png')
       }
     />
+  );
+};
+
+export const DatePicker = ({
+  placeholder,
+  value,
+  onSelect,
+}: {
+  placeholder: string;
+  value: Date | null;
+  onSelect: (data: Date) => void;
+}) => {
+  const [openDate, setOpenDate] = useState(false);
+  const styles = useStyles();
+  return (
+    <>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.inputWrapper}
+        onPress={() => setOpenDate(true)}>
+        <RegularText
+          text={value ? moment(value).format('MMMM Do, YYYY') : placeholder}
+          size={14}
+        />
+        <View style={styles.rightIcon}>
+          <Lock />
+        </View>
+      </TouchableOpacity>
+      <DateTimePickerModal
+        isVisible={openDate}
+        isDarkModeEnabled={false}
+        maximumDate={new Date()}
+        mode="date"
+        onConfirm={(newDate: Date) => {
+          onSelect(newDate);
+          setOpenDate(false);
+        }}
+        onCancel={() => setOpenDate(false)}
+      />
+    </>
   );
 };
 

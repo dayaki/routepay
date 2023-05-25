@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Close } from '@icons';
-import { Button, Input, RegularText, TitleText } from '@common';
+import { Button, DatePicker, Input, RegularText, TitleText } from '@common';
 import { useStyles } from '../styles';
 
 const SendStatement = ({ navigation, route }) => {
   const type = route.params.type || '';
-  const [startDate, setStartDate] = useState<Date>();
-  const [endDate, setEndDate] = useState<Date>();
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [email, setEmail] = useState(type === 'self' ? 'tetsing' : '');
   const styles = useStyles();
 
   const handleSubmit = () => {};
@@ -45,11 +46,29 @@ const SendStatement = ({ navigation, route }) => {
               style={styles.contenttTitle}
             />
           )}
+          <DatePicker
+            placeholder="Start date"
+            value={startDate}
+            onSelect={setStartDate}
+          />
+          <DatePicker
+            placeholder="End date"
+            value={endDate}
+            onSelect={setEndDate}
+          />
+          {type === 'others' && (
+            <Input
+              placeholder="Third party email address"
+              value={email}
+              keyboardType="email-address"
+              onChangeText={setEmail}
+            />
+          )}
         </View>
         <Button
           text="Proceed"
           onPress={handleSubmit}
-          disabled={!startDate || !endDate}
+          disabled={!startDate || !endDate || !email}
         />
       </View>
     </View>

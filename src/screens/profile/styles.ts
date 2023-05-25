@@ -44,6 +44,7 @@ export const useStyles = () => {
       fontFamily: 'DMSans-Regular',
       color: colors.text,
       textAlign: 'center',
+      marginBottom: ms(40),
     },
     wrapper: {
       flex: 1,
