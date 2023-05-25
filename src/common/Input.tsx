@@ -102,6 +102,34 @@ export const Input = React.forwardRef(
   },
 );
 
+export const TextArea = ({
+  value,
+  onChangeText,
+  placeholder,
+  inputStyle,
+  ...props
+}: InputProps) => {
+  const styles = useStyles();
+  const { colors } = useTheme();
+  return (
+    <>
+      <View style={[styles.inputWrapper, styles.textarea]}>
+        <TextInput
+          multiline
+          textAlignVertical="top"
+          numberOfLines={5}
+          placeholder={placeholder}
+          placeholderTextColor={colors.text}
+          value={value}
+          onChangeText={onChangeText}
+          style={[styles.input, styles.textarea, inputStyle]}
+          {...props}
+        />
+      </View>
+    </>
+  );
+};
+
 export const Select = ({ label, selected, onSelect }: { label: string }) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
@@ -424,14 +452,28 @@ const useStyles = () => {
     inputWrapper: {
       backgroundColor: colors.input,
       width: '100%',
-      // width: ms(350),
       height: ms(54),
       marginBottom: ms(20),
       borderRadius: ms(8),
-      // paddingLeft: ms(15),
       paddingHorizontal: ms(15),
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    input: {
+      color: colors.text,
+      fontFamily: 'DMSans-Regular',
+      fontSize: 14,
+      height: '100%',
+      width: ms(260),
+      backgroundColor: 'transparent',
+    },
+    textareaWrapper: {
+      height: ms(150),
+      paddingTop: ms(15),
+    },
+    textarea: {
+      paddingTop: ms(15),
+      height: ms(150),
     },
     select: {
       backgroundColor: colors.input,
@@ -444,14 +486,6 @@ const useStyles = () => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-    },
-    input: {
-      color: colors.text,
-      fontFamily: 'DMSans-Regular',
-      fontSize: 14,
-      height: '100%',
-      width: ms(260),
-      backgroundColor: 'transparent',
     },
     icon: {
       // backgroundColor: 'pink',

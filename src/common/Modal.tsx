@@ -166,7 +166,7 @@ export const Loader = ({ show }: { show: boolean }) => {
   const styles = useStyles();
   return (
     <View>
-      <Modal isVisible={show} style={styles.modal}>
+      <Modal isVisible={show} style={styles.modal} animationIn="fadeIn">
         <ActivityIndicator size="small" color="rgba(249, 247, 246, 0.6)" />
       </Modal>
     </View>

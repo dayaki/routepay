@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { RegularText } from './Text';
+import { RegularText, TitleText } from './Text';
 import { ms } from '@utils';
 import { CancelKey } from '@icons';
 import { useTheme } from './Colors';
@@ -64,6 +64,68 @@ export const Keyboard = ({
   );
 };
 
+export const TransactionPIN = ({
+  handleSubmit,
+}: {
+  handleSubmit: (pin: string) => void;
+}) => {
+  const styles = useStyles();
+  const [pin, setPin] = useState('');
+
+  useEffect(() => {
+    if (pin.length === 4) {
+      setTimeout(() => {
+        handleSubmit(pin);
+        setPin('');
+      }, 200);
+    }
+  }, [pin]);
+
+  const handleInput = (value: string) => {
+    console.log('handleInput', value);
+    if (pin.length < 4) {
+      setPin(pin + value);
+    }
+  };
+
+  const handleDelete = () => {
+    if (pin.length) {
+      let pinCode = pin.split('');
+      pinCode.pop();
+      let newPin = pinCode.join('');
+      setPin(newPin);
+    }
+  };
+
+  return (
+    <View style={styles.centered}>
+      <View style={styles.indicator}>
+        {pin.length > 0 ? (
+          <TitleText text={pin[0]} size={20} style={styles.pinText} />
+        ) : (
+          <View style={styles.pinDot} />
+        )}
+        {pin.length > 0 ? (
+          <TitleText text={pin[1]} size={20} style={styles.pinText} />
+        ) : (
+          <View style={styles.pinDot} />
+        )}
+        {pin.length > 0 ? (
+          <TitleText text={pin[2]} size={20} style={styles.pinText} />
+        ) : (
+          <View style={styles.pinDot} />
+        )}
+        {pin.length > 0 ? (
+          <TitleText text={pin[3]} size={20} style={styles.pinText} />
+        ) : (
+          <View style={styles.pinDot} />
+        )}
+      </View>
+      <Keyboard handleInput={handleInput} handleDelete={handleDelete} />
+    </View>
+  );
+};
+
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
@@ -105,6 +167,27 @@ const useStyles = () => {
       justifyContent: 'space-between',
       width: ms(305),
       marginTop: ms(20),
+    },
+    centered: {
+      alignItems: 'center',
+    },
+    indicator: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: ms(60),
+      height: ms(22),
+      alignSelf: 'center',
+      justifyContent: 'center',
+    },
+    pinDot: {
+      width: ms(11),
+      height: ms(11),
+      borderRadius: 6,
+      marginRight: ms(7),
+      backgroundColor: colors.input,
+    },
+    pinText: {
+      marginRight: ms(10),
     },
   });
 };
