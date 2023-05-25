@@ -27,7 +27,23 @@ export type AuthStackParamList = {
   welcome: { name: string } | undefined;
 };
 
+export type MainStackParamList = {
+  transaction_success: {
+    type: string;
+    message: string;
+    title: string;
+    buttonText: string;
+    data: {} | undefined;
+    routePath: string | undefined;
+  };
+};
+
 export type AuthNavigationProps = NativeStackScreenProps<
   AuthStackParamList,
   'phone_verification'
+>;
+
+export type MainNavigationProps = NativeStackScreenProps<
+  MainStackParamList,
+  'transaction_success'
 >;
