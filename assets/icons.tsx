@@ -120,6 +120,26 @@ export const ChevronDown = (props: Props) => {
   );
 };
 
+export const ChevronForward = (props: Props) => {
+  const { theme: scheme } = useAppSelector(state => state.misc);
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={24}
+      height={24}
+      fill="none"
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#F9F7F6' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={0.875}
+        d="M.417 4h13M9.916.5l3.5 3.5-3.5 3.5"
+      />
+    </Svg>
+  );
+};
+
 export const Close = (props: Props) => {
   const { theme: scheme } = useAppSelector(state => state.misc);
   return (

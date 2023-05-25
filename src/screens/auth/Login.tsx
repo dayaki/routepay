@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import { authorize } from 'react-native-app-auth';
 import { decode } from 'react-native-pure-jwt';
 import base64 from 'react-native-base64';
-// import Config from 'react-native-config';
 import { useLoginStyles } from './styles';
 import {
   BackgroundView,
@@ -14,35 +12,9 @@ import {
   TitleText,
 } from '@common';
 import { Lock, Mail } from '@icons';
-import {
-  apiService,
-  getLogin,
-  getProfile,
-  getWalletBalance,
-  postLogin,
-  postToken,
-} from '@utils';
+import { apiService, getLogin, getWalletBalance, postToken } from '@utils';
 import { updateToken, useAppDispatch } from '@store';
 import axios from 'axios';
-
-// const { CLIENT_ID, CLIENT_SECRET } = Config;
-
-// base config
-const config = {
-  issuer: 'https://authdev.routepay.com/',
-  clientId: 'billsPortal',
-  redirectUrl: 'routepay://auth/callback',
-  scopes: [
-    'openid',
-    'profile',
-    'RoutePay.MerchantApi.read',
-    'RoutePay.MerchantApi.write',
-    'RoutePay.PaymentApi.read',
-    'RoutePay.PaymentApi.write',
-    'RoutePay.BillsPayment.read',
-    'RoutePay.BillsPayment.write',
-  ],
-};
 
 const Login = ({ navigation, route }) => {
   const goBack = route.params?.goBack || true;
@@ -66,16 +38,16 @@ const Login = ({ navigation, route }) => {
           password: password,
         },
       });
-      console.log('handleLogin TOKEN', accessToken);
-      dispatch(updateToken(accessToken));
-      const { payload } = await decode(accessToken, 'dujri1-Wedkid-gafryw', {
-        skipValidation: true,
-      });
-      console.log('decided', payload.sub);
+      console.log('handleLogin TOKEN', JSON.stringify(accessToken));
+      // dispatch(updateToken(accessToken));
+      // const { payload } = await decode(accessToken, 'dujri1-Wedkid-gafryw', {
+      //   skipValidation: true,
+      // });
+      // console.log('decided', payload.sub);
       // const data = await apiService(getProfile(payload.sub), 'get');
-      const walletResp = await apiService(getWalletBalance(payload.sub), 'get');
+      // const walletResp = await apiService(getWalletBalance(payload.sub), 'get');
       // console.log('getProfile data', data);
-      console.log('wallet data', walletResp);
+      // console.log('wallet data', walletResp);
     } catch (error) {
       console.log('handleLogin ERR', error);
     } finally {

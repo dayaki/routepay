@@ -3,8 +3,10 @@ import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TitleText } from '@common';
 import { useStyles } from './styles';
 import { ChevronBack } from '@icons';
+import { useAppSelector } from '@store';
 
 const Refer = ({ navigation }) => {
+  const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
 
   const handleShare = () => {};
@@ -34,7 +36,11 @@ const Refer = ({ navigation }) => {
             />
           </View>
           <Image
-            source={require('@images/account/refer_dark.png')}
+            source={
+              theme === 'dark'
+                ? require('@images/account/refer_dark.png')
+                : require('@images/account/refer.png')
+            }
             resizeMode="cover"
             style={styles.checkmark}
           />

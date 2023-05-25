@@ -206,5 +206,28 @@ export const useStyles = () => {
       marginBottom: ms(30),
       width: '80%',
     },
+    supportLabel: {
+      lineHeight: 25,
+      opacity: 0.6,
+      marginBottom: ms(20),
+    },
+    whatsapp: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: ms(30),
+      padding: ms(15),
+      backgroundColor: colors.input,
+      borderRadius: ms(10),
+    },
+    whatsappIcon: {
+      width: ms(24),
+      height: ms(24),
+      marginRight: ms(20),
+    },
+    or: {
+      marginBottom: ms(30),
+      alignSelf: 'center',
+    },
   });
 };

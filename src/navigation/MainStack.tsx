@@ -24,6 +24,8 @@ import Refer from '../screens/profile/Refer';
 import ChangePassword from '../screens/profile/ChangePassword';
 import Statement from '../screens/profile/statement';
 import SendStatement from '../screens/profile/statement/SendStatement';
+import Support from '../screens/profile/Support';
+import ChangePIN from '../screens/profile/ChangePIN';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -55,6 +57,8 @@ const MainStack = () => {
       <Stack.Screen name="password" component={ChangePassword} />
       <Stack.Screen name="statement" component={Statement} />
       <Stack.Screen name="send_statement" component={SendStatement} />
+      <Stack.Screen name="support" component={Support} />
+      <Stack.Screen name="change_pin" component={ChangePIN} />
     </Stack.Navigator>
   );
 };

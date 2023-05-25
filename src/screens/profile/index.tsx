@@ -28,7 +28,7 @@ const NAV_ITEMS = [
     name: 'Support Center',
     icon: require('@images/account/support.png'),
     darkIcon: require('@images/account/support_dark.png'),
-    link: 'pins_landing',
+    link: 'support',
   },
   {
     name: 'Change Password',
@@ -40,7 +40,7 @@ const NAV_ITEMS = [
     name: 'Change PIN',
     icon: require('@images/account/pin.png'),
     darkIcon: require('@images/account/pin_dark.png'),
-    link: 'bills',
+    link: 'change_pin',
   },
 ];
 
