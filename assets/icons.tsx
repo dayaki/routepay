@@ -28,22 +28,25 @@ export const BackArrow = (props: Props) => {
   );
 };
 
-export const ChevronBack = (props: Props) => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={22}
-    height={14}
-    fill="none"
-    {...props}>
-    <Path
-      stroke="#15151A"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M23.286 7H1M7 1 1 7l6 6"
-    />
-  </Svg>
-);
+export const ChevronBack = (props: Props) => {
+  const { theme: scheme } = useAppSelector(state => state.misc);
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={22}
+      height={14}
+      fill="none"
+      {...props}>
+      <Path
+        stroke={scheme === 'dark' ? '#fff' : '#15151A'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M23.286 7H1M7 1 1 7l6 6"
+      />
+    </Svg>
+  );
+};
 
 export const Mail = (props: Props) => {
   const { theme: scheme } = useAppSelector(state => state.misc);
@@ -459,5 +462,27 @@ export const CheckMark = (props: Props) => (
       strokeWidth={1.063}
       d="m1.173 4.942 1.659 2.132a.608.608 0 0 0 .947.019L9.072.688"
     />
+  </Svg>
+);
+
+export const ProfileEditIcon = (props: Props) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={13}
+    height={13}
+    fill="none"
+    {...props}>
+    <G
+      stroke="#F60"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      clipPath="url(#a)">
+      <Path d="M5 5A2.25 2.25 0 1 0 5 .5 2.25 2.25 0 0 0 5 5ZM3.5 12.5h-3V11A4.51 4.51 0 0 1 7 7M13.5 8.5l-4.71 4.71-2.13.29.3-2.13 4.7-4.71L13.5 8.5Z" />
+    </G>
+    <Defs>
+      <ClipPath id="a">
+        <Path fill="#fff" d="M0 0h14v14H0z" />
+      </ClipPath>
+    </Defs>
   </Svg>
 );

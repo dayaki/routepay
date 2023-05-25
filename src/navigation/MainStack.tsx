@@ -19,6 +19,11 @@ import BuyNetworkPins from '../screens/payments/pins/BuyPins';
 import Electricity from '../screens/payments/bills/Electricity';
 import BuyElectricity from '../screens/payments/bills/BuyElectricity';
 import ScanPay from '../screens/payments/scan';
+import EditProfile from '../screens/profile/EditProfile';
+import Refer from '../screens/profile/Refer';
+import ChangePassword from '../screens/profile/ChangePassword';
+import Statement from '../screens/profile/statement';
+import SendStatement from '../screens/profile/statement/SendStatement';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -44,6 +49,12 @@ const MainStack = () => {
       <Stack.Screen name="payment_options" component={PaymentOptions} />
       <Stack.Screen name="wallet_pin" component={WalletPIN} />
       <Stack.Screen name="transaction_success" component={TransactionSuccess} />
+      {/* Profile */}
+      <Stack.Screen name="edit_profile" component={EditProfile} />
+      <Stack.Screen name="refer" component={Refer} />
+      <Stack.Screen name="password" component={ChangePassword} />
+      <Stack.Screen name="statement" component={Statement} />
+      <Stack.Screen name="send_statement" component={SendStatement} />
     </Stack.Navigator>
   );
 };

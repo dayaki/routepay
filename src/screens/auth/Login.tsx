@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { authorize } from 'react-native-app-auth';
+import { decode } from 'react-native-pure-jwt';
+import base64 from 'react-native-base64';
 // import Config from 'react-native-config';
 import { useLoginStyles } from './styles';
 import {
@@ -12,8 +14,16 @@ import {
   TitleText,
 } from '@common';
 import { Lock, Mail } from '@icons';
-import { apiService, postToken } from '@utils';
+import {
+  apiService,
+  getLogin,
+  getProfile,
+  getWalletBalance,
+  postLogin,
+  postToken,
+} from '@utils';
 import { updateToken, useAppDispatch } from '@store';
+import axios from 'axios';
 
 // const { CLIENT_ID, CLIENT_SECRET } = Config;
 
@@ -42,17 +52,30 @@ const Login = ({ navigation, route }) => {
   const styles = useLoginStyles();
   const dispatch = useAppDispatch();
 
+  // 17124f37-eb88-44bf-a44c-e3a334931a49
+  // 17124f37-eb88-44bf-a44c-e3a334931a49
+
   const handleLogin = async () => {
-    // fetchData();
-    // navigation.navigate('home');
     setIsLoading(true);
-    // use the client to make the auth request and receive the authState
     try {
-      const result = await authorize(config);
-      // result includes accessToken, accessTokenExpirationDate and refreshToken
-      const { accessToken } = result;
-      console.log('handleLogin', result);
+      const {
+        data: { accessToken },
+      } = await axios.get(getLogin, {
+        auth: {
+          username: email,
+          password: password,
+        },
+      });
+      console.log('handleLogin TOKEN', accessToken);
       dispatch(updateToken(accessToken));
+      const { payload } = await decode(accessToken, 'dujri1-Wedkid-gafryw', {
+        skipValidation: true,
+      });
+      console.log('decided', payload.sub);
+      // const data = await apiService(getProfile(payload.sub), 'get');
+      const walletResp = await apiService(getWalletBalance(payload.sub), 'get');
+      // console.log('getProfile data', data);
+      console.log('wallet data', walletResp);
     } catch (error) {
       console.log('handleLogin ERR', error);
     } finally {
@@ -125,12 +148,13 @@ const Login = ({ navigation, route }) => {
           />
           <Button
             text="Login"
+            disabled={!email || password.length < 5}
             onPress={handleLogin}
             style={styles.loginBtn}
             isLoading={isLoading}
           />
           <View style={styles.row}>
-            <RegularText text="Forgot Password? " />
+            <RegularText text="Forgot Password?" />
             <TextButton
               text="Reset"
               onPress={() => navigation.navigate('forgot_password')}

@@ -11,7 +11,7 @@ import { getImage, getName, ms, nairaFormat } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { Close } from '@icons';
 import { Checkbox } from './Input';
-import { Button } from './Button';
+import { Button, TextButton } from './Button';
 import { DataProps, ModalProps } from '@types';
 import { useTheme } from './Colors';
 
@@ -173,9 +173,67 @@ export const Loader = ({ show }: { show: boolean }) => {
   );
 };
 
+export const LogoutModal = ({ show, onCancel, handleLogout }) => {
+  const styles = useStyles();
+  return (
+    <View>
+      <Modal isVisible={show}>
+        <View style={styles.logoutWrapper}>
+          <TitleText text="Log Out" size={20} />
+          <RegularText
+            text="Oh no, you are leaving! Are you sure you want to log out?"
+            size={11}
+            style={styles.logoutText}
+          />
+          <Button
+            onPress={onCancel}
+            text="Cancel"
+            style={styles.cancelLogout}
+          />
+          <TextButton
+            onPress={handleLogout}
+            text="Yes, I want to log out"
+            style={styles.logoutBtn}
+            textStyle={styles.logout}
+          />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
+    logoutWrapper: {
+      backgroundColor: colors.input,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: ms(8),
+      paddingVertical: ms(40),
+      position: 'absolute',
+      bottom: ms(90),
+      width: '100%',
+    },
+    logoutText: {
+      width: '60%',
+      marginTop: ms(15),
+      marginBottom: ms(20),
+      textAlign: 'center',
+      lineHeight: 20,
+    },
+    cancelLogout: {
+      width: ms(92),
+      height: ms(34),
+      borderRadius: ms(64),
+      marginBottom: ms(15),
+    },
+    logoutBtn: {
+      alignSelf: 'center',
+    },
+    logout: {
+      fontSize: 10,
+    },
     modal: {
       margin: 0,
     },

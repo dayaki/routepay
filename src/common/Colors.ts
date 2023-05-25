@@ -19,6 +19,7 @@ export const LightMode: Theme = {
     woodsmoke: '#15151A',
     dash: '#596572',
     selector: '#F9F7F6',
+    navTitle: '#1F1F23',
   },
 };
 
@@ -39,6 +40,7 @@ export const DarkMode: Theme = {
     woodsmoke: '#15151A',
     dash: 'rgba(249, 247, 246, 0.6)',
     selector: '#1F1F23',
+    navTitle: '#F9F7F6',
   },
 };
 

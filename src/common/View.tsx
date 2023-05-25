@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native-bars';
 import { getImage, ms } from '@utils';
-import { BackArrow, ChevronBack } from '@icons';
+import { BackArrow, ChevronBack, Exclamation } from '@icons';
 import { RegularText, TitleText } from './Text';
 import { pink300, useTheme, woodsmoke } from './Colors';
 import { useAppSelector } from '@store';
@@ -95,6 +95,16 @@ export const Header = ({
   );
 };
 
+export const InfoBox = ({ text }) => {
+  const styles = useStyles();
+  return (
+    <View style={styles.reviewInfo}>
+      <Exclamation />
+      <RegularText text={text} size={14} style={styles.reviewInfoText} />
+    </View>
+  );
+};
+
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
@@ -149,6 +159,20 @@ const useStyles = () => {
     },
     backBtnHide: {
       bottom: ms(25),
+    },
+    reviewInfo: {
+      backgroundColor: colors.selector,
+      paddingVertical: ms(16),
+      paddingHorizontal: ms(20),
+      marginBottom: ms(20),
+      borderRadius: ms(8),
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    reviewInfoText: {
+      lineHeight: 25,
+      color: colors.inputColor,
+      marginLeft: ms(15),
     },
   });
 };

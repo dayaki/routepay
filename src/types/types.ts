@@ -71,6 +71,7 @@ export type Theme = {
     woodsmoke: string;
     dash: string;
     selector: string;
+    navTitle: string;
   };
 };
 

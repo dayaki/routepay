@@ -8,10 +8,10 @@ import {
   UserTabIcon,
   WalletTabIcon,
 } from '@icons';
+import { useAppSelector } from '@store';
 import Payments from '../screens/payments';
 import Dashboard from '../screens/dashboard';
-import ProfileStack from './ProfileStack';
-import { useAppSelector } from '@store';
+import Profile from '../screens/profile';
 
 const TabStack = createBottomTabNavigator();
 
@@ -78,7 +78,7 @@ const BottomTabs = () => {
       />
       <TabStack.Screen
         name="account"
-        component={ProfileStack}
+        component={Profile}
         options={{
           tabBarIcon: ({ focused }) => (
             <UserTabIcon fill={focused ? '#FF6600' : 'none'} />

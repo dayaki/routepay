@@ -2,11 +2,12 @@ import Config from 'react-native-config';
 const { BASE_URL, SERVER_URL } = Config;
 
 // export const BaseUrl = '';
-// export const baseURL = `${BaseUrl}/api/v1`;
+export const baseURL = `${BASE_URL}/api`;
 export const merchantApi = `${BASE_URL}/merchant/api/v1`;
 export const billsApi = `${BASE_URL}/bills/api/v1`;
 // Auth
-export const postLogin = `${merchantApi}/users/account/login`;
+export const getLogin = 'https://authdev.routepay.com/api/token';
+// export const postLogin = `${merchantApi}/users/account/login`;
 // export const postRegister = `${merchantApi}/users/register`;
 export const postRegister = `${merchantApi}/users/externalregisterusers/register`;
 export const getUserProfile = `${merchantApi}/users/{id}/profile`;
@@ -22,4 +23,4 @@ export const postCreateWallet = `${billsApi}/wallet`;
 
 // Profile
 export const getProfile = (userId: number | string) =>
-  `/users/profile/${userId}`;
+  `${merchantApi}/users/profile/${userId}`;

@@ -33,6 +33,7 @@ interface InputProps extends TextInputProps {
   keyboardType?: 'number-pad' | 'default' | 'email-address';
   capitalize?: 'sentences' | 'none' | 'words' | 'characters' | undefined;
   isPassword?: boolean;
+  ref?: any;
 }
 
 interface SelectProps {
@@ -43,53 +44,61 @@ interface SelectProps {
   onSelect: (data: IsBillProvider) => void;
 }
 
-export const Input = ({
-  value,
-  onChangeText,
-  placeholder,
-  inputStyle,
-  leftIcon,
-  isPassword,
-  hasError,
-  errorMessage,
-  ...props
-}: InputProps) => {
-  const [showPassword, setShowPassword] = useState(isPassword);
+export const Input = React.forwardRef(
+  (
+    {
+      value,
+      onChangeText,
+      placeholder,
+      inputStyle,
+      leftIcon,
+      rightIcon,
+      isPassword,
+      hasError,
+      errorMessage,
+      ...props
+    }: InputProps,
+    ref,
+  ) => {
+    const [showPassword, setShowPassword] = useState(isPassword);
 
-  const styles = useStyles();
-  const { colors } = useTheme();
-  return (
-    <>
-      <View style={styles.inputWrapper}>
-        {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
-        <TextInput
-          placeholder={placeholder}
-          placeholderTextColor={colors.text}
-          value={value}
-          secureTextEntry={showPassword}
-          onChangeText={onChangeText}
-          style={[styles.input, inputStyle]}
-          {...props}
-        />
-        {isPassword && showPassword && (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => setShowPassword(!showPassword)}
-            style={styles.rightIcon}>
-            <EyeIcon size={16} />
-          </TouchableOpacity>
+    const styles = useStyles();
+    const { colors } = useTheme();
+    return (
+      <>
+        <View style={styles.inputWrapper}>
+          {leftIcon && <View style={styles.icon}>{leftIcon}</View>}
+          <TextInput
+            ref={ref}
+            placeholder={placeholder}
+            placeholderTextColor={colors.text}
+            value={value}
+            secureTextEntry={showPassword}
+            onChangeText={onChangeText}
+            style={[styles.input, inputStyle]}
+            {...props}
+          />
+          {isPassword && showPassword && (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setShowPassword(!showPassword)}
+              style={styles.rightIcon}>
+              <EyeIcon size={16} />
+            </TouchableOpacity>
+          )}
+          {rightIcon && <View style={styles.rightIcon}>{rightIcon}</View>}
+        </View>
+        {hasError && (
+          <RegularText
+            text={errorMessage || ''}
+            size={11}
+            style={styles.errorText}
+          />
         )}
-      </View>
-      {hasError && (
-        <RegularText
-          text={errorMessage || ''}
-          size={11}
-          style={styles.errorText}
-        />
-      )}
-    </>
-  );
-};
+      </>
+    );
+  },
+);
 
 export const Select = ({ label, selected, onSelect }: { label: string }) => {
   const [showModal, setShowModal] = useState(false);
@@ -416,7 +425,7 @@ const useStyles = () => {
       // backgroundColor: 'pink',
       padding: ms(10),
       position: 'absolute',
-      right: ms(30),
+      right: ms(20),
     },
     textStyle: {
       textDecorationLine: 'none',

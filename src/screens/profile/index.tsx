@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native';
-import { Header, RegularText, TitleText } from '@common';
+import { Header, LogoutModal, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
 import { MenuRightArrow } from '@icons';
 import {
@@ -16,13 +16,13 @@ const NAV_ITEMS = [
     name: 'Refer & Earn',
     icon: require('@images/account/refer.png'),
     darkIcon: require('@images/account/refer_dark.png'),
-    link: 'buy_data',
+    link: 'refer',
   },
   {
     name: 'Account Statement',
     icon: require('@images/account/account.png'),
     darkIcon: require('@images/account/account_dark.png'),
-    link: 'buy_fuel',
+    link: 'statement',
   },
   {
     name: 'Support Center',
@@ -34,7 +34,7 @@ const NAV_ITEMS = [
     name: 'Change Password',
     icon: require('@images/account/password.png'),
     darkIcon: require('@images/account/password_dark.png'),
-    link: 'scan_landing',
+    link: 'password',
   },
   {
     name: 'Change PIN',
@@ -47,6 +47,7 @@ const NAV_ITEMS = [
 const Profile = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
   const [appMode, setAppMode] = useState(theme === 'dark' ? false : true);
+  const [showLogout, setShowLogout] = useState(false);
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
@@ -62,6 +63,11 @@ const Profile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <LogoutModal
+        show={showLogout}
+        onCancel={() => setShowLogout(false)}
+        handleLogout={handleLogout}
+      />
       <Header title="Account" hideBalance />
       <ScrollView contentContainerStyle={styles.content} style={styles.wrapper}>
         <View style={styles.banner}>
@@ -70,7 +76,10 @@ const Profile = ({ navigation }) => {
           </View>
           <TitleText text="Jane Doe" size={14} />
           <RegularText text="Payment link here" size={11} />
-          <TouchableOpacity activeOpacity={0.8} style={styles.editBtn}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.editBtn}
+            onPress={() => navigation.navigate('edit_profile')}>
             <RegularText text="Edit Profile" size={11} color="#fff" />
           </TouchableOpacity>
         </View>
@@ -116,7 +125,7 @@ const Profile = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.listBtn}
-            onPress={handleLogout}>
+            onPress={() => setShowLogout(true)}>
             <View style={styles.row}>
               <Image
                 source={

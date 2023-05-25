@@ -26,8 +26,8 @@ export const userSlice = createSlice({
     },
     updateToken: (state, { payload }) => {
       state.token = payload;
-      state.isAuthenticated = true;
-      state.onboarded = true;
+      // state.isAuthenticated = true;
+      // state.onboarded = true;
     },
     updateUser: (state, action) => {
       state.user = { ...state.user, ...action.payload };
