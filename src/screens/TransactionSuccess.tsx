@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 import { Button, TitleText, ViewWrapper, useTheme } from '@common';
 import { ms } from '@utils';
+import { MainNavigationProps } from 'types';
 
 const TransactionSuccess = ({ navigation, route }) => {
-  const { type, message } = route.params;
+  const { type, message, buttonText, title, routePath } = route.params;
   const styles = useStyles();
   return (
     <ViewWrapper>
@@ -36,18 +37,20 @@ const TransactionSuccess = ({ navigation, route }) => {
           />
           <TitleText
             size={20}
-            text="Transaction Successful!"
+            text={title || 'Transaction Successful!'}
             style={styles.welcomeTitle}
           />
           <Text style={styles.welcomeText}>{message}</Text>
           <Button
-            text="Continue to dashboard"
+            text={buttonText || 'Continue to dashboard'}
             style={styles.registerBtn}
-            onPress={() => navigation.navigate('otp_verification')}
+            onPress={() => navigation.navigate(routePath || 'home')}
           />
-          <TouchableOpacity activeOpacity={0.7} style={styles.shareBtn}>
-            <TitleText text="Share Receipt?" size={14} />
-          </TouchableOpacity>
+          {type && type === 'transaction' && (
+            <TouchableOpacity activeOpacity={0.7} style={styles.shareBtn}>
+              <TitleText text="Share Receipt?" size={14} />
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </ViewWrapper>

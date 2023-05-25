@@ -11,7 +11,17 @@ const SendStatement = ({ navigation, route }) => {
   const [email, setEmail] = useState(type === 'self' ? 'tetsing' : '');
   const styles = useStyles();
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    navigation.navigate('transaction_success', {
+      title: 'Successful!',
+      message:
+        'We’ve successfully sent your account statement to your email - janedoe@gmail.com',
+      buttonText: 'Continue',
+      data: {
+        email,
+      },
+    });
+  };
   return (
     <View style={styles.containerr}>
       <View style={styles.header}>
