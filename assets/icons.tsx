@@ -536,3 +536,24 @@ export const RefreshIcon = (props: Props) => (
     />
   </Svg>
 );
+
+export const SearchIcon = (props: Props) => {
+  const { theme } = useAppSelector(state => state.misc);
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={14}
+      height={14}
+      fill="none"
+      {...props}>
+      <Path
+        stroke={theme === 'dark' ? '#F9F7F6' : '#1F1F23'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeOpacity={0.6}
+        strokeWidth={1.064}
+        d="M6.296 12.116a5.765 5.765 0 1 0 0-11.53 5.765 5.765 0 0 0 0 11.53ZM14.359 14.413l-3.989-3.988"
+      />
+    </Svg>
+  );
+};

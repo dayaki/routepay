@@ -28,7 +28,7 @@ export const Header = ({
           activeOpacity={0.7}
           style={[styles.backBtn, hideBalance && styles.backBtnHide]}
           onPress={goBack}>
-          <ChevronBack />
+          <ChevronBack color="#15151A" />
         </TouchableOpacity>
       )}
       <TitleText text={title} color={woodsmoke} />

@@ -119,9 +119,21 @@ export const UserAvatar = ({ label }: { label: string }) => {
   );
 };
 
+export const TextCounter = ({ text }: { text: string }) => {
+  const styles = useStyles();
+  return (
+    <View>
+      <RegularText text={`${text.length}/40`} size={14} style={styles.count} />
+    </View>
+  );
+};
+
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
+    count: {
+      color: 'rgba(249, 247, 246, 0.6)',
+    },
     viewWrapper: {
       flex: 1,
       paddingTop: ms(60),

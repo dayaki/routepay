@@ -1,19 +1,30 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Header, RegularText, TitleText } from '@common';
+import { Image, TouchableOpacity, View } from 'react-native';
+import { Header, RegularText } from '@common';
+import { useAppSelector } from '@store';
 import { useStyles } from '../styles';
 
 const SendMoney = ({ navigation }) => {
+  const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
   return (
     <View style={styles.container}>
       <Header title="Send Money" centered hideBalance />
-      <View style={styles.scroll}>
+      <View style={styles.content}>
         <View style={styles.boxes}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate('send_money')}
+            onPress={() => navigation.navigate('send_routepay')}
             style={[styles.box, styles.boxed]}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/routepay_dark.png')
+                  : require('@images/wallet/routepay.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <RegularText
               text="Send to any Routepay wallet"
               style={styles.boxText}
@@ -21,7 +32,17 @@ const SendMoney = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            style={[styles.box, styles.boxed]}>
+            style={[styles.box, styles.boxed]}
+            onPress={() => navigation.navigate('send_bank')}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/bank_dark.png')
+                  : require('@images/wallet/bank.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <RegularText text="Send to a bank account" style={styles.boxText} />
           </TouchableOpacity>
         </View>
@@ -29,11 +50,29 @@ const SendMoney = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/up_dark.png')
+                  : require('@images/wallet/up.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <RegularText text="Send to a Beneficiary" style={styles.boxText} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/up_dark.png')
+                  : require('@images/wallet/up.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <RegularText
               text="Send via Recent Transfers"
               style={styles.boxText}

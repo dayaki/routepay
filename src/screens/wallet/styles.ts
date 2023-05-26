@@ -31,6 +31,10 @@ export const useStyles = () => {
       paddingHorizontal: ms(20),
       paddingTop: ms(20),
     },
+    content: {
+      flex: 1,
+      paddingHorizontal: ms(20),
+    },
     box: {
       backgroundColor: colors.selector,
       paddingHorizontal: ms(15),
@@ -56,6 +60,11 @@ export const useStyles = () => {
       justifyContent: 'space-between',
       flexWrap: 'wrap',
     },
+    boxIcon: {
+      width: ms(30),
+      height: ms(30),
+      marginBottom: ms(15),
+    },
     boxed: {
       width: '48%',
       height: ms(145),
@@ -71,6 +80,12 @@ export const useStyles = () => {
       lineHeight: 21,
       color: colors.navTitle,
       width: '80%',
+    },
+    beneficiary: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginTop: ms(10),
     },
   });
 };

@@ -1,12 +1,14 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { RegularText, TitleText, UserAvatar } from '@common';
 import { useStyles } from './styles';
 import { RefreshIcon } from '@icons';
 import { nairaFormat } from '@utils';
+import { useAppSelector } from '@store';
 
 const Wallet = ({ navigation }) => {
+  const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
 
   return (
@@ -45,6 +47,15 @@ const Wallet = ({ navigation }) => {
             activeOpacity={0.8}
             onPress={() => navigation.navigate('send_money')}
             style={[styles.box, styles.boxed]}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/up_dark.png')
+                  : require('@images/wallet/up.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <TitleText text="Send Money" size={14} />
             <RegularText
               text="Transfer money to your account or other accounts"
@@ -54,6 +65,15 @@ const Wallet = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/down_dark.png')
+                  : require('@images/wallet/down.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <TitleText text="Receive Money" size={14} />
             <RegularText
               text="Get money from a contact or via your payment link"
@@ -65,6 +85,15 @@ const Wallet = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/scantopay_dark.png')
+                  : require('@images/wallet/scantopay.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <TitleText text="Scan to Pay" size={14} />
             <RegularText
               text="Make payments fast by scanning a QR code"
@@ -74,6 +103,15 @@ const Wallet = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}>
+            <Image
+              source={
+                theme === 'dark'
+                  ? require('@images/wallet/history_dark.png')
+                  : require('@images/wallet/history.png')
+              }
+              resizeMode="cover"
+              style={styles.boxIcon}
+            />
             <TitleText text="Transaction History" size={14} />
             <RegularText
               text="See the history of all your transactional activities"

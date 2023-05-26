@@ -130,7 +130,15 @@ export const TextArea = ({
   );
 };
 
-export const Select = ({ label, selected, onSelect }: { label: string }) => {
+export const Select = ({
+  label,
+  selected,
+  onSelect,
+}: {
+  label: string;
+  selected: string;
+  onSelect: () => void;
+}) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
   const { colors } = useTheme();
@@ -465,7 +473,8 @@ const useStyles = () => {
       fontSize: 14,
       height: '100%',
       width: ms(260),
-      backgroundColor: 'transparent',
+      // width: '84%',
+      // backgroundColor: 'pink',
     },
     textareaWrapper: {
       height: ms(150),
@@ -499,9 +508,9 @@ const useStyles = () => {
       justifyContent: 'center',
       alignItems: 'center',
       // backgroundColor: 'pink',
-      padding: ms(10),
+      paddingVertical: ms(10),
       position: 'absolute',
-      right: ms(20),
+      right: ms(14),
     },
     textStyle: {
       textDecorationLine: 'none',
