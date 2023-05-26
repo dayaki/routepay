@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
+import Config from 'react-native-config';
 import {
   BackgroundView,
   Button,
@@ -10,7 +11,14 @@ import {
 } from '@common';
 import { useLoginStyles } from './styles';
 import { AuthNavigationProps } from '@types';
-import { apiService, formatPhone, postRegister } from '@utils';
+import {
+  apiService,
+  formatPhone,
+  postCreateWallet,
+  postRegister,
+} from '@utils';
+
+const { TERMII_API } = Config;
 
 const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
   const { payload } = route.params;
@@ -21,12 +29,14 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
   const styles = useLoginStyles();
 
   useEffect(() => {
-    // sendPhoneOTP();
+    if (payload) {
+      sendPhoneOTP();
+    }
   }, []);
 
   const sendPhoneOTP = async () => {
     const dataToSend = {
-      api_key: 'TLbD71MthTFVBoQMnynZBYV42rB3vacQmBersDbpwxeW7uzCjWBIwJNRufK4mq',
+      api_key: TERMII_API,
       message_type: 'NUMERIC',
       pin_type: 'NUMERIC',
       channel: 'generic',
@@ -49,7 +59,7 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
         body: JSON.stringify(dataToSend),
       });
       const { pinId } = await resp.json();
-      console.log('response', pinId);
+      // console.log('sendPhoneOTP', res);
       setCodeId(pinId);
       // {"pinId": "95c6083c-c277-46ac-a93d-3526b70ba285", "smsStatus": "Message Sent", "status": 200, "to": "2347038327370"}
     } catch (error: any) {
@@ -59,49 +69,46 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
   };
 
   const verifyOtp = async () => {
-    navigation.navigate('welcome', { name: payload.firstName });
-    // setIsLoading(true);
-    // try {
-    //   const resp = await fetch('https://api.ng.termii.com/api/sms/otp/verify', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       api_key:
-    //         'TLbD71MthTFVBoQMnynZBYV42rB3vacQmBersDbpwxeW7uzCjWBIwJNRufK4mq',
-    //       pin_id: codeId,
-    //       pin: otpCode,
-    //     }),
-    //   });
-    //   const response = await resp.json();
-    //   const { verified } = response;
-    //   console.log('verifyOtp response', response);
-    //   if (verified === 'Expired') {
-    //     toast.show('Confirmation code has expired!', { type: 'warning' });
-    //     setIsLoading(false);
-    //     return;
-    //   } else if (verified === false) {
-    //     toast.show('Invalid confirmation code.', { type: 'warning' });
-    //     setIsLoading(false);
-    //     return;
-    //   }
-    //   registerUser();
-    // } catch (error: any) {
-    //   console.log('verifyOtp ERR', error);
-    //   toast.show(error.message, { type: 'warning' });
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+    try {
+      const resp = await fetch('https://api.ng.termii.com/api/sms/otp/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          api_key: TERMII_API,
+          pin_id: codeId,
+          pin: otpCode,
+        }),
+      });
+      const response = await resp.json();
+      const { verified } = response;
+      console.log('verifyOtp response', response);
+      if (verified === 'Expired') {
+        toast.show('Confirmation code has expired!', { type: 'warning' });
+        setIsLoading(false);
+        return;
+      } else if (verified === false) {
+        toast.show('Invalid confirmation code.', { type: 'warning' });
+        setIsLoading(false);
+        return;
+      }
+      registerUser();
+    } catch (error: any) {
+      console.log('verifyOtp ERR', error);
+      toast.show(error.message, { type: 'warning' });
+      setIsLoading(false);
+    }
   };
 
   const registerUser = async () => {
     try {
       const resp = await apiService(postRegister, 'post', payload);
-      const { message, succeeded } = resp;
+      const { id, message, succeeded } = resp;
       console.log('handleSignup', resp);
       if (succeeded) {
-        console.log('successed', succeeded);
-        navigation.navigate('welcome');
+        createWallet(id);
       } else {
         let errorMessage: string = '';
         if (message.includes('Duplicate Email')) {
@@ -116,11 +123,6 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
         });
         navigation.navigate('signup', { error: errorMessage });
       }
-      // {
-      //   "id": "17124f37-eb88-44bf-a44c-e3a334931a49",
-      //   "message": "Succeeded",
-      //   "succeeded": true
-      // }
     } catch (error) {
       console.log('handleSignup ERR', error);
       navigation.navigate('signup', {
@@ -128,6 +130,20 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const createWallet = async (userId: string) => {
+    console.log('createWallet ID', userId);
+    try {
+      const resp = await apiService(postCreateWallet, 'post', {
+        externalId: userId,
+        walletType: 'USER',
+      });
+      console.log('createWallet', resp);
+      navigation.navigate('welcome', { name: payload.firstName });
+    } catch (error) {
+      console.log('createWallet ERR', error);
     }
   };
 

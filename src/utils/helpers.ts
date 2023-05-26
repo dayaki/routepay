@@ -2,6 +2,18 @@ import { moderateScale } from 'react-native-size-matters';
 import accounting from 'accounting';
 import { truncate } from 'lodash';
 
+const strongRegex = new RegExp(
+  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[!@#$%^&*/\\\\)(+=._-])',
+);
+const mediumRegex = new RegExp(
+  '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})',
+);
+const lowercase = new RegExp('(?=.*[a-z])');
+const uppercase = new RegExp('(?=.*[A-Z])');
+const number = new RegExp('(?=.*[0-9])');
+const specialCharacters = new RegExp('(?=.*[!@#$%^&*/\\\\)(+=._-])');
+const length = new RegExp('(?=.{8,})');
+
 export const ms = (number: number) => moderateScale(number);
 
 export const moneyFormat = (amount: string | number, precision: number = 2) => {
@@ -72,6 +84,22 @@ export const getImage = (slug: string) => {
 
 export const getName = (name: string) => {
   return `${name.split('_')[0].toUpperCase()}`;
+};
+
+export const passwordTests = (password: string) => {
+  const values = {
+    length: false,
+    lowercase: false,
+    number: false,
+    special: false,
+    uppercase: false,
+  };
+  if (lowercase.test(password)) values.lowercase = true;
+  if (uppercase.test(password)) values.uppercase = true;
+  if (number.test(password)) values.number = true;
+  if (specialCharacters.test(password)) values.special = true;
+  if (length.test(password)) values.length = true;
+  return values;
 };
 
 // export const refreshToken = async () => {

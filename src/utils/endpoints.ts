@@ -24,3 +24,7 @@ export const postCreateWallet = `${billsApi}/wallet`;
 // Profile
 export const getProfile = (userId: number | string) =>
   `${merchantApi}/users/profile/${userId}`;
+
+export const postSetPin = `${merchantApi}/Account/SetPin`;
+export const getVerifyPin = (pin: string) =>
+  `${merchantApi}/Account/ValidatePin?pin=${pin}`;

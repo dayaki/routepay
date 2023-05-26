@@ -1,15 +1,18 @@
 export interface IsUser {
-  id: number;
-  username: string;
+  userId: string;
   email: string;
-  fullname: string;
-  home_id: number;
-  tag_id: number;
-  phone: string;
-  token: string;
-  email_verified: boolean;
-  updated_at: Date;
-  created_at: Date;
+  userName: string;
+  phoneNumber: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string | null;
+  created: Date;
+  createdBy: string;
+  lastModified: Date | null;
+  lastModifiedBy: Date | null;
+  roleId: string;
+  roleName: string;
+  pinEnabled: boolean;
 }
 
 export interface IsBillCategory {
@@ -72,6 +75,7 @@ export type Theme = {
     dash: string;
     selector: string;
     navTitle: string;
+    fadedText: string;
   };
 };
 

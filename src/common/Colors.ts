@@ -20,6 +20,7 @@ export const LightMode: Theme = {
     dash: '#596572',
     selector: '#F9F7F6',
     navTitle: '#1F1F23',
+    fadedText: '#1F1F23',
   },
 };
 
@@ -41,6 +42,7 @@ export const DarkMode: Theme = {
     dash: 'rgba(249, 247, 246, 0.6)',
     selector: '#1F1F23',
     navTitle: '#F9F7F6',
+    fadedText: 'rgba(249, 247, 246, 0.6)',
   },
 };
 

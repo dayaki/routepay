@@ -38,7 +38,9 @@ export const ChevronBack = (props: Props) => {
       fill="none"
       {...props}>
       <Path
-        stroke={scheme === 'dark' ? '#fff' : '#15151A'}
+        stroke={
+          props.color ? props.color : scheme === 'dark' ? '#fff' : '#15151A'
+        }
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.5}
@@ -504,5 +506,33 @@ export const ProfileEditIcon = (props: Props) => (
         <Path fill="#fff" d="M0 0h14v14H0z" />
       </ClipPath>
     </Defs>
+  </Svg>
+);
+
+export const RefreshIcon = (props: Props) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={props.size || 18}
+    height={props.size || 18}
+    fill="none"
+    {...props}>
+    <Path
+      stroke="#15151A"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="m12.571 10.286 2.286-.572.571 2.286"
+    />
+    <Path
+      stroke="#15151A"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M14.857 9.714A7.725 7.725 0 0 1 8 14.857a6.856 6.856 0 0 1-6.445-4.514M3.428 5.714l-2.285.572L.57 4"
+    />
+    <Path
+      stroke="#15151A"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M1.143 6.286C2.103 3.657 5.05 1.143 8 1.143a6.857 6.857 0 0 1 6.445 4.571"
+    />
   </Svg>
 );

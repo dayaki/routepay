@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { decode } from 'react-native-pure-jwt';
-import base64 from 'react-native-base64';
+import axios from 'axios';
+import Config from 'react-native-config';
 import { useLoginStyles } from './styles';
 import {
   BackgroundView,
@@ -12,9 +13,10 @@ import {
   TitleText,
 } from '@common';
 import { Lock, Mail } from '@icons';
-import { apiService, getLogin, getWalletBalance, postToken } from '@utils';
-import { updateToken, useAppDispatch } from '@store';
-import axios from 'axios';
+import { apiService, getLogin, getProfile, getWalletBalance } from '@utils';
+import { accountSetUp, updateToken, useAppDispatch, userLogin } from '@store';
+
+const { CLIENT_SECRET = '' } = Config;
 
 const Login = ({ navigation, route }) => {
   const goBack = route.params?.goBack || true;
@@ -23,9 +25,6 @@ const Login = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const styles = useLoginStyles();
   const dispatch = useAppDispatch();
-
-  // 17124f37-eb88-44bf-a44c-e3a334931a49
-  // 17124f37-eb88-44bf-a44c-e3a334931a49
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -38,58 +37,27 @@ const Login = ({ navigation, route }) => {
           password: password,
         },
       });
-      console.log('handleLogin TOKEN', JSON.stringify(accessToken));
-      // dispatch(updateToken(accessToken));
-      // const { payload } = await decode(accessToken, 'dujri1-Wedkid-gafryw', {
-      //   skipValidation: true,
-      // });
-      // console.log('decided', payload.sub);
-      // const data = await apiService(getProfile(payload.sub), 'get');
-      // const walletResp = await apiService(getWalletBalance(payload.sub), 'get');
-      // console.log('getProfile data', data);
-      // console.log('wallet data', walletResp);
+      dispatch(updateToken(accessToken));
+      const {
+        payload: { sub },
+      } = await decode(accessToken, CLIENT_SECRET, {
+        skipValidation: true,
+      });
+      const userProfile = await apiService(getProfile(sub), 'get');
+      if (!userProfile.pinEnabled) {
+        navigation.navigate('set_pin', { payload: userProfile, password });
+      } else {
+        dispatch(accountSetUp());
+        dispatch(userLogin(userProfile));
+      }
+
+      // const data = await apiService(getWalletBalance(payload.sub), 'get');
+      console.log('userProfile data', userProfile);
     } catch (error) {
       console.log('handleLogin ERR', error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const fetchData = async () => {
-    // const formData = new URLSearchParams();
-    // formData.append('grant_type', 'client_credentials');
-    // formData.append('client_id', 'CkDywmwrbsGxrMk');
-    // formData.append('client_secret', 'JScDlRplmEbFbzjFRqCbvPBggxPErY');
-
-    // try {
-    //   console.log('fetchData payload', formData.toString());
-    //   const resp = await apiService(postToken, 'post', formData.toString(), {
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //   });
-    //   console.log('fetchData', resp);
-    // } catch (error) {
-    //   console.log('fetchData RERR', error);
-    // }
-
-    fetch(postToken, {
-      method: 'POST',
-      body: new URLSearchParams({
-        grant_type: 'client_credentials',
-        client_id: 'CkDywmwrbsGxrMk',
-        client_secret: 'JScDlRplmEbFbzjFRqCbvPBggxPErY',
-      }).toString(),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then(resp => resp.json())
-      .then(response => {
-        console.log('fetchData', JSON.stringify(response));
-        // Do stuff with the response
-      })
-      .catch(res => {
-        console.log('fetchData ERRR', JSON.stringify(res));
-      });
   };
 
   return (
@@ -116,7 +84,6 @@ const Login = ({ navigation, route }) => {
             placeholder="Password"
             isPassword
             leftIcon={<Lock size={16} />}
-            rightIcon={<Mail />}
           />
           <Button
             text="Login"

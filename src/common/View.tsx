@@ -81,7 +81,7 @@ export const Header = ({
           activeOpacity={0.7}
           style={[styles.backBtn, hideBalance && styles.backBtnHide]}
           onPress={goBack}>
-          <ChevronBack />
+          <ChevronBack color="#15151A" />
         </TouchableOpacity>
       )}
       <TitleText text={title} color={woodsmoke} />
@@ -101,6 +101,20 @@ export const InfoBox = ({ text }) => {
     <View style={styles.reviewInfo}>
       <Exclamation />
       <RegularText text={text} size={14} style={styles.reviewInfoText} />
+    </View>
+  );
+};
+
+export const UserAvatar = ({ label }: { label: string }) => {
+  const { user } = useAppSelector(state => state.user);
+  const styles = useStyles();
+  return (
+    <View style={styles.avatarWrapper}>
+      <View style={styles.name}>
+        <TitleText text="JD" size={25} />
+      </View>
+      <TitleText text="Jane Doe" size={14} />
+      <RegularText text={label} size={11} style={{ opacity: 0.6 }} />
     </View>
   );
 };
@@ -173,6 +187,21 @@ const useStyles = () => {
       lineHeight: 25,
       color: colors.inputColor,
       marginLeft: ms(15),
+    },
+    avatarWrapper: {
+      alignSelf: 'center',
+      textAlign: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    name: {
+      width: ms(64),
+      height: ms(64),
+      borderRadius: ms(64 / 2),
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: ms(5),
     },
   });
 };

@@ -12,6 +12,7 @@ import { useAppSelector } from '@store';
 import Payments from '../screens/payments';
 import Dashboard from '../screens/dashboard';
 import Profile from '../screens/profile';
+import Wallet from '../screens/wallet';
 
 const TabStack = createBottomTabNavigator();
 
@@ -49,7 +50,7 @@ const BottomTabs = () => {
       />
       <TabStack.Screen
         name="wallet"
-        component={Payments}
+        component={Wallet}
         options={{
           title: 'Wallet',
           tabBarIcon: ({ focused }) => (

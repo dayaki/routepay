@@ -21,13 +21,9 @@ if (!global.btoa) {
 
 axios.interceptors.request.use(
   config => {
-    // console.log('config.url', config.url);
     if (config.url !== getLogin && config.url !== postRegister) {
-      const token =
-        'eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJuYmYiOjE2ODQ5NTMwNzEsImV4cCI6MTY4NDk1NjY3MSwiaXNzIjoiaHR0cHM6Ly9hdXRoZGV2LnJvdXRlcGF5LmNvbS8iLCJhdWQiOiJSb3V0ZVBheS5CaWxsc1BheW1lbnRBcGkiLCJzdWIiOiIxNzEyNGYzNy1lYjg4LTQ0YmYtYTQ0Yy1lM2EzMzQ5MzFhNDkiLCJhdXRoX3RpbWUiOiIxNjg0OTUzMDcxIiwiaWRwIjoibG9jYWwiLCJyb2xlIjoiQ3VzdG9tZXIiLCJzb3VyY2UiOiJCaWxsc1BvcnRhbCIsImp0aSI6IjhkZTJkOTljLWMyOGMtNGNmZS1hMzhkLTc0ZWJiYzE5ZmNlZiIsInNpZCI6Ijg3MGM2YjdkLThhYjgtNGNlYi04NDM3LWM4NjE0NjAzZDUwZSIsImlhdCI6MTY4NDk1MzA3MSwic2NvcGUiOlsiUm91dGVQYXkuQmlsbHNQYXltZW50LnJlYWQiLCJSb3V0ZVBheS5CaWxsc1BheW1lbnQud3JpdGUiLCJSb3V0ZVBheS5NZXJjaGFudEFwaS5yZWFkIiwiUm91dGVQYXkuTWVyY2hhbnRBcGkud3JpdGUiXSwiYW1yIjoicHdkIn0.';
-      // store.getState().user.token;
+      const token = store.getState().user.token;
       if (config.headers) {
-        console.log('interceptors token', token);
         (config.headers as AxiosHeaders).set(
           'Authorization',
           `Bearer ${token}`,

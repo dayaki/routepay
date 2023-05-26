@@ -13,10 +13,8 @@ import {
 } from '@common';
 import { Lock, Mail, PhoneIcon, UserIcon } from '@icons';
 import { AuthNavigationProps } from '@types';
-import { apiService, postRegister } from '@utils';
+import { apiService, passwordTests, postRegister } from '@utils';
 import { useToast } from 'react-native-toast-notifications';
-import { useMutation } from '@tanstack/react-query';
-import { createUserFn, registerUser } from '../../api/auth';
 
 const Register = ({ navigation, route }: AuthNavigationProps) => {
   const { error } = route.params || false;
@@ -27,6 +25,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
   const [referral, setReferral] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasErrors, setHasErrors] = useState(true);
+  const [passwordError, setPasswordError] = useState('');
   const [errors, setErrors] = useState(error);
   const styles = useLoginStyles();
   const toast = useToast();
@@ -36,6 +35,25 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
       setHasErrors(false);
     } else {
       setHasErrors(true);
+    }
+  };
+
+  const verifyPassword = () => {
+    if (password.length > 0) {
+      const { length, lowercase, number, special, uppercase } =
+        passwordTests(password);
+      if (length && lowercase && number && special && uppercase) {
+        setPasswordError('');
+        handleBlur();
+      } else {
+        setPasswordError(
+          'Password requires uppercase, alphanumeric and special characters.',
+        );
+        setHasErrors(true);
+      }
+    } else {
+      setPasswordError('');
+      handleBlur();
     }
   };
 
@@ -52,7 +70,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
     setTimeout(() => {
       setIsLoading(false);
       navigation.navigate('phone_verification', { payload });
-    }, 5000);
+    }, 1000);
   };
 
   const handleSignup = async () => {
@@ -145,9 +163,11 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
         <Input
           value={password}
           onChangeText={setPassword}
-          onBlur={handleBlur}
+          onBlur={verifyPassword}
           placeholder="Password"
           isPassword
+          hasError={!!passwordError}
+          errorMessage={passwordError}
           leftIcon={<Lock />}
         />
         <Input

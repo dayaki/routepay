@@ -66,18 +66,24 @@ export const Keyboard = ({
 
 export const TransactionPIN = ({
   handleSubmit,
+  external,
 }: {
   handleSubmit: (pin: string) => void;
+  external?: boolean;
 }) => {
   const styles = useStyles();
   const [pin, setPin] = useState('');
 
   useEffect(() => {
     if (pin.length === 4) {
-      setTimeout(() => {
+      if (external) {
         handleSubmit(pin);
-        setPin('');
-      }, 200);
+      } else {
+        setTimeout(() => {
+          handleSubmit(pin);
+          setPin('');
+        }, 200);
+      }
     }
   }, [pin]);
 
