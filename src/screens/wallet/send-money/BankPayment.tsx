@@ -14,7 +14,7 @@ import { useStyles } from '../styles';
 
 const BankPayment = ({ navigation }) => {
   const [accountNumber, setAccountNumber] = useState('');
-  const [selectedBank, setSelectedBank] = useState('GTBank');
+  const [selectedBank, setSelectedBank] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
   const [saveBeneficiary, setSaveBeneficiary] = useState(false);

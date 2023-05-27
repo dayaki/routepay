@@ -22,6 +22,7 @@ export const LightMode: Theme = {
     navTitle: '#1F1F23',
     fadedText: '#1F1F23',
     green: '#008751',
+    counter: 'rgba(31, 31, 35, 0.6)',
   },
 };
 
@@ -45,6 +46,7 @@ export const DarkMode: Theme = {
     navTitle: '#F9F7F6',
     fadedText: 'rgba(249, 247, 246, 0.6)',
     green: '#008751',
+    counter: 'rgba(249, 247, 246, 0.6)',
   },
 };
 

@@ -132,7 +132,7 @@ const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
     count: {
-      color: 'rgba(249, 247, 246, 0.6)',
+      color: colors.counter,
     },
     viewWrapper: {
       flex: 1,

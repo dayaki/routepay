@@ -77,5 +77,6 @@ export type Theme = {
     navTitle: string;
     fadedText: string;
     green: string;
+    counter: string;
   };
 };

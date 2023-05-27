@@ -93,7 +93,7 @@ export const useStyles = () => {
       width: '80%',
     },
     beneficiaryWrapper: {
-      borderTopColor: 'rgba(249, 247, 246, 0.6)',
+      borderTopColor: colors.dash,
       borderTopWidth: 0.3,
       paddingTop: ms(20),
     },
@@ -104,7 +104,7 @@ export const useStyles = () => {
       // marginTop: ms(10),
       paddingBottom: ms(20),
       marginBottom: ms(20),
-      borderBottomColor: 'rgba(249, 247, 246, 0.6)',
+      borderBottomColor: colors.dash,
       borderBottomWidth: 0.3,
     },
     beneficiaryIcon: {
@@ -134,7 +134,7 @@ export const useStyles = () => {
     routeLinkLabel: {
       fontSize: 11,
       lineHeight: 16,
-      color: 'rgba(249, 247, 246, 0.6)',
+      color: colors.counter,
       marginTop: ms(10),
       marginBottom: ms(30),
     },
