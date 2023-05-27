@@ -38,28 +38,28 @@ axios.interceptors.request.use(
   },
 );
 
-// axios.interceptors.response.use(
-//   response => {
-//     return response;
-//   },
-//   error => {
-//     const { config = {}, response = {} } = error || {};
-//     const { status, data = {} } = response || {};
-//     const { message } = data;
-//     if (
-//       status &&
-//       (status === 401 || status === 400) &&
-//       !config.url.includes('/auth/')
-//     ) {
-//       console.log('expired token', data);
-
-//       // refresh token
-//       //   refreshToken();
-//       store.dispatch(userLogout());
-//     }
-//     return Promise.reject(error);
-//   },
-// );
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    const { config = {}, response = {} } = error || {};
+    const { status, data = {} } = response || {};
+    const { message } = data;
+    if (
+      status &&
+      (status === 401 || status === 400) &&
+      !config.url.includes('/auth/')
+    ) {
+      console.log('expired token', data);
+      console.log('expired token MESSAGE', message);
+      // refresh token
+      //   refreshToken();
+      store.dispatch(userLogout());
+    }
+    return Promise.reject(error);
+  },
+);
 
 const linking = {
   prefixes: ['routepay://', 'https://applink.routepay.com'],

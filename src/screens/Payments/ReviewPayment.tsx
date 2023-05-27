@@ -16,6 +16,36 @@ const ReviewPayment = ({ navigation, route }) => {
       <Header title="Review Payment" centered hideBalance />
       <View style={styles.content}>
         <View style={styles.review}>
+          {type === 'airtime' && (
+            <>
+              <View style={styles.reviewItem}>
+                <RegularText text="Phone number" size={14} />
+                <TitleText text={data.phone} size={14} />
+              </View>
+
+              <View style={styles.reviewItem}>
+                <RegularText text="Network provider" size={14} />
+                <View style={styles.row}>
+                  <Image
+                    source={getImage(
+                      getName(data.selectedNetwork.billCode).toLowerCase(),
+                    )}
+                    resizeMode="cover"
+                    style={styles.networkLogo}
+                  />
+                  <TitleText
+                    text={getName(data.selectedNetwork.billCode)}
+                    size={14}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.reviewItem}>
+                <RegularText text="Amount" size={14} />
+                <TitleText text={nairaFormat(data.amount)} size={14} />
+              </View>
+            </>
+          )}
           {type === 'payment' && (
             <>
               <View style={styles.reviewItem}>

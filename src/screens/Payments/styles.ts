@@ -65,6 +65,9 @@ export const useStyles = () => {
       fontSize: 11,
       lineHeight: 20,
     },
+    selectorTextActive: {
+      color: '#15151A',
+    },
     networks: {
       backgroundColor: colors.selector,
       marginTop: ms(15),

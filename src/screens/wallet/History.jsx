@@ -1,54 +1,56 @@
-import React from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 import { Green, Header, Primary, RegularText, TitleText } from '@common';
-import { useAppSelector } from '@store';
-import { nairaFormat } from '@utils';
+import { getAllTransactions, useAppDispatch, useAppSelector } from '@store';
+import { apiService, getTransactions, nairaFormat } from '@utils';
+import { IsTransaction } from '@types';
 import { useStyles } from './styles';
+import moment from 'moment';
 
 const TransactionHistory = ({ navigation }) => {
-  const { theme } = useAppSelector(state => state.misc);
+  const { theme, transactions } = useAppSelector(state => state.misc);
   const styles = useStyles();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getAllTransactions());
+  }, []);
 
   return (
     <View style={styles.container}>
       <Header title="Transaction History" centered hideBalance />
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-        <View style={styles.history}>
-          <View style={styles.historyTexts}>
-            <RegularText
-              text="Your Airtime Topup of N100.00 has been received by 081233456789"
-              style={styles.historyText}
-            />
-            <RegularText
-              text="12 May, 2023, 09:15pm"
-              style={styles.historyLabel}
-            />
-          </View>
-          <TitleText
-            text={`-${nairaFormat(145)}`}
-            style={styles.historyAmount}
-            color={Primary}
+      <View style={styles.scroll}>
+        {!transactions ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <FlashList
+            showsVerticalScrollIndicator={false}
+            data={transactions}
+            renderItem={({ item }) => (
+              <View style={styles.history}>
+                <View style={styles.historyTexts}>
+                  <RegularText
+                    text="Your Airtime Topup of N100.00 has been received by 081233456789"
+                    style={styles.historyText}
+                  />
+                  <RegularText
+                    text={moment(item.created).format('DD MMMM, YYYY, HH:MMa')}
+                    // "12 May, 2023, 09:15pm"
+                    style={styles.historyLabel}
+                  />
+                </View>
+                <TitleText
+                  text={`${nairaFormat(item.amount)}`}
+                  style={styles.historyAmount}
+                  color={Primary}
+                />
+              </View>
+            )}
+            estimatedItemSize={200}
           />
-        </View>
-
-        <View style={styles.history}>
-          <View style={styles.historyTexts}>
-            <RegularText
-              text="Wallet top-up from Ayodeji Subair"
-              style={styles.historyText}
-            />
-            <RegularText
-              text="12 May, 2023, 09:15pm"
-              style={styles.historyLabel}
-            />
-          </View>
-          <TitleText
-            text={`+${nairaFormat(500)}`}
-            style={styles.historyAmount}
-            color={Green}
-          />
-        </View>
-      </ScrollView>
+        )}
+      </View>
     </View>
   );
 };

@@ -52,6 +52,9 @@ export const billSlice = createSlice({
         state.bundle = payload.filter(
           (data: IsBillProvider) => data.billCategoryId === 5,
         );
+      })
+      .addCase('user/userLogout', () => {
+        return initialState;
       });
   },
 });

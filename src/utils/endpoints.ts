@@ -28,3 +28,5 @@ export const getProfile = (userId: number | string) =>
 export const postSetPin = `${merchantApi}/Account/SetPin`;
 export const getVerifyPin = (pin: string) =>
   `${merchantApi}/Account/ValidatePin?pin=${pin}`;
+
+export const getTransactions = `${billsApi}/transaction`;

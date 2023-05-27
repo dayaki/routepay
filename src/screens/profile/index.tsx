@@ -46,6 +46,8 @@ const NAV_ITEMS = [
 
 const Profile = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
+  const { user } = useAppSelector(state => state.user);
+  console.log('profile user...', user);
   const [appMode, setAppMode] = useState(theme === 'dark' ? false : true);
   const [showLogout, setShowLogout] = useState(false);
   const styles = useStyles();
@@ -72,9 +74,12 @@ const Profile = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.content} style={styles.wrapper}>
         <View style={styles.banner}>
           <View style={styles.name}>
-            <TitleText text="JD" size={25} />
+            <TitleText
+              text={`${user?.firstName[0]}${user?.lastName[0]}`}
+              size={25}
+            />
           </View>
-          <TitleText text="Jane Doe" size={14} />
+          <TitleText text={`${user?.firstName} ${user?.lastName}`} size={14} />
           <RegularText text="Payment link here" size={11} />
           <TouchableOpacity
             activeOpacity={0.8}

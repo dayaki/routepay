@@ -1,4 +1,10 @@
-import { IsBillCategory, IsBillProvider, IsUser, Theme } from './types';
+import {
+  IsBillCategory,
+  IsBillProvider,
+  IsTransaction,
+  IsUser,
+  Theme,
+} from './types';
 
 export interface UserState {
   user: IsUser | undefined;
@@ -17,4 +23,5 @@ export interface BillState {
 export interface MiscState {
   theme: 'dark' | 'light';
   colors: Theme;
+  transactions: IsTransaction[] | undefined;
 }

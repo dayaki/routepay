@@ -44,12 +44,14 @@ const Login = ({ navigation, route }) => {
         skipValidation: true,
       });
       const userProfile = await apiService(getProfile(sub), 'get');
-      if (!userProfile.pinEnabled) {
-        navigation.navigate('set_pin', { payload: userProfile, password });
-      } else {
-        dispatch(accountSetUp());
-        dispatch(userLogin(userProfile));
-      }
+      dispatch(accountSetUp());
+      dispatch(userLogin(userProfile));
+      // if (!userProfile.pinEnabled) {
+      //   navigation.navigate('set_pin', { payload: userProfile, password });
+      // } else {
+      //   dispatch(accountSetUp());
+      //   dispatch(userLogin(userProfile));
+      // }
 
       // const data = await apiService(getWalletBalance(payload.sub), 'get');
       console.log('userProfile data', userProfile);

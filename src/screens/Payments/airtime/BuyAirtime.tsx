@@ -36,9 +36,10 @@ const NETWORKS = [
 
 const AMOUNTS = ['100', '200', '500', '1000'];
 
-const BuyAirtime = ({ navigation }) => {
+const BuyAirtime = ({ navigation, route }) => {
+  const userPhone = route.params.phone || '';
   const { airtime } = useAppSelector(state => state.bill);
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState(userPhone);
   const [amount, setAmount] = useState<string>('');
   const [selectedAmount, setSelectedAmount] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState<IsBillProvider>();
@@ -86,7 +87,13 @@ const BuyAirtime = ({ navigation }) => {
                   selectedAmount === amt && styles.selectorActive,
                 ]}
                 onPress={() => handleSelection(amt)}>
-                <RegularText text={`₦${amt}`} style={styles.selectorText} />
+                <RegularText
+                  text={`₦${amt}`}
+                  style={[
+                    styles.selectorText,
+                    selectedAmount === amt && styles.selectorTextActive,
+                  ]}
+                />
               </TouchableOpacity>
             ))}
           </View>
@@ -123,6 +130,7 @@ const BuyAirtime = ({ navigation }) => {
           text="Continue"
           onPress={() =>
             navigation.navigate('review_payment', {
+              type: 'airtime',
               data: { selectedNetwork, amount, phone },
             })
           }

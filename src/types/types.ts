@@ -80,3 +80,18 @@ export type Theme = {
     counter: string;
   };
 };
+
+export interface IsTransaction {
+  transactionId: number;
+  billReference: number;
+  merchantId: string;
+  providerName: string;
+  merchantReference: string;
+  amount: number;
+  rate: number;
+  transactionStatus: string;
+  created: Date;
+  createdBy: string;
+  lastModified: Date | null;
+  lastModifiedBy: Date | null;
+}

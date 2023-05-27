@@ -26,9 +26,10 @@ import { ms } from '@utils';
 
 const EditProfile = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('08123456789');
+  const { user } = useAppSelector(state => state.user);
+  const [name, setName] = useState(`${user?.firstName} ${user?.lastName}`);
+  const [email, setEmail] = useState(user?.email || '');
+  const [phone, setPhone] = useState(user?.phoneNumber || '');
   const [editable, setEditable] = useState('');
   const styles = useStyles();
   const dispatch = useAppDispatch();
@@ -77,7 +78,10 @@ const EditProfile = ({ navigation }) => {
         style={styles.wrapper}>
         <View style={styles.banner}>
           <View style={[styles.name, { marginTop: ms(5) }]}>
-            <TitleText text="JD" size={25} />
+            <TitleText
+              text={`${user?.firstName[0]}${user?.lastName[0]}`}
+              size={25}
+            />
           </View>
           <View style={[styles.row, { marginTop: ms(15) }]}>
             <RegularText text="Change profile picture" size={11} />
