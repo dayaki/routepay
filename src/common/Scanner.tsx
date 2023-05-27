@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { CameraScreen, Camera } from 'react-native-camera-kit';
+import { StyleSheet, View } from 'react-native';
+import { Camera } from 'react-native-camera-kit';
 import { useTheme } from './Colors';
 import { ms } from '@utils';
 
@@ -10,10 +10,12 @@ export const Scanner = () => {
 
   useEffect(() => {
     (async () => {
-      const status = await Camera.checkDeviceCameraAuthorizationStatus();
-      console.log('scanner', status);
-      //   if (status.)
-      //   setHasPermission(status === 'authorized');
+      try {
+        const status = await Camera.checkDeviceCameraAuthorizationStatus();
+        console.log('scanner', status);
+      } catch (error) {
+        console.log('scanner error', error);
+      }
     })();
   }, []);
 
@@ -24,13 +26,7 @@ export const Scanner = () => {
   return (
     <View style={styles.scanner}>
       <View style={styles.wrapper}>
-        <CameraScreen
-          scanBarcode={true}
-          onReadCode={onFound}
-          showFrame={true}
-          laserColor="red"
-          frameColor="white"
-        />
+        <Camera scanBarcode={true} onReadCode={onFound} style={styles.camera} />
       </View>
     </View>
   );
@@ -52,6 +48,10 @@ export const useStyles = () => {
       alignSelf: 'center',
       justifyContent: 'center',
       alignItems: 'center',
+    },
+    camera: {
+      width: ms(180),
+      height: ms(170),
     },
   });
 };
