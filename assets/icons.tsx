@@ -557,3 +557,28 @@ export const SearchIcon = (props: Props) => {
     </Svg>
   );
 };
+
+export const CopyIcon = (props: Props) => {
+  const { theme } = useAppSelector(state => state.misc);
+  return (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 20}
+      height={props.size || 20}
+      fill="none"
+      {...props}>
+      <Path
+        stroke={theme === 'dark' ? '#F9F7F6' : '#1F1F23'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.962 12h7.192a.846.846 0 0 0 .846-.847V3.961a.846.846 0 0 0-.846-.846H3.962a.846.846 0 0 0-.847.846v7.192c0 .468.38.846.847.846Z"
+      />
+      <Path
+        stroke={theme === 'dark' ? '#F9F7F6' : '#1F1F23'}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M1 9.462V1.846A.846.846 0 0 1 1.846 1h7.616"
+      />
+    </Svg>
+  );
+};

@@ -29,6 +29,10 @@ import ChangePIN from '../screens/profile/ChangePIN';
 import SendMoney from '../screens/wallet/send-money';
 import Routepay from '../screens/wallet/send-money/RoutePay';
 import BankPayment from '../screens/wallet/send-money/BankPayment';
+import Beneficiary from '../screens/wallet/send-money/Beneficiary';
+import PayBeneficiary from '../screens/wallet/send-money/PayBeneficiary';
+import ReceiveMoney from '../screens/wallet/receive-money';
+import RouteLink from '../screens/wallet/receive-money/RouteLink';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -58,6 +62,11 @@ const MainStack = () => {
       <Stack.Screen name="send_money" component={SendMoney} />
       <Stack.Screen name="send_routepay" component={Routepay} />
       <Stack.Screen name="send_bank" component={BankPayment} />
+      <Stack.Screen name="send_beneficiary" component={Beneficiary} />
+      <Stack.Screen name="pay_beneficiary" component={PayBeneficiary} />
+      <Stack.Screen name="receive_money" component={ReceiveMoney} />
+      <Stack.Screen name="route_link" component={RouteLink} />
+
       {/* Profile */}
       <Stack.Screen name="edit_profile" component={EditProfile} />
       <Stack.Screen name="refer" component={Refer} />
