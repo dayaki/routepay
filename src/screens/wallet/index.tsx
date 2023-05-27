@@ -64,7 +64,8 @@ const Wallet = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            style={[styles.box, styles.boxed]}>
+            style={[styles.box, styles.boxed]}
+            onPress={() => navigation.navigate('receive_money')}>
             <Image
               source={
                 theme === 'dark'

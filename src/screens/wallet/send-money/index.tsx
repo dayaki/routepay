@@ -49,7 +49,8 @@ const SendMoney = ({ navigation }) => {
         <View style={styles.boxes}>
           <TouchableOpacity
             activeOpacity={0.8}
-            style={[styles.box, styles.boxed]}>
+            style={[styles.box, styles.boxed]}
+            onPress={() => navigation.navigate('send_beneficiary')}>
             <Image
               source={
                 theme === 'dark'
@@ -63,7 +64,10 @@ const SendMoney = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            style={[styles.box, styles.boxed]}>
+            style={[styles.box, styles.boxed]}
+            onPress={() =>
+              navigation.navigate('send_beneficiary', { type: 'recent' })
+            }>
             <Image
               source={
                 theme === 'dark'

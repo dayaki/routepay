@@ -4,7 +4,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ToggleSwitch from 'toggle-switch-react-native';
 import {
   Button,
-  Checkbox,
   Header,
   Input,
   RegularText,
@@ -12,7 +11,6 @@ import {
   TextCounter,
 } from '@common';
 import { useStyles } from '../styles';
-import { Mail, SearchIcon } from '@icons';
 
 const BankPayment = ({ navigation }) => {
   const [accountNumber, setAccountNumber] = useState('');
