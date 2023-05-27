@@ -21,6 +21,7 @@ export const LightMode: Theme = {
     selector: '#F9F7F6',
     navTitle: '#1F1F23',
     fadedText: '#1F1F23',
+    green: '#008751',
   },
 };
 
@@ -43,6 +44,7 @@ export const DarkMode: Theme = {
     selector: '#1F1F23',
     navTitle: '#F9F7F6',
     fadedText: 'rgba(249, 247, 246, 0.6)',
+    green: '#008751',
   },
 };
 
@@ -57,3 +59,4 @@ export const Primary = '#FF6600';
 export const BrandBlack = '#0B0827';
 export const woodsmoke = '#15151A';
 export const pink300 = '#F5E0D6';
+export const Green = '#008751';

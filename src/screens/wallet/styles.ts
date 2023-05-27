@@ -151,5 +151,31 @@ export const useStyles = () => {
       lineHeight: 16,
       marginLeft: ms(15),
     },
+    history: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingBottom: ms(12),
+      marginBottom: ms(20),
+      borderBottomColor: 'rgba(249, 247, 246, 0.6)',
+      borderBottomWidth: 0.3,
+    },
+    historyTexts: {
+      width: '65%',
+    },
+    historyText: {
+      fontSize: 14,
+      lineHeight: 21,
+      marginBottom: ms(10),
+    },
+    historyLabel: {
+      fontSize: 11,
+      lineHeight: 20,
+      color: 'rgba(249, 247, 246, 0.8)',
+    },
+    historyAmount: {
+      fontSize: 14,
+      lineHeight: 21,
+    },
   });
 };
