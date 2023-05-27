@@ -5,3 +5,4 @@ export * from './Button';
 export * from './View';
 export * from './Keyboard';
 export * from './Modal';
+export * from './Scanner';

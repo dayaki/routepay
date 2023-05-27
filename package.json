@@ -31,6 +31,7 @@
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-bars": "^2.2.0",
     "react-native-bouncy-checkbox": "^3.0.7",
+    "react-native-camera-kit": "^13.0.0",
     "react-native-config": "^1.5.1",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-image-crop-picker": "^0.39.0",
