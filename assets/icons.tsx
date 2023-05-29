@@ -517,19 +517,19 @@ export const RefreshIcon = (props: Props) => (
     fill="none"
     {...props}>
     <Path
-      stroke="#15151A"
+      stroke={props.color || '#15151A'}
       strokeLinecap="round"
       strokeLinejoin="round"
       d="m12.571 10.286 2.286-.572.571 2.286"
     />
     <Path
-      stroke="#15151A"
+      stroke={props.color || '#15151A'}
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M14.857 9.714A7.725 7.725 0 0 1 8 14.857a6.856 6.856 0 0 1-6.445-4.514M3.428 5.714l-2.285.572L.57 4"
     />
     <Path
-      stroke="#15151A"
+      stroke={props.color || '#15151A'}
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M1.143 6.286C2.103 3.657 5.05 1.143 8 1.143a6.857 6.857 0 0 1 6.445 4.571"
@@ -582,3 +582,33 @@ export const CopyIcon = (props: Props) => {
     </Svg>
   );
 };
+
+export const Leadership = (props: Props) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={18}
+    height={18}
+    fill="none"
+    {...props}>
+    <Path
+      stroke="#F9F7F6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M11 15.499H6v-7a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v7ZM15.5 15.5H11v-2.417a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5V15a.5.5 0 0 1-.5.5v0ZM6 15.5v-4.084a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0-.5.5v3.583a.5.5 0 0 0 .5.5H6v0ZM7.505 2.26 8.262.654a.26.26 0 0 1 .475 0l.759 1.606 1.693.26c.217.033.304.313.147.473l-1.225 1.25.289 1.765c.036.226-.19.4-.385.292L8.5 5.467 6.985 6.3c-.194.107-.422-.066-.385-.292l.289-1.765-1.225-1.25c-.158-.16-.07-.44.146-.474l1.695-.258V2.26Z"
+    />
+  </Svg>
+);
+
+export const Award = (props: Props) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="none"
+    {...props}>
+    <Path
+      fill="#F9F7F6"
+      d="M1.807 0A1.807 1.807 0 0 0 0 1.807v1.437c0 .627.325 1.208.857 1.537L5.514 7.66a3.614 3.614 0 1 0 3.429 0l4.658-2.88a1.807 1.807 0 0 0 .856-1.536V1.807A1.807 1.807 0 0 0 12.65 0H1.807ZM4.82 5.814v-4.61h4.82v4.61L7.544 7.108a.602.602 0 0 1-.633 0L4.819 5.814Zm2.41 2.62a2.41 2.41 0 1 1 0 4.818 2.41 2.41 0 0 1 0-4.819Z"
+    />
+  </Svg>
+);
