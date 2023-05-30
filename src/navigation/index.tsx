@@ -15,7 +15,7 @@ const Router = () => {
         animated={true}
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
-      {isAuthenticated ? <MainStack /> : <AuthStack />}
+      {!isAuthenticated ? <MainStack /> : <AuthStack />}
     </>
   );
 };

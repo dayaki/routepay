@@ -3,11 +3,14 @@ import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
 import { useStyles } from '../styles';
 
-const BuyElectricity = ({ navigation }) => {
+const BuyElectricity = ({ navigation, route }) => {
+  const data = route.params.data;
   const [meter, setMeter] = useState('');
   const [amount, setAmount] = useState('');
   const [selectedCompany, setSelectedCompany] = useState('');
   const styles = useStyles();
+
+  console.log('power....', data);
 
   const handleSelection = (text: string) => {
     setSelectedAmount(text);
@@ -20,6 +23,9 @@ const BuyElectricity = ({ navigation }) => {
       <View style={styles.content}>
         <View>
           <Select
+            data={data}
+            selector="billCode"
+            title="Choose Service Provider"
             label="Electricity company"
             selected={selectedCompany}
             onSelect={setSelectedCompany}

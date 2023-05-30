@@ -1,17 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Checkbox, Header } from '@common';
-import { getPinBills, useAppDispatch } from '@store';
 import { useStyles } from '../styles';
 
 const Pins = ({ navigation }) => {
   const [selectionOption, setSelectionOption] = useState('network');
   const styles = useStyles();
-  const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(getPinBills());
-  // }, [dispatch]);
 
   const onContinue = () => {
     if (selectionOption === 'network') {

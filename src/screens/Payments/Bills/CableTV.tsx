@@ -1,47 +1,57 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
+import { useAppSelector } from '@store';
 import { useStyles } from '../styles';
+import { IsBillProvider } from '@types';
+import { apiService, postBundleLookup } from '@utils';
 
-const NETWORKS = [
-  {
-    id: 1,
-    name: 'Airtel',
-    slug: 'airtel',
-    image: require('@images/networks/airtel.png'),
-  },
-  {
-    id: 2,
-    name: 'MTN',
-    slug: 'mtn',
-    image: require('@images/networks/mtn.png'),
-  },
-  {
-    id: 3,
-    name: '9mobile',
-    slug: '9mobile',
-    image: require('@images/networks/9mobile.png'),
-  },
-  {
-    id: 4,
-    name: 'Glo',
-    slug: 'glo',
-    image: require('@images/networks/glo.png'),
-  },
-];
-
-const AMOUNTS = ['100', '200', '500', '1000'];
+type Payload = {
+  billCode: string;
+  payload: {
+    smartcardNumber?: string | null;
+  };
+};
 
 const CableTV = ({ navigation }) => {
+  const { cable } = useAppSelector(state => state.bill);
   const [phone, setPhone] = useState('');
-  const [amount, setAmount] = useState<string>('');
-  const [selectedAmount, setSelectedAmount] = useState('');
-  const [selectedNetwork, setSelectedNetwork] = useState('');
+  const [amount, setAmount] = useState('');
+  const [selectedNetwork, setSelectedNetwork] = useState<IsBillProvider>();
+  const [selectedPlan, setSelectedPlan] = useState<[]>();
+  const [plans, setPlans] = useState<[]>();
   const styles = useStyles();
 
-  const handleSelection = (text: string) => {
-    setSelectedAmount(text);
-    setAmount(text);
+  console.log('cable....', cable);
+
+  const handleSelection = (data: IsBillProvider) => {
+    console.log('selected Network', data);
+    setSelectedNetwork(data);
+    lookup(data.billCode);
+    setSelectedPlan([]);
+  };
+
+  const lookup = async (code: string) => {
+    console.log('CableTV billCode', code);
+    const data2send: Payload = {
+      billCode: code,
+      payload: {},
+    };
+    if (!code.includes('SHOWMAX_VOUCHER')) {
+      data2send.payload.smartcardNumber = phone;
+    }
+    console.log('payload for CableTV lookup', data2send);
+    try {
+      const { response } = await apiService(
+        postBundleLookup,
+        'post',
+        data2send,
+      );
+      console.log('CableTV lookiup', response);
+      setPlans(response);
+    } catch (error) {
+      console.log('CableTV lookup err', error);
+    }
   };
 
   return (
@@ -50,12 +60,25 @@ const CableTV = ({ navigation }) => {
       <View style={styles.content}>
         <View>
           <Select
+            data={cable}
+            selector="billCode"
+            title="Choose Package"
             label="Service provider"
             selected={selectedNetwork}
-            onSelect={setSelectedNetwork}
+            onSelect={handleSelection}
           />
+          {plans && plans.length && (
+            <Select
+              data={plans}
+              selector="dataName"
+              label="Subscription plan"
+              title="Choose Subscription plan"
+              selected={selectedPlan}
+              onSelect={setSelectedPlan}
+            />
+          )}
           <Input
-            placeholder="Phone number"
+            placeholder="Smart Card Number"
             value={phone}
             maxLength={11}
             onChangeText={setPhone}
@@ -63,11 +86,6 @@ const CableTV = ({ navigation }) => {
             keyboardType="number-pad"
             returnKeyType="done"
             inputStyle={styles.input}
-          />
-          <Select
-            label="Subscription plan"
-            selected={selectedNetwork}
-            onSelect={setSelectedNetwork}
           />
           <Input
             placeholder="Amount"
@@ -80,7 +98,15 @@ const CableTV = ({ navigation }) => {
         </View>
         <Button
           text="Continue"
-          onPress={() => navigation.navigate('review_payment')}
+          onPress={() =>
+            navigation.navigate('review_payment', {
+              type: 'cable',
+              data: {
+                smartcardNumber: phone,
+                amount,
+              },
+            })
+          }
           disabled={!phone || !amount || !selectedNetwork}
         />
       </View>

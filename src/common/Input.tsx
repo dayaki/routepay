@@ -130,25 +130,28 @@ export const TextArea = ({
   );
 };
 
-export const FuelSelect = ({
+export const Select = ({
   label,
   selected,
   onSelect,
   title,
   data,
+  selector,
 }: {
   label: string;
-  selected: string;
+  selected: any;
   title: string;
-  data: [];
-  onSelect: () => void;
+  data: [] | undefined;
+  onSelect: (item: any) => void;
+  selector: string;
 }) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
   const { colors } = useTheme();
   return (
     <>
-      <FuelModal
+      <SelectModal
+        selector={selector}
         data={data}
         title={title}
         show={showModal}
@@ -163,7 +166,7 @@ export const FuelSelect = ({
         {selected ? (
           <View style={styles.row}>
             <TitleText
-              text={capitalize(selected.fuelStation)}
+              text={capitalize(selected[selector])}
               size={14}
               color={colors.inputColor}
             />

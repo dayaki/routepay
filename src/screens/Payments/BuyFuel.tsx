@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, FuelSelect, Header, Input, Select } from '@common';
+import { Button, Header, Input, Select } from '@common';
 import { useStyles } from './styles';
 import { useAppSelector } from '@store';
 
@@ -18,7 +18,8 @@ const BuyFuel = ({ navigation }) => {
       <Header title="Buy Fuel" centered />
       <View style={styles.content}>
         <View>
-          <FuelSelect
+          <Select
+            selector="fuelStation"
             data={fuel}
             label="Select filling station"
             title="Choose Filling Station"

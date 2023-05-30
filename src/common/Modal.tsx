@@ -13,23 +13,25 @@ import { RegularText, TitleText } from './Text';
 import { Close } from '@icons';
 import { Checkbox } from './Input';
 import { Button, TextButton } from './Button';
-import { DataProps, ModalProps } from '@types';
+import { DataProps, IsBillProvider, ModalProps } from '@types';
 import { useTheme } from './Colors';
 import { ProviderIcon } from './View';
 
-export const FuelModal = ({
+export const SelectModal = ({
   show,
   onClose,
   selected,
   onSelect,
   data,
   title,
+  selector,
 }: {
   show: boolean;
+  selector: string;
   onClose: () => void;
   selected: any;
   onSelect: (item: any) => void;
-  data: [];
+  data: [] | undefined;
   title: string;
 }) => {
   const styles = useStyles();
@@ -37,35 +39,34 @@ export const FuelModal = ({
     <View>
       <Modal isVisible={show} style={styles.modal}>
         <View style={styles.viewWrapper}>
-          <View>
-            <View style={styles.header}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.closeBtn}
-                onPress={onClose}>
-                <Close size={18} />
-              </TouchableOpacity>
-              <TitleText text={title} size={14} />
-            </View>
-            <View style={styles.networks}>
-              {data &&
-                data.map((station, index) => (
-                  <View style={styles.network} key={index}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => onSelect(station)}
-                      style={styles.row}>
-                      <TitleText text={station.fuelStation} size={11} />
-                    </TouchableOpacity>
-                    <Checkbox
-                      isChecked={selected.fuelStation === station.fuelStation}
-                      onPress={() => onSelect(station)}
-                    />
-                  </View>
-                ))}
-            </View>
+          <View style={styles.header}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.closeBtn}
+              onPress={onClose}>
+              <Close size={18} />
+            </TouchableOpacity>
+            <TitleText text={title} size={14} />
           </View>
-          <Button text="Continue" onPress={onClose} />
+          <View style={styles.networks}>
+            <FlatList
+              data={data}
+              renderItem={({ item }) => (
+                <View style={styles.network}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => onSelect(item)}
+                    style={styles.row}>
+                    <TitleText text={getName(item[selector])} size={11} />
+                  </TouchableOpacity>
+                  <Checkbox
+                    isChecked={selected[selector] === item[selector]}
+                    onPress={() => onSelect(item)}
+                  />
+                </View>
+              )}
+            />
+          </View>
         </View>
       </Modal>
     </View>
