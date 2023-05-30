@@ -1,6 +1,7 @@
 import { moderateScale } from 'react-native-size-matters';
 import accounting from 'accounting';
 import { truncate } from 'lodash';
+import uuid from 'react-native-uuid';
 
 const strongRegex = new RegExp(
   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[!@#$%^&*/\\\\)(+=._-])',
@@ -18,6 +19,10 @@ export const ms = (number: number) => moderateScale(number);
 
 export const moneyFormat = (amount: string | number, precision: number = 2) => {
   return accounting.formatMoney(amount, '', precision);
+};
+
+export const getUuid = () => {
+  return uuid.v4();
 };
 
 export const nairaFormat = (amount: string | number, precision: number = 2) => {
@@ -66,7 +71,9 @@ export const formatPhone = (phoneNum: string): string => {
 };
 
 export const getImage = (slug: string) => {
-  switch (slug) {
+  const name = slug.split(' ')[0].toLowerCase();
+  console.log('getImage', slug, name);
+  switch (name) {
     case 'mtn':
       return require('@images/networks/mtn.png');
     case 'airtel':
@@ -83,7 +90,8 @@ export const getImage = (slug: string) => {
 };
 
 export const getName = (name: string) => {
-  return `${name.split('_')[0].toUpperCase()}`;
+  // return `${name.split('_')[0].toUpperCase()}`;
+  return `${name.split('_').join(' ').toString()}`;
 };
 
 export const passwordTests = (password: string) => {

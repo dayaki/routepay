@@ -1,38 +1,17 @@
 import React, { useState } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
-import { Button, Checkbox, Input, RegularText, TitleText } from '@common';
+import {
+  Button,
+  Checkbox,
+  Header,
+  Input,
+  RegularText,
+  TitleText,
+} from '@common';
 import { useAppSelector } from '@store';
 import { useStyles } from '../styles';
-import { Header } from '../utils';
 import { getImage } from '@utils';
 import { IsBillProvider } from '@types';
-
-const NETWORKS = [
-  {
-    id: 1,
-    name: 'Airtel',
-    slug: 'airtel',
-    image: require('@images/networks/airtel.png'),
-  },
-  {
-    id: 2,
-    name: 'MTN',
-    slug: 'mtn',
-    image: require('@images/networks/mtn.png'),
-  },
-  {
-    id: 3,
-    name: '9mobile',
-    slug: '9mobile',
-    image: require('@images/networks/9mobile.png'),
-  },
-  {
-    id: 4,
-    name: 'Glo',
-    slug: 'glo',
-    image: require('@images/networks/glo.png'),
-  },
-];
 
 const AMOUNTS = ['100', '200', '500', '1000'];
 
@@ -45,7 +24,7 @@ const BuyAirtime = ({ navigation, route }) => {
   const [selectedNetwork, setSelectedNetwork] = useState<IsBillProvider>();
   const styles = useStyles();
 
-  console.log('airtime.....', airtime);
+  console.log('airtime', airtime);
 
   const handleSelection = (text: string) => {
     setSelectedAmount(text);

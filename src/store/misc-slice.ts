@@ -3,10 +3,13 @@ import { apiService, getTransactions } from '@utils';
 import { IsTransaction, MiscState } from '@types';
 import { getAllBills, getBillCategories } from './bill-slice';
 import { DarkMode, LightMode } from '@common';
+import { getWallet } from './user-slice';
 
-export const accountSetUp = () => (dispatch: any) => {
+export const accountSetUp = (userId: string) => (dispatch: any) => {
+  dispatch(getWallet(userId));
   dispatch(getBillCategories());
   dispatch(getAllBills());
+  dispatch(getAllTransactions());
 };
 
 export const getAllTransactions = createAsyncThunk('bills/bills', async () => {

@@ -45,14 +45,17 @@ axios.interceptors.response.use(
   error => {
     const { config = {}, response = {} } = error || {};
     const { status, data = {} } = response || {};
-    const { message } = data;
+    const { message, title } = data;
+    console.log('expired token RESPONSE', response);
+    console.log('expired token DATA', data);
     if (
       status &&
       (status === 401 || status === 400) &&
-      !config.url.includes('/auth/')
+      !config.url.includes('/auth/') &&
+      !title
     ) {
-      console.log('expired token', data);
-      console.log('expired token MESSAGE', message);
+      console.log('expired token RESPONSE', response);
+      console.log('expired token DATA', data);
       // refresh token
       //   refreshToken();
       store.dispatch(userLogout());

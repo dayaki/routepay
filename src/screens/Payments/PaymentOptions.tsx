@@ -1,12 +1,45 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Checkbox } from '@common';
+import Config from 'react-native-config';
+import { Button, Checkbox, Header } from '@common';
 import { useStyles } from './styles';
-import { Header } from './utils';
+import { apiService, getUuid, postInitPayment } from '@utils';
+import { useAppSelector } from '@store';
 
-const PaymentOptions = ({ navigation }) => {
+const { PAYMENT_CLIENT_ID } = Config;
+
+const PaymentOptions = ({ navigation, route }) => {
+  const { user } = useAppSelector(state => state.user);
+  const { data = {} } = route.params;
   const [selectionOption, setSelectionOption] = useState('wallet');
   const styles = useStyles();
+
+  const onContinue = async () => {
+    if (selectionOption === 'card') {
+      apiService(postInitPayment, 'post', {
+        merchantId: 'yMesQUqwMDFebeb',
+        returnUrl: 'https://callback.routepay.com/return',
+        merchantReference: getUuid(),
+        totalAmount: data.amount,
+        currency: 'NGN',
+        customer: {
+          email: user?.email,
+          mobile: user?.phoneNumber,
+          firstname: user?.firstName,
+          lastname: user?.lastName,
+          username: user?.userName,
+        },
+      })
+        .then(result => {
+          console.log('postInitPayment', result);
+        })
+        .catch(err => {
+          console.log('postInitPayment ERR', err);
+        });
+    } else {
+      navigation.navigate('wallet_pin', { data });
+    }
+  };
   return (
     <View style={styles.container}>
       <Header title="Payment Options" centered hideBalance />
@@ -28,10 +61,7 @@ const PaymentOptions = ({ navigation }) => {
           </View>
         </View>
         <View>
-          <Button
-            text="Continue payment"
-            onPress={() => navigation.navigate('wallet_pin')}
-          />
+          <Button text="Continue payment" onPress={onContinue} />
         </View>
       </View>
     </View>

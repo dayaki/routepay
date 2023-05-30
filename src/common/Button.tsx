@@ -18,6 +18,7 @@ interface ButtonProps {
   textOnly?: boolean;
   textLink?: boolean;
   color?: string;
+  size?: number;
   onPress: () => void;
 }
 
@@ -72,6 +73,7 @@ export const TextButton = ({
   textStyle,
   disabled,
   color,
+  size,
 }: ButtonProps) => {
   const styles = useStyles();
 
@@ -91,6 +93,7 @@ export const TextButton = ({
         style={[
           styles.textBtnText,
           textStyle,
+          size && { fontSize: size },
           color ? { color: color } : null,
         ]}>
         {text}

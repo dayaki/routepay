@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -14,6 +15,8 @@ import { Checkbox } from './Input';
 import { Button, TextButton } from './Button';
 import { DataProps, ModalProps } from '@types';
 import { useTheme } from './Colors';
+import { FlashList } from '@shopify/flash-list';
+import { ProviderIcon } from './View';
 
 const NETWORKS = [
   {
@@ -111,49 +114,51 @@ export const DataModal = ({
     <View>
       <Modal isVisible={show} style={styles.modal}>
         <View style={styles.viewWrapper}>
-          <View>
-            <View style={styles.header}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles.closeBtn}
-                onPress={onClose}>
-                <Close size={18} />
-              </TouchableOpacity>
-              <TitleText text={title} size={14} />
-            </View>
-            <View style={styles.networks}>
-              {data &&
-                data.map((network, index) => (
-                  <View style={styles.network} key={index}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      style={styles.row}
-                      onPress={() => onSelect(network)}>
-                      <Image
+          <View style={styles.header}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.closeBtn}
+              onPress={onClose}>
+              <Close size={18} />
+            </TouchableOpacity>
+            <TitleText text={title} size={14} />
+          </View>
+          <View style={styles.networks}>
+            <FlatList
+              data={data}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <View style={styles.network}>
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={styles.row}
+                    onPress={() => onSelect(item)}>
+                    <ProviderIcon name={getName(networkName)} />
+                    {/* <Image
                         source={getImage(networkName)}
                         resizeMode="cover"
                         style={styles.networkLogo}
+                      /> */}
+                    <View>
+                      <RegularText
+                        text={item.dataName}
+                        size={11}
+                        style={styles.dataType}
                       />
-                      <View>
-                        <RegularText
-                          text={network.dataName}
-                          size={11}
-                          style={styles.dataType}
-                        />
-                        <RegularText
-                          text={nairaFormat(network.amount)}
-                          size={11}
-                          style={styles.dataType}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                    <Checkbox
-                      isChecked={selectedNetwork.dataCode === network.dataCode}
-                      onPress={() => onSelect(network)}
-                    />
-                  </View>
-                ))}
-            </View>
+                      <RegularText
+                        text={nairaFormat(item.amount)}
+                        size={11}
+                        style={styles.dataType}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <Checkbox
+                    isChecked={selectedNetwork?.dataCode === item.dataCode}
+                    onPress={() => onSelect(item)}
+                  />
+                </View>
+              )}
+            />
           </View>
           <Button text="Continue" onPress={onClose} />
         </View>
@@ -264,6 +269,7 @@ const useStyles = () => {
       borderRadius: ms(8),
       paddingHorizontal: ms(15),
       paddingTop: ms(22),
+      height: '80%',
     },
     networkTitle: {
       color: colors.dash,

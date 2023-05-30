@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Checkbox } from '@common';
+import { Button, Checkbox, Header } from '@common';
 import { useStyles } from '../styles';
-import { Header } from '../utils';
+import { useAppSelector } from '@store';
 
 const Data = ({ navigation }) => {
-  const [selectionOption, setSelectionOption] = useState('');
+  const { user } = useAppSelector(state => state.user);
+  const [selectionOption, setSelectionOption] = useState('self');
   const styles = useStyles();
+
+  const onContinue = () => {
+    if (selectionOption === 'self') {
+      navigation.navigate('buy_data', { phone: user?.phoneNumber });
+    } else {
+      navigation.navigate('buy_data', { phone: '' });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -29,12 +38,7 @@ const Data = ({ navigation }) => {
           </View>
         </View>
         <View>
-          <Button
-            text="Continue"
-            onPress={() =>
-              navigation.navigate('buy_data', { type: selectionOption })
-            }
-          />
+          <Button text="Continue" onPress={onContinue} />
         </View>
       </View>
     </View>

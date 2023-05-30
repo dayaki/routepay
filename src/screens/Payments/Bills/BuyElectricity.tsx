@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Input, Select } from '@common';
+import { Button, Header, Input, Select } from '@common';
 import { useStyles } from '../styles';
-import { Header } from '../utils';
 
 const BuyElectricity = ({ navigation }) => {
   const [meter, setMeter] = useState('');

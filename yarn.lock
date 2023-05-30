@@ -6314,6 +6314,11 @@ react-native-qrcode-svg@^6.2.0:
     prop-types "^15.8.0"
     qrcode "^1.5.1"
 
+react-native-raw-bottom-sheet@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-raw-bottom-sheet/-/react-native-raw-bottom-sheet-2.2.0.tgz#d11dabb86aadb014273767ef7b554924b13633c5"
+  integrity sha512-qL4JKIqvbcVxbkKzeh51hjV7suoJN3ouxzvLmOg0FBUV1yiJAfEbacjQdtRCI6+OU5pyGFBIifLsTXcFDwHggg==
+
 react-native-reanimated@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-3.1.0.tgz#6fe757dadf06a59b365c1c0339e992751ab03792"
@@ -6359,6 +6364,11 @@ react-native-toast-notifications@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/react-native-toast-notifications/-/react-native-toast-notifications-3.3.1.tgz#c3d6f3b63a4df81c2912560d27878ea056672981"
   integrity sha512-yc1Q2nOdIYvAf0GAIlmg8q42hiwpEHnLxkxJ6P+tN6jpcKZ1qzMXlgnmNdyF9cm9VOyHQexEP8952IKNAv1Olw==
+
+react-native-uuid@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-uuid/-/react-native-uuid-2.0.1.tgz#ed4e2dfb1683eddb66967eb5dca140dfe1abddb9"
+  integrity sha512-cptnoIbL53GTCrWlb/+jrDC6tvb7ypIyzbXNJcpR3Vab0mkeaaVd5qnB3f0whXYzS+SMoSQLcUUB0gEWqkPC0g==
 
 react-native-webview@^12.1.0:
   version "12.1.0"

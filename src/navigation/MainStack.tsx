@@ -34,6 +34,8 @@ import PayBeneficiary from '../screens/wallet/send-money/PayBeneficiary';
 import ReceiveMoney from '../screens/wallet/receive-money';
 import RouteLink from '../screens/wallet/receive-money/RouteLink';
 import TransactionHistory from '../screens/wallet/History';
+import Rewards from '../screens/rewards';
+import Leadership from '../screens/rewards/Leadership';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -59,6 +61,9 @@ const MainStack = () => {
       <Stack.Screen name="payment_options" component={PaymentOptions} />
       <Stack.Screen name="wallet_pin" component={WalletPIN} />
       <Stack.Screen name="transaction_success" component={TransactionSuccess} />
+      {/*  */}
+      <Stack.Screen name="rewards" component={Rewards} />
+      <Stack.Screen name="leadership" component={Leadership} />
       {/* Wallet */}
       <Stack.Screen name="send_money" component={SendMoney} />
       <Stack.Screen name="send_routepay" component={Routepay} />
@@ -68,7 +73,6 @@ const MainStack = () => {
       <Stack.Screen name="receive_money" component={ReceiveMoney} />
       <Stack.Screen name="route_link" component={RouteLink} />
       <Stack.Screen name="transaction_history" component={TransactionHistory} />
-
       {/* Profile */}
       <Stack.Screen name="edit_profile" component={EditProfile} />
       <Stack.Screen name="refer" component={Refer} />

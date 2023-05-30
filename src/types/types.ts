@@ -15,6 +15,13 @@ export interface IsUser {
   pinEnabled: boolean;
 }
 
+export interface IsWallet {
+  externalId: string;
+  balance: number;
+  walletType: string;
+  created: Date;
+}
+
 export interface IsBillCategory {
   billCategoryId: number;
   billCategoryName: string;
@@ -94,4 +101,9 @@ export interface IsTransaction {
   createdBy: string;
   lastModified: Date | null;
   lastModifiedBy: Date | null;
+}
+
+export interface IsFuelStation {
+  fuelStation: string;
+  fuelCodes: string[];
 }

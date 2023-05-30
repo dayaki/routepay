@@ -8,9 +8,9 @@ import {
   TitleText,
   TransactionPIN,
 } from '@common';
-import { useLoginStyles } from './styles';
-import { apiService, postSetPin } from '@utils';
+import { apiService, postCreateWallet, postSetPin } from '@utils';
 import { accountSetUp, useAppDispatch, userLogin } from '@store';
+import { useLoginStyles } from './styles';
 
 const SetPIN = ({ navigation, route }) => {
   const { payload = null, password = '' } = route.params;
@@ -27,10 +27,25 @@ const SetPIN = ({ navigation, route }) => {
         password: password,
       });
       console.log('createPin', resp);
-      // dispatch(accountSetUp());
-      // dispatch(userLogin(payload));
+      createWallet();
     } catch (err) {
       console.log('createPin ERR', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const createWallet = async () => {
+    try {
+      const resp = await apiService(postCreateWallet, 'post', {
+        externalId: payload.userId,
+        walletType: 'USER',
+      });
+      console.log('createWallet', resp);
+      dispatch(accountSetUp(payload.userId));
+      dispatch(userLogin(payload));
+    } catch (error) {
+      console.log('createWallet ERR', error);
     } finally {
       setIsLoading(false);
     }

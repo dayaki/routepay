@@ -221,9 +221,11 @@ export const DataSelect = ({
   title,
   networkName,
   data,
+  selectedPlan,
 }: {
   title: string;
   label: string;
+  selectedPlan: any;
   selectedNetwork: IsDataPlan | undefined;
   networkName: string;
   data: IsDataPlan[];
@@ -240,7 +242,7 @@ export const DataSelect = ({
         show={showModal}
         onClose={() => setShowModal(false)}
         onSelect={onSelect}
-        selectedNetwork={selectedNetwork}
+        selectedNetwork={selectedPlan}
         networkName={networkName}
       />
       <TouchableOpacity
@@ -248,7 +250,7 @@ export const DataSelect = ({
         style={[styles.select]}
         onPress={() => setShowModal(true)}>
         <RegularText
-          text={selectedNetwork ? selectedNetwork.dataName : label}
+          text={selectedNetwork?.dataName || label}
           size={14}
           color={colors.inputColor}
         />

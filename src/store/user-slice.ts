@@ -1,15 +1,19 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { apiService } from '@utils';
-import { UserState } from '@types';
+import { apiService, getWalletBalance } from '@utils';
+import { IsWallet, UserState } from '@types';
 
-// export const getUserCards = createAsyncThunk('user/cards', async () => {
-//   const { data } = await apiService(getCards, 'get');
-//   return data;
-// });
+export const getWallet = createAsyncThunk(
+  'user/wallet',
+  async (userId: string) => {
+    const { data } = await apiService(getWalletBalance(userId), 'get');
+    return data;
+  },
+);
 
 const initialState = {
   user: undefined,
   token: undefined,
+  wallet: { balance: 0 },
   isAuthenticated: false,
   onboarded: false,
 } as UserState;
@@ -34,14 +38,14 @@ export const userSlice = createSlice({
       state.user = undefined;
     },
   },
-  // extraReducers: builder => {
-  //   builder.addCase(
-  //     getUserCards.fulfilled,
-  //     (state, action: PayloadAction<isCard>) => {
-  //       state.card = action.payload;
-  //     },
-  //   );
-  // },
+  extraReducers: builder => {
+    builder.addCase(
+      getWallet.fulfilled,
+      (state, action: PayloadAction<IsWallet>) => {
+        state.wallet = action.payload;
+      },
+    );
+  },
 });
 export const { userLogin, updateUser, userLogout, updateToken } =
   userSlice.actions;

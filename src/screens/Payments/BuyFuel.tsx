@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Input, Select } from '@common';
+import { Button, Header, Input, Select } from '@common';
 import { useStyles } from './styles';
-import { Header } from './utils';
+import { useAppSelector } from '@store';
 
 const BuyFuel = ({ navigation }) => {
+  const { fuel } = useAppSelector(state => state.bill);
   const [phone, setPhone] = useState('');
   const [amount, setAmount] = useState<string>('');
   const [selectedStation, setSelectedStation] = useState('');
@@ -16,6 +17,7 @@ const BuyFuel = ({ navigation }) => {
       <View style={styles.content}>
         <View>
           <Select
+            data={fuel}
             label="Select filling station"
             selected={selectedStation}
             onSelect={setSelectedStation}

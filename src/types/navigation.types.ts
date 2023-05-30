@@ -12,6 +12,7 @@ export type AuthStackParamList = {
   verify_email: { email: string };
   forgot_password: undefined;
   reset_password: undefined;
+  verify_2fa: { email: string };
   phone_verification: {
     payload: {
       email: string;

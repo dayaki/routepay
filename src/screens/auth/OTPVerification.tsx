@@ -5,6 +5,7 @@ import Config from 'react-native-config';
 import {
   BackgroundView,
   Button,
+  Loader,
   OTPInput,
   RegularText,
   TitleText,
@@ -106,9 +107,10 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
     try {
       const resp = await apiService(postRegister, 'post', payload);
       const { id, message, succeeded } = resp;
-      console.log('handleSignup', resp);
+      console.log('registerUser', resp);
       if (succeeded) {
-        createWallet(id);
+        // createWallet(id);
+        navigation.navigate('welcome', { name: payload.firstName });
       } else {
         let errorMessage: string = '';
         if (message.includes('Duplicate Email')) {
@@ -124,7 +126,7 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
         navigation.navigate('signup', { error: errorMessage });
       }
     } catch (error) {
-      console.log('handleSignup ERR', error);
+      console.log('registerUser ERR', error);
       navigation.navigate('signup', {
         error: 'Network error, please try again.',
       });
@@ -133,22 +135,23 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
     }
   };
 
-  const createWallet = async (userId: string) => {
-    console.log('createWallet ID', userId);
-    try {
-      const resp = await apiService(postCreateWallet, 'post', {
-        externalId: userId,
-        walletType: 'USER',
-      });
-      console.log('createWallet', resp);
-      navigation.navigate('welcome', { name: payload.firstName });
-    } catch (error) {
-      console.log('createWallet ERR', error);
-    }
-  };
+  // const createWallet = async (userId: string) => {
+  //   console.log('createWallet ID', userId);
+  //   try {
+  //     const resp = await apiService(postCreateWallet, 'post', {
+  //       externalId: userId,
+  //       walletType: 'USER',
+  //     });
+  //     console.log('createWallet', resp);
+  //     navigation.navigate('welcome', { name: payload.firstName });
+  //   } catch (error) {
+  //     console.log('createWallet ERR', error);
+  //   }
+  // };
 
   return (
     <BackgroundView hasBack>
+      <Loader show={isLoading} />
       <View style={styles.content}>
         <View style={styles.centeredTexts}>
           <TitleText text="OTP Verification" />

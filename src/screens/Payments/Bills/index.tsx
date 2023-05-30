@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
-import { RegularText, TitleText } from '@common';
+import { Header, RegularText, TitleText } from '@common';
 import { useStyles } from '../styles';
-import { Header } from '../utils';
-import { useAppSelector } from '@store';
+import {
+  getCableBills,
+  getPowerBills,
+  useAppDispatch,
+  useAppSelector,
+} from '@store';
 
 const Bills = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
+  const dispatch = useAppDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getCableBills());
+  //   dispatch(getPowerBills());
+  // }, [dispatch]);
+
   return (
     <View style={styles.container}>
       <Header title="Pay Bills" centered />

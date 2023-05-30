@@ -1,8 +1,7 @@
 import React from 'react';
 import { Image, View } from 'react-native';
-import { Button, RegularText, TitleText } from '@common';
+import { Button, Header, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
-import { Header } from './utils';
 import { Exclamation } from '@icons';
 import { getImage, getName, nairaFormat } from '@utils';
 
@@ -46,6 +45,7 @@ const ReviewPayment = ({ navigation, route }) => {
               </View>
             </>
           )}
+
           {type === 'payment' && (
             <>
               <View style={styles.reviewItem}>
@@ -115,6 +115,10 @@ const ReviewPayment = ({ navigation, route }) => {
                 <RegularText text="Data plan" size={14} />
                 <TitleText text={data.data_plan} size={14} />
               </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Amount" size={14} />
+                <TitleText text={nairaFormat(data.amount)} size={14} />
+              </View>
             </>
           )}
 
@@ -135,6 +139,7 @@ const ReviewPayment = ({ navigation, route }) => {
             </>
           )}
         </View>
+
         <View>
           <View style={styles.reviewInfo}>
             <Exclamation />
@@ -146,7 +151,7 @@ const ReviewPayment = ({ navigation, route }) => {
           </View>
           <Button
             text="Continue payment"
-            onPress={() => navigation.navigate('payment_options')}
+            onPress={() => navigation.navigate('payment_options', { data })}
           />
         </View>
       </View>

@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { decode } from 'react-native-pure-jwt';
 import axios from 'axios';
 import Config from 'react-native-config';
-import { useLoginStyles } from './styles';
+import { useToast } from 'react-native-toast-notifications';
 import {
   BackgroundView,
   Button,
@@ -13,8 +13,9 @@ import {
   TitleText,
 } from '@common';
 import { Lock, Mail } from '@icons';
-import { apiService, getLogin, getProfile, getWalletBalance } from '@utils';
+import { apiService, getLogin, getProfile } from '@utils';
 import { accountSetUp, updateToken, useAppDispatch, userLogin } from '@store';
+import { useLoginStyles } from './styles';
 
 const { CLIENT_SECRET = '' } = Config;
 
@@ -23,38 +24,46 @@ const Login = ({ navigation, route }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState('');
   const styles = useLoginStyles();
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const handleLogin = async () => {
     setIsLoading(true);
     try {
       const {
-        data: { accessToken },
+        data: { accessToken, message, twoFactorEnabled },
       } = await axios.get(getLogin, {
         auth: {
           username: email,
           password: password,
         },
       });
-      dispatch(updateToken(accessToken));
-      const {
-        payload: { sub },
-      } = await decode(accessToken, CLIENT_SECRET, {
-        skipValidation: true,
-      });
-      const userProfile = await apiService(getProfile(sub), 'get');
-      dispatch(accountSetUp());
-      dispatch(userLogin(userProfile));
-      // if (!userProfile.pinEnabled) {
-      //   navigation.navigate('set_pin', { payload: userProfile, password });
-      // } else {
-      //   dispatch(accountSetUp());
-      //   dispatch(userLogin(userProfile));
-      // }
-
-      // const data = await apiService(getWalletBalance(payload.sub), 'get');
-      console.log('userProfile data', userProfile);
+      console.log('handleLogin', accessToken, message);
+      if (!accessToken) {
+        if (message.includes('This email address is not confirmed')) {
+          setHasError(message);
+        } else if (message.includes('Invalid Login Attempt')) {
+          setHasError('Invalid email address or password.');
+        } else if (twoFactorEnabled) {
+          navigation.navigate('verify_2fa', { email, password });
+          toast.show(message);
+        }
+        // return;
+      } else {
+        dispatch(updateToken(accessToken));
+        const { payload } = await decode(accessToken, CLIENT_SECRET, {
+          skipValidation: true,
+        });
+        const userProfile = await apiService(getProfile(payload.sub), 'get');
+        if (!userProfile.pinEnabled) {
+          navigation.navigate('set_pin', { payload: userProfile, password });
+        } else {
+          dispatch(accountSetUp(userProfile.userId));
+          dispatch(userLogin(userProfile));
+        }
+      }
     } catch (error) {
       console.log('handleLogin ERR', error);
     } finally {
@@ -74,7 +83,9 @@ const Login = ({ navigation, route }) => {
             </Text>
           </View>
           <Input
+            editable={!isLoading}
             value={email}
+            keyboardType="email-address"
             autoCapitalize="none"
             onChangeText={setEmail}
             placeholder="Email or mobile number"
@@ -82,11 +93,15 @@ const Login = ({ navigation, route }) => {
           />
           <Input
             value={password}
+            editable={!isLoading}
             onChangeText={setPassword}
             placeholder="Password"
             isPassword
             leftIcon={<Lock size={16} />}
           />
+          {!!hasError && (
+            <RegularText text={hasError} color="#FF6600" size={11} />
+          )}
           <Button
             text="Login"
             disabled={!email || password.length < 5}

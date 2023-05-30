@@ -7,9 +7,11 @@ import {
   RegularText,
   TitleText,
 } from '@common';
+import { apiService, getUuid, postBillPayment, postVerifyPin } from '@utils';
 import { useLoginStyles } from './auth/styles';
 
-const WalletPIN = ({ navigation }) => {
+const WalletPIN = ({ navigation, route }) => {
+  const data = route.params.data;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [pin, setPin] = useState('');
@@ -17,9 +19,7 @@ const WalletPIN = ({ navigation }) => {
 
   useEffect(() => {
     if (pin.length === 4) {
-      // submit data
       handleSubmit();
-      console.log('submut pin', pin);
     }
   }, [pin]);
 
@@ -42,8 +42,31 @@ const WalletPIN = ({ navigation }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsLoading(true);
+    try {
+      const response = await apiService(postVerifyPin(pin), 'post', {});
+      console.log('Verify PIN', response);
+      chargePayment();
+    } catch (err) {
+      console.log('Verify PIN ERR', err);
+    }
+  };
+
+  const chargePayment = async () => {
+    try {
+      const response = await apiService(postBillPayment, 'post', {
+        billCode: data.selectedNetwork.billCode,
+        merchantReference: getUuid(),
+        payload: {
+          mobileNumber: data.phone,
+          amount: data.amount,
+        },
+      });
+      console.log('chargePayment', response);
+    } catch (err) {
+      console.log('chargePayment ERR', err);
+    }
   };
 
   return (

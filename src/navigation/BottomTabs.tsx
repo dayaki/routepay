@@ -13,6 +13,7 @@ import Payments from '../screens/payments';
 import Dashboard from '../screens/dashboard';
 import Profile from '../screens/profile';
 import Wallet from '../screens/wallet';
+import Rewards from '../screens/rewards';
 
 const TabStack = createBottomTabNavigator();
 
@@ -20,7 +21,6 @@ const BottomTabs = () => {
   const {
     colors: { colors },
   } = useAppSelector(state => state.misc);
-  console.log('BottomTabs', colors);
   return (
     <TabStack.Navigator
       screenOptions={{
@@ -70,7 +70,7 @@ const BottomTabs = () => {
       />
       <TabStack.Screen
         name="rewards"
-        component={Payments}
+        component={Rewards}
         options={{
           tabBarIcon: ({ focused }) => (
             <RewardTabIcon fill={focused ? '#FF6600' : 'none'} />

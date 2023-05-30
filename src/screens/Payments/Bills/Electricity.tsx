@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Checkbox } from '@common';
+import { Button, Checkbox, Header } from '@common';
 import { useStyles } from '../styles';
-import { Header } from '../utils';
 
 const Electricity = ({ navigation }) => {
   const [selectionOption, setSelectionOption] = useState('');

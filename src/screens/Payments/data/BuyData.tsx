@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, DataSelect, Input, NetworkSelect } from '@common';
+import { Button, DataSelect, Header, Input, NetworkSelect } from '@common';
 import { useAppSelector } from '@store';
 import { useStyles } from '../styles';
-import { Header } from '../utils';
 import { IsBillProvider, IsDataPlan } from '@types';
-import { apiService, postBundleLookup } from '@utils';
+import { apiService, nairaFormat, postBundleLookup } from '@utils';
 
-const BuyData = ({ navigation }) => {
+const BuyData = ({ navigation, route }) => {
+  const userPhone = route.params.phone || '';
   const { bundle } = useAppSelector(state => state.bill);
-  const [phone, setPhone] = useState('');
+  const [phone, setPhone] = useState(userPhone);
   const [amount, setAmount] = useState<string>('');
   const [selectedNetwork, setSelectedNetwork] = useState<
     IsBillProvider | undefined
@@ -18,9 +18,13 @@ const BuyData = ({ navigation }) => {
   const [selectedData, setSelectedData] = useState<IsDataPlan>();
   const styles = useStyles();
 
+  console.log('selectedNetwork BUBNDLE', bundle);
+
   const handleSelection = (data: IsBillProvider) => {
+    console.log('selected Networked', data);
     setSelectedNetwork(data);
     lookup(data.billCode);
+    setSelectedData([]);
   };
 
   const lookup = async (code: string) => {
@@ -42,6 +46,7 @@ const BuyData = ({ navigation }) => {
     ) {
       data2send.payload.accountNumber = phone;
     }
+    console.log('payload for lookup', data2send);
     try {
       const { response } = await apiService(
         postBundleLookup,
@@ -77,19 +82,22 @@ const BuyData = ({ navigation }) => {
             selected={selectedNetwork}
             onSelect={data => handleSelection(data)}
           />
-          <DataSelect
-            networkName={selectedNetwork?.billCode || ''}
-            data={dataPlans || []}
-            title="Choose Data Plan"
-            label="Data plan"
-            selectedNetwork={selectedData}
-            onSelect={data => setSelectedData(data)}
-          />
+          {dataPlans && dataPlans.length && (
+            <DataSelect
+              networkName={selectedNetwork?.billCode || ''}
+              data={dataPlans || []}
+              title="Choose Data Plan"
+              label="Data plan"
+              selectedNetwork={selectedData}
+              selectedPlan={selectedData}
+              onSelect={data => setSelectedData(data)}
+            />
+          )}
           <Input
             placeholder="Amount"
             returnKeyType="done"
-            value={amount}
-            onChangeText={setAmount}
+            value={nairaFormat(selectedData?.amount || 0)}
+            editable={false}
             keyboardType="number-pad"
             inputStyle={styles.input}
           />
@@ -102,12 +110,12 @@ const BuyData = ({ navigation }) => {
               data: {
                 phone,
                 selectedNetwork,
-                amount,
-                data_plan: '2GB for Monthly - Monthly',
+                amount: selectedData?.amount,
+                data_plan: selectedData?.dataName,
               },
             })
           }
-          disabled={!phone || !amount || !selectedNetwork}
+          disabled={!phone || !selectedNetwork || !selectedData}
         />
       </View>
     </View>

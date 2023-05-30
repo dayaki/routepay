@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native-bars';
-import { getImage, ms } from '@utils';
+import { getImage, ms, nairaFormat } from '@utils';
 import { BackArrow, ChevronBack, Exclamation } from '@icons';
 import { RegularText, TitleText } from './Text';
 import { pink300, useTheme, woodsmoke } from './Colors';
@@ -67,6 +67,7 @@ export const Header = ({
   hideBalance?: boolean;
   centered?: boolean;
 }) => {
+  const { wallet } = useAppSelector(state => state.user);
   const styles = useStyles();
   const { goBack } = useNavigation();
   return (
@@ -88,7 +89,11 @@ export const Header = ({
       {!hideBalance && (
         <View style={styles.walletBalance}>
           <RegularText text="Your wallet balance: " size={11} color="#15151A" />
-          <TitleText text="N0.00" size={11} color="#15151A" />
+          <TitleText
+            text={nairaFormat(wallet?.balance || 0)}
+            size={11}
+            color="#15151A"
+          />
         </View>
       )}
     </View>

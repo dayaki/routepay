@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
-import { RegularText } from '@common';
+import { Header, RegularText } from '@common';
 import { useStyles } from './styles';
 import { MenuRightArrow } from '@icons';
-import { Header } from './utils';
-import { useAppSelector } from '@store';
+import {
+  getAirtimeBills,
+  getBundleBills,
+  getCableBills,
+  getFuelBills,
+  getPinBills,
+  getPowerBills,
+  useAppDispatch,
+  useAppSelector,
+} from '@store';
 
 const NAV_ITEMS = [
   {
@@ -48,6 +56,17 @@ const NAV_ITEMS = [
 const Payments = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getFuelBills());
+    dispatch(getAirtimeBills());
+    dispatch(getBundleBills());
+    dispatch(getCableBills());
+    dispatch(getPowerBills());
+    dispatch(getPinBills());
+  }, [dispatch]);
+
   return (
     <View style={styles.container}>
       <Header title="Payments" />

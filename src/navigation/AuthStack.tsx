@@ -11,6 +11,7 @@ import Welcome from '../screens/auth/Welcome';
 import SetPIN from '../screens/auth/SetPIN';
 import EmailVerification from '../screens/auth/EmailVerification';
 import { useAppSelector } from '@store';
+import Verify2FA from '../screens/auth/Verify2FA';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
@@ -27,6 +28,7 @@ const AuthStack = () => {
       <Stack.Screen name="reset_password" component={ResetPassword} />
       <Stack.Screen name="phone_verification" component={OTPVerification} />
       <Stack.Screen name="email_verification" component={EmailVerification} />
+      <Stack.Screen name="verify_2fa" component={Verify2FA} />
       <Stack.Screen name="set_pin" component={SetPIN} />
       <Stack.Screen name="welcome" component={Welcome} />
     </Stack.Navigator>

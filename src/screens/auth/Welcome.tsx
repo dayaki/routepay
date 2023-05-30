@@ -30,8 +30,8 @@ const Welcome = ({ navigation, route }) => {
           <Text style={styles.welcomeText}>
             It’s so good to have you here, {name}!!! You’ve earned{' '}
             <Text style={styles.bold}>100</Text>{' '}
-            <Text style={styles.brand}>routepaycoins</Text>. And, you can earn
-            more points on every transaction.
+            <Text style={styles.brand}>coins</Text>. And, you can earn more
+            points on every transaction.
           </Text>
           <Button
             text="Continue"

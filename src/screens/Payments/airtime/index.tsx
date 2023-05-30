@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Button, Checkbox } from '@common';
+import { Button, Checkbox, Header } from '@common';
 import { useStyles } from '../styles';
-import { Header } from '../utils';
-import { useAppSelector } from '@store';
+import { getAirtimeBills, useAppDispatch, useAppSelector } from '@store';
 
 const Airtime = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
   const [selectionOption, setSelectionOption] = useState('self');
   const styles = useStyles();
+  const dispatch = useAppDispatch();
+
+  // useEffect(() => {
+  //   dispatch(getAirtimeBills());
+  // }, [dispatch]);
 
   const onContinue = () => {
     if (selectionOption === 'self') {
