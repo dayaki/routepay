@@ -14,7 +14,7 @@ import { getName, ms } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { TextButton } from './Button';
 import { ChevronDown, EyeIcon, Lock } from '@icons';
-import { DataModal, NetworkModal } from './Modal';
+import { DataModal, FuelModal, NetworkModal, SelectModal } from './Modal';
 import { ProviderIcon } from './View';
 import { IsBillProvider, IsDataPlan } from '@types';
 import { useAppSelector } from '@store';
@@ -130,13 +130,17 @@ export const TextArea = ({
   );
 };
 
-export const Select = ({
+export const FuelSelect = ({
   label,
   selected,
   onSelect,
+  title,
+  data,
 }: {
   label: string;
   selected: string;
+  title: string;
+  data: [];
   onSelect: () => void;
 }) => {
   const [showModal, setShowModal] = useState(false);
@@ -144,11 +148,13 @@ export const Select = ({
   const { colors } = useTheme();
   return (
     <>
-      <NetworkModal
+      <FuelModal
+        data={data}
+        title={title}
         show={showModal}
         onClose={() => setShowModal(false)}
         onSelect={onSelect}
-        selectedNetwork={selected}
+        selected={selected}
       />
       <TouchableOpacity
         activeOpacity={0.7}
@@ -156,9 +162,8 @@ export const Select = ({
         onPress={() => setShowModal(true)}>
         {selected ? (
           <View style={styles.row}>
-            <ProviderIcon name="mtn" />
             <TitleText
-              text={capitalize(selected)}
+              text={capitalize(selected.fuelStation)}
               size={14}
               color={colors.inputColor}
             />

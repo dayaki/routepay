@@ -15,35 +15,62 @@ import { Checkbox } from './Input';
 import { Button, TextButton } from './Button';
 import { DataProps, ModalProps } from '@types';
 import { useTheme } from './Colors';
-import { FlashList } from '@shopify/flash-list';
 import { ProviderIcon } from './View';
 
-const NETWORKS = [
-  {
-    id: 1,
-    name: 'Airtel',
-    slug: 'airtel',
-    image: require('@images/networks/airtel.png'),
-  },
-  {
-    id: 2,
-    name: 'MTN',
-    slug: 'mtn',
-    image: require('@images/networks/mtn.png'),
-  },
-  {
-    id: 3,
-    name: '9mobile',
-    slug: '9mobile',
-    image: require('@images/networks/9mobile.png'),
-  },
-  {
-    id: 4,
-    name: 'Glo',
-    slug: 'glo',
-    image: require('@images/networks/glo.png'),
-  },
-];
+export const FuelModal = ({
+  show,
+  onClose,
+  selected,
+  onSelect,
+  data,
+  title,
+}: {
+  show: boolean;
+  onClose: () => void;
+  selected: any;
+  onSelect: (item: any) => void;
+  data: [];
+  title: string;
+}) => {
+  const styles = useStyles();
+  return (
+    <View>
+      <Modal isVisible={show} style={styles.modal}>
+        <View style={styles.viewWrapper}>
+          <View>
+            <View style={styles.header}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.closeBtn}
+                onPress={onClose}>
+                <Close size={18} />
+              </TouchableOpacity>
+              <TitleText text={title} size={14} />
+            </View>
+            <View style={styles.networks}>
+              {data &&
+                data.map((station, index) => (
+                  <View style={styles.network} key={index}>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => onSelect(station)}
+                      style={styles.row}>
+                      <TitleText text={station.fuelStation} size={11} />
+                    </TouchableOpacity>
+                    <Checkbox
+                      isChecked={selected.fuelStation === station.fuelStation}
+                      onPress={() => onSelect(station)}
+                    />
+                  </View>
+                ))}
+            </View>
+          </View>
+          <Button text="Continue" onPress={onClose} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
 
 export const NetworkModal = ({
   show,

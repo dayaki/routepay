@@ -113,15 +113,19 @@ export const getBundleBills = createAsyncThunk('bills/bundles', async () => {
 
 export const getFuelBills = createAsyncThunk('bills/fuel', async () => {
   try {
-    const { data } = await axios.get(
-      'https://apidev.routepay.com/bills/api/v1/bill/6/category',
+    const { data } = await axios.post(
+      'https://apidev.routepay.com/bills/api/v1/Payment/lookup',
+      {
+        billCode: 'FUEL',
+        payload: {},
+      },
       {
         headers: { Authorization: `Bearer ${store.getState().user.token}` },
       },
     );
-    return data;
+    return data.response;
   } catch (error) {
-    console.log('getAirtimeBills ERR', error);
+    console.log('getFuelBills ERR', error);
   }
 });
 

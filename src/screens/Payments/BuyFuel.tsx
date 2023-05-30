@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, Header, Input, Select } from '@common';
+import { Button, FuelSelect, Header, Input, Select } from '@common';
 import { useStyles } from './styles';
 import { useAppSelector } from '@store';
 
 const BuyFuel = ({ navigation }) => {
   const { fuel } = useAppSelector(state => state.bill);
+  const { user } = useAppSelector(state => state.user);
   const [phone, setPhone] = useState('');
   const [amount, setAmount] = useState<string>('');
   const [selectedStation, setSelectedStation] = useState('');
   const styles = useStyles();
+  console.log('fuel', fuel);
 
   return (
     <View style={styles.container}>
       <Header title="Buy Fuel" centered />
       <View style={styles.content}>
         <View>
-          <Select
+          <FuelSelect
             data={fuel}
             label="Select filling station"
+            title="Choose Filling Station"
             selected={selectedStation}
             onSelect={setSelectedStation}
           />
@@ -49,8 +52,8 @@ const BuyFuel = ({ navigation }) => {
               data: {
                 amount,
                 phone,
-                station: 'RAINOIL',
-                email: 'janedoe@gmail.com',
+                station: selectedStation,
+                email: user?.email,
               },
             })
           }

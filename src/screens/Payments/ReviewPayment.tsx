@@ -125,8 +125,12 @@ const ReviewPayment = ({ navigation, route }) => {
           {type === 'fuel' && (
             <>
               <View style={styles.reviewItem}>
+                <RegularText text="Phone number" size={14} />
+                <TitleText text={data.phone} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
                 <RegularText text="Filling station" size={14} />
-                <TitleText text={data.station} size={14} />
+                <TitleText text={data.station.fuelStation} size={14} />
               </View>
               <View style={styles.reviewItem}>
                 <RegularText text="Amount" size={14} />
