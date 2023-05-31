@@ -23,6 +23,8 @@ export const LightMode: Theme = {
     fadedText: '#1F1F23',
     green: '#008751',
     counter: 'rgba(31, 31, 35, 0.6)',
+    doe: '#15151A',
+    listBg: '#fff',
   },
 };
 
@@ -47,6 +49,8 @@ export const DarkMode: Theme = {
     fadedText: 'rgba(249, 247, 246, 0.6)',
     green: '#008751',
     counter: 'rgba(249, 247, 246, 0.6)',
+    doe: '#0D0D0E',
+    listBg: '#15151A',
   },
 };
 

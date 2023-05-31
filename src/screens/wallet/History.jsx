@@ -36,7 +36,6 @@ const TransactionHistory = ({ navigation }) => {
                   />
                   <RegularText
                     text={moment(item.created).format('DD MMMM, YYYY, HH:MMa')}
-                    // "12 May, 2023, 09:15pm"
                     style={styles.historyLabel}
                   />
                 </View>

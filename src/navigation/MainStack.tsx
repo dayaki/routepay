@@ -36,6 +36,7 @@ import RouteLink from '../screens/wallet/receive-money/RouteLink';
 import TransactionHistory from '../screens/wallet/History';
 import Rewards from '../screens/rewards';
 import Leadership from '../screens/rewards/Leadership';
+import Notifications from '../screens/Notifications';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -81,6 +82,7 @@ const MainStack = () => {
       <Stack.Screen name="send_statement" component={SendStatement} />
       <Stack.Screen name="support" component={Support} />
       <Stack.Screen name="change_pin" component={ChangePIN} />
+      <Stack.Screen name="notifications" component={Notifications} />
     </Stack.Navigator>
   );
 };

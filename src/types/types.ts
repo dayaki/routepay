@@ -85,6 +85,8 @@ export type Theme = {
     fadedText: string;
     green: string;
     counter: string;
+    doe: string;
+    listBg: string;
   };
 };
 

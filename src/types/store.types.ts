@@ -29,5 +29,6 @@ export interface BillState {
 export interface MiscState {
   theme: 'dark' | 'light';
   colors: Theme;
+  showBalance: boolean;
   transactions: IsTransaction[] | undefined;
 }

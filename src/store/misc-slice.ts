@@ -20,6 +20,7 @@ export const getAllTransactions = createAsyncThunk('bills/bills', async () => {
 const initialState = {
   theme: 'dark',
   colors: DarkMode,
+  showBalance: true,
   transactions: undefined,
 } as MiscState;
 
@@ -30,6 +31,9 @@ export const miscSlice = createSlice({
     updateTheme: (state, { payload }) => {
       state.theme = payload;
       state.colors = payload === 'light' ? LightMode : DarkMode;
+    },
+    toggleShowBalance: (state, { payload }) => {
+      state.showBalance = payload;
     },
   },
   extraReducers: builder => {
@@ -45,6 +49,6 @@ export const miscSlice = createSlice({
       });
   },
 });
-export const { updateTheme } = miscSlice.actions;
+export const { updateTheme, toggleShowBalance } = miscSlice.actions;
 
 export default miscSlice.reducer;
