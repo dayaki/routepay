@@ -1,12 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Image } from 'react-native';
-import { RegularText, TitleText, useTheme } from '@common';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import Modal from 'react-native-modal';
+import { Button, RegularText, TitleText, useTheme } from '@common';
 import { ms } from '@utils';
+import moment from 'moment';
+import { ChevronForward } from '@icons';
 
 export const OverallView = () => {
   const styles = useStyles();
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+    <>
       <View style={styles.spread}>
         <View style={styles.leader}>
           <Image
@@ -53,14 +56,274 @@ export const OverallView = () => {
         </View>
       </View>
 
-      <View style={styles.lists}></View>
-    </ScrollView>
+      <View style={styles.lists}>
+        <WinningList />
+        <WinningList />
+        <WinningList />
+        <WinningList isUser />
+        <WinningList />
+      </View>
+    </>
+  );
+};
+
+export const MyWinnings = () => {
+  const styles = useStyles();
+  return (
+    <>
+      <View style={styles.winning}>
+        <View style={styles.winningSpread}>
+          <View>
+            <RegularText
+              text="Total points"
+              size={11}
+              style={styles.winningLabel}
+            />
+            <TitleText text="100 points" size={14} color="#FF6600" />
+          </View>
+          <View>
+            <RegularText text="Date" size={11} style={styles.winningLabel} />
+            <TitleText text={moment().format('D MMM, YY')} size={14} />
+          </View>
+        </View>
+        <View style={styles.spread}>
+          <View>
+            <RegularText text="Rank" size={11} style={styles.winningLabel} />
+            <TitleText text="1st" size={14} />
+          </View>
+          <View>
+            <RegularText text="Period" size={11} style={styles.winningLabel} />
+            <TitleText text="One Week" size={14} />
+          </View>
+          <View />
+          <View />
+        </View>
+      </View>
+      {/*  */}
+      <View style={styles.winning}>
+        <View style={styles.winningSpread}>
+          <View>
+            <RegularText
+              text="Total points"
+              size={11}
+              style={styles.winningLabel}
+            />
+            <TitleText text="150 points" size={14} color="#FF6600" />
+          </View>
+          <View>
+            <RegularText text="Date" size={11} style={styles.winningLabel} />
+            <TitleText text={moment().format('D MMM, YY')} size={14} />
+          </View>
+        </View>
+        <View style={styles.spread}>
+          <View>
+            <RegularText text="Rank" size={11} style={styles.winningLabel} />
+            <TitleText text="1st" size={14} />
+          </View>
+          <View>
+            <RegularText text="Period" size={11} style={styles.winningLabel} />
+            <TitleText text="Three Week" size={14} />
+          </View>
+          <View />
+          <View />
+        </View>
+      </View>
+    </>
+  );
+};
+
+const WinningList = ({ isUser }: { isUser?: boolean }) => {
+  const styles = useStyles();
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={[styles.list, isUser && styles.meList]}>
+      <View style={styles.spread}>
+        <View style={styles.row}>
+          <View style={styles.number}>
+            <RegularText text="4" size={11} />
+          </View>
+          <Image
+            source={{ uri: 'https://100k-faces.glitch.me/random-image' }}
+            resizeMode="cover"
+            style={styles.listImage}
+          />
+        </View>
+        <TitleText text="930pts" size={14} style={isUser && styles.mePoint} />
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export const EnquiryView = ({ onOpen }) => {
+  const styles = useStyles();
+  return (
+    <View style={styles.enquiry}>
+      <TitleText text="Enquiry" size={14} />
+      <View style={styles.enquiryList}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.enquiryBtn}
+          onPress={() =>
+            onOpen({
+              title: 'My Rank',
+              text: '"Hurray! You are currently ranked silver. Check our leaderboard page for more details."',
+            })
+          }>
+          <RegularText text="My Rank" size={14} />
+          <ChevronForward size={13} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.enquiryBtn}
+          onPress={() =>
+            onOpen({
+              title: 'My Balance',
+              text: 'Great one Jane, your current balance is N20.00',
+            })
+          }>
+          <RegularText text="My Balance" size={14} />
+          <ChevronForward size={13} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.enquiryBtn}
+          onPress={() =>
+            onOpen({
+              title: 'Point Count',
+              text: 'Great one Jane, your point count is 350pts',
+            })
+          }>
+          <RegularText text="Point Count" size={14} />
+          <ChevronForward size={13} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.enquiryBtn}
+          onPress={() =>
+            onOpen({
+              title: 'Transact Count',
+              text: 'Great one Jane, your transact count is 12',
+            })
+          }>
+          <RegularText text="Transact Count" size={14} />
+          <ChevronForward size={13} />
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.8} style={styles.enquiryBtn}>
+          <RegularText text="My Vault" size={14} />
+          <ChevronForward size={13} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+export const EnquiryBox = ({
+  data,
+  isVisible,
+  onPress,
+}: {
+  data: {
+    title: string;
+    text: string;
+  };
+  isVisible: boolean;
+  onPress: () => void;
+}) => {
+  const styles = useStyles();
+  return (
+    <Modal
+      style={{ margin: 0 }}
+      isVisible={isVisible}
+      onBackButtonPress={onPress}>
+      <View style={styles.enquiryBox}>
+        <TitleText text={data.title} style={styles.boxTitle} />
+        <RegularText text={data.text} style={styles.boxText} />
+        <Button text="Close" onPress={onPress} />
+      </View>
+    </Modal>
   );
 };
 
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
+    enquiry: {
+      backgroundColor: colors.selector,
+      paddingVertical: ms(30),
+      paddingHorizontal: ms(20),
+    },
+    enquiryList: {
+      marginTop: ms(20),
+    },
+    enquiryBox: {
+      backgroundColor: colors.selector,
+      position: 'absolute',
+      zIndex: 5000,
+      bottom: 0,
+      left: 0,
+      width: '100%',
+      height: ms(225),
+      borderRadius: ms(7),
+      paddingVertical: ms(30),
+      paddingHorizontal: ms(20),
+    },
+    enquiryBtn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingLeft: ms(15),
+      paddingRight: ms(21),
+      paddingVertical: ms(15),
+      backgroundColor: colors.listBg,
+      marginBottom: ms(10),
+      borderRadius: ms(8),
+    },
+    boxTitle: {
+      fontSize: 14,
+      lineHeight: 21,
+      marginBottom: ms(20),
+    },
+    boxText: {
+      fontSize: 11,
+      lineHeight: 20,
+      marginBottom: ms(30),
+    },
+    winning: {
+      borderRadius: ms(10),
+      paddingVertical: ms(12),
+      paddingHorizontal: ms(15),
+      backgroundColor: colors.selector,
+      marginBottom: ms(20),
+    },
+    winningSpread: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: ms(20),
+    },
+    winningLabel: {
+      marginBottom: ms(3),
+      color: colors.counter,
+    },
+    list: {
+      backgroundColor: colors.selector,
+      paddingVertical: ms(9),
+      paddingHorizontal: ms(20),
+      borderRadius: ms(10),
+      marginBottom: ms(10),
+    },
+    meList: {
+      backgroundColor: colors.pink300,
+    },
+    mePoint: {
+      color: colors.primary,
+    },
+    listImage: {
+      width: ms(36),
+      height: ms(36),
+      borderRadius: ms(36 / 2),
+    },
     scroll: {
       paddingTop: ms(30),
       paddingHorizontal: ms(20),
@@ -69,6 +332,19 @@ const useStyles = () => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    number: {
+      width: ms(23),
+      height: ms(23),
+      borderRadius: ms(23 / 2),
+      backgroundColor: colors.doe,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: ms(20),
     },
     leader: {
       backgroundColor: colors.selector,

@@ -1,13 +1,19 @@
 import { StyleSheet } from 'react-native';
-import { useTheme } from '@common';
 import { ms } from '@utils';
+import { useAppSelector } from '@store';
 
 export const useStyles = () => {
-  const { colors } = useTheme();
+  const {
+    colors: { colors },
+  } = useAppSelector(state => state.misc);
   return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.background,
+    },
+    rbSheet: {
+      backgroundColor: colors.selector,
+      borderRadius: ms(7),
     },
     scroll: {
       flex: 1,
@@ -68,7 +74,7 @@ export const useStyles = () => {
       //   justifyContent: 'space-between',
       borderRadius: 7,
       borderWidth: 0.5,
-      borderColor: 'rgba(249, 247, 246, 0.8)',
+      borderColor: colors.counter,
       height: ms(40),
       //   width: ms(110),
       paddingHorizontal: ms(10),
@@ -103,7 +109,9 @@ export const useStyles = () => {
 };
 
 export const useLeadershipStyles = () => {
-  const { colors } = useTheme();
+  const {
+    colors: { colors },
+  } = useAppSelector(state => state.misc);
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -140,6 +148,10 @@ export const useLeadershipStyles = () => {
       flex: 1,
       paddingHorizontal: ms(20),
       //   paddingTop: ms(20),
+    },
+    scrollV: {
+      paddingTop: ms(30),
+      paddingHorizontal: ms(20),
     },
     spread: {
       flexDirection: 'row',

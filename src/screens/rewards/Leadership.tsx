@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Header, RegularText, TitleText } from '@common';
 import { useLeadershipStyles } from './styles';
-import { OverallView } from './utils';
+import { MyWinnings, OverallView } from './utils';
 
 const Leadership = () => {
   const [activeTab, setActiveTab] = useState(2);
@@ -42,7 +42,10 @@ const Leadership = () => {
           )}
         </TouchableOpacity>
       </View>
-      {activeTab === 2 && <OverallView />}
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollV}>
+        {activeTab === 2 && <OverallView />}
+        {activeTab === 3 && <MyWinnings />}
+      </ScrollView>
     </View>
   );
 };
