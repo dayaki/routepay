@@ -9,16 +9,32 @@ import {
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { Header, RegularText, TextButton, TitleText } from '@common';
 import { RefreshIcon } from '@icons';
-import { useAppSelector } from '@store';
+import {
+  getMonthlyData,
+  getOverallData,
+  getWinnings,
+  useAppDispatch,
+  useAppSelector,
+} from '@store';
 import { useStyles } from './styles';
 import { EnquiryBox, EnquiryView } from './utils';
+import { getPointBalance, getPoints, getRank, getTxns } from './apis';
 
 const Rewards = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
+  const { user } = useAppSelector(state => state.user);
+  const { dashboard } = useAppSelector(state => state.loyalty);
   const [showBox, setShowBox] = useState(false);
   const [boxData, setBoxData] = useState({ title: '', text: '' });
   const enquiryRef = useRef<RBSheet>(null);
   const styles = useStyles();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getOverallData('08032009444'));
+    dispatch(getWinnings('08032009444'));
+    dispatch(getMonthlyData('08032009444'));
+  }, [dispatch]);
 
   useEffect(() => {
     if (boxData.text) {
@@ -27,6 +43,38 @@ const Rewards = ({ navigation }) => {
       }, 200);
     }
   }, [boxData]);
+
+  const handleOpen = async (type: string) => {
+    enquiryRef.current?.close();
+    if (type.includes('Rank')) {
+      const rank = await getRank('08032009444');
+      setBoxData({
+        title: type,
+        text: rank,
+      });
+    }
+    if (type.includes('Balance')) {
+      const rank = await getPointBalance('08032009444');
+      setBoxData({
+        title: type,
+        text: rank,
+      });
+    }
+    if (type.includes('Point Count')) {
+      const rank = await getPoints('08032009444');
+      setBoxData({
+        title: type,
+        text: rank,
+      });
+    }
+    if (type.includes('Transact Count')) {
+      const rank = await getTxns('08032009444');
+      setBoxData({
+        title: type,
+        text: rank,
+      });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -42,12 +90,7 @@ const Rewards = ({ navigation }) => {
         customStyles={{
           container: styles.rbSheet,
         }}>
-        <EnquiryView
-          onOpen={(data: any) => {
-            setBoxData(data);
-            enquiryRef.current?.close();
-          }}
-        />
+        <EnquiryView onOpen={handleOpen} />
       </RBSheet>
 
       <Header title="Rewards" hideBalance />
@@ -59,25 +102,41 @@ const Rewards = ({ navigation }) => {
           <View style={styles.dashboardRow}>
             <View>
               <RegularText text="NAME" style={styles.dashboardLabel} />
-              <RegularText text="Vek Akinyemi" size={14} color="#F9F7F6" />
+              <RegularText
+                text={`${dashboard?.firstname} ${dashboard?.lastname}`}
+                size={14}
+                color="#F9F7F6"
+              />
             </View>
             <View>
               <RegularText text="TIER" style={styles.dashboardLabel} />
-              <RegularText text="Silver Class" size={14} color="#F9F7F6" />
+              <RegularText
+                text={dashboard?.customerclass}
+                size={14}
+                color="#F9F7F6"
+              />
             </View>
           </View>
           <View style={styles.dashboardPoints}>
             <RegularText text="LOYALTY BALANCE" style={styles.dashboardLabel} />
-            <TitleText text="300 pts" style={styles.dashboardPoint} />
+            <TitleText
+              text={`${dashboard?.points} pts`}
+              style={styles.dashboardPoint}
+            />
           </View>
           <View style={styles.dashboardRow}>
             <View>
               <RegularText text="WALLET ID" style={styles.dashboardLabel} />
               <RegularText
-                text="4352  4210  5674  2341"
+                text={dashboard?.memberid.replace(/(?<=^(?:.{4})+)(?!$)/g, ' ')}
                 size={14}
                 color="#F9F7F6"
               />
+              {/* <RegularText
+                text="4352  4210  5674  2341"
+                size={14}
+                color="#F9F7F6"
+              /> */}
             </View>
             <TouchableOpacity activeOpacity={0.8} style={styles.refreshBtn}>
               <RefreshIcon color="#F9F7F6" />

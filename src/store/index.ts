@@ -3,3 +3,4 @@ export * from './store';
 export * from './user-slice';
 export * from './bill-slice';
 export * from './misc-slice';
+export * from './loyalty-slice';

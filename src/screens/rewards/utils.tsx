@@ -2,11 +2,18 @@ import React from 'react';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import { Button, RegularText, TitleText, useTheme } from '@common';
-import { ms } from '@utils';
+import { formatPhone, ms } from '@utils';
 import moment from 'moment';
 import { ChevronForward } from '@icons';
+import { LoyaltyT } from '@types';
 
-export const OverallView = () => {
+export const OverallView = ({
+  data,
+  userphone,
+}: {
+  data: LoyaltyT[];
+  userphone?: string;
+}) => {
   const styles = useStyles();
   return (
     <>
@@ -18,7 +25,11 @@ export const OverallView = () => {
             style={styles.leaderPhoto}
           />
           <TitleText text="John Doe" size={11} />
-          <TitleText text="1750pts" size={14} color="#FF6600" />
+          <TitleText
+            text={`${data[1].total_points}pts`}
+            size={14}
+            color="#FF6600"
+          />
           <View style={styles.badge}>
             <RegularText text="2" style={styles.badgeText} />
           </View>
@@ -32,7 +43,7 @@ export const OverallView = () => {
           />
           <TitleText text="JChett Damee" size={11} />
           <TitleText
-            text="2350pts"
+            text={`${data[0].total_points}pts`}
             size={14}
             color="#FF6600"
             style={styles.topPoint}
@@ -49,7 +60,11 @@ export const OverallView = () => {
             style={styles.leaderPhoto}
           />
           <TitleText text="Joy Doe" size={11} />
-          <TitleText text="950pts" size={14} color="#FF6600" />
+          <TitleText
+            text={`${data[3].total_points}pts`}
+            size={14}
+            color="#FF6600"
+          />
           <View style={[styles.badge, styles.third]}>
             <RegularText text="3" style={styles.badgeText} />
           </View>
@@ -57,82 +72,88 @@ export const OverallView = () => {
       </View>
 
       <View style={styles.lists}>
-        <WinningList />
-        <WinningList />
-        <WinningList />
-        <WinningList isUser />
-        <WinningList />
+        {data &&
+          data
+            .slice(3)
+            .map((item, index) => (
+              <WinningList
+                rank={item.subrank}
+                point={item.total_points}
+                key={index}
+                isUser={item.msisdn === formatPhone(userphone)}
+              />
+            ))}
       </View>
     </>
   );
 };
 
-export const MyWinnings = () => {
+export const MyWinnings = ({ data }) => {
   const styles = useStyles();
+  console.log('MyWinnings', data);
   return (
     <>
-      <View style={styles.winning}>
-        <View style={styles.winningSpread}>
-          <View>
-            <RegularText
-              text="Total points"
-              size={11}
-              style={styles.winningLabel}
-            />
-            <TitleText text="100 points" size={14} color="#FF6600" />
-          </View>
-          <View>
-            <RegularText text="Date" size={11} style={styles.winningLabel} />
-            <TitleText text={moment().format('D MMM, YY')} size={14} />
-          </View>
-        </View>
-        <View style={styles.spread}>
-          <View>
-            <RegularText text="Rank" size={11} style={styles.winningLabel} />
-            <TitleText text="1st" size={14} />
-          </View>
-          <View>
-            <RegularText text="Period" size={11} style={styles.winningLabel} />
-            <TitleText text="One Week" size={14} />
-          </View>
-          <View />
-          <View />
-        </View>
-      </View>
-      {/*  */}
-      <View style={styles.winning}>
-        <View style={styles.winningSpread}>
-          <View>
-            <RegularText
-              text="Total points"
-              size={11}
-              style={styles.winningLabel}
-            />
-            <TitleText text="150 points" size={14} color="#FF6600" />
-          </View>
-          <View>
-            <RegularText text="Date" size={11} style={styles.winningLabel} />
-            <TitleText text={moment().format('D MMM, YY')} size={14} />
-          </View>
-        </View>
-        <View style={styles.spread}>
-          <View>
-            <RegularText text="Rank" size={11} style={styles.winningLabel} />
-            <TitleText text="1st" size={14} />
-          </View>
-          <View>
-            <RegularText text="Period" size={11} style={styles.winningLabel} />
-            <TitleText text="Three Week" size={14} />
-          </View>
-          <View />
-          <View />
-        </View>
-      </View>
+      {data || data.length > 0 ? (
+        <>
+          {data.map((item, index) => (
+            <View style={styles.winning}>
+              <View style={styles.winningSpread}>
+                <View>
+                  <RegularText
+                    text="Total points"
+                    size={11}
+                    style={styles.winningLabel}
+                  />
+                  <TitleText text="100 points" size={14} color="#FF6600" />
+                </View>
+                <View>
+                  <RegularText
+                    text="Date"
+                    size={11}
+                    style={styles.winningLabel}
+                  />
+                  <TitleText text={moment().format('D MMM, YY')} size={14} />
+                </View>
+              </View>
+              <View style={styles.spread}>
+                <View>
+                  <RegularText
+                    text="Rank"
+                    size={11}
+                    style={styles.winningLabel}
+                  />
+                  <TitleText text="1st" size={14} />
+                </View>
+                <View>
+                  <RegularText
+                    text="Period"
+                    size={11}
+                    style={styles.winningLabel}
+                  />
+                  <TitleText text="One Week" size={14} />
+                </View>
+                <View />
+                <View />
+              </View>
+            </View>
+          ))}
+        </>
+      ) : (
+        <TitleText text="No Winngins available" size={23} />
+      )}
     </>
   );
 };
 
-const WinningList = ({ isUser }: { isUser?: boolean }) => {
+const WinningList = ({
+  isUser,
+  point,
+  rank,
+}: {
+  isUser?: boolean;
+  point: string;
+  rank: string;
+}) => {
   const styles = useStyles();
   return (
     <TouchableOpacity
@@ -141,7 +162,7 @@ const WinningList = ({ isUser }: { isUser?: boolean }) => {
       <View style={styles.spread}>
         <View style={styles.row}>
           <View style={styles.number}>
-            <RegularText text="4" size={11} />
+            <RegularText text={rank} size={11} />
           </View>
           <Image
             source={{ uri: 'https://100k-faces.glitch.me/random-image' }}
@@ -149,7 +170,11 @@ const WinningList = ({ isUser }: { isUser?: boolean }) => {
             style={styles.listImage}
           />
         </View>
-        <TitleText text="930pts" size={14} style={isUser && styles.mePoint} />
+        <TitleText
+          text={`${point}pts`}
+          size={14}
+          style={isUser && styles.mePoint}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -164,48 +189,28 @@ export const EnquiryView = ({ onOpen }) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.enquiryBtn}
-          onPress={() =>
-            onOpen({
-              title: 'My Rank',
-              text: '"Hurray! You are currently ranked silver. Check our leaderboard page for more details."',
-            })
-          }>
+          onPress={() => onOpen('Rank')}>
           <RegularText text="My Rank" size={14} />
           <ChevronForward size={13} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.enquiryBtn}
-          onPress={() =>
-            onOpen({
-              title: 'My Balance',
-              text: 'Great one Jane, your current balance is N20.00',
-            })
-          }>
+          onPress={() => onOpen('My Balance')}>
           <RegularText text="My Balance" size={14} />
           <ChevronForward size={13} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.enquiryBtn}
-          onPress={() =>
-            onOpen({
-              title: 'Point Count',
-              text: 'Great one Jane, your point count is 350pts',
-            })
-          }>
+          onPress={() => onOpen('Point Count')}>
           <RegularText text="Point Count" size={14} />
           <ChevronForward size={13} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.enquiryBtn}
-          onPress={() =>
-            onOpen({
-              title: 'Transact Count',
-              text: 'Great one Jane, your transact count is 12',
-            })
-          }>
+          onPress={() => onOpen('Transact Count')}>
           <RegularText text="Transact Count" size={14} />
           <ChevronForward size={13} />
         </TouchableOpacity>

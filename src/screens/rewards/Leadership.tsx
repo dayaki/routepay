@@ -3,8 +3,11 @@ import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Header, RegularText, TitleText } from '@common';
 import { useLeadershipStyles } from './styles';
 import { MyWinnings, OverallView } from './utils';
+import { useAppSelector } from '@store';
 
 const Leadership = () => {
+  const { winnings, monthly, overall } = useAppSelector(state => state.loyalty);
+  const { user } = useAppSelector(state => state.user);
   const [activeTab, setActiveTab] = useState(2);
   const styles = useLeadershipStyles();
   return (
@@ -43,8 +46,13 @@ const Leadership = () => {
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollV}>
-        {activeTab === 2 && <OverallView />}
-        {activeTab === 3 && <MyWinnings />}
+        {activeTab === 1 && (
+          <OverallView data={monthly || []} userphone={user?.phoneNumber} />
+        )}
+        {activeTab === 2 && (
+          <OverallView data={overall || []} userphone={user?.phoneNumber} />
+        )}
+        {activeTab === 3 && <MyWinnings data={winnings} />}
       </ScrollView>
     </View>
   );

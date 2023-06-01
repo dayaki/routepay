@@ -18,8 +18,9 @@ import { nairaFormat } from '@utils';
 import { useStyles } from './styles';
 
 const Dashboard = ({ navigation }) => {
-  const { user } = useAppSelector(state => state.user);
+  const { user, wallet } = useAppSelector(state => state.user);
   const { theme, showBalance } = useAppSelector(state => state.misc);
+  const { dashboard } = useAppSelector(state => state.loyalty);
   const [currentIndex, setCurrentIndex] = useState(0);
   const styles = useStyles();
   const dispatch = useAppDispatch();
@@ -45,9 +46,12 @@ const Dashboard = ({ navigation }) => {
       <View style={styles.header}>
         <View style={styles.row}>
           <View style={styles.name}>
-            <TitleText text="JD" size={20} />
+            <TitleText
+              text={`${user?.firstName[0]}${user?.lastName[0]}`}
+              size={20}
+            />
           </View>
-          <TitleText text="Hi, Jane" size={14} />
+          <TitleText text={`Hi, ${user?.firstName}`} size={14} />
         </View>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -78,14 +82,14 @@ const Dashboard = ({ navigation }) => {
                     {showBalance ? (
                       <>
                         <TitleText
-                          text={nairaFormat(0)}
+                          text={nairaFormat(wallet?.balance || 0)}
                           style={styles.dashboardPoint}
                         />
                         <TouchableOpacity
                           activeOpacity={0.8}
                           style={styles.eyeIcon}
                           onPress={toggleShow}>
-                          <EyeClose size={16} />
+                          <EyeClose size={16} color="#F9F7F6" />
                         </TouchableOpacity>
                       </>
                     ) : (
@@ -98,7 +102,7 @@ const Dashboard = ({ navigation }) => {
                           activeOpacity={0.8}
                           onPress={toggleShow}
                           style={styles.eyeIcon}>
-                          <EyeIcon size={16} />
+                          <EyeIcon size={16} color="#F9F7F6" />
                         </TouchableOpacity>
                       </>
                     )}
@@ -111,7 +115,7 @@ const Dashboard = ({ navigation }) => {
                   <View>
                     <RegularText text="NAME" style={styles.dashboardLabel} />
                     <RegularText
-                      text="Vek Akinyemi"
+                      text={`${dashboard?.firstname} ${dashboard?.lastname}`}
                       size={14}
                       color="#F9F7F6"
                     />
@@ -119,7 +123,7 @@ const Dashboard = ({ navigation }) => {
                   <View>
                     <RegularText text="TIER" style={styles.dashboardLabel} />
                     <RegularText
-                      text="Silver Class"
+                      text={dashboard?.customerclass}
                       size={14}
                       color="#F9F7F6"
                     />
@@ -130,7 +134,10 @@ const Dashboard = ({ navigation }) => {
                     text="LOYALTY BALANCE"
                     style={styles.dashboardLabel}
                   />
-                  <TitleText text="300 pts" style={styles.dashboardPoint} />
+                  <TitleText
+                    text={`${dashboard?.points} pts`}
+                    style={styles.dashboardPoint}
+                  />
                 </View>
                 <View style={styles.dashboardRow}>
                   <View>
@@ -139,7 +146,10 @@ const Dashboard = ({ navigation }) => {
                       style={styles.dashboardLabel}
                     />
                     <RegularText
-                      text="4352  4210  5674  2341"
+                      text={dashboard?.memberid.replace(
+                        /(?<=^(?:.{4})+)(?!$)/g,
+                        ' ',
+                      )} // "4352  4210  5674  2341"
                       size={14}
                       color="#F9F7F6"
                     />
@@ -186,7 +196,10 @@ const Dashboard = ({ navigation }) => {
               />
               <TitleText text="Top-up Wallet" size={11} />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} style={styles.row}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.row}
+              onPress={() => navigation.navigate('send_money')}>
               <Image
                 source={
                   theme === 'dark'
