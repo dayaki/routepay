@@ -1,18 +1,92 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { useToast } from 'react-native-toast-notifications';
 import { Close } from '@icons';
-import { Button, Input, TitleText } from '@common';
+import { Button, Input, Loader, TitleText } from '@common';
 import { useStyles } from './styles';
+import { apiService, passwordTests, putChangePassword } from '@utils';
+import { useAppSelector } from '@store';
 
 const ChangePassword = ({ navigation }) => {
+  const { user } = useAppSelector(state => state.user);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [oldPassword, setOldPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState('');
   const styles = useStyles();
+  const toast = useToast();
 
-  const handleSubmit = () => {};
+  const verifyPassword = () => {
+    if (password.length > 0) {
+      const { length, lowercase, number, special, uppercase } =
+        passwordTests(password);
+      if (length && lowercase && number && special && uppercase) {
+        setHasError('');
+      } else {
+        setHasError(
+          'Password requires uppercase, alphanumeric and special characters.',
+        );
+      }
+    } else {
+      setHasError('');
+    }
+  };
+
+  const verifyConfirmPassword = () => {
+    if (confirmPassword.length > 0) {
+      const { length, lowercase, number, special, uppercase } =
+        passwordTests(confirmPassword);
+      if (length && lowercase && number && special && uppercase) {
+        setHasError('');
+      } else {
+        setHasError(
+          'Password requires uppercase, alphanumeric and special characters.',
+        );
+      }
+    } else {
+      setHasError('');
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (password === confirmPassword) {
+      setIsLoading(true);
+      try {
+        const { succeeded, message } = await apiService(
+          putChangePassword,
+          'put',
+          {
+            userId: user?.userId,
+            oldPassword: oldPassword,
+            newPassword: password,
+            confirmPassword: confirmPassword,
+          },
+        );
+        console.log('chnage pass', message, succeeded);
+        if (succeeded) {
+          toast.show('Password changed successfully!');
+          navigation.goBack();
+        } else if (
+          message.includes(
+            'PasswordTooShort,PasswordRequiresNonAlphanumeric,PasswordRequiresUpper',
+          )
+        ) {
+          setHasError('Password requires special characters and uppercase.');
+        }
+      } catch (error) {
+        console.log('chnage pass ERR', error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setHasError('Confirm Password does not match.');
+    }
+  };
+
   return (
     <View style={styles.containerr}>
+      <Loader show={isLoading} />
       <View style={styles.header}>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -39,18 +113,23 @@ const ChangePassword = ({ navigation }) => {
             onChangeText={setPassword}
             placeholder="New password"
             isPassword
+            onBlur={verifyPassword}
           />
           <Input
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             placeholder="Confirm password"
             isPassword
+            onBlur={verifyConfirmPassword}
+            hasError={!!hasError}
+            errorMessage={hasError}
           />
         </View>
         <Button
           text="Change"
+          isLoading={isLoading}
           onPress={handleSubmit}
-          disabled={!oldPassword || !password || !confirmPassword}
+          disabled={!oldPassword || !password || !confirmPassword || !!hasError}
         />
       </View>
     </View>
