@@ -11,6 +11,7 @@ export const paymentApi = `${BASE_URL}/payment/api/v1`;
 // Auth
 export const getLogin = `${authURL}/api/token`;
 export const postVerify2fa = `${authURL}/api/token`;
+export const postForgotPass = `${merchantApi}/Account/GenerateResetPasswordLink`;
 
 // export const postLogin = `${merchantApi}/users/account/login`;
 // export const postRegister = `${merchantApi}/users/register`;
@@ -18,6 +19,11 @@ export const postRegister = `${merchantApi}/users/externalregisterusers/register
 export const getProfile = (userId: number | string) =>
   `${merchantApi}/users/profile/${userId}`;
 // export const getUserProfile = `${merchantApi}/users/{id}/profile`;
+
+// Wallet
+export const postCreateWallet = `${billsApi}/wallet`;
+export const getWalletBalance = (id: string) => `${billsApi}/Wallet/${id}`;
+export const postWalletTopup = `${billsApi}/wallet/topup`;
 
 // Bills
 export const getBills = `${billsApi}/bill`;
@@ -28,15 +34,12 @@ export const getBillsByCategory = (
 `;
 export const postBillPayment = `${billsApi}/Payment/charge`;
 export const postBundleLookup = `${billsApi}/Payment/lookup`;
-export const getWalletBalance = (id: string) => `${billsApi}/Wallet/${id}`;
-export const postCreateWallet = `${billsApi}/wallet`;
 
 // Profile
 export const postSetPin = `${merchantApi}/Account/SetPin`;
 export const postVerifyPin = (pin: string) =>
   `${merchantApi}/Account/ValidatePin?pin=${pin}`;
 export const putChangePassword = `${billsApi}/users/password`;
-
 export const getTransactions = `${billsApi}/transaction`;
 
 // Payment

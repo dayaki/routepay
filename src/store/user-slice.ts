@@ -5,7 +5,7 @@ import { IsWallet, UserState } from '@types';
 export const getWallet = createAsyncThunk(
   'user/wallet',
   async (userId: string) => {
-    const { data } = await apiService(getWalletBalance(userId), 'get');
+    const data = await apiService(getWalletBalance(userId), 'get');
     return data;
   },
 );
@@ -33,6 +33,9 @@ export const userSlice = createSlice({
     updateUser: (state, action) => {
       state.user = { ...state.user, ...action.payload };
     },
+    updateWalletBalance: (state, { payload }) => {
+      state.wallet.balance = state.wallet.balance + Number(payload);
+    },
     userLogout: state => {
       state.isAuthenticated = false;
       state.user = undefined;
@@ -47,7 +50,12 @@ export const userSlice = createSlice({
     );
   },
 });
-export const { userLogin, updateUser, userLogout, updateToken } =
-  userSlice.actions;
+export const {
+  userLogin,
+  updateUser,
+  userLogout,
+  updateToken,
+  updateWalletBalance,
+} = userSlice.actions;
 
 export default userSlice.reducer;

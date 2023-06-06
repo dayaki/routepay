@@ -37,9 +37,11 @@ const Dashboard = ({ navigation }) => {
     }
   };
 
-  // useEffect(() => {
-  //   dispatch(accountSetUp(user?.userId));
-  // }, []);
+  useEffect(() => {
+    if (user) {
+      dispatch(accountSetUp(user.userId));
+    }
+  }, [user, dispatch]);
 
   return (
     <View style={styles.container}>
@@ -82,7 +84,7 @@ const Dashboard = ({ navigation }) => {
                     {showBalance ? (
                       <>
                         <TitleText
-                          text={nairaFormat(wallet?.balance || 0)}
+                          text={nairaFormat(wallet.balance)}
                           style={styles.dashboardPoint}
                         />
                         <TouchableOpacity
@@ -184,7 +186,10 @@ const Dashboard = ({ navigation }) => {
           </ImageBackground>
 
           <View style={styles.quickLink}>
-            <TouchableOpacity activeOpacity={0.8} style={styles.row}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.row}
+              onPress={() => navigation.navigate('wallet_topup')}>
               <Image
                 source={
                   theme === 'dark'

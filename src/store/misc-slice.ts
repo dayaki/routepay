@@ -21,6 +21,7 @@ const initialState = {
   theme: 'dark',
   colors: DarkMode,
   showBalance: true,
+  order: undefined,
   transactions: undefined,
 } as MiscState;
 
@@ -34,6 +35,15 @@ export const miscSlice = createSlice({
     },
     toggleShowBalance: (state, { payload }) => {
       state.showBalance = payload;
+    },
+    newOrder: (state, { payload }) => {
+      state.order = payload;
+    },
+    updateOrder: (state, { payload }) => {
+      state.order = { ...state.order, ...payload };
+    },
+    clearOrder: state => {
+      state.order = undefined;
     },
   },
   extraReducers: builder => {
@@ -49,6 +59,12 @@ export const miscSlice = createSlice({
       });
   },
 });
-export const { updateTheme, toggleShowBalance } = miscSlice.actions;
+export const {
+  updateTheme,
+  toggleShowBalance,
+  newOrder,
+  updateOrder,
+  clearOrder,
+} = miscSlice.actions;
 
 export default miscSlice.reducer;

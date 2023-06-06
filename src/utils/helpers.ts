@@ -1,7 +1,18 @@
 import { moderateScale } from 'react-native-size-matters';
-import accounting from 'accounting';
-import { truncate } from 'lodash';
 import uuid from 'react-native-uuid';
+import accounting from 'accounting';
+import { truncate, sample } from 'lodash';
+import ShortUniqueId from 'short-unique-id';
+import axios from 'axios';
+import qs from 'qs';
+import { apiService } from './apiService';
+import {
+  getTransactionStatus,
+  postCharge,
+  postInitPayment,
+  postPaymentToken,
+} from './endpoints';
+import { store } from '@store';
 
 const strongRegex = new RegExp(
   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[!@#$%^&*/\\\\)(+=._-])',
@@ -52,6 +63,11 @@ export const obscureNumber = (accountNumber: string) => {
   // return `${name[0]}${new Array(name.length).join('*')}@${domain}`;
 };
 
+export const getUniqueID = (limit: number = 10) => {
+  const uid = new ShortUniqueId();
+  return uid(limit);
+};
+
 export const formatPhone = (phoneNum: string): string => {
   const phone = phoneNum.replace(/-/g, '');
   const phoneNumber = phone?.split(' ').join('');
@@ -72,7 +88,7 @@ export const formatPhone = (phoneNum: string): string => {
 
 export const getImage = (slug: string) => {
   const name = slug.split(' ')[0].toLowerCase();
-  console.log('getImage', slug, name);
+  // console.log('getImage', slug, name);
   switch (name) {
     case 'mtn':
       return require('@images/networks/mtn.png');
@@ -84,14 +100,39 @@ export const getImage = (slug: string) => {
       return require('@images/networks/glo.png');
     case 'smile':
       return require('@images/networks/smile.png');
+    case 'spectranet':
+      return require('@images/networks/spectranet.png');
+    case 'startimes':
+      return require('@images/networks/startimes.png');
+    case 'showmax':
+      return require('@images/networks/showmax.png');
+    case 'gotv':
+      return require('@images/networks/gotv.png');
+    case 'dstv':
+      return require('@images/networks/dstv.png');
     default:
-      return require('@images/networks/mtn.png');
+      return require('@images/networks/blank.png');
   }
 };
 
+export const getSuccessImage = () => {
+  const images = [
+    require('@images/success/success_1.png'),
+    require('@images/success/success_2.png'),
+    require('@images/success/success_3.png'),
+    require('@images/success/success_4.png'),
+    require('@images/success/success_5.png'),
+    require('@images/success/success_6.jpg'),
+  ];
+  return sample(images);
+};
+
 export const getName = (name: string) => {
+  if (name) {
+    return `${name.split('_').join(' ').toString()}`;
+  }
+  return '';
   // return `${name.split('_')[0].toUpperCase()}`;
-  return `${name.split('_').join(' ').toString()}`;
 };
 
 export const passwordTests = (password: string) => {
@@ -108,6 +149,73 @@ export const passwordTests = (password: string) => {
   if (specialCharacters.test(password)) values.special = true;
   if (length.test(password)) values.length = true;
   return values;
+};
+
+export const initPaymentFlow = async (payload: any) => {
+  try {
+    const { data } = await axios({
+      method: 'post',
+      url: postPaymentToken,
+      data: qs.stringify({
+        grant_type: 'client_credentials',
+        client_id: 'yMesQUqwMDFebeb',
+        client_secret: 'BUAIQoSElenGnypcfLJftByjcMsLEd',
+      }),
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      },
+    });
+    console.log('data TOKEN', data.access_token);
+    const data2send = {
+      merchantId: 'yMesQUqwMDFebeb',
+      returnUrl: 'https://callback.routepay.com/return',
+      merchantReference: getUniqueID(),
+      currency: 'NGN',
+      ...payload,
+    };
+    /////////
+    // chargeTransaction();
+    // const { responseDescription, status } = data;
+    ///////
+    console.log('data2send...', data2send);
+    const { data: resp } = await axios.post(postInitPayment, data2send, {
+      headers: {
+        Authorization: `Bearer ${data.access_token}`,
+      },
+    });
+    return { ...resp, access_token: data.access_token };
+  } catch (error) {
+    console.log('initPaymentFlow ERR', error);
+  }
+};
+
+const chargeTransaction = async () => {
+  const order = store.getState().misc.order;
+  console.log('calling CHARGE...');
+  let payload: any = {};
+  if (order?.type === 'airtime' || order?.type === 'data') {
+    payload.billCode = order.billCode;
+    payload.merchantReference = getUniqueID(10);
+    payload.payload = {
+      mobileNumber: order.number,
+      amount: order.amount,
+    };
+  }
+  try {
+    const data = await apiService(postCharge, 'post', payload);
+    //   axios.post(postCharge, {
+    //     headers: {
+    //       Authorization: `Bearer ${params.access_token}`,
+    //     },
+    //   });
+    console.log('chargeTransaction', data);
+    // const { responseDescription, status } = data;
+    // if (status === 200 && responseDescription === 'Successful') {
+    //   navigation.navigate('transaction_success', { ...params.success_data });
+    // }
+  } catch (error) {
+    console.log('chargeTransaction ERR', error);
+  }
 };
 
 // export const refreshToken = async () => {

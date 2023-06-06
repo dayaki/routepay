@@ -10,6 +10,16 @@ export const useStyles = () => {
       paddingTop: ms(60),
       backgroundColor: colors.background,
     },
+    contain: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    content: {
+      flex: 1,
+      paddingHorizontal: ms(20),
+      justifyContent: 'space-between',
+      paddingBottom: ms(40),
+    },
     header: {
       flexDirection: 'row',
       alignItems: 'center',

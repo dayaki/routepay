@@ -13,7 +13,6 @@ import {
   apiService,
   getSuccessImage,
   ms,
-  nairaFormat,
   postCharge,
   postWalletTopup,
 } from '@utils';
@@ -115,12 +114,7 @@ const TransactionSuccess = ({ navigation, route }) => {
               text={title || 'Transaction Successful!'}
               style={styles.welcomeTitle}
             />
-            {type === 'wallet' && (
-              <Text style={styles.welcomeText}>
-                Your wallet topup of {nairaFormat(order?.amount || 0)} was
-                successful.
-              </Text>
-            )}
+            <Text style={styles.welcomeText}>{message}</Text>
             <Button
               text={buttonText || 'Continue to dashboard'}
               style={styles.registerBtn}
