@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { ms } from '@utils';
 import { useTheme } from '@common';
 
@@ -7,7 +7,7 @@ export const useStyles = () => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: ms(60),
+      paddingTop: Platform.OS === 'android' ? ms(40) : ms(60),
       backgroundColor: colors.background,
     },
     contain: {
@@ -52,7 +52,7 @@ export const useStyles = () => {
       padding: ms(10),
     },
     scroll: {
-      paddingTop: ms(30),
+      paddingTop: ms(20),
     },
     padded: {
       paddingHorizontal: ms(20),
@@ -61,7 +61,7 @@ export const useStyles = () => {
       // padding: ms(20),
       backgroundColor: '#1F1F23',
       borderRadius: ms(10),
-      marginBottom: ms(30),
+      marginBottom: ms(20),
       height: ms(200),
     },
     dashboardRow: {
@@ -135,7 +135,7 @@ export const useStyles = () => {
       justifyContent: 'space-between',
       // backgroundColor: 'pink',
       width: '74%',
-      marginBottom: ms(30),
+      marginBottom: ms(20),
     },
     boxIcon: {
       width: ms(30),
@@ -147,7 +147,7 @@ export const useStyles = () => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      paddingTop: ms(30),
+      paddingTop: ms(20),
       borderTopColor: colors.counter,
       borderTopWidth: 0.3,
     },
@@ -158,7 +158,7 @@ export const useStyles = () => {
       backgroundColor: colors.selector,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: ms(30),
+      marginBottom: ms(20),
     },
     linkImg: {
       width: ms(18),

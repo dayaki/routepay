@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Platform,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native-bars';
 import { getImage, ms, nairaFormat } from '@utils';
@@ -90,7 +96,7 @@ export const Header = ({
         <View style={styles.walletBalance}>
           <RegularText text="Your wallet balance: " size={11} color="#15151A" />
           <TitleText
-            text={nairaFormat(wallet?.balance || 0)}
+            text={nairaFormat(wallet.balance)}
             size={11}
             color="#15151A"
           />
@@ -116,9 +122,12 @@ export const UserAvatar = ({ label }: { label: string }) => {
   return (
     <View style={styles.avatarWrapper}>
       <View style={styles.name}>
-        <TitleText text="JD" size={25} />
+        <TitleText
+          text={`${user?.firstName[0]}${user?.lastName[0]}`}
+          size={25}
+        />
       </View>
-      <TitleText text="Jane Doe" size={14} />
+      <TitleText text={`${user?.firstName} ${user?.lastName}`} size={14} />
       <RegularText text={label} size={11} style={{ opacity: 0.6 }} />
     </View>
   );
@@ -163,9 +172,9 @@ const useStyles = () => {
     headerWrapper: {
       width: '100%',
       // height: ms(115),
-      marginBottom: ms(30),
+      marginBottom: ms(20),
       backgroundColor: pink300,
-      paddingTop: ms(60),
+      paddingTop: Platform.OS === 'android' ? ms(40) : ms(60),
       paddingLeft: ms(20),
       paddingBottom: ms(15),
     },

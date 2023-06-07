@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { useTheme } from '@common';
 import { ms } from '@utils';
 
@@ -13,7 +13,7 @@ export const useStyles = () => {
       backgroundColor: colors.pink300,
       paddingHorizontal: ms(20),
       paddingBottom: ms(20),
-      paddingTop: ms(60),
+      paddingTop: Platform.OS === 'android' ? ms(40) : ms(60),
     },
     headerTop: {
       flexDirection: 'row',
