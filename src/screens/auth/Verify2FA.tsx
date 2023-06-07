@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { decode } from 'react-native-pure-jwt';
+// import { decode } from 'react-native-pure-jwt';
+import { decode } from 'base-64';
 import Config from 'react-native-config';
 import {
   BackgroundView,
@@ -18,7 +19,13 @@ import {
   postCreateWallet,
   postVerify2fa,
 } from '@utils';
-import { accountSetUp, updateToken, useAppDispatch, userLogin } from '@store';
+import {
+  accountSetUp,
+  loyaltySetUp,
+  updateToken,
+  useAppDispatch,
+  userLogin,
+} from '@store';
 const { CLIENT_SECRET = '' } = Config;
 
 const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
@@ -49,12 +56,11 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
     try {
       const { accessToken } = data;
       dispatch(updateToken(accessToken));
-      const { payload } = await decode(accessToken, CLIENT_SECRET, {
-        skipValidation: true,
-      });
-      const userProfile = await apiService(getProfile(payload.sub), 'get');
-      console.log('userProfile', userProfile);
+      const payload = await decode(accessToken.split('.')[1]);
+      const { sub } = JSON.parse(payload);
+      const userProfile = await apiService(getProfile(sub), 'get');
       dispatch(accountSetUp(userProfile.userId));
+      dispatch(loyaltySetUp('08032009444')); //userProfile.phoneNumber
       if (!userProfile.pinEnabled) {
         navigation.navigate('set_pin', { payload: userProfile, password });
       } else {

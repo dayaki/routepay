@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import { decode } from 'react-native-pure-jwt';
+import { decode } from 'base-64';
 import axios from 'axios';
 import Config from 'react-native-config';
 import { useToast } from 'react-native-toast-notifications';
@@ -14,7 +14,13 @@ import {
 } from '@common';
 import { Lock, Mail } from '@icons';
 import { apiService, getLogin, getProfile } from '@utils';
-import { accountSetUp, updateToken, useAppDispatch, userLogin } from '@store';
+import {
+  accountSetUp,
+  loyaltySetUp,
+  updateToken,
+  useAppDispatch,
+  userLogin,
+} from '@store';
 import { useLoginStyles } from './styles';
 
 const { CLIENT_SECRET = '' } = Config;
@@ -34,7 +40,7 @@ const Login = ({ navigation, route }) => {
     try {
       const {
         data: { accessToken, message, twoFactorEnabled },
-      } = await axios.get(getLogin, {
+      } = await axios.get('https://authdev.routepay.com/api/token', {
         auth: {
           username: email,
           password: password,
@@ -50,16 +56,15 @@ const Login = ({ navigation, route }) => {
           navigation.navigate('verify_2fa', { email, password });
           toast.show(message);
         }
-        // return;
       } else {
         dispatch(updateToken(accessToken));
-        const { payload } = await decode(accessToken, CLIENT_SECRET, {
-          skipValidation: true,
-        });
-        const userProfile = await apiService(getProfile(payload.sub), 'get');
+        const payload = await decode(accessToken.split('.')[1]);
+        const { sub } = JSON.parse(payload);
+        const userProfile = await apiService(getProfile(sub), 'get');
         if (!userProfile.pinEnabled) {
           navigation.navigate('set_pin', { payload: userProfile, password });
         } else {
+          dispatch(loyaltySetUp('08032009444')); //userProfile.phoneNumber
           dispatch(accountSetUp(userProfile.userId));
           dispatch(userLogin(userProfile));
         }
