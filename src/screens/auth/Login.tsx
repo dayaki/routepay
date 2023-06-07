@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { decode } from 'base-64';
 import axios from 'axios';
-import Config from 'react-native-config';
 import { useToast } from 'react-native-toast-notifications';
 import {
   BackgroundView,
@@ -13,19 +12,19 @@ import {
   TitleText,
 } from '@common';
 import { Lock, Mail } from '@icons';
-import { apiService, getLogin, getProfile } from '@utils';
+import { apiService, getProfile } from '@utils';
 import {
   accountSetUp,
   loyaltySetUp,
   updateToken,
   useAppDispatch,
+  useAppSelector,
   userLogin,
 } from '@store';
 import { useLoginStyles } from './styles';
 
-const { CLIENT_SECRET = '' } = Config;
-
 const Login = ({ navigation, route }) => {
+  const { username } = useAppSelector(state => state.user);
   const goBack = route.params?.goBack || true;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +53,6 @@ const Login = ({ navigation, route }) => {
           setHasError('Invalid email address or password.');
         } else if (twoFactorEnabled) {
           navigation.navigate('verify_2fa', { email, password });
-          toast.show(message);
         }
       } else {
         dispatch(updateToken(accessToken));
@@ -80,7 +78,11 @@ const Login = ({ navigation, route }) => {
     <BackgroundView hasBack={goBack}>
       <View style={styles.content}>
         <View>
-          <TitleText text="Welcome back, Jane!" />
+          {username ? (
+            <TitleText text={`Welcome back, ${username}!`} />
+          ) : (
+            <TitleText text="Welcome back" />
+          )}
           <View style={styles.texts}>
             <Text style={styles.label}>
               Enter your email or mobile number to continue to your{' '}

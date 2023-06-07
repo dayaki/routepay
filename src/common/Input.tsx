@@ -13,7 +13,7 @@ import {
 import { getName, ms } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { TextButton } from './Button';
-import { ChevronDown, EyeIcon, Lock } from '@icons';
+import { ChevronDown, EyeClose, EyeIcon, Lock } from '@icons';
 import { DataModal, FuelModal, NetworkModal, SelectModal } from './Modal';
 import { ProviderIcon } from './View';
 import { IsBillProvider, IsDataPlan } from '@types';
@@ -80,12 +80,12 @@ export const Input = React.forwardRef(
             style={[styles.input, inputStyle]}
             {...props}
           />
-          {isPassword && showPassword && (
+          {isPassword && (
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => setShowPassword(!showPassword)}
               style={styles.rightIcon}>
-              <EyeIcon size={16} />
+              {showPassword ? <EyeIcon size={16} /> : <EyeClose size={16} />}
             </TouchableOpacity>
           )}
           {rightIcon && <View style={styles.rightIcon}>{rightIcon}</View>}
@@ -137,10 +137,12 @@ export const Select = ({
   title,
   data,
   selector,
+  useLabel,
 }: {
   label: string;
   selected: any;
   title: string;
+  useLabel?: string;
   data: [] | undefined;
   onSelect: (item: any) => void;
   selector: string;
@@ -148,6 +150,7 @@ export const Select = ({
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
   const { colors } = useTheme();
+  console.log('selected!!!!!', selected);
   return (
     <>
       <SelectModal
@@ -163,7 +166,13 @@ export const Select = ({
         activeOpacity={0.7}
         style={[styles.select]}
         onPress={() => setShowModal(true)}>
-        {selected ? (
+        <RegularText
+          text={selected ? capitalize(selected[selector]) : label}
+          // selected ? selected.length > 0 || selected ? capitalize(selected[selector]): label
+          size={14}
+          color={colors.inputColor}
+        />
+        {/* {selected ? (
           <View style={styles.row}>
             <TitleText
               text={capitalize(selected[selector])}
@@ -172,8 +181,12 @@ export const Select = ({
             />
           </View>
         ) : (
-          <RegularText text={label} size={14} color={colors.inputColor} />
-        )}
+          <RegularText
+            text={selected ? capitalize(selected[selector]) : label}
+            size={14}
+            color={colors.inputColor}
+          />
+        )} */}
         <ChevronDown size={8} />
       </TouchableOpacity>
     </>
@@ -328,6 +341,7 @@ export const OTPInput = ({
     <View style={styles.otpWrapper}>
       <OTPInputView
         ref={otpRef}
+        autoFocusOnLoad
         secureTextEntry={secure}
         pinCount={6}
         codeInputFieldStyle={styles.otpInput}
@@ -363,10 +377,12 @@ export const Checkbox = ({
   isChecked,
   text,
   textStyle,
+  disabled,
 }: {
   text?: string;
   isChecked: boolean;
   textStyle?: any;
+  disabled?: boolean;
   onPress: (isChecked: boolean) => void;
 }) => {
   const { theme } = useAppSelector(state => state.misc);
@@ -374,6 +390,7 @@ export const Checkbox = ({
   const styles = useStyles();
   return (
     <BouncyCheckbox
+      disabled={disabled}
       onPress={onPress}
       disableBuiltInState
       isChecked={isChecked}
