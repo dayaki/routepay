@@ -20,11 +20,14 @@ const TabStack = createBottomTabNavigator();
 const BottomTabs = () => {
   const {
     colors: { colors },
+    theme,
   } = useAppSelector(state => state.misc);
 
   const getColor = () => {
-    console.log('colordsss', colors.selector);
-    return colors.selector;
+    const color = theme === 'light' ? '#F9F7F6' : '#1F1F23';
+    const text = theme === 'light' ? '#15151A' : '#F9F7F6';
+    console.log('colordsss THEME', theme, color, text);
+    return { color, text };
   };
   return (
     <TabStack.Navigator
@@ -35,12 +38,12 @@ const BottomTabs = () => {
           fontFamily: 'DMSans-Regular',
           fontSize: 11,
           lineHeight: 16,
-          color: colors.inputColor,
+          color: getColor().text,
         },
         tabBarStyle: {
           paddingTop: 13,
-          backgroundColor: getColor(),
-          borderTopColor: colors.selector,
+          backgroundColor: getColor().color,
+          borderTopColor: getColor().color,
         },
       }}>
       <TabStack.Screen
