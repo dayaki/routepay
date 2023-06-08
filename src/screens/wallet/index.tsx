@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
-import { RegularText, TitleText, UserAvatar } from '@common';
+import { Header, RegularText, TitleText, UserAvatar } from '@common';
 import { useStyles } from './styles';
 import { RefreshIcon } from '@icons';
 import { nairaFormat } from '@utils';
@@ -9,11 +9,13 @@ import { useAppSelector } from '@store';
 
 const Wallet = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
+  const { user, wallet } = useAppSelector(state => state.user);
   const styles = useStyles();
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <Header title="Wallet" color="#FF6600" />
+      {/* <View style={styles.header}>
         <View style={styles.headerTop}>
           <TitleText text="Wallet" size={20} color="#15151A" />
           <TouchableOpacity activeOpacity={0.8} style={styles.refreshBtn}>
@@ -26,14 +28,18 @@ const Wallet = ({ navigation }) => {
           color="#15151A"
           style={{ marginBottom: 8 }}
         />
-        <TitleText text={nairaFormat(0)} size={20} color="#FF6600" />
-      </View>
+        <TitleText
+          text={nairaFormat(wallet.balance)}
+          size={20}
+          color="#FF6600"
+        />
+      </View> */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scroll}
         contentContainerStyle={{ paddingBottom: 60 }}>
         <View style={styles.box}>
-          <UserAvatar label="QR code | @08123456789" />
+          <UserAvatar hideAvatar label={`QR code | @${user?.phoneNumber}`} />
           <View style={styles.qrCode}>
             <QRCode size={112} value="https://routepay.com/" />
           </View>
@@ -58,7 +64,7 @@ const Wallet = ({ navigation }) => {
             />
             <TitleText text="Send Money" size={14} />
             <RegularText
-              text="Transfer money to your account or other accounts"
+              text="Transfer money to self and anyone"
               style={styles.boxLabel}
             />
           </TouchableOpacity>
@@ -77,7 +83,7 @@ const Wallet = ({ navigation }) => {
             />
             <TitleText text="Receive Money" size={14} />
             <RegularText
-              text="Get money from a contact or via your payment link"
+              text="Get money from anyone with your link"
               style={styles.boxLabel}
             />
           </TouchableOpacity>
@@ -85,7 +91,8 @@ const Wallet = ({ navigation }) => {
         <View style={styles.boxes}>
           <TouchableOpacity
             activeOpacity={0.8}
-            style={[styles.box, styles.boxed]}>
+            style={[styles.box, styles.boxed]}
+            onPress={() => navigation.navigate('scan_landing')}>
             <Image
               source={
                 theme === 'dark'
@@ -97,7 +104,7 @@ const Wallet = ({ navigation }) => {
             />
             <TitleText text="Scan to Pay" size={14} />
             <RegularText
-              text="Make payments fast by scanning a QR code"
+              text="Make fast payments with QR codes"
               style={styles.boxLabel}
             />
           </TouchableOpacity>
@@ -116,7 +123,7 @@ const Wallet = ({ navigation }) => {
             />
             <TitleText text="Transaction History" size={14} />
             <RegularText
-              text="See the history of all your transactional activities"
+              text="View the history of all your transactions"
               style={styles.boxLabel}
             />
           </TouchableOpacity>

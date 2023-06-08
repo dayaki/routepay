@@ -20,11 +20,11 @@ import {
 import { updateWalletBalance, useAppDispatch, useAppSelector } from '@store';
 
 const TransactionSuccess = ({ navigation, route }) => {
-  const { type, message, buttonText, title, routePath, data, trnxRef } =
-    route.params;
   const { order } = useAppSelector(state => state.misc);
+  const { type, message, buttonText, title, routePath, trnxRef } = route.params;
   const [orderStatus, setOrderStatus] = useState<'success' | 'fail'>();
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState('');
   const styles = useStyles();
   const dispatch = useAppDispatch();
   console.log('order DATA', order);
@@ -69,11 +69,11 @@ const TransactionSuccess = ({ navigation, route }) => {
         transactionReference: trnxRef,
         amount: order?.amount,
       });
-      console.log('wallet topup', resp);
       dispatch(updateWalletBalance(resp.balance));
       setOrderStatus('success');
-    } catch (error) {
+    } catch (error: any) {
       console.log('wallet topup ERR', error);
+      setHasError(error.message || error.title);
     } finally {
       setIsLoading(false);
     }

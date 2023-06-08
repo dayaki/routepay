@@ -60,13 +60,16 @@ export const SelectModal = ({
                     <TitleText text={getName(item[selector])} size={11} />
                   </TouchableOpacity>
                   <Checkbox
-                    isChecked={selected[selector] === item[selector]}
+                    isChecked={
+                      selected && selected[selector] === item[selector]
+                    }
                     onPress={() => onSelect(item)}
                   />
                 </View>
               )}
             />
           </View>
+          <Button text="Continue" onPress={onClose} />
         </View>
       </Modal>
     </View>
@@ -108,7 +111,7 @@ export const NetworkModal = ({
                         source={getImage(
                           getName(network.billCode).toLowerCase(),
                         )}
-                        resizeMode="cover"
+                        resizeMode="contain"
                         style={styles.networkLogo}
                       />
                       <TitleText text={getName(network.billCode)} size={11} />
@@ -314,6 +317,7 @@ const useStyles = () => {
     networkLogo: {
       width: ms(24),
       height: ms(24),
+      borderRadius: ms(24 / 2),
       marginRight: ms(8),
     },
     row: {

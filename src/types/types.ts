@@ -109,3 +109,10 @@ export interface IsFuelStation {
   fuelStation: string;
   fuelCodes: string[];
 }
+
+export type LoyaltyT = {
+  subrank: string;
+  current_year: string;
+  total_points: string;
+  msisdn: string;
+};

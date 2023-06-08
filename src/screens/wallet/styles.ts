@@ -29,7 +29,7 @@ export const useStyles = () => {
     scroll: {
       flex: 1,
       paddingHorizontal: ms(20),
-      paddingTop: ms(20),
+      // paddingTop: ms(20),
     },
     row: {
       flexDirection: 'row',

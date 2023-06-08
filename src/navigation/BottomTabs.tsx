@@ -21,6 +21,11 @@ const BottomTabs = () => {
   const {
     colors: { colors },
   } = useAppSelector(state => state.misc);
+
+  const getColor = () => {
+    console.log('colordsss', colors.selector);
+    return colors.selector;
+  };
   return (
     <TabStack.Navigator
       screenOptions={{
@@ -34,7 +39,7 @@ const BottomTabs = () => {
         },
         tabBarStyle: {
           paddingTop: 13,
-          backgroundColor: colors.selector,
+          backgroundColor: getColor(),
           borderTopColor: colors.selector,
         },
       }}>

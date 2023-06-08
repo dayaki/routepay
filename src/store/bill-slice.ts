@@ -27,19 +27,19 @@ export const getAllBillsByCategories = createAsyncThunk(
   },
 );
 
-export const getAllBills = createAsyncThunk('bills/bills', async () => {
-  try {
-    const { data } = await axios.get(
-      'https://apidev.routepay.com/bills/api/v1/bill',
-      {
-        headers: { Authorization: `Bearer ${store.getState().user.token}` },
-      },
-    );
-    return data;
-  } catch (error) {
-    console.log('getAllBills ERR', error);
-  }
-});
+// export const getAllBills = createAsyncThunk('bills/bills', async () => {
+//   try {
+//     const { data } = await axios.get(
+//       'https://apidev.routepay.com/bills/api/v1/bill',
+//       {
+//         headers: { Authorization: `Bearer ${store.getState().user.token}` },
+//       },
+//     );
+//     return data;
+//   } catch (error) {
+//     console.log('getAllBills ERR', error);
+//   }
+// });
 
 export const getAirtimeBills = createAsyncThunk('bills/airtime', async () => {
   try {
@@ -160,27 +160,27 @@ export const billSlice = createSlice({
           state.categories = action.payload;
         },
       )
-      .addCase(getAllBills.fulfilled, (state, { payload }) => {
-        console.log('!!!!! getAllBills !!!!!', payload);
-        state.airtime = payload.filter(
-          (data: IsBillProvider) => data.billCategoryId === 1,
-        );
-        state.cable = payload.filter(
-          (data: IsBillProvider) => data.billCategoryId === 2,
-        );
-        state.power = payload.filter(
-          (data: IsBillProvider) => data.billCategoryId === 3,
-        );
-        state.pins = payload.filter(
-          (data: IsBillProvider) => data.billCategoryId === 4,
-        );
-        state.bundle = payload.filter(
-          (data: IsBillProvider) => data.billCategoryId === 5,
-        );
-        state.fuel = payload.filter(
-          (data: IsBillProvider) => data.billCategoryId === 6,
-        );
-      })
+      // .addCase(getAllBills.fulfilled, (state, { payload }) => {
+      //   console.log('!!!!! getAllBills !!!!!', payload);
+      //   state.airtime = payload.filter(
+      //     (data: IsBillProvider) => data.billCategoryId === 1,
+      //   );
+      //   state.cable = payload.filter(
+      //     (data: IsBillProvider) => data.billCategoryId === 2,
+      //   );
+      //   state.power = payload.filter(
+      //     (data: IsBillProvider) => data.billCategoryId === 3,
+      //   );
+      //   state.pins = payload.filter(
+      //     (data: IsBillProvider) => data.billCategoryId === 4,
+      //   );
+      //   state.bundle = payload.filter(
+      //     (data: IsBillProvider) => data.billCategoryId === 5,
+      //   );
+      //   state.fuel = payload.filter(
+      //     (data: IsBillProvider) => data.billCategoryId === 6,
+      //   );
+      // })
       .addCase(getBundleBills.fulfilled, (state, { payload }) => {
         state.bundle = payload;
       })

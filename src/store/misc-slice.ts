@@ -1,15 +1,30 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { apiService, getTransactions } from '@utils';
 import { IsTransaction, MiscState } from '@types';
-import { getAllBills, getBillCategories } from './bill-slice';
+import {
+  getAirtimeBills,
+  getAllBills,
+  getBillCategories,
+  getBundleBills,
+  getCableBills,
+  getFuelBills,
+  getPinBills,
+  getPowerBills,
+} from './bill-slice';
 import { DarkMode, LightMode } from '@common';
 import { getWallet } from './user-slice';
 
 export const accountSetUp = (userId: string) => (dispatch: any) => {
   dispatch(getWallet(userId));
   dispatch(getBillCategories());
-  dispatch(getAllBills());
+  // dispatch(getAllBills());
   dispatch(getAllTransactions());
+  dispatch(getFuelBills());
+  dispatch(getAirtimeBills());
+  dispatch(getBundleBills());
+  dispatch(getCableBills());
+  dispatch(getPowerBills());
+  dispatch(getPinBills());
 };
 
 export const getAllTransactions = createAsyncThunk('bills/bills', async () => {
@@ -18,7 +33,7 @@ export const getAllTransactions = createAsyncThunk('bills/bills', async () => {
 });
 
 const initialState = {
-  theme: 'dark',
+  theme: 'light',
   colors: DarkMode,
   showBalance: true,
   order: undefined,

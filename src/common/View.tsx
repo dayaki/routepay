@@ -68,10 +68,12 @@ export const Header = ({
   title,
   centered,
   hideBalance,
+  color,
 }: {
   title: string;
   hideBalance?: boolean;
   centered?: boolean;
+  color?: string;
 }) => {
   const { wallet } = useAppSelector(state => state.user);
   const styles = useStyles();
@@ -98,7 +100,7 @@ export const Header = ({
           <TitleText
             text={nairaFormat(wallet.balance)}
             size={11}
-            color="#15151A"
+            color={color || '#15151A'}
           />
         </View>
       )}
@@ -116,17 +118,25 @@ export const InfoBox = ({ text }) => {
   );
 };
 
-export const UserAvatar = ({ label }: { label: string }) => {
+export const UserAvatar = ({
+  label,
+  hideAvatar = false,
+}: {
+  label: string;
+  hideAvatar: boolean;
+}) => {
   const { user } = useAppSelector(state => state.user);
   const styles = useStyles();
   return (
     <View style={styles.avatarWrapper}>
-      <View style={styles.name}>
-        <TitleText
-          text={`${user?.firstName[0]}${user?.lastName[0]}`}
-          size={25}
-        />
-      </View>
+      {!hideAvatar && (
+        <View style={styles.name}>
+          <TitleText
+            text={`${user?.firstName[0]}${user?.lastName[0]}`}
+            size={25}
+          />
+        </View>
+      )}
       <TitleText text={`${user?.firstName} ${user?.lastName}`} size={14} />
       <RegularText text={label} size={11} style={{ opacity: 0.6 }} />
     </View>

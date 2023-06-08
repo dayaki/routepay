@@ -13,6 +13,7 @@ export const getWallet = createAsyncThunk(
 const initialState = {
   user: undefined,
   token: undefined,
+  username: null,
   wallet: { balance: 0 },
   isAuthenticated: false,
   onboarded: false,
@@ -26,6 +27,7 @@ export const userSlice = createSlice({
       state.user = payload;
       state.isAuthenticated = true;
       state.onboarded = true;
+      state.username = payload.firstName;
     },
     updateToken: (state, { payload }) => {
       state.token = payload;

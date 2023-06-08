@@ -12,7 +12,13 @@ import Router from './navigation';
 import { navigationRef } from './navigation/RootNavigation';
 import { DarkMode, LightMode } from '@common';
 import { StatusBar } from 'react-native-bars';
-import { getLogin, postRegister } from '@utils';
+import {
+  getLogin,
+  postForgotPass,
+  postInitPayment,
+  postPaymentToken,
+  postRegister,
+} from '@utils';
 // import { refreshToken, MonoSetup } from '@utils';
 
 if (!global.btoa) {
@@ -21,7 +27,13 @@ if (!global.btoa) {
 
 axios.interceptors.request.use(
   config => {
-    if (config.url !== getLogin && config.url !== postRegister) {
+    if (
+      config.url !== getLogin &&
+      config.url !== postRegister &&
+      config.url !== postPaymentToken &&
+      config.url !== postInitPayment &&
+      config.url !== postForgotPass
+    ) {
       const token = store.getState().user.token;
       if (config.headers) {
         (config.headers as AxiosHeaders).set(
@@ -46,16 +58,21 @@ axios.interceptors.response.use(
     const { config = {}, response = {} } = error || {};
     const { status, data = {} } = response || {};
     const { message, title } = data;
-    console.log('expired token RESPONSE', response);
-    console.log('expired token DATA', data);
+    console.log('expired token RESPONSE => OUTSIDE', response);
+    console.log('expired token DATA => OUTSIDE', data);
     if (
       status &&
-      (status === 401 || status === 400) &&
+      status === 401 &&
       !config.url.includes('/auth/') &&
-      !title
+      response.headers['www-authenticate'].includes('invalid_token')
     ) {
       console.log('expired token RESPONSE', response);
-      console.log('expired token DATA', data);
+      // const {} = response.headers;
+      console.log('expired token DATA', response.headers);
+      console.log(
+        'expired token authenticate',
+        response.headers['www-authenticate'],
+      );
       // refresh token
       //   refreshToken();
       store.dispatch(userLogout());

@@ -5,28 +5,21 @@ import { truncate, sample } from 'lodash';
 import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 import qs from 'qs';
-import { apiService } from './apiService';
-import {
-  getTransactionStatus,
-  postCharge,
-  postInitPayment,
-  postPaymentToken,
-} from './endpoints';
-import { store } from '@store';
+import { postInitPayment, postPaymentToken } from './endpoints';
 
-const strongRegex = new RegExp(
-  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[!@#$%^&*/\\\\)(+=._-])',
-);
-const mediumRegex = new RegExp(
-  '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})',
-);
+// const strongRegex = new RegExp(
+//   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[!@#$%^&*/\\\\)(+=._-])',
+// );
+// const mediumRegex = new RegExp(
+//   '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})',
+// );
 const lowercase = new RegExp('(?=.*[a-z])');
 const uppercase = new RegExp('(?=.*[A-Z])');
 const number = new RegExp('(?=.*[0-9])');
 const specialCharacters = new RegExp('(?=.*[!@#$%^&*/\\\\)(+=._-])');
 const length = new RegExp('(?=.{8,})');
 
-export const ms = (number: number) => moderateScale(number);
+export const ms = (num: number) => moderateScale(num);
 
 export const moneyFormat = (amount: string | number, precision: number = 2) => {
   return accounting.formatMoney(amount, '', precision);
@@ -40,8 +33,8 @@ export const nairaFormat = (amount: string | number, precision: number = 2) => {
   return `₦${accounting.formatMoney(amount, '', precision)}`;
 };
 
-export const truncateText = (text: string, length: number = 26): string => {
-  return truncate(text, { length });
+export const truncateText = (text: string, len: number = 26): string => {
+  return truncate(text, { length: len });
 };
 
 export const truncateWords = (str: string, max: number = 4): string => {
@@ -122,7 +115,7 @@ export const getSuccessImage = () => {
     require('@images/success/success_3.png'),
     require('@images/success/success_4.png'),
     require('@images/success/success_5.png'),
-    require('@images/success/success_6.jpg'),
+    require('@images/success/success_6.png'),
   ];
   return sample(images);
 };
@@ -173,10 +166,6 @@ export const initPaymentFlow = async (payload: any) => {
       currency: 'NGN',
       ...payload,
     };
-    /////////
-    // chargeTransaction();
-    // const { responseDescription, status } = data;
-    ///////
     console.log('data2send...', data2send);
     const { data: resp } = await axios.post(postInitPayment, data2send, {
       headers: {
@@ -186,35 +175,6 @@ export const initPaymentFlow = async (payload: any) => {
     return { ...resp, access_token: data.access_token };
   } catch (error) {
     console.log('initPaymentFlow ERR', error);
-  }
-};
-
-const chargeTransaction = async () => {
-  const order = store.getState().misc.order;
-  console.log('calling CHARGE...');
-  let payload: any = {};
-  if (order?.type === 'airtime' || order?.type === 'data') {
-    payload.billCode = order.billCode;
-    payload.merchantReference = getUniqueID(10);
-    payload.payload = {
-      mobileNumber: order.number,
-      amount: order.amount,
-    };
-  }
-  try {
-    const data = await apiService(postCharge, 'post', payload);
-    //   axios.post(postCharge, {
-    //     headers: {
-    //       Authorization: `Bearer ${params.access_token}`,
-    //     },
-    //   });
-    console.log('chargeTransaction', data);
-    // const { responseDescription, status } = data;
-    // if (status === 200 && responseDescription === 'Successful') {
-    //   navigation.navigate('transaction_success', { ...params.success_data });
-    // }
-  } catch (error) {
-    console.log('chargeTransaction ERR', error);
   }
 };
 

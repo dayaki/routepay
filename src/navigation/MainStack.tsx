@@ -37,6 +37,8 @@ import TransactionHistory from '../screens/wallet/History';
 import Rewards from '../screens/rewards';
 import Leadership from '../screens/rewards/Leadership';
 import Notifications from '../screens/Notifications';
+import Webview from '../screens/Webview';
+import WalletTopup from '../screens/dashboard/WalletTopup';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -45,6 +47,7 @@ const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home" component={BottomTabs} />
+      <Stack.Screen name="wallet_topup" component={WalletTopup} />
       <Stack.Screen name="payments" component={Payments} />
       <Stack.Screen name="airtime" component={Airtime} />
       <Stack.Screen name="buy_airtime" component={BuyAirtime} />
@@ -83,6 +86,7 @@ const MainStack = () => {
       <Stack.Screen name="support" component={Support} />
       <Stack.Screen name="change_pin" component={ChangePIN} />
       <Stack.Screen name="notifications" component={Notifications} />
+      <Stack.Screen name="browser" component={Webview} />
     </Stack.Navigator>
   );
 };
