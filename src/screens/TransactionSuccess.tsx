@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Image,
   View,
@@ -8,58 +8,72 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Button, Primary, TitleText, ViewWrapper, useTheme } from '@common';
 import {
   apiService,
   getSuccessImage,
+  getTransactionStatus,
   ms,
   nairaFormat,
   postCharge,
   postWalletTopup,
 } from '@utils';
 import { updateWalletBalance, useAppDispatch, useAppSelector } from '@store';
+import axios from 'axios';
 
 const TransactionSuccess = ({ navigation, route }) => {
   const { order } = useAppSelector(state => state.misc);
-  const { type, message, buttonText, title, routePath, trnxRef } = route.params;
+  const { type, message, buttonText, title, routePath, trnxRef, access_token } =
+    route.params;
   const [orderStatus, setOrderStatus] = useState<'success' | 'fail'>();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState('');
   const styles = useStyles();
   const dispatch = useAppDispatch();
-  console.log('order DATA', order);
-  console.log('trnxRef', trnxRef);
-  console.log('type', type);
+  console.log('transaction order', order);
 
-  // useEffect(() => {
-  //   if (type === 'wallet') {
-  //     topupWallet();
-  //   } else {
-  //     chargeTransaction();
-  //   }
+  useFocusEffect(
+    useCallback(() => {
+      setIsLoading(true);
+      verifyTransaction();
+    }, []),
+  );
 
-  //   return () => {
-  //     setIsLoading(true);
-  //   };
-  // }, [type]);
+  const verifyTransaction = async () => {
+    try {
+      const { data } = await axios.get(getTransactionStatus(trnxRef), {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      console.log('verifyTransaction..!!!!!!!!', data);
+      if (type === 'wallet') {
+        topupWallet();
+      } else {
+        chargeTransaction();
+      }
+    } catch (error) {
+      console.log('verifyTransaction', error);
+      setIsLoading(false);
+    }
+  };
 
   const chargeTransaction = async () => {
     console.log('calling CHARGE...');
     try {
       const resp = await apiService(postCharge, 'post', order);
-      //   axios.post(postCharge, {
-      //     headers: {
-      //       Authorization: `Bearer ${params.access_token}`,
-      //     },
-      //   });
       console.log('chargeTransaction', resp);
       const { responseDescription, status } = resp;
       if (status === 200 && responseDescription === 'Successful') {
         setOrderStatus('success');
-        setIsLoading(false);
+      } else {
+        setOrderStatus('fail');
       }
     } catch (error) {
       console.log('chargeTransaction ERR', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +95,7 @@ const TransactionSuccess = ({ navigation, route }) => {
 
   return (
     <ViewWrapper>
-      {!isLoading ? (
+      {isLoading ? (
         <View style={styles.loader}>
           <ActivityIndicator size="small" color={Primary} />
           <TitleText

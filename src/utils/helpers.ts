@@ -158,7 +158,7 @@ export const initPaymentFlow = async (payload: any) => {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
       },
     });
-    console.log('data TOKEN', data.access_token);
+    console.log('Merchant TOKEN', data.access_token);
     const data2send = {
       merchantId: 'yMesQUqwMDFebeb',
       returnUrl: 'https://callback.routepay.com/return',
@@ -166,7 +166,7 @@ export const initPaymentFlow = async (payload: any) => {
       currency: 'NGN',
       ...payload,
     };
-    console.log('data2send...', data2send);
+    // console.log('data2send...', data2send);
     const { data: resp } = await axios.post(postInitPayment, data2send, {
       headers: {
         Authorization: `Bearer ${data.access_token}`,

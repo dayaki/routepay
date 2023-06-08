@@ -26,7 +26,7 @@ const PaymentOptions = ({ navigation, route }) => {
       },
     };
     const resp = await initPaymentFlow(payload);
-    console.log('PaymentOptions', resp);
+    console.log('PaymentOptions MERCHANT', resp);
     setIsLoading(false);
     navigation.navigate('browser', {
       params: {

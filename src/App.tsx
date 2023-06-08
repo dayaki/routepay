@@ -32,7 +32,8 @@ axios.interceptors.request.use(
       config.url !== postRegister &&
       config.url !== postPaymentToken &&
       config.url !== postInitPayment &&
-      config.url !== postForgotPass
+      config.url !== postForgotPass &&
+      !config.url?.includes('/payment/api/v1/')
     ) {
       const token = store.getState().user.token;
       if (config.headers) {

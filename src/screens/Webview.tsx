@@ -27,13 +27,32 @@ const Webview = ({ route, navigation }) => {
     if (url.includes('callback.routepay.com/return')) {
       webview.current?.stopLoading();
       setHasRedirected(true);
-      console.log('show redirect....');
       navigation.navigate('transaction_success', {
         trnxRef: params.reference,
         type: params.type,
+        access_token: params.access_token,
       });
     }
   };
+
+  // const verifyTransaction = async () => {
+  //   console.log('WEbview MERCHANT', params.access_token);
+  //   try {
+  //     const { data } = await axios.get(getTransactionStatus(params.reference), {
+  //       headers: {
+  //         Authorization: `Bearer ${params.access_token}`,
+  //       },
+  //     });
+  //
+  //     console.log('verifyTransaction..!!!!!!!!', data);
+  //     navigation.navigate('transaction_success', {
+  //       trnxRef: params.reference,
+  //       type: params.type,
+  //     });
+  //   } catch (error) {
+  //     console.log('verifyTransaction', error);
+  //   }
+  // };
 
   const runFirst = `
     let rootElement = document.querySelector("body");
