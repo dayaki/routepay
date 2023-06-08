@@ -1,29 +1,59 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Close } from '@icons';
-import { Loader, RegularText, TitleText, TransactionPIN } from '@common';
+import {
+  Loader,
+  Primary,
+  RegularText,
+  TitleText,
+  TransactionPIN,
+} from '@common';
 import { useStyles } from './styles';
+import { apiService, postSetPin, postVerifyPin } from '@utils';
 
 const ChangePIN = ({ navigation }) => {
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState('');
   const styles = useStyles();
 
   const verifyPin = async (pin: string) => {
     setIsLoading(true);
-    console.log('pin verify', pin);
-    setTimeout(() => {
+    try {
+      const { status } = await apiService(postVerifyPin(pin), 'post', {
+        params: { pin: pin },
+      });
+      console.log('verifyPin', status);
+      if (status) {
+        setPage(2);
+      } else {
+        setHasError('Invalid PIN. Check and try again.');
+      }
+    } catch (error) {
+      console.log('verifyPin ERR', error);
+    } finally {
       setIsLoading(false);
-      setPage(2);
-    }, 6000);
+    }
   };
 
   const changePin = async (pin: string) => {
     setIsLoading(true);
-    console.log('pin verify', pin);
-    setTimeout(() => {
+    try {
+      const status = await apiService(postSetPin, 'post', {
+        pin: pin,
+        password: 'string',
+      });
+      console.log('changePin', status);
+      // if (status) {
+      //   setPage(2);
+      // } else {
+      //   setHasError('Invalid PIN. Check and try again.');
+      // }
+    } catch (error) {
+      console.log('changePin ERR', error);
+    } finally {
       setIsLoading(false);
-    }, 6000);
+    }
   };
 
   return (
@@ -54,6 +84,9 @@ const ChangePIN = ({ navigation }) => {
                   { textAlign: 'center', marginBottom: 60 },
                 ]}
               />
+              {!!hasError && (
+                <RegularText text={hasError} size={11} color={Primary} />
+              )}
             </>
           )}
           {page === 2 && (

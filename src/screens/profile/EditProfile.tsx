@@ -93,9 +93,10 @@ const EditProfile = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View>
+
+        <View style={{ marginBottom: 20 }}>
           <RegularText
-            text="Kindly note that some fields are locked for editing. Please contact our customer support for assistance."
+            text="Kindly note that some fields are locked for editing."
             size={14}
             style={{ lineHeight: 25, marginBottom: 40 }}
           />
@@ -106,6 +107,15 @@ const EditProfile = ({ navigation }) => {
             label="Jane Doe"
             placeholder="Jane Doe"
             leftIcon={<UserIcon />}
+            rightIcon={<Lock />}
+          />
+          <Input
+            ref={phoneInputRef}
+            placeholder="Phone"
+            editable={false}
+            value={phone}
+            onChangeText={setPhone}
+            leftIcon={<PhoneIcon />}
             rightIcon={<Lock />}
           />
           <View style={styles.inputBox}>
@@ -125,48 +135,8 @@ const EditProfile = ({ navigation }) => {
               size={11}
             />
           </View>
-          <View style={styles.inputBox}>
-            <Input
-              ref={phoneInputRef}
-              placeholder="Phone"
-              editable={editable === 'phone'}
-              onBlur={() => setEditable('')}
-              value={phone}
-              onChangeText={setPhone}
-              leftIcon={<PhoneIcon />}
-              rightIcon={<EditButton onPress={() => setEditable('phone')} />}
-            />
-            <RegularText
-              text="Changing your mobile number will require verification"
-              style={styles.footnote}
-              size={11}
-            />
-          </View>
-          <View style={styles.reviewInfo}>
-            <Exclamation />
-            <View>
-              <RegularText
-                text="We don’t share your details with anyone."
-                size={14}
-                style={styles.reviewInfoText}
-              />
-              <View style={styles.row}>
-                <RegularText
-                  text="Read our "
-                  size={14}
-                  style={styles.reviewInfoText}
-                />
-                <TextButton
-                  text="Terms & Conditions "
-                  textStyle={styles.termsLink}
-                  textOnly
-                  onPress={() => {}}
-                />
-                <RegularText text="here" size={14} />
-              </View>
-            </View>
-          </View>
         </View>
+
         <Button text="Save" onPress={() => {}} />
       </KeyboardAwareScrollView>
     </View>

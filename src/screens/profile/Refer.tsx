@@ -22,15 +22,17 @@ const Refer = ({ navigation }) => {
         <TitleText text="Refer & Earn" size={23} />
       </View>
       <ScrollView style={styles.scroll}>
-        <Image
-          source={require('@images/brand_waves_inverse.png')}
-          resizeMode="cover"
-          style={styles.waves}
-        />
+        <View style={styles.waveWrapper}>
+          <Image
+            source={require('@images/brand_waves_inverse.png')}
+            resizeMode="cover"
+            style={styles.waves}
+          />
+        </View>
         <View style={styles.slider}>
           <View style={styles.imageWraper}>
             <Image
-              source={require('@images/success/success_6.jpg')}
+              source={require('@images/success/success_6.png')}
               resizeMode="cover"
               style={styles.image}
             />

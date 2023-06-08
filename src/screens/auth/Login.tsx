@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { decode } from 'base-64';
 import axios from 'axios';
-import { useToast } from 'react-native-toast-notifications';
 import {
   BackgroundView,
   Button,
@@ -32,7 +31,6 @@ const Login = ({ navigation, route }) => {
   const [hasError, setHasError] = useState('');
   const styles = useLoginStyles();
   const dispatch = useAppDispatch();
-  const toast = useToast();
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -85,8 +83,8 @@ const Login = ({ navigation, route }) => {
           )}
           <View style={styles.texts}>
             <Text style={styles.label}>
-              Enter your email or mobile number to continue to your{' '}
-              <Text style={styles.brandName}>routepay</Text> account.
+              Enter your <Text style={styles.brandName}>routepay</Text> account
+              login details.
             </Text>
           </View>
           <Input
@@ -117,7 +115,7 @@ const Login = ({ navigation, route }) => {
             isLoading={isLoading}
           />
           <View style={styles.row}>
-            <RegularText text="Forgot Password?" />
+            <RegularText text="Forgot Password? " />
             <TextButton
               text="Reset"
               onPress={() => navigation.navigate('forgot_password')}

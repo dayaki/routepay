@@ -52,7 +52,7 @@ export const useStyles = () => {
       padding: ms(10),
     },
     scroll: {
-      paddingTop: ms(20),
+      paddingTop: ms(10),
     },
     padded: {
       paddingHorizontal: ms(20),

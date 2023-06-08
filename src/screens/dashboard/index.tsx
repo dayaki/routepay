@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { RegularText, TextButton, TitleText, TransactionList } from '@common';
+import { RegularText, TextButton, TitleText } from '@common';
 import {
   accountSetUp,
   toggleShowBalance,
@@ -16,14 +16,25 @@ import {
 import { EyeClose, EyeIcon, Notification } from '@icons';
 import { nairaFormat } from '@utils';
 import { useStyles } from './styles';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Dashboard = ({ navigation }) => {
   const { user, wallet } = useAppSelector(state => state.user);
-  const { theme, showBalance } = useAppSelector(state => state.misc);
+  const { showBalance } = useAppSelector(state => state.misc);
   const { dashboard } = useAppSelector(state => state.loyalty);
   const [currentIndex, setCurrentIndex] = useState(0);
   const styles = useStyles();
   const dispatch = useAppDispatch();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('useFocusEffect!!!!!');
+      if (user) {
+        dispatch(accountSetUp(user.userId));
+        console.log('use effect user called.>>>>>>>>', user.userId);
+      }
+    }, [user, dispatch]),
+  );
 
   const toggleShow = () => {
     dispatch(toggleShowBalance(!showBalance));
@@ -39,6 +50,7 @@ const Dashboard = ({ navigation }) => {
 
   useEffect(() => {
     if (user) {
+      console.log('use effect user called.......');
       dispatch(accountSetUp(user.userId));
     }
   }, [user, dispatch]);
@@ -191,11 +203,7 @@ const Dashboard = ({ navigation }) => {
               style={styles.row}
               onPress={() => navigation.navigate('wallet_topup')}>
               <Image
-                source={
-                  theme === 'dark'
-                    ? require('@images/dashboard/topup_dark.png')
-                    : require('@images/dashboard/topup.png')
-                }
+                source={require('@images/dashboard/topup.png')}
                 resizeMode="cover"
                 style={styles.boxIcon}
               />
@@ -206,11 +214,7 @@ const Dashboard = ({ navigation }) => {
               style={styles.row}
               onPress={() => navigation.navigate('send_money')}>
               <Image
-                source={
-                  theme === 'dark'
-                    ? require('@images/dashboard/sendmoney_dark.png')
-                    : require('@images/dashboard/sendmoney.png')
-                }
+                source={require('@images/dashboard/sendmoney.png')}
                 resizeMode="cover"
                 style={styles.boxIcon}
               />

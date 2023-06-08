@@ -1,16 +1,8 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, Image, View } from 'react-native';
+import React from 'react';
+import { Image, View } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { authorize, revoke } from 'react-native-app-auth';
 import { useStyles } from './styles';
 import { Button, TitleText, ViewWrapper } from '@common';
-import {
-  apiService,
-  getBills,
-  getBillsCategory,
-  postBillPayment,
-  postCreateWallet,
-} from '@utils';
 
 const slides = [
   {
@@ -30,95 +22,8 @@ const slides = [
   },
 ];
 
-const config = {
-  issuer: 'https://authdev.routepay.com/',
-  clientId: 'billsPortal',
-  redirectUrl: 'routepay://auth/callback',
-  scopes: [
-    'openid',
-    'profile',
-    'RoutePay.MerchantApi.read',
-    'RoutePay.MerchantApi.write',
-    'RoutePay.PaymentApi.read',
-    'RoutePay.PaymentApi.write',
-    'RoutePay.BillsPayment.read',
-    'RoutePay.BillsPayment.write',
-  ],
-};
-
 const Onboarding = ({ navigation }) => {
   const styles = useStyles();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleLogin = async () => {
-    // login();
-    // getBillsM();
-    // makePayment();
-    // createWallet();
-    navigation.navigate('login');
-  };
-
-  const login = async () => {
-    setIsLoading(true);
-    try {
-      const resp = await authorize(config);
-      const { accessToken } = resp;
-      // result includes accessToken, accessTokenExpirationDate and refreshToken
-      console.log('handleLogin', JSON.stringify(resp));
-      console.log(accessToken);
-      setIsLoading(false);
-    } catch (error) {
-      console.log('handleLogin ERR', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getBillsM = async () => {
-    try {
-      const resp = await apiService(getBills, 'get');
-      console.log('get bills', resp);
-    } catch (error) {
-      console.log('rrreeerrr', error);
-    }
-  };
-
-  const createWallet = async () => {
-    try {
-      const resp = await apiService(postCreateWallet, 'post', {
-        externalId: '17124f37-eb88-44bf-a44c-e3a334931a49',
-        walletType: 'USER',
-      });
-      console.log('createWallet bills', resp);
-    } catch (error) {
-      console.log('createWallet ERR', error);
-    }
-  };
-
-  const makePayment = async () => {
-    try {
-      const resp = await apiService(postBillPayment, 'post', {
-        billCode: 'MTN',
-        merchantReference: 'c4e0f556-a892-4141-b4f2-07a90f7129fc',
-        payload: {
-          mobileNumber: '07038327370',
-          amount: '100',
-        },
-      });
-      console.log('get bills', resp);
-    } catch (error) {
-      console.log('rrreeerrr', error);
-    }
-  };
-
-  // const handleLogout = async () => {
-  //   const result = await revoke(config, {
-  //     tokenToRevoke: `<TOKEN_TO_REVOKE>`,
-  //     includeBasicAuth: true,
-  //     sendClientId: true,
-  //   });
-  //   console.log('logout', result);
-  // };
 
   const renderSlide = ({ item, index }: { item: any; index: number }) => (
     <>
@@ -147,11 +52,11 @@ const Onboarding = ({ navigation }) => {
               style={styles.registerBtn}
               onPress={() => navigation.navigate('signup')}
             />
-            {isLoading ? (
-              <ActivityIndicator size="small" color="red" />
-            ) : (
-              <Button text="Log In" textOnly onPress={handleLogin} />
-            )}
+            <Button
+              text="Log In"
+              textOnly
+              onPress={() => navigation.navigate('login')}
+            />
           </View>
         </View>
       </View>

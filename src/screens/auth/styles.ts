@@ -28,8 +28,8 @@ export const useStyles = () => {
     },
     imageWraper: {
       width: ms(340),
-      height: ms(450),
-      marginBottom: ms(30),
+      height: ms(430),
+      marginBottom: ms(20),
       alignSelf: 'center',
     },
     image: {
@@ -55,7 +55,6 @@ export const useStyles = () => {
       width: ms(10),
       height: ms(10),
       borderRadius: ms(6),
-      borderColor: White,
       borderWidth: 0.5,
       borderColor: colors.pagination,
       backgroundColor: 'transparent',
