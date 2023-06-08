@@ -10,6 +10,7 @@ const ReviewPayment = ({ navigation, route }) => {
   const data = route.params.data || null;
   console.log('ReviewPayment DATA', data);
   const styles = useStyles();
+
   return (
     <View style={styles.container}>
       <Header title="Review Payment" centered hideBalance />
@@ -59,6 +60,27 @@ const ReviewPayment = ({ navigation, route }) => {
               <View style={styles.reviewItem}>
                 <RegularText text="Remark" size={14} />
                 <TitleText text={data.remark || 'N/A'} size={14} />
+              </View>
+            </>
+          )}
+
+          {type === 'scan' && (
+            <>
+              <View style={styles.reviewItem}>
+                <RegularText text="Merchant’s name" size={14} />
+                <TitleText text={data.merchant} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Sub merchant name" size={14} />
+                <TitleText text={data.merchant_sub} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Amount" size={14} />
+                <TitleText text={nairaFormat(data.amount)} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Payment type" size={14} />
+                <TitleText text={data.payment_type || 'N/A'} size={14} />
               </View>
             </>
           )}
@@ -142,6 +164,41 @@ const ReviewPayment = ({ navigation, route }) => {
               </View>
             </>
           )}
+
+          {type === 'cable' && (
+            <>
+              <View style={styles.reviewItem}>
+                <RegularText
+                  text={
+                    data.billCode.includes('SHOWMAX')
+                      ? 'Phone number'
+                      : 'Smart card number'
+                  }
+                  size={14}
+                />
+                <TitleText text={data.number} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Service provider" size={14} />
+                <View style={styles.row}>
+                  <Image
+                    source={getImage(getName(data.billCode).toLowerCase())}
+                    resizeMode="cover"
+                    style={styles.networkLogo}
+                  />
+                  <TitleText text={getName(data.billCode)} size={14} />
+                </View>
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Subscription plan" size={14} />
+                <TitleText text={data.plan} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Amount" size={14} />
+                <TitleText text={nairaFormat(data.amount)} size={14} />
+              </View>
+            </>
+          )}
         </View>
 
         <View>
@@ -155,7 +212,9 @@ const ReviewPayment = ({ navigation, route }) => {
           </View>
           <Button
             text="Continue payment"
-            onPress={() => navigation.navigate('payment_options', { data })}
+            onPress={() =>
+              navigation.navigate('payment_options', { data, type })
+            }
           />
         </View>
       </View>

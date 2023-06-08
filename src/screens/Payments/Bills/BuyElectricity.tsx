@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
 import { useStyles } from '../styles';
+import { useAppSelector } from '@store';
 
 const BuyElectricity = ({ navigation, route }) => {
+  const { power } = useAppSelector(state => state.bill);
   const data = route.params.data;
   const [meter, setMeter] = useState('');
   const [amount, setAmount] = useState('');
@@ -24,7 +26,7 @@ const BuyElectricity = ({ navigation, route }) => {
         <View>
           <Select
             data={data}
-            selector="billCode"
+            selector="displayName"
             title="Choose Service Provider"
             label="Electricity company"
             selected={selectedCompany}

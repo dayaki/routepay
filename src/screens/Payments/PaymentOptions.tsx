@@ -1,52 +1,55 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import Config from 'react-native-config';
-import { Button, Checkbox, Header } from '@common';
-import { useStyles } from './styles';
-import { apiService, getUuid, postInitPayment } from '@utils';
+import { Button, Checkbox, Header, Loader } from '@common';
+import { initPaymentFlow } from '@utils';
 import { useAppSelector } from '@store';
-
-const { PAYMENT_CLIENT_ID } = Config;
+import { useStyles } from './styles';
 
 const PaymentOptions = ({ navigation, route }) => {
   const { user } = useAppSelector(state => state.user);
-  const { data = {} } = route.params;
-  const [selectionOption, setSelectionOption] = useState('wallet');
+  const { data = {}, type = '' } = route.params;
+  const [selectionOption, setSelectionOption] = useState('card');
+  const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
 
   const onContinue = async () => {
-    if (selectionOption === 'card') {
-      apiService(postInitPayment, 'post', {
-        merchantId: 'yMesQUqwMDFebeb',
-        returnUrl: 'https://callback.routepay.com/return',
-        merchantReference: getUuid(),
-        totalAmount: data.amount,
-        currency: 'NGN',
-        customer: {
-          email: user?.email,
-          mobile: user?.phoneNumber,
-          firstname: user?.firstName,
-          lastname: user?.lastName,
-          username: user?.userName,
-        },
-      })
-        .then(result => {
-          console.log('postInitPayment', result);
-        })
-        .catch(err => {
-          console.log('postInitPayment ERR', err);
-        });
-    } else {
-      navigation.navigate('wallet_pin', { data });
-    }
+    setIsLoading(true);
+    // if (selectionOption === 'card') {
+    const payload = {
+      totalAmount: data.amount,
+      customer: {
+        email: user?.email,
+        mobile: user?.phoneNumber,
+        firstname: user?.firstName,
+        lastname: user?.lastName,
+        username: user?.userName,
+      },
+    };
+    const resp = await initPaymentFlow(payload);
+    console.log('PaymentOptions', resp);
+    setIsLoading(false);
+    navigation.navigate('browser', {
+      params: {
+        uri: resp.redirectUrl,
+        merchantReference: resp.merchantReference,
+        reference: resp.transactionReference,
+        access_token: resp.access_token,
+        type,
+      },
+    });
+    // } else {
+    //   navigation.navigate('wallet_pin', { data });
+    // }
   };
   return (
     <View style={styles.container}>
+      <Loader show={isLoading} />
       <Header title="Payment Options" centered hideBalance />
       <View style={styles.content}>
         <View style={styles.review}>
           <View style={[styles.row, { marginBottom: 31 }]}>
             <Checkbox
+              disabled
               text="Pay with wallet"
               isChecked={selectionOption === 'wallet'}
               onPress={() => setSelectionOption('wallet')}
@@ -61,7 +64,11 @@ const PaymentOptions = ({ navigation, route }) => {
           </View>
         </View>
         <View>
-          <Button text="Continue payment" onPress={onContinue} />
+          <Button
+            text="Continue payment"
+            onPress={onContinue}
+            isLoading={isLoading}
+          />
         </View>
       </View>
     </View>

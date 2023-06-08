@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
 import { useStyles } from './styles';
-import { useAppSelector } from '@store';
+import { newOrder, useAppDispatch, useAppSelector } from '@store';
 
 const BuyFuel = ({ navigation }) => {
   const { fuel } = useAppSelector(state => state.bill);
@@ -11,7 +11,31 @@ const BuyFuel = ({ navigation }) => {
   const [amount, setAmount] = useState<string>('');
   const [selectedStation, setSelectedStation] = useState('');
   const styles = useStyles();
+  const dispatch = useAppDispatch();
   console.log('fuel', fuel);
+
+  const onContinue = () => {
+    dispatch(
+      newOrder({
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        email: user?.email,
+        mobileNumber: user?.phoneNumber,
+        fuelCode: 'Petrol',
+        fuelStation: selectedStation.fuelStation,
+        amount: amount,
+      }),
+    );
+    navigation.navigate('review_payment', {
+      type: 'fuel',
+      data: {
+        amount,
+        phone,
+        station: selectedStation,
+        email: user?.email,
+      },
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -47,17 +71,7 @@ const BuyFuel = ({ navigation }) => {
         </View>
         <Button
           text="Continue"
-          onPress={() =>
-            navigation.navigate('review_payment', {
-              type: 'fuel',
-              data: {
-                amount,
-                phone,
-                station: selectedStation,
-                email: user?.email,
-              },
-            })
-          }
+          onPress={onContinue}
           disabled={!phone || !amount || !selectedStation}
         />
       </View>

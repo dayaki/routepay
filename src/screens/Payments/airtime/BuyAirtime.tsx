@@ -8,9 +8,9 @@ import {
   RegularText,
   TitleText,
 } from '@common';
-import { useAppSelector } from '@store';
+import { updateOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
-import { getImage } from '@utils';
+import { getImage, getUniqueID } from '@utils';
 import { IsBillProvider } from '@types';
 
 const AMOUNTS = ['100', '200', '500', '1000'];
@@ -22,6 +22,7 @@ const BuyAirtime = ({ navigation, route }) => {
   const [amount, setAmount] = useState<string>('');
   const [selectedAmount, setSelectedAmount] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState<IsBillProvider>();
+  const dispatch = useAppDispatch();
   const styles = useStyles();
 
   console.log('airtime', airtime);
@@ -29,6 +30,22 @@ const BuyAirtime = ({ navigation, route }) => {
   const handleSelection = (text: string) => {
     setSelectedAmount(text);
     setAmount(text);
+  };
+
+  const onContinue = () => {
+    const payload = {
+      billCode: selectedNetwork?.billCode,
+      merchantReference: getUniqueID(),
+      payload: {
+        mobileNumber: phone,
+        amount: amount,
+      },
+    };
+    dispatch(updateOrder(payload));
+    navigation.navigate('review_payment', {
+      type: 'airtime',
+      data: { selectedNetwork, amount, phone },
+    });
   };
 
   return (
@@ -107,12 +124,7 @@ const BuyAirtime = ({ navigation, route }) => {
         </View>
         <Button
           text="Continue"
-          onPress={() =>
-            navigation.navigate('review_payment', {
-              type: 'airtime',
-              data: { selectedNetwork, amount, phone },
-            })
-          }
+          onPress={onContinue}
           disabled={!phone || !amount || !selectedNetwork}
         />
       </View>

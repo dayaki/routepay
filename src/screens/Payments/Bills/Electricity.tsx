@@ -19,10 +19,7 @@ const Electricity = ({ navigation }) => {
       fileredData = power?.filter(elem => elem.billCode.includes('POSTPAID'));
     }
     setData(fileredData);
-    return () => {
-      setData([]);
-    };
-  }, [data]);
+  }, []);
 
   return (
     <View style={styles.container}>

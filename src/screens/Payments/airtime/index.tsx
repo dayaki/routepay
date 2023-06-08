@@ -6,9 +6,12 @@ import { getAirtimeBills, useAppDispatch, useAppSelector } from '@store';
 
 const Airtime = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
+  const { airtime } = useAppSelector(state => state.bill);
   const [selectionOption, setSelectionOption] = useState('self');
   const styles = useStyles();
   const dispatch = useAppDispatch();
+
+  console.log('Airtime', airtime);
 
   // useEffect(() => {
   //   dispatch(getAirtimeBills());

@@ -103,6 +103,7 @@ export const useStyles = () => {
       alignItems: 'center',
       justifyContent: 'space-between',
       marginBottom: ms(21),
+      flexWrap: 'wrap',
     },
     reviewInfo: {
       backgroundColor: colors.selector,
