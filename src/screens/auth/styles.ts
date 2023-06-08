@@ -15,12 +15,29 @@ export const useStyles = () => {
       borderRadius: ms(10),
       position: 'absolute',
     },
-    waves: {
+    wavess: {
       width: '100%',
       height: '100%',
     },
-    slider: {
+    sliders: {
       width: '90%',
+      alignSelf: 'center',
+    },
+    waves: {
+      width: '100%',
+      height: ms(461),
+      left: 0,
+      position: 'relative',
+      zIndex: 50,
+    },
+    slider: {
+      position: 'absolute',
+      zIndex: 100,
+      width: '90%',
+      alignSelf: 'center',
+    },
+    slide: {
+      width: '100%',
       alignSelf: 'center',
     },
     slide: {

@@ -13,11 +13,11 @@ const Welcome = ({ navigation, route }) => {
           <Image
             source={require('@images/brand_waves_inverse.png')}
             resizeMode="cover"
-            style={styles.waves}
+            style={styles.wavess}
           />
         </View>
 
-        <View style={styles.slider}>
+        <View style={styles.sliders}>
           <View style={styles.imageWraper}>
             <Image
               source={require('@images/success/success_5.png')}
