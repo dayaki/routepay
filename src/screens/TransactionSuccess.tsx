@@ -31,17 +31,17 @@ const TransactionSuccess = ({ navigation, route }) => {
   console.log('trnxRef', trnxRef);
   console.log('type', type);
 
-  useEffect(() => {
-    if (type === 'wallet') {
-      topupWallet();
-    } else {
-      chargeTransaction();
-    }
+  // useEffect(() => {
+  //   if (type === 'wallet') {
+  //     topupWallet();
+  //   } else {
+  //     chargeTransaction();
+  //   }
 
-    return () => {
-      setIsLoading(true);
-    };
-  }, [type]);
+  //   return () => {
+  //     setIsLoading(true);
+  //   };
+  // }, [type]);
 
   const chargeTransaction = async () => {
     console.log('calling CHARGE...');
@@ -81,7 +81,7 @@ const TransactionSuccess = ({ navigation, route }) => {
 
   return (
     <ViewWrapper>
-      {isLoading ? (
+      {!isLoading ? (
         <View style={styles.loader}>
           <ActivityIndicator size="small" color={Primary} />
           <TitleText
@@ -92,11 +92,14 @@ const TransactionSuccess = ({ navigation, route }) => {
         </View>
       ) : (
         <ScrollView>
-          <Image
-            source={require('@images/brand_waves_inverse.png')}
-            resizeMode="cover"
-            style={styles.waves}
-          />
+          <View style={styles.waveWrapper}>
+            <Image
+              source={require('@images/brand_waves_inverse.png')}
+              resizeMode="cover"
+              style={styles.waves}
+            />
+          </View>
+
           <View style={styles.slider}>
             <View style={styles.imageWraper}>
               <Image
@@ -151,16 +154,17 @@ const useStyles = () => {
     loaderText: {
       marginTop: ms(40),
     },
+    waveWrapper: {
+      width: '100%',
+      height: ms(341),
+      borderRadius: ms(10),
+      position: 'absolute',
+    },
     waves: {
       width: '100%',
-      height: ms(461),
-      left: 0,
-      position: 'relative',
-      zIndex: 50,
+      height: '100%',
     },
     slider: {
-      position: 'absolute',
-      zIndex: 100,
       width: '90%',
       alignSelf: 'center',
     },
