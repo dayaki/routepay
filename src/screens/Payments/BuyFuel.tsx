@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
-import { useStyles } from './styles';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
+import { OrderPayload } from '@types';
+import { getUniqueID } from '@utils';
+import { useStyles } from './styles';
 
 const BuyFuel = ({ navigation }) => {
   const { fuel } = useAppSelector(state => state.bill);
@@ -15,17 +17,23 @@ const BuyFuel = ({ navigation }) => {
   console.log('fuel', fuel);
 
   const onContinue = () => {
-    dispatch(
-      newOrder({
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        email: user?.email,
-        mobileNumber: user?.phoneNumber,
-        fuelCode: 'Petrol',
-        fuelStation: selectedStation.fuelStation,
-        amount: amount,
-      }),
-    );
+    const data2send: OrderPayload = {
+      orderPayload: {
+        billCode: 'FUEL',
+        merchantReference: getUniqueID(),
+        payload: {
+          firstName: user?.firstName,
+          lastName: user?.lastName,
+          email: user?.email,
+          mobileNumber: user?.phoneNumber, //'2348032009444',
+          fuelCode: 'Petrol',
+          fuelStation: selectedStation.fuelStation,
+          amount: amount,
+        },
+      },
+    };
+
+    dispatch(newOrder(data2send));
     navigation.navigate('review_payment', {
       type: 'fuel',
       data: {

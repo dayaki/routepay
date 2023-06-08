@@ -112,6 +112,11 @@ export type OrderPayload = {
     payload?: {
       mobileNumber?: string;
       amount?: string;
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      fuelCode?: string;
+      fuelStation?: string;
     };
   };
   orderData?: any;

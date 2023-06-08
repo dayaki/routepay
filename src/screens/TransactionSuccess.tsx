@@ -165,7 +165,14 @@ const TransactionSuccess = ({ navigation, route }) => {
             {type === 'data' && (
               <Text style={styles.welcomeText}>
                 You’ve just purchased {orderData?.plan} with{' '}
-                {nairaFormat(orderPayload.payload?.amount)}
+                {nairaFormat(orderPayload.payload?.amount)}.
+              </Text>
+            )}
+            {type === 'fuel' && (
+              <Text style={styles.welcomeText}>
+                You’ve just purchased{' '}
+                {nairaFormat(orderPayload.payload?.amount)} worth of Petrol from{' '}
+                {orderPayload.payload?.fuelStation} filling station.
               </Text>
             )}
 
