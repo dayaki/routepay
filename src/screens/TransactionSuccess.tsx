@@ -32,6 +32,7 @@ const TransactionSuccess = ({ navigation, route }) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
   console.log('transaction order', order);
+  console.log('trans params', route.params);
 
   useFocusEffect(
     useCallback(() => {
@@ -62,9 +63,14 @@ const TransactionSuccess = ({ navigation, route }) => {
   const chargeTransaction = async () => {
     console.log('calling CHARGE...');
     try {
-      const resp = await apiService(postCharge, 'post', order);
-      console.log('chargeTransaction', resp);
-      const { responseDescription, status } = resp;
+      // const resp = await apiService(postCharge, 'post', order);
+      const { data } = await axios.post(postCharge, order, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      console.log('chargeTransaction', data);
+      const { responseDescription, status } = data;
       if (status === 200 && responseDescription === 'Successful') {
         setOrderStatus('success');
       } else {
@@ -136,6 +142,12 @@ const TransactionSuccess = ({ navigation, route }) => {
               <Text style={styles.welcomeText}>
                 Your wallet topup of {nairaFormat(order?.amount || 0)} was
                 successful.
+              </Text>
+            )}
+            {type === 'airtime' && (
+              <Text style={styles.welcomeText}>
+                You’ve just recharged {order?.payload.mobileNumber} with{' '}
+                {nairaFormat(order?.payload.amount)} airtime.
               </Text>
             )}
             <Button

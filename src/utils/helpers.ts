@@ -161,7 +161,7 @@ export const initPaymentFlow = async (payload: any) => {
     console.log('Merchant TOKEN', data.access_token);
     const data2send = {
       merchantId: 'yMesQUqwMDFebeb',
-      returnUrl: 'https://callback.routepay.com/return',
+      returnUrl: 'https://routepay.com/about-routepay',
       merchantReference: getUniqueID(),
       currency: 'NGN',
       ...payload,

@@ -24,7 +24,7 @@ const Webview = ({ route, navigation }) => {
     const { url } = event;
     console.log('onNavigationStateChange URL', url);
 
-    if (url.includes('callback.routepay.com/return')) {
+    if (url.includes('/about-routepay')) {
       webview.current?.stopLoading();
       setHasRedirected(true);
       navigation.navigate('transaction_success', {
@@ -34,25 +34,6 @@ const Webview = ({ route, navigation }) => {
       });
     }
   };
-
-  // const verifyTransaction = async () => {
-  //   console.log('WEbview MERCHANT', params.access_token);
-  //   try {
-  //     const { data } = await axios.get(getTransactionStatus(params.reference), {
-  //       headers: {
-  //         Authorization: `Bearer ${params.access_token}`,
-  //       },
-  //     });
-  //
-  //     console.log('verifyTransaction..!!!!!!!!', data);
-  //     navigation.navigate('transaction_success', {
-  //       trnxRef: params.reference,
-  //       type: params.type,
-  //     });
-  //   } catch (error) {
-  //     console.log('verifyTransaction', error);
-  //   }
-  // };
 
   const runFirst = `
     let rootElement = document.querySelector("body");

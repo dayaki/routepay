@@ -34,7 +34,13 @@ export interface MiscState {
   colors: Theme;
   showBalance: boolean;
   order:
-    | { type: string; amount: string; number: string; billCode?: string }
+    | {
+        type: string;
+        amount: string;
+        number: string;
+        billCode?: string;
+        payload: any;
+      }
     | undefined;
   transactions: IsTransaction[] | undefined;
 }
