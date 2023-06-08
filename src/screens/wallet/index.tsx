@@ -3,14 +3,16 @@ import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 import { Header, RegularText, TitleText, UserAvatar } from '@common';
 import { useStyles } from './styles';
-import { RefreshIcon } from '@icons';
-import { nairaFormat } from '@utils';
 import { useAppSelector } from '@store';
+import { encode } from 'base-64';
 
 const Wallet = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
-  const { user, wallet } = useAppSelector(state => state.user);
+  const { user } = useAppSelector(state => state.user);
   const styles = useStyles();
+  const userQRcode = encode(
+    `AAAA${user?.phoneNumber}${user?.firstName} ${user?.lastName}`,
+  );
 
   return (
     <View style={styles.container}>
@@ -41,7 +43,7 @@ const Wallet = ({ navigation }) => {
         <View style={styles.box}>
           <UserAvatar hideAvatar label={`QR code | @${user?.phoneNumber}`} />
           <View style={styles.qrCode}>
-            <QRCode size={112} value="https://routepay.com/" />
+            <QRCode size={112} value={userQRcode} />
           </View>
           <RegularText
             text="Your QR code is secure. Anyone can scan to send money to your account."

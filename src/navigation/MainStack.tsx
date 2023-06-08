@@ -39,6 +39,7 @@ import Leadership from '../screens/rewards/Leadership';
 import Notifications from '../screens/Notifications';
 import Webview from '../screens/Webview';
 import WalletTopup from '../screens/dashboard/WalletTopup';
+import ScanReview from '../screens/payments/ScanReview';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator();
@@ -77,6 +78,8 @@ const MainStack = () => {
       <Stack.Screen name="receive_money" component={ReceiveMoney} />
       <Stack.Screen name="route_link" component={RouteLink} />
       <Stack.Screen name="transaction_history" component={TransactionHistory} />
+      <Stack.Screen name="scan_review" component={ScanReview} />
+
       {/* Profile */}
       <Stack.Screen name="edit_profile" component={EditProfile} />
       <Stack.Screen name="refer" component={Refer} />

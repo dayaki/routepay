@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native';
 import { ms } from '@utils';
 import { useAppSelector } from '@store';
+import { useTheme } from '@common';
 
 export const useStyles = () => {
-  const {
-    colors: { colors },
-  } = useAppSelector(state => state.misc);
+  // const {
+  //   colors: { colors },
+  // } = useAppSelector(state => state.misc);
+  const { colors } = useTheme();
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -76,9 +78,10 @@ export const useStyles = () => {
       borderWidth: 0.5,
       borderColor: colors.counter,
       height: ms(40),
+      width: '32%',
       //   width: ms(110),
       paddingHorizontal: ms(10),
-      marginRight: ms(10),
+      // marginRight: ms(10),
     },
     leadership: {
       width: ms(15),
