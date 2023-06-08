@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Header, Input, Loader, RegularText } from '@common';
-import { newOrder, updateOrder, useAppDispatch, useAppSelector } from '@store';
-import { apiService, initPaymentFlow, postWalletTopup } from '@utils';
+import { newOrder, useAppDispatch, useAppSelector } from '@store';
+import { initPaymentFlow } from '@utils';
 import { useStyles } from './styles';
+import { OrderPayload } from '@types';
 
 const WalletTopup = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
@@ -26,7 +27,7 @@ const WalletTopup = ({ navigation }) => {
         },
       };
       const resp = await initPaymentFlow(payload);
-      const payloadd = { amount };
+      const payloadd: OrderPayload = { orderPayload: { payload: { amount } } };
       dispatch(newOrder(payloadd));
       console.log('WalletTopup', resp);
       navigation.navigate('browser', {

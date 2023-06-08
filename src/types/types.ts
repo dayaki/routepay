@@ -105,6 +105,18 @@ export interface IsTransaction {
   lastModifiedBy: Date | null;
 }
 
+export type OrderPayload = {
+  orderPayload: {
+    billCode?: string;
+    merchantReference?: string;
+    payload?: {
+      mobileNumber?: string;
+      amount?: string;
+    };
+  };
+  orderData?: any;
+};
+
 export interface IsFuelStation {
   fuelStation: string;
   fuelCodes: string[];

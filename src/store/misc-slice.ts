@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { apiService, getTransactions } from '@utils';
-import { IsTransaction, MiscState } from '@types';
+import { IsTransaction, MiscState, OrderPayload } from '@types';
 import {
   getAirtimeBills,
   getAllBills,
@@ -51,15 +51,15 @@ export const miscSlice = createSlice({
     toggleShowBalance: (state, { payload }) => {
       state.showBalance = payload;
     },
-    newOrder: (state, { payload }) => {
-      state.order = payload;
+    newOrder: (state, action: PayloadAction<OrderPayload>) => {
+      state.order = action.payload;
     },
     updateOrder: (state, { payload }) => {
       state.order = { ...state.order, ...payload };
     },
-    clearOrder: state => {
-      state.order = undefined;
-    },
+    // clearOrder: state => {
+    //   state.order = undefined;
+    // },
   },
   extraReducers: builder => {
     builder
@@ -79,7 +79,7 @@ export const {
   toggleShowBalance,
   newOrder,
   updateOrder,
-  clearOrder,
+  // clearOrder,
 } = miscSlice.actions;
 
 export default miscSlice.reducer;

@@ -23,15 +23,18 @@ import { updateWalletBalance, useAppDispatch, useAppSelector } from '@store';
 import axios from 'axios';
 
 const TransactionSuccess = ({ navigation, route }) => {
-  const { order } = useAppSelector(state => state.misc);
-  const { type, message, buttonText, title, routePath, trnxRef, access_token } =
+  const {
+    order: { orderPayload, orderData },
+  } = useAppSelector(state => state.misc);
+  const { type, buttonText, title, routePath, trnxRef, access_token } =
     route.params;
   const [orderStatus, setOrderStatus] = useState<'success' | 'fail'>();
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState('');
   const styles = useStyles();
   const dispatch = useAppDispatch();
-  console.log('transaction order', order);
+  console.log('transaction order PAYLOAD', orderPayload);
+  console.log('transaction order ORDERDATA', orderData);
   console.log('trans params', route.params);
 
   useFocusEffect(
@@ -49,10 +52,21 @@ const TransactionSuccess = ({ navigation, route }) => {
         },
       });
       console.log('verifyTransaction..!!!!!!!!', data);
-      if (type === 'wallet') {
-        topupWallet();
-      } else {
-        chargeTransaction();
+      // check if payment was successful
+      if (
+        data.paymentStatus === 0 &&
+        data.paymentDescription === 'Successful'
+      ) {
+        if (type === 'wallet') {
+          topupWallet();
+        } else {
+          chargeTransaction();
+        }
+      }
+      // payment not successfult
+      else {
+        console.log('failed transaction');
+        setOrderStatus('fail');
       }
     } catch (error) {
       console.log('verifyTransaction', error);
@@ -61,10 +75,8 @@ const TransactionSuccess = ({ navigation, route }) => {
   };
 
   const chargeTransaction = async () => {
-    console.log('calling CHARGE...');
     try {
-      // const resp = await apiService(postCharge, 'post', order);
-      const { data } = await axios.post(postCharge, order, {
+      const { data } = await axios.post(postCharge, orderPayload, {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
@@ -87,7 +99,7 @@ const TransactionSuccess = ({ navigation, route }) => {
     try {
       const resp = await apiService(postWalletTopup, 'post', {
         transactionReference: trnxRef,
-        amount: order?.amount,
+        amount: orderPayload.payload?.amount,
       });
       dispatch(updateWalletBalance(resp.balance));
       setOrderStatus('success');
@@ -140,16 +152,23 @@ const TransactionSuccess = ({ navigation, route }) => {
             />
             {type === 'wallet' && (
               <Text style={styles.welcomeText}>
-                Your wallet topup of {nairaFormat(order?.amount || 0)} was
-                successful.
+                Your wallet topup of {nairaFormat(orderPayload.payload?.amount)}{' '}
+                was successful.
               </Text>
             )}
             {type === 'airtime' && (
               <Text style={styles.welcomeText}>
-                You’ve just recharged {order?.payload.mobileNumber} with{' '}
-                {nairaFormat(order?.payload.amount)} airtime.
+                You’ve just recharged {orderPayload.payload?.mobileNumber} with{' '}
+                {nairaFormat(orderPayload.payload?.amount)} airtime.
               </Text>
             )}
+            {type === 'data' && (
+              <Text style={styles.welcomeText}>
+                You’ve just purchased {orderData?.plan} with{' '}
+                {nairaFormat(orderPayload.payload?.amount)}
+              </Text>
+            )}
+
             <Button
               text={buttonText || 'Continue to dashboard'}
               style={styles.registerBtn}

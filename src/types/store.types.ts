@@ -7,6 +7,7 @@ import {
   IsUser,
   IsWallet,
   LoyaltyT,
+  OrderPayload,
   Theme,
 } from './types';
 
@@ -33,15 +34,7 @@ export interface MiscState {
   theme: 'dark' | 'light';
   colors: Theme;
   showBalance: boolean;
-  order:
-    | {
-        type: string;
-        amount: string;
-        number: string;
-        billCode?: string;
-        payload: any;
-      }
-    | undefined;
+  order: OrderPayload;
   transactions: IsTransaction[] | undefined;
 }
 

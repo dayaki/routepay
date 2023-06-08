@@ -11,7 +11,7 @@ import {
 import { updateOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
 import { getImage, getUniqueID } from '@utils';
-import { IsBillProvider } from '@types';
+import { IsBillProvider, OrderPayload } from '@types';
 
 const AMOUNTS = ['100', '200', '500', '1000'];
 
@@ -25,20 +25,20 @@ const BuyAirtime = ({ navigation, route }) => {
   const dispatch = useAppDispatch();
   const styles = useStyles();
 
-  console.log('airtime', airtime);
-
   const handleSelection = (text: string) => {
     setSelectedAmount(text);
     setAmount(text);
   };
 
   const onContinue = () => {
-    const payload = {
-      billCode: selectedNetwork?.billCode,
-      merchantReference: getUniqueID(),
-      payload: {
-        mobileNumber: phone,
-        amount: amount,
+    const payload: OrderPayload = {
+      orderPayload: {
+        billCode: selectedNetwork?.billCode,
+        merchantReference: getUniqueID(),
+        payload: {
+          mobileNumber: phone,
+          amount: amount,
+        },
       },
     };
     dispatch(updateOrder(payload));

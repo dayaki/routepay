@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, DataSelect, Header, Input, NetworkSelect } from '@common';
-import { useAppSelector } from '@store';
+import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
-import { IsBillProvider, IsDataPlan } from '@types';
-import { apiService, nairaFormat, postBundleLookup } from '@utils';
+import { IsBillProvider, IsDataPlan, OrderPayload } from '@types';
+import { apiService, getUniqueID, nairaFormat, postBundleLookup } from '@utils';
 
 const BuyData = ({ navigation, route }) => {
   const userPhone = route.params.phone || '';
@@ -16,6 +16,7 @@ const BuyData = ({ navigation, route }) => {
   >();
   const [dataPlans, setDataPlans] = useState<IsDataPlan[]>();
   const [selectedData, setSelectedData] = useState<IsDataPlan>();
+  const dispatch = useAppDispatch();
   const styles = useStyles();
 
   console.log('selectedNetwork BUBNDLE', bundle);
@@ -58,6 +59,32 @@ const BuyData = ({ navigation, route }) => {
     } catch (error) {
       console.log('lookup err', error);
     }
+  };
+
+  const onContinue = () => {
+    const payload: OrderPayload = {
+      orderPayload: {
+        billCode: selectedNetwork?.billCode,
+        merchantReference: getUniqueID(),
+        payload: {
+          mobileNumber: phone,
+          amount: selectedData?.amount,
+        },
+      },
+      orderData: {
+        plan: selectedData?.dataName,
+      },
+    };
+    dispatch(newOrder(payload));
+    navigation.navigate('review_payment', {
+      type: 'data',
+      data: {
+        phone,
+        selectedNetwork,
+        amount: selectedData?.amount,
+        data_plan: selectedData?.dataName,
+      },
+    });
   };
 
   return (
@@ -104,17 +131,7 @@ const BuyData = ({ navigation, route }) => {
         </View>
         <Button
           text="Continue"
-          onPress={() =>
-            navigation.navigate('review_payment', {
-              type: 'data',
-              data: {
-                phone,
-                selectedNetwork,
-                amount: selectedData?.amount,
-                data_plan: selectedData?.dataName,
-              },
-            })
-          }
+          onPress={onContinue}
           disabled={!phone || !selectedNetwork || !selectedData}
         />
       </View>

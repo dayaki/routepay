@@ -29,7 +29,10 @@ export const getUuid = () => {
   return uuid.v4();
 };
 
-export const nairaFormat = (amount: string | number, precision: number = 2) => {
+export const nairaFormat = (
+  amount: string | number = 0,
+  precision: number = 2,
+) => {
   return `₦${accounting.formatMoney(amount, '', precision)}`;
 };
 
