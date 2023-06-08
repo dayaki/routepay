@@ -219,13 +219,17 @@ export const EyeIcon = (props: Props) => {
       fill="none"
       {...props}>
       <Path
-        stroke={scheme === 'dark' ? '#15151A' : '#F9F7F6'}
+        stroke={
+          props.color ? props.color : scheme === 'dark' ? '#F9F7F6' : '#15151A'
+        }
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M15.12 5.234a1.143 1.143 0 0 1 0 1.532C13.92 8.057 11.189 10.57 8 10.57S2.08 8.057.88 6.766a1.143 1.143 0 0 1 0-1.532C2.08 3.943 4.81 1.43 8 1.43c3.188 0 5.92 2.514 7.12 3.805Z"
       />
       <Path
-        stroke={scheme === 'dark' ? '#15151A' : '#F9F7F6'}
+        stroke={
+          props.color ? props.color : scheme === 'dark' ? '#F9F7F6' : '#15151A'
+        }
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M8 8.286a2.286 2.286 0 1 0 0-4.572 2.286 2.286 0 0 0 0 4.572Z"
@@ -244,13 +248,17 @@ export const EyeClose = (props: Props) => {
       fill="none"
       {...props}>
       <Path
-        stroke={scheme === 'dark' ? '#15151A' : '#F9F7F6'}
+        stroke={
+          props.color ? props.color : scheme === 'dark' ? '#F9F7F6' : '#15151A'
+        }
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M14.048 5.172c.434.388.8.765 1.074 1.062a1.143 1.143 0 0 1 0 1.532c-1.2 1.291-3.931 3.806-7.12 3.806h-.457M4.425 10.577A14.172 14.172 0 0 1 .882 7.766a1.143 1.143 0 0 1 0-1.532c1.2-1.291 3.932-3.805 7.12-3.805a7.497 7.497 0 0 1 3.577.994M14.288.714 1.717 13.286"
       />
       <Path
-        stroke={scheme === 'dark' ? '#15151A' : '#F9F7F6'}
+        stroke={
+          props.color ? props.color : scheme === 'dark' ? '#F9F7F6' : '#15151A'
+        }
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M6.391 8.611a2.286 2.286 0 0 1-.674-1.61 2.286 2.286 0 0 1 2.286-2.287 2.286 2.286 0 0 1 1.61.675M9.991 8.143a2.286 2.286 0 0 1-.845.834"
