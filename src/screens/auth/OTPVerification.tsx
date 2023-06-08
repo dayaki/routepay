@@ -164,7 +164,7 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
         </View>
         <Button
           text="Continue"
-          isLoading={isLoading}
+          // isLoading={isLoading}
           disabled={!otpCode}
           onPress={verifyOtp}
         />

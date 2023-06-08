@@ -9,11 +9,14 @@ const Welcome = ({ navigation, route }) => {
   return (
     <ViewWrapper>
       <ScrollView>
-        <Image
-          source={require('@images/brand_waves_inverse.png')}
-          resizeMode="cover"
-          style={styles.waves}
-        />
+        <View style={styles.waveWrapper}>
+          <Image
+            source={require('@images/brand_waves_inverse.png')}
+            resizeMode="cover"
+            style={styles.waves}
+          />
+        </View>
+
         <View style={styles.slider}>
           <View style={styles.imageWraper}>
             <Image

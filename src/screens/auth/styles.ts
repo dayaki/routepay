@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { White, useTheme } from '@common';
+import { useTheme } from '@common';
 import { ms } from '@utils';
 
 export const useStyles = () => {
@@ -9,16 +9,17 @@ export const useStyles = () => {
       flex: 1,
       backgroundColor: colors.background,
     },
+    waveWrapper: {
+      width: '100%',
+      height: ms(341),
+      borderRadius: ms(10),
+      position: 'absolute',
+    },
     waves: {
       width: '100%',
-      height: ms(461),
-      left: 0,
-      position: 'relative',
-      zIndex: 50,
+      height: '100%',
     },
     slider: {
-      position: 'absolute',
-      zIndex: 100,
       width: '90%',
       alignSelf: 'center',
     },
