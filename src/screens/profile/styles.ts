@@ -176,7 +176,7 @@ export const useStyles = () => {
     },
     imageWraper: {
       width: ms(340),
-      height: ms(341),
+      height: ms(330),
       marginBottom: ms(30),
       alignSelf: 'center',
     },
