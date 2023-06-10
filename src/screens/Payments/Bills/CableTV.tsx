@@ -129,14 +129,30 @@ const CableTV = ({ navigation }) => {
         billCode: selectedNetwork?.billCode,
         amount: customerData.amount,
       };
+    } else if (selectedNetwork?.billCode.includes('STARTIMES')) {
+      dataPayload = {
+        orderPayload: {
+          billCode: selectedNetwork.billCode,
+          merchantReference: getUniqueID(),
+          payload: {
+            smartcardNumber: phone,
+            bouquetCode: selectedPlan.bouquetCode,
+            amount: selectedPlan.amount,
+          },
+        },
+        orderData: {
+          company: 'Startimes',
+        },
+      };
+      dispatch(newOrder(dataPayload));
+      navData = {
+        number: phone,
+        plan: selectedPlan.bouquetName,
+        billCode: selectedNetwork?.billCode,
+        amount: selectedPlan.amount,
+      };
     }
-    // else if (selectedNetwork?.billCode.includes('STARTIMES')) {
-    //   payload = {
-    //     smartcardNumber: phone,
-    //     bouquetCode: selectedPlan.bouquetCode,
-    //     amount: selectedPlan.amount,
-    //   };
-    // } else if (selectedNetwork?.billCode.includes('GOTV')) {
+    // else if (selectedNetwork?.billCode.includes('GOTV')) {
     //   payload = {
     //     customerName: customerData?.customerName,
     //     customerNumber: customerData.customerNumber,
@@ -157,6 +173,12 @@ const CableTV = ({ navigation }) => {
     // }
     // console.log('payload', payload);
     // dispatch(newOrder(dataPayload));
+    // navData = {
+    //   number: phone,
+    //   plan: selectedPlan.dataName,
+    //   billCode: selectedNetwork?.billCode,
+    //   amount: selectedPlan.amount,
+    // };
     navigation.navigate('review_payment', {
       type: 'cable',
       data: navData,
