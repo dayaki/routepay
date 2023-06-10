@@ -175,7 +175,19 @@ const TransactionSuccess = ({ navigation, route }) => {
                 {orderPayload.payload?.fuelStation} filling station.
               </Text>
             )}
-
+            {type === 'electricity' && (
+              <Text style={styles.welcomeText}>
+                You’ve just completed your electricity payment with{' '}
+                {orderData.company} for{' '}
+                {nairaFormat(orderPayload.payload?.amount)}.
+              </Text>
+            )}
+            {type === 'cable' && (
+              <Text style={styles.welcomeText}>
+                You’ve just subscribed your {orderData.company} with{' '}
+                {nairaFormat(orderPayload.payload?.amount)}.
+              </Text>
+            )}
             <Button
               text={buttonText || 'Continue to dashboard'}
               style={styles.registerBtn}

@@ -74,7 +74,7 @@ const BuyElectricity = ({ navigation, route }) => {
         },
       },
       orderData: {
-        company: selectedCompany,
+        company: selectedCompany.displayName,
       },
     };
     dispatch(newOrder(payload));

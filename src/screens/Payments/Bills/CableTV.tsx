@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import {
   Button,
@@ -11,8 +11,8 @@ import {
 } from '@common';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
-import { IsBillProvider } from '@types';
-import { apiService, nairaFormat, postBundleLookup } from '@utils';
+import { IsBillProvider, OrderPayload } from '@types';
+import { apiService, getUniqueID, nairaFormat, postBundleLookup } from '@utils';
 
 type Payload = {
   billCode: string;
@@ -35,9 +35,7 @@ const CableTV = ({ navigation }) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
-  // console.log('cable....', cable);
-
-  React.useEffect(() => {
+  useEffect(() => {
     if (selectedPlan) {
       setBouquets(selectedPlan.plans);
     }
@@ -86,49 +84,58 @@ const CableTV = ({ navigation }) => {
   };
 
   const onContinue = () => {
-    let payload;
+    let dataPayload: OrderPayload;
     if (selectedNetwork?.billCode.includes('SHOWMAX')) {
-      payload = {
-        mobileNumber: phone,
-        validityPeriod: selectedPlan.validityPeriod,
-        dataCode: selectedPlan.dataCode,
-        amount: selectedPlan.amount,
+      dataPayload = {
+        orderPayload: {
+          billCode: selectedNetwork.billCode,
+          merchantReference: getUniqueID(),
+          payload: {
+            mobileNumber: phone,
+            validityPeriod: selectedPlan.validityPeriod,
+            dataCode: selectedPlan.dataCode,
+            amount: selectedPlan.amount,
+          },
+        },
+        orderData: { company: selectedNetwork.billCode },
       };
-    } else if (selectedNetwork?.billCode.includes('DSTV_BOXOFFICE')) {
-      payload = {
-        customerName: customerData?.customerName,
-        customerNumber: customerData.customerNumber,
-        smartcardNumber: phone,
-        paymentCycle: customerData.paymentCycle,
-        amount: customerData.amount,
-      };
-    } else if (selectedNetwork?.billCode.includes('STARTIMES')) {
-      payload = {
-        smartcardNumber: phone,
-        bouquetCode: selectedPlan.bouquetCode,
-        amount: selectedPlan.amount,
-      };
-    } else if (selectedNetwork?.billCode.includes('GOTV')) {
-      payload = {
-        customerName: customerData?.customerName,
-        customerNumber: customerData.customerNumber,
-        smartcardNumber: phone,
-        paymentCycle: '1',
-        bouquetCode: selectedPlan.bouquetCode,
-        amount: amount,
-      };
-    } else if (selectedNetwork?.billCode.includes('DSTV')) {
-      payload = {
-        customerName: customerData?.customerName,
-        customerNumber: customerData.customerNumber,
-        smartcardNumber: phone,
-        paymentCycle: '1',
-        bouquetCode: 'NNJ1E36',
-        amount: '1635',
-      };
+      dispatch(newOrder(dataPayload));
     }
+    // else if (selectedNetwork?.billCode.includes('DSTV_BOXOFFICE')) {
+    //   payload = {
+    //     customerName: customerData?.customerName,
+    //     customerNumber: customerData.customerNumber,
+    //     smartcardNumber: phone,
+    //     paymentCycle: customerData.paymentCycle,
+    //     amount: customerData.amount,
+    //   };
+    // } else if (selectedNetwork?.billCode.includes('STARTIMES')) {
+    //   payload = {
+    //     smartcardNumber: phone,
+    //     bouquetCode: selectedPlan.bouquetCode,
+    //     amount: selectedPlan.amount,
+    //   };
+    // } else if (selectedNetwork?.billCode.includes('GOTV')) {
+    //   payload = {
+    //     customerName: customerData?.customerName,
+    //     customerNumber: customerData.customerNumber,
+    //     smartcardNumber: phone,
+    //     paymentCycle: '1',
+    //     bouquetCode: selectedPlan.bouquetCode,
+    //     amount: amount,
+    //   };
+    // } else if (selectedNetwork?.billCode.includes('DSTV')) {
+    //   payload = {
+    //     customerName: customerData?.customerName,
+    //     customerNumber: customerData.customerNumber,
+    //     smartcardNumber: phone,
+    //     paymentCycle: '1',
+    //     bouquetCode: 'NNJ1E36',
+    //     amount: '1635',
+    //   };
+    // }
     // console.log('payload', payload);
-    dispatch(newOrder(payload));
+
     navigation.navigate('review_payment', {
       type: 'cable',
       data: {
