@@ -165,6 +165,23 @@ const ReviewPayment = ({ navigation, route }) => {
             </>
           )}
 
+          {type === 'electricity' && (
+            <>
+              <View style={styles.reviewItem}>
+                <RegularText text="Meter number" size={14} />
+                <TitleText text={data.meter} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Electricity company" size={14} />
+                <TitleText text={data.company} size={14} />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Amount" size={14} />
+                <TitleText text={nairaFormat(data.amount)} size={14} />
+              </View>
+            </>
+          )}
+
           {type === 'cable' && (
             <>
               <View style={styles.reviewItem}>

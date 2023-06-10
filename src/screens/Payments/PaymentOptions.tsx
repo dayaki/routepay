@@ -8,37 +8,37 @@ import { useStyles } from './styles';
 const PaymentOptions = ({ navigation, route }) => {
   const { user } = useAppSelector(state => state.user);
   const { data = {}, type = '' } = route.params;
-  const [selectionOption, setSelectionOption] = useState('card');
+  const [selectionOption, setSelectionOption] = useState('wallet');
   const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
 
   const onContinue = async () => {
-    setIsLoading(true);
-    // if (selectionOption === 'card') {
-    const payload = {
-      totalAmount: data.amount,
-      customer: {
-        email: user?.email,
-        mobile: user?.phoneNumber,
-        firstname: user?.firstName,
-        lastname: user?.lastName,
-        username: user?.userName,
-      },
-    };
-    const resp = await initPaymentFlow(payload);
-    setIsLoading(false);
-    navigation.navigate('browser', {
-      params: {
-        uri: resp.redirectUrl,
-        merchantReference: resp.merchantReference,
-        reference: resp.transactionReference,
-        access_token: resp.access_token,
-        type,
-      },
-    });
-    // } else {
-    //   navigation.navigate('wallet_pin', { data });
-    // }
+    if (selectionOption === 'card') {
+      setIsLoading(true);
+      const payload = {
+        totalAmount: data.amount,
+        customer: {
+          email: user?.email,
+          mobile: user?.phoneNumber,
+          firstname: user?.firstName,
+          lastname: user?.lastName,
+          username: user?.userName,
+        },
+      };
+      const resp = await initPaymentFlow(payload);
+      setIsLoading(false);
+      navigation.navigate('browser', {
+        params: {
+          uri: resp.redirectUrl,
+          merchantReference: resp.merchantReference,
+          reference: resp.transactionReference,
+          access_token: resp.access_token,
+          type,
+        },
+      });
+    } else {
+      navigation.navigate('wallet_pin');
+    }
   };
   return (
     <View style={styles.container}>
@@ -48,7 +48,6 @@ const PaymentOptions = ({ navigation, route }) => {
         <View style={styles.review}>
           <View style={[styles.row, { marginBottom: 31 }]}>
             <Checkbox
-              disabled
               text="Pay with wallet"
               isChecked={selectionOption === 'wallet'}
               onPress={() => setSelectionOption('wallet')}
