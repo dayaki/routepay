@@ -85,6 +85,7 @@ const CableTV = ({ navigation }) => {
 
   const onContinue = () => {
     let dataPayload: OrderPayload;
+    let navData;
     if (selectedNetwork?.billCode.includes('SHOWMAX')) {
       dataPayload = {
         orderPayload: {
@@ -97,19 +98,39 @@ const CableTV = ({ navigation }) => {
             amount: selectedPlan.amount,
           },
         },
-        orderData: { company: selectedNetwork.billCode },
+        orderData: { company: 'Showmax' },
       };
       dispatch(newOrder(dataPayload));
+      navData = {
+        number: phone,
+        plan: selectedPlan.dataName,
+        billCode: selectedNetwork?.billCode,
+        amount: selectedPlan.amount,
+      };
+    } else if (selectedNetwork?.billCode.includes('DSTV_BOXOFFICE')) {
+      dataPayload = {
+        orderPayload: {
+          billCode: selectedNetwork.billCode,
+          merchantReference: getUniqueID(),
+          payload: {
+            customerName: customerData?.customerName,
+            customerNumber: customerData.customerNumber,
+            smartcardNumber: phone,
+            paymentCycle: customerData.paymentCycle,
+            amount: customerData.amount,
+          },
+        },
+        orderData: { company: 'Dstv BoxOffice' },
+      };
+      dispatch(newOrder(dataPayload));
+      navData = {
+        number: customerData.customerNumber || phone,
+        plan: 'DSTV Box Office',
+        billCode: selectedNetwork?.billCode,
+        amount: customerData.amount,
+      };
     }
-    // else if (selectedNetwork?.billCode.includes('DSTV_BOXOFFICE')) {
-    //   payload = {
-    //     customerName: customerData?.customerName,
-    //     customerNumber: customerData.customerNumber,
-    //     smartcardNumber: phone,
-    //     paymentCycle: customerData.paymentCycle,
-    //     amount: customerData.amount,
-    //   };
-    // } else if (selectedNetwork?.billCode.includes('STARTIMES')) {
+    // else if (selectedNetwork?.billCode.includes('STARTIMES')) {
     //   payload = {
     //     smartcardNumber: phone,
     //     bouquetCode: selectedPlan.bouquetCode,
@@ -135,15 +156,10 @@ const CableTV = ({ navigation }) => {
     //   };
     // }
     // console.log('payload', payload);
-
+    // dispatch(newOrder(dataPayload));
     navigation.navigate('review_payment', {
       type: 'cable',
-      data: {
-        number: phone,
-        plan: selectedPlan.dataName,
-        billCode: selectedNetwork?.billCode,
-        amount: selectedPlan.amount,
-      },
+      data: navData,
     });
   };
 
