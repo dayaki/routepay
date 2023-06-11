@@ -63,7 +63,6 @@ const CableTV = ({ navigation }) => {
     if (!code.includes('SHOWMAX_VOUCHER')) {
       data2send.payload.smartcardNumber = phone;
     }
-    // console.log('payload for CableTV lookup', data2send);
     try {
       const { response } = await apiService(
         postBundleLookup,
@@ -71,6 +70,9 @@ const CableTV = ({ navigation }) => {
         data2send,
       );
       console.log('CableTV lookiup', response);
+      if (code === 'DSTV_BOXOFFICE') {
+        setSelectedPlan([]);
+      }
       if (response.length) {
         setPlans(response);
       } else {
@@ -176,25 +178,32 @@ const CableTV = ({ navigation }) => {
         billCode: selectedNetwork?.billCode,
         amount: amount,
       };
+    } else if (selectedNetwork?.billCode.includes('DSTV')) {
+      dataPayload = {
+        orderPayload: {
+          billCode: selectedNetwork.billCode,
+          merchantReference: getUniqueID(),
+          payload: {
+            customerName: customerData?.customerName,
+            customerNumber: customerData.customerNumber,
+            smartcardNumber: phone,
+            paymentCycle: customerData.paymentCycle,
+            bouquetCode: selectedPlan.bouquetCode,
+            amount: amount,
+          },
+        },
+        orderData: {
+          company: 'Dstv',
+        },
+      };
+      dispatch(newOrder(dataPayload));
+      navData = {
+        number: phone,
+        plan: selectedPlan.bouquetName,
+        billCode: selectedNetwork?.billCode,
+        amount: amount,
+      };
     }
-    // else if (selectedNetwork?.billCode.includes('DSTV')) {
-    //   payload = {
-    //     customerName: customerData?.customerName,
-    //     customerNumber: customerData.customerNumber,
-    //     smartcardNumber: phone,
-    //     paymentCycle: '1',
-    //     bouquetCode: 'NNJ1E36',
-    //     amount: '1635',
-    //   };
-    // }
-    // console.log('payload', payload);
-    // dispatch(newOrder(dataPayload));
-    // navData = {
-    //   number: phone,
-    //   plan: selectedPlan.dataName,
-    //   billCode: selectedNetwork?.billCode,
-    //   amount: selectedPlan.amount,
-    // };
     navigation.navigate('review_payment', {
       type: 'cable',
       data: navData,
@@ -285,7 +294,7 @@ const CableTV = ({ navigation }) => {
         <Button
           text="Continue"
           onPress={onContinue}
-          disabled={!phone || !selectedNetwork}
+          disabled={!phone || !selectedNetwork || !selectedPlan || !amount}
         />
       </View>
     </View>

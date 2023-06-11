@@ -90,7 +90,7 @@ const BuyElectricity = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Header title="Cable TV" centered />
+      <Header title="Electricity" centered />
       <View style={styles.content}>
         <View>
           <Input
