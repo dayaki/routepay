@@ -151,17 +151,33 @@ const CableTV = ({ navigation }) => {
         billCode: selectedNetwork?.billCode,
         amount: selectedPlan.amount,
       };
+    } else if (selectedNetwork?.billCode.includes('GOTV')) {
+      dataPayload = {
+        orderPayload: {
+          billCode: selectedNetwork.billCode,
+          merchantReference: getUniqueID(),
+          payload: {
+            customerName: customerData?.customerName,
+            customerNumber: customerData.customerNumber,
+            smartcardNumber: phone,
+            paymentCycle: customerData.paymentCycle,
+            bouquetCode: selectedPlan.bouquetCode,
+            amount: amount,
+          },
+        },
+        orderData: {
+          company: 'GoTv',
+        },
+      };
+      dispatch(newOrder(dataPayload));
+      navData = {
+        number: phone,
+        plan: selectedPlan.bouquetName,
+        billCode: selectedNetwork?.billCode,
+        amount: amount,
+      };
     }
-    // else if (selectedNetwork?.billCode.includes('GOTV')) {
-    //   payload = {
-    //     customerName: customerData?.customerName,
-    //     customerNumber: customerData.customerNumber,
-    //     smartcardNumber: phone,
-    //     paymentCycle: '1',
-    //     bouquetCode: selectedPlan.bouquetCode,
-    //     amount: amount,
-    //   };
-    // } else if (selectedNetwork?.billCode.includes('DSTV')) {
+    // else if (selectedNetwork?.billCode.includes('DSTV')) {
     //   payload = {
     //     customerName: customerData?.customerName,
     //     customerNumber: customerData.customerNumber,
