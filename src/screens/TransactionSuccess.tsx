@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Image,
   View,
@@ -23,25 +23,34 @@ import { updateWalletBalance, useAppDispatch, useAppSelector } from '@store';
 import axios from 'axios';
 
 const TransactionSuccess = ({ navigation, route }) => {
+  const { order } = useAppSelector(state => state.misc);
   const {
-    order: { orderPayload, orderData },
-  } = useAppSelector(state => state.misc);
-  const { type, buttonText, title, routePath, trnxRef, access_token } =
-    route.params;
+    type,
+    buttonText,
+    title,
+    routePath,
+    trnxRef,
+    access_token,
+    isWalletPayment,
+  } = route.params;
   const [orderStatus, setOrderStatus] = useState<'success' | 'fail'>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState('');
   const styles = useStyles();
   const dispatch = useAppDispatch();
+  const orderPayload = order?.orderPayload;
+  const orderData = order?.orderData;
   console.log('transaction order PAYLOAD', orderPayload);
   console.log('transaction order ORDERDATA', orderData);
   console.log('trans params', route.params);
 
   useFocusEffect(
     useCallback(() => {
-      setIsLoading(true);
-      verifyTransaction();
-    }, []),
+      if (!isWalletPayment) {
+        setIsLoading(true);
+        verifyTransaction();
+      }
+    }, [isWalletPayment]),
   );
 
   const verifyTransaction = async () => {
@@ -76,13 +85,17 @@ const TransactionSuccess = ({ navigation, route }) => {
 
   const chargeTransaction = async () => {
     try {
-      const { data } = await axios.post(postCharge, orderPayload, {
+      const resp = await fetch(postCharge, {
+        method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${access_token}`,
         },
+        body: JSON.stringify(orderPayload),
       });
-      console.log('chargeTransaction', data);
-      const { responseDescription, status } = data;
+      const response = await resp.json();
+      console.log('chargeTransaction FETCH', response);
+      const { responseDescription, status } = response; //responseCode
       if (status === 200 && responseDescription === 'Successful') {
         setOrderStatus('success');
       } else {
