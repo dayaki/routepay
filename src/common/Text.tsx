@@ -7,6 +7,7 @@ type TextProps = {
   size?: number;
   color?: string;
   style?: {};
+  onPress?: () => void;
   // style?: TextStyle | TextStyle[];
 };
 
@@ -40,7 +41,13 @@ export const MediumText = ({ text, size, style, color }: TextProps) => {
   );
 };
 
-export const RegularText = ({ text, size, style, color }: TextProps) => {
+export const RegularText = ({
+  text,
+  size,
+  style,
+  color,
+  onPress,
+}: TextProps) => {
   const styles = useStyles();
   return (
     <Text
@@ -49,7 +56,8 @@ export const RegularText = ({ text, size, style, color }: TextProps) => {
         style,
         size && { fontSize: size },
         color && { color: color },
-      ]}>
+      ]}
+      onPress={onPress}>
       {text}
     </Text>
   );

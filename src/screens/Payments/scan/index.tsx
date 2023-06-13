@@ -5,6 +5,12 @@ import { Exclamation } from '@icons';
 import { useStyles } from '../styles';
 import { decode } from 'base-64';
 
+const indexCount = (stringData: string, num: string) => {
+  const index = stringData.indexOf(num) + 2;
+  const count = Number(stringData.substring(index, index + 2));
+  return { index, count };
+};
+
 const ScanPay = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
@@ -12,17 +18,30 @@ const ScanPay = ({ navigation }) => {
   const onRead = (code: string) => {
     setIsLoading(true);
     console.log('NQR Code READ', code);
+    // NIBSS QRcode
     if (code.startsWith('00')) {
+      let merchantData = indexCount(code, '59');
+      let amountData = indexCount(code, '54');
+      const merchantName = code.substring(
+        merchantData.index + 2,
+        merchantData.index + (merchantData.count + 2),
+      );
+      const amount = code.substring(
+        amountData.index + 2,
+        amountData.index + (amountData.count + 2),
+      );
       navigation.navigate('review_payment', {
         type: 'scan',
         data: {
-          merchant: code.slice(154, 154 + 13),
+          merchant: merchantName,
           merchant_sub: code.slice(78, 78 + 11),
-          amount: code.slice(142, 142 + 2),
+          amount: amount,
           payment_type: 'NIBSS',
         },
       });
-    } else {
+    }
+    // RoutePay QRcode
+    else {
       const codeData = decode(code);
       console.log('codedata', codeData);
       navigation.navigate('scan_review', {

@@ -171,7 +171,7 @@ export const useStyles = () => {
     historyLabel: {
       fontSize: 11,
       lineHeight: 20,
-      color: 'rgba(249, 247, 246, 0.8)',
+      color: colors.counter,
     },
     historyAmount: {
       fontSize: 14,

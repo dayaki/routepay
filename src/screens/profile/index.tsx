@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import ToggleSwitch from 'toggle-switch-react-native';
+import { useToast } from 'react-native-toast-notifications';
 import { Header, LogoutModal, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
 import { MenuRightArrow } from '@icons';
@@ -52,6 +54,7 @@ const Profile = ({ navigation }) => {
   const [showLogout, setShowLogout] = useState(false);
   const styles = useStyles();
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const toggleTheme = (status: boolean) => {
     const tempStatus = status ? 'light' : 'dark';
@@ -61,6 +64,11 @@ const Profile = ({ navigation }) => {
 
   const handleLogout = () => {
     dispatch(userLogout());
+  };
+
+  const copyLink = () => {
+    Clipboard.setString(`https://payme.routepay.com/@${user?.phoneNumber}`);
+    toast.show('Your payment link copied.');
   };
 
   return (
@@ -80,7 +88,11 @@ const Profile = ({ navigation }) => {
             />
           </View>
           <TitleText text={`${user?.firstName} ${user?.lastName}`} size={14} />
-          <RegularText text="Payment link here" size={11} />
+          <RegularText
+            onPress={copyLink}
+            text={`https://payme.routepay.com/@${user?.phoneNumber}`}
+            size={11}
+          />
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.editBtn}

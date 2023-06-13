@@ -15,10 +15,10 @@ import { DarkMode, LightMode } from '@common';
 import { getWallet } from './user-slice';
 
 export const accountSetUp = (userId: string) => (dispatch: any) => {
+  dispatch(getAllTransactions());
   dispatch(getWallet(userId));
   dispatch(getBillCategories());
   // dispatch(getAllBills());
-  dispatch(getAllTransactions());
   dispatch(getFuelBills());
   dispatch(getAirtimeBills());
   dispatch(getBundleBills());
@@ -27,10 +27,14 @@ export const accountSetUp = (userId: string) => (dispatch: any) => {
   dispatch(getPinBills());
 };
 
-export const getAllTransactions = createAsyncThunk('bills/bills', async () => {
-  const data = await apiService(getTransactions, 'get');
-  return data;
-});
+export const getAllTransactions = createAsyncThunk(
+  'misc/transactions',
+  async () => {
+    const data = await apiService(getTransactions, 'get');
+    console.log('getAllTransactions!!!!!!!!!!!', data);
+    return data;
+  },
+);
 
 const initialState = {
   theme: 'light',
@@ -66,7 +70,7 @@ export const miscSlice = createSlice({
       .addCase(
         getAllTransactions.fulfilled,
         (state, action: PayloadAction<IsTransaction[]>) => {
-          state.transactions = action.payload;
+          state.transactions = action.payload.reverse();
         },
       )
       .addCase('user/userLogout', () => {

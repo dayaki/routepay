@@ -2,70 +2,65 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {
   BackgroundView,
-  Keyboard,
   Loader,
   RegularText,
   TitleText,
+  TransactionPIN,
 } from '@common';
-import { apiService, getUuid, postBillPayment, postVerifyPin } from '@utils';
+import { apiService, postCharge, postVerifyPin } from '@utils';
 import { useLoginStyles } from './auth/styles';
+import { useAppSelector } from '@store';
+import { useToast } from 'react-native-toast-notifications';
 
 const WalletPIN = ({ navigation, route }) => {
-  const data = route.params.data;
+  const { order } = useAppSelector(state => state.misc);
+  const { type } = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [pin, setPin] = useState('');
   const styles = useLoginStyles();
+  const toast = useToast();
 
-  useEffect(() => {
-    if (pin.length === 4) {
-      handleSubmit();
-    }
-  }, [pin]);
-
-  const handleInput = (value: string) => {
-    console.log('handleInput', value);
-    if (error) {
-      setError('');
-    }
-    if (pin.length < 4) {
-      setPin(pin + value);
-    }
-  };
-
-  const handleDelete = () => {
-    if (pin.length) {
-      let pinCode = pin.split('');
-      pinCode.pop();
-      let newPin = pinCode.join('');
-      setPin(newPin);
-    }
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (code: string) => {
     setIsLoading(true);
+    setError('');
     try {
-      const response = await apiService(postVerifyPin(pin), 'post', {});
-      console.log('Verify PIN', response);
-      chargePayment();
+      const { status } = await apiService(postVerifyPin(code), 'post', {});
+      console.log('Verify PIN', status);
+      if (status) {
+        chargeWallet();
+      } else {
+        setError('Incorrect Transaction PIN.');
+        setIsLoading(false);
+      }
     } catch (err) {
       console.log('Verify PIN ERR', err);
+      setIsLoading(false);
     }
   };
 
-  const chargePayment = async () => {
+  const chargeWallet = async () => {
     try {
-      const response = await apiService(postBillPayment, 'post', {
-        billCode: data.selectedNetwork.billCode,
-        merchantReference: getUuid(),
-        payload: {
-          mobileNumber: data.phone,
-          amount: data.amount,
-        },
-      });
-      console.log('chargePayment', response);
+      const response = await apiService(
+        postCharge,
+        'post',
+        order?.orderPayload,
+      );
+      console.log('chargeWallet', response);
+      const { status, responseDescription } = response;
+      if (status === 200 && responseDescription === 'Successful') {
+        navigation.navigate('transaction_success', {
+          isWalletPayment: true,
+          type,
+        });
+      } else {
+        //
+        toast.show('Transaction failed!', { type: 'warning' });
+        navigation.goBack();
+      }
     } catch (err) {
-      console.log('chargePayment ERR', err);
+      console.log('chargeWallet ERR', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -77,34 +72,34 @@ const WalletPIN = ({ navigation, route }) => {
           <TitleText text="Enter your wallet pin" />
           <RegularText
             size={14}
-            text="Use your wallet pin to confirm transactions"
+            text="Enter your wallet pin to confirm this transaction."
             style={styles.otpLabel}
           />
-          <View style={styles.indicator}>
-            <View style={styles.pinDot} />
-            <View style={styles.pinDot} />
-            <View style={styles.pinDot} />
-            <View style={styles.pinDot} />
-          </View>
-          <Keyboard handleInput={handleInput} handleDelete={handleDelete} />
+          {error && (
+            <RegularText
+              text={error}
+              size={12}
+              color="red"
+              style={{ marginTop: -10, marginBottom: 10 }}
+            />
+          )}
+          <TransactionPIN
+            // hasError={!!error}
+            // resetError={() => setError('')}
+            handleSubmit={handleSubmit}
+            external
+          />
         </View>
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.forgotPinBtn}
-          onPress={() => navigation.navigate('transaction_success')}>
+          onPress={() => {}}>
           <TitleText
             text="Forgot Pin?"
             size={14}
             style={styles.forgotPinBtnText}
           />
         </TouchableOpacity>
-        {/* <Button
-          textLink
-          textOnly
-          textStyle={{ color: '#FF6600' }}
-          text="Forgot Pin?"
-          onPress={() => navigation.navigate('welcome')}
-        /> */}
       </View>
     </BackgroundView>
   );

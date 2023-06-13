@@ -67,9 +67,13 @@ export const Keyboard = ({
 export const TransactionPIN = ({
   handleSubmit,
   external,
+  hasError,
+  resetError,
 }: {
   handleSubmit: (pin: string) => void;
+  resetError: () => void;
   external?: boolean;
+  hasError: boolean;
 }) => {
   const styles = useStyles();
   const [pin, setPin] = useState('');
@@ -89,6 +93,7 @@ export const TransactionPIN = ({
 
   const handleInput = (value: string) => {
     console.log('handleInput', value);
+    // resetError();
     if (pin.length < 4) {
       setPin(pin + value);
     }
@@ -106,22 +111,22 @@ export const TransactionPIN = ({
   return (
     <View style={styles.centered}>
       <View style={styles.indicator}>
-        {pin.length > 0 ? (
+        {pin.length > 0 && !hasError ? (
           <TitleText text={pin[0]} size={20} style={styles.pinText} />
         ) : (
           <View style={styles.pinDot} />
         )}
-        {pin.length > 0 ? (
+        {pin.length > 0 && !hasError ? (
           <TitleText text={pin[1]} size={20} style={styles.pinText} />
         ) : (
           <View style={styles.pinDot} />
         )}
-        {pin.length > 0 ? (
+        {pin.length > 0 && !hasError ? (
           <TitleText text={pin[2]} size={20} style={styles.pinText} />
         ) : (
           <View style={styles.pinDot} />
         )}
-        {pin.length > 0 ? (
+        {pin.length > 0 && !hasError ? (
           <TitleText text={pin[3]} size={20} style={styles.pinText} />
         ) : (
           <View style={styles.pinDot} />

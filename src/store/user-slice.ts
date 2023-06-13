@@ -17,6 +17,10 @@ const initialState = {
   wallet: { balance: 0 },
   isAuthenticated: false,
   onboarded: false,
+  inactivity: false,
+  appState: '',
+  logOffTime: '',
+  lockAlertVisibility: false,
 } as UserState;
 
 export const userSlice = createSlice({
@@ -38,9 +42,21 @@ export const userSlice = createSlice({
     updateWalletBalance: (state, { payload }) => {
       state.wallet.balance = state.wallet.balance + Number(payload);
     },
+    setappState: (state, { payload }) => {
+      state.appState = payload;
+    },
+    setlogOffTime: (state, { payload }) => {
+      state.logOffTime = payload;
+    },
+    setLockAert: (state, { payload }) => {
+      state.lockAlertVisibility = payload;
+    },
     userLogout: state => {
       state.isAuthenticated = false;
       state.user = undefined;
+      state.lockAlertVisibility = false;
+      state.logOffTime = '';
+      state.appState = '';
     },
   },
   extraReducers: builder => {
@@ -58,6 +74,9 @@ export const {
   userLogout,
   updateToken,
   updateWalletBalance,
+  setappState,
+  setlogOffTime,
+  setLockAert,
 } = userSlice.actions;
 
 export default userSlice.reducer;

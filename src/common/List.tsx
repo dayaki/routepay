@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import moment from 'moment';
+import { capitalize } from 'lodash';
 import { Primary, useTheme } from './Colors';
 import { RegularText, TitleText } from './Text';
 import { ms, nairaFormat } from '@utils';
+import { DataIcon } from '@icons';
 
 export const TransactionList = ({
   desc,
@@ -17,9 +19,11 @@ export const TransactionList = ({
   const styles = useStyles();
   return (
     <TouchableOpacity activeOpacity={0.8} style={styles.history}>
-      <View style={styles.icon}></View>
+      <View style={styles.icon}>
+        <DataIcon size={18} color="#15151A" />
+      </View>
       <View style={styles.historyTexts}>
-        <RegularText text={desc} style={styles.historyText} />
+        <TitleText text={capitalize(desc)} style={styles.historyText} />
         <RegularText
           text={moment(date).format('DD MMMM, YYYY, HH:MMa')}
           style={styles.historyLabel}
@@ -51,7 +55,6 @@ const useStyles = () => {
       alignItems: 'center',
       justifyContent: 'space-between',
       paddingVertical: ms(15),
-      //   marginBottom: ms(15),
       borderBottomColor: 'rgba(249, 247, 246, 0.6)',
       borderBottomWidth: 0.3,
     },
@@ -59,14 +62,13 @@ const useStyles = () => {
       width: '65%',
     },
     historyText: {
-      fontSize: 14,
-      lineHeight: 21,
-      //   marginBottom: ms(10),
+      fontSize: 11,
+      lineHeight: 20,
     },
     historyLabel: {
       fontSize: 11,
       lineHeight: 20,
-      color: 'rgba(249, 247, 246, 0.8)',
+      color: colors.counter,
     },
     historyAmount: {
       fontSize: 14,

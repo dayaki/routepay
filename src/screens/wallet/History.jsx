@@ -7,6 +7,7 @@ import { apiService, getTransactions, nairaFormat } from '@utils';
 import { IsTransaction } from '@types';
 import { useStyles } from './styles';
 import moment from 'moment';
+import { capitalize } from 'lodash';
 
 const TransactionHistory = ({ navigation }) => {
   const { theme, transactions } = useAppSelector(state => state.misc);
@@ -31,7 +32,7 @@ const TransactionHistory = ({ navigation }) => {
               <View style={styles.history}>
                 <View style={styles.historyTexts}>
                   <RegularText
-                    text="Your Airtime Topup of N100.00 has been received by 081233456789"
+                    text={capitalize(item.billCode || item.providerName)}
                     style={styles.historyText}
                   />
                   <RegularText
@@ -45,6 +46,12 @@ const TransactionHistory = ({ navigation }) => {
                   color={Primary}
                 />
               </View>
+            )}
+            ListEmptyComponent={() => (
+              <RegularText
+                text="You do not have any transaction history"
+                style={styles.nothing}
+              />
             )}
             estimatedItemSize={200}
           />

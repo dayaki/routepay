@@ -76,6 +76,7 @@ const TransactionSuccess = ({ navigation, route }) => {
       else {
         console.log('failed transaction');
         setOrderStatus('fail');
+        setIsLoading(false);
       }
     } catch (error) {
       console.log('verifyTransaction', error);
@@ -145,73 +146,105 @@ const TransactionSuccess = ({ navigation, route }) => {
             />
           </View>
 
-          <View style={styles.slider}>
-            <View style={styles.imageWraper}>
+          {orderStatus === 'success' ? (
+            <View style={styles.slider}>
+              <View style={styles.imageWraper}>
+                <Image
+                  source={getSuccessImage()}
+                  resizeMode="cover"
+                  style={styles.image}
+                />
+              </View>
               <Image
-                source={getSuccessImage()}
+                source={require('@images/success_mark.png')}
                 resizeMode="cover"
-                style={styles.image}
+                style={styles.checkmark}
+              />
+              <TitleText
+                size={20}
+                text={title || 'Transaction Successful!'}
+                style={styles.welcomeTitle}
+              />
+              {type === 'wallet' && (
+                <Text style={styles.welcomeText}>
+                  Your wallet topup of{' '}
+                  {nairaFormat(orderPayload.payload?.amount)} was successful.
+                </Text>
+              )}
+              {type === 'airtime' && (
+                <Text style={styles.welcomeText}>
+                  You’ve just recharged {orderPayload.payload?.mobileNumber}{' '}
+                  with {nairaFormat(orderPayload.payload?.amount)} airtime.
+                </Text>
+              )}
+              {type === 'data' && (
+                <Text style={styles.welcomeText}>
+                  You’ve just purchased {orderData?.plan} with{' '}
+                  {nairaFormat(orderPayload.payload?.amount)}.
+                </Text>
+              )}
+              {type === 'fuel' && (
+                <Text style={styles.welcomeText}>
+                  You’ve just purchased{' '}
+                  {nairaFormat(orderPayload.payload?.amount)} worth of Petrol
+                  from {orderPayload.payload?.fuelStation} filling station.
+                </Text>
+              )}
+              {type === 'electricity' && (
+                <Text style={styles.welcomeText}>
+                  You’ve just completed your electricity payment with{' '}
+                  {orderData.company} for{' '}
+                  {nairaFormat(orderPayload.payload?.amount)}.
+                </Text>
+              )}
+              {type === 'cable' && (
+                <Text style={styles.welcomeText}>
+                  You’ve just subscribed your {orderData.company} with{' '}
+                  {nairaFormat(orderPayload.payload?.amount)}.
+                </Text>
+              )}
+              <Button
+                text={buttonText || 'Continue to dashboard'}
+                style={styles.registerBtn}
+                onPress={() => navigation.navigate(routePath || 'home')}
+              />
+              {type && type === 'transaction' && (
+                <TouchableOpacity activeOpacity={0.7} style={styles.shareBtn}>
+                  <TitleText text="Share Receipt?" size={14} />
+                </TouchableOpacity>
+              )}
+            </View>
+          ) : (
+            <View style={styles.slider}>
+              <View style={styles.imageWraper}>
+                <Image
+                  source={getSuccessImage()}
+                  resizeMode="cover"
+                  style={styles.image}
+                />
+              </View>
+              <Image
+                source={require('@images/info.png')}
+                resizeMode="cover"
+                style={styles.checkmark}
+              />
+              <TitleText
+                size={20}
+                text={'Transaction Failed!'}
+                style={styles.welcomeTitle}
+                color="red"
+              />
+              <Text style={styles.welcomeText}>
+                Your transaction failed. Kindly reach out to support if you have
+                any question.
+              </Text>
+              <Button
+                text={buttonText || 'Continue to dashboard'}
+                style={styles.registerBtn}
+                onPress={() => navigation.navigate(routePath || 'home')}
               />
             </View>
-            <Image
-              source={require('@images/success_mark.png')}
-              resizeMode="cover"
-              style={styles.checkmark}
-            />
-            <TitleText
-              size={20}
-              text={title || 'Transaction Successful!'}
-              style={styles.welcomeTitle}
-            />
-            {type === 'wallet' && (
-              <Text style={styles.welcomeText}>
-                Your wallet topup of {nairaFormat(orderPayload.payload?.amount)}{' '}
-                was successful.
-              </Text>
-            )}
-            {type === 'airtime' && (
-              <Text style={styles.welcomeText}>
-                You’ve just recharged {orderPayload.payload?.mobileNumber} with{' '}
-                {nairaFormat(orderPayload.payload?.amount)} airtime.
-              </Text>
-            )}
-            {type === 'data' && (
-              <Text style={styles.welcomeText}>
-                You’ve just purchased {orderData?.plan} with{' '}
-                {nairaFormat(orderPayload.payload?.amount)}.
-              </Text>
-            )}
-            {type === 'fuel' && (
-              <Text style={styles.welcomeText}>
-                You’ve just purchased{' '}
-                {nairaFormat(orderPayload.payload?.amount)} worth of Petrol from{' '}
-                {orderPayload.payload?.fuelStation} filling station.
-              </Text>
-            )}
-            {type === 'electricity' && (
-              <Text style={styles.welcomeText}>
-                You’ve just completed your electricity payment with{' '}
-                {orderData.company} for{' '}
-                {nairaFormat(orderPayload.payload?.amount)}.
-              </Text>
-            )}
-            {type === 'cable' && (
-              <Text style={styles.welcomeText}>
-                You’ve just subscribed your {orderData.company} with{' '}
-                {nairaFormat(orderPayload.payload?.amount)}.
-              </Text>
-            )}
-            <Button
-              text={buttonText || 'Continue to dashboard'}
-              style={styles.registerBtn}
-              onPress={() => navigation.navigate(routePath || 'home')}
-            />
-            {type && type === 'transaction' && (
-              <TouchableOpacity activeOpacity={0.7} style={styles.shareBtn}>
-                <TitleText text="Share Receipt?" size={14} />
-              </TouchableOpacity>
-            )}
-          </View>
+          )}
         </ScrollView>
       )}
     </ViewWrapper>

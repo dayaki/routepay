@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { RegularText, TextButton, TitleText } from '@common';
+import { RegularText, TextButton, TitleText, TransactionList } from '@common';
 import {
   accountSetUp,
   toggleShowBalance,
@@ -20,11 +20,13 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const Dashboard = ({ navigation }) => {
   const { user, wallet } = useAppSelector(state => state.user);
-  const { showBalance } = useAppSelector(state => state.misc);
+  const { showBalance, transactions } = useAppSelector(state => state.misc);
   const { dashboard } = useAppSelector(state => state.loyalty);
   const [currentIndex, setCurrentIndex] = useState(0);
   const styles = useStyles();
   const dispatch = useAppDispatch();
+
+  console.log('transac', transactions?.length);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -96,7 +98,7 @@ const Dashboard = ({ navigation }) => {
                     {showBalance ? (
                       <>
                         <TitleText
-                          text={nairaFormat(wallet.balance)}
+                          text={nairaFormat(wallet?.balance)}
                           style={styles.dashboardPoint}
                         />
                         <TouchableOpacity
@@ -310,25 +312,26 @@ const Dashboard = ({ navigation }) => {
               text="View All"
               size={11}
               color="#FF6600"
-              onPress={() => {}}
+              onPress={() => navigation.navigate('transaction_history')}
             />
           </View>
-
-          <RegularText
-            text="You do not have any transaction history"
-            style={styles.nothing}
-          />
-
-          {/* <TransactionList
-            desc="Data Purchase"
-            amount={2000}
-            date={new Date()}
-          />
-          <TransactionList
-            desc="Wallet Topup"
-            amount={34000}
-            date={new Date()}
-          /> */}
+          {!transactions || transactions.length === 0 ? (
+            <RegularText
+              text="You do not have any transaction history"
+              style={styles.nothing}
+            />
+          ) : (
+            transactions
+              .slice(0, 2)
+              .map(transac => (
+                <TransactionList
+                  key={transac.transactionId}
+                  desc={transac.billCode || transac.providerName}
+                  amount={transac.amount}
+                  date={transac.created}
+                />
+              ))
+          )}
         </View>
       </ScrollView>
     </View>

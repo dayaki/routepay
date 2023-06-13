@@ -91,6 +91,7 @@ export type Theme = {
 };
 
 export interface IsTransaction {
+  billCode: string;
   transactionId: number;
   billReference: number;
   merchantId: string;
@@ -117,6 +118,16 @@ export type OrderPayload = {
       email?: string;
       fuelCode?: string;
       fuelStation?: string;
+      customerEmail?: string;
+      customerName?: string;
+      address?: string;
+      districtNumber?: string;
+      customerNumber?: string;
+      validityPeriod?: string;
+      dataCode?: string;
+      smartcardNumber?: string;
+      paymentCycle?: string;
+      bouquetCode?: string;
     };
   };
   orderData?: any;

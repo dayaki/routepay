@@ -18,6 +18,10 @@ export interface UserState {
   wallet: IsWallet;
   isAuthenticated: boolean;
   onboarded: boolean;
+  inactivity: boolean;
+  appState: string;
+  logOffTime: string;
+  lockAlertVisibility: boolean;
 }
 
 export interface BillState {
@@ -34,7 +38,7 @@ export interface MiscState {
   theme: 'dark' | 'light';
   colors: Theme;
   showBalance: boolean;
-  order: OrderPayload;
+  order: OrderPayload | undefined;
   transactions: IsTransaction[] | undefined;
 }
 

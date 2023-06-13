@@ -132,7 +132,9 @@ const BuyData = ({ navigation, route }) => {
         <Button
           text="Continue"
           onPress={onContinue}
-          disabled={!phone || !selectedNetwork || !selectedData}
+          disabled={
+            !phone || !selectedNetwork || !selectedData || !selectedData.amount
+          }
         />
       </View>
     </View>

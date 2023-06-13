@@ -40,6 +40,7 @@ export const postSetPin = `${merchantApi}/Account/SetPin`;
 export const postVerifyPin = (pin: string) =>
   `${merchantApi}/Account/ValidatePin?pin=${pin}`;
 export const putChangePassword = `${billsApi}/users/password`;
+export const postUpdateProfile = `${merchantApi}/users/updateuser`;
 export const getTransactions = `${billsApi}/transaction`;
 
 // Payment

@@ -1,40 +1,32 @@
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable @typescript-eslint/no-shadow */
 import React, { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useToast } from 'react-native-toast-notifications';
 import ImagePicker from 'react-native-image-crop-picker';
-import {
-  Button,
-  Header,
-  Input,
-  RegularText,
-  TextButton,
-  TitleText,
-} from '@common';
+import { Button, Header, Input, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
-import {
-  Exclamation,
-  Lock,
-  Mail,
-  PhoneIcon,
-  ProfileEditIcon,
-  UserIcon,
-} from '@icons';
+import { Lock, Mail, PhoneIcon, ProfileEditIcon, UserIcon } from '@icons';
 import { useAppDispatch, useAppSelector } from '@store';
-import { ms } from '@utils';
+import { apiService, ms, postUpdateProfile } from '@utils';
+
+const EditButton = ({ onPress }: { onPress: () => void }) => (
+  <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+    <RegularText text="Edit" color="#FF6600" size={11} />
+  </TouchableOpacity>
+);
 
 const EditProfile = ({ navigation }) => {
-  const { theme } = useAppSelector(state => state.misc);
   const { user } = useAppSelector(state => state.user);
   const [name, setName] = useState(`${user?.firstName} ${user?.lastName}`);
   const [email, setEmail] = useState(user?.email || '');
   const [phone, setPhone] = useState(user?.phoneNumber || '');
   const [editable, setEditable] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
   const dispatch = useAppDispatch();
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
+  const toast = useToast();
 
   useEffect(() => {
     if (editable === 'email') {
@@ -43,6 +35,30 @@ const EditProfile = ({ navigation }) => {
       setTimeout(() => phoneInputRef.current?.focus(), 100);
     }
   }, [editable]);
+
+  const handleUpdate = async () => {
+    setIsLoading(true);
+    try {
+      const payload = {
+        userId: user?.userId,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        phoneNumber: user?.phoneNumber,
+        email,
+        status: true,
+        roleId: user?.roleId,
+      };
+      console.log('payload', payload);
+      const data = await apiService(postUpdateProfile, 'post', payload);
+      console.log('handleUpdate', data);
+      toast.show('Profile updated successfully!', { type: 'success' });
+      navigation.goBack();
+    } catch (error) {
+      console.log('handleUpdate', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const selectPhoto = async () => {
     try {
@@ -63,12 +79,6 @@ const EditProfile = ({ navigation }) => {
   //   setEditable(type);
   //   setTimeout(() => phoneInputRef.current?.focus(), 100);
   // };
-
-  const EditButton = ({ onPress }: { onPress: () => void }) => (
-    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-      <RegularText text="Edit" color="#FF6600" size={11} />
-    </TouchableOpacity>
-  );
 
   return (
     <View style={styles.container}>
@@ -137,7 +147,7 @@ const EditProfile = ({ navigation }) => {
           </View>
         </View>
 
-        <Button text="Save" onPress={() => {}} />
+        <Button text="Save" isLoading={isLoading} onPress={handleUpdate} />
       </KeyboardAwareScrollView>
     </View>
   );

@@ -37,9 +37,10 @@ const PaymentOptions = ({ navigation, route }) => {
         },
       });
     } else {
-      navigation.navigate('wallet_pin');
+      navigation.navigate('wallet_pin', { data, type });
     }
   };
+
   return (
     <View style={styles.container}>
       <Loader show={isLoading} />
