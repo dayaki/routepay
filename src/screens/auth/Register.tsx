@@ -185,6 +185,13 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
           onPress={error ? handleSignup : goVerify}
           style={styles.loginBtn}
         />
+        <View style={styles.finePrint}>
+          <Text style={styles.fineText}>
+            By proceeding, you agree to our{' '}
+            <Text style={styles.fineTextBold}>Terms of Service</Text> and{' '}
+            <Text style={styles.fineTextBold}>Privacy Policy</Text>
+          </Text>
+        </View>
         <View style={styles.row}>
           <RegularText text="Have an account? " />
           <TextButton

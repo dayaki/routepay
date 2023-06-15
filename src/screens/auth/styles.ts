@@ -150,6 +150,20 @@ export const useLoginStyles = () => {
     loginBtn: {
       marginVertical: ms(20),
     },
+    finePrint: {
+      marginBottom: ms(20),
+      marginTop: ms(-16),
+    },
+    fineText: {
+      fontFamily: 'DMSans-Regular',
+      fontSize: 12,
+      color: colors.text,
+    },
+    fineTextBold: {
+      fontFamily: 'DMSans-Bold',
+      fontSize: 12,
+      color: colors.primary,
+    },
     row: {
       flexDirection: 'row',
       alignItems: 'center',
