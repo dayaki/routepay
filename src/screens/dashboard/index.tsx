@@ -13,30 +13,39 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@store';
-import { EyeClose, EyeIcon, Notification } from '@icons';
+import {
+  AirtimeIcon,
+  BillsIcon,
+  ChevronDown,
+  DataIcon,
+  EyeClose,
+  EyeIcon,
+  FuelIcon,
+  Notification,
+} from '@icons';
 import { nairaFormat } from '@utils';
 import { useStyles } from './styles';
 import { useFocusEffect } from '@react-navigation/native';
 
 const Dashboard = ({ navigation }) => {
   const { user, wallet } = useAppSelector(state => state.user);
-  const { showBalance, transactions } = useAppSelector(state => state.misc);
+  const { showBalance, transactions, theme } = useAppSelector(
+    state => state.misc,
+  );
   const { dashboard } = useAppSelector(state => state.loyalty);
   const [currentIndex, setCurrentIndex] = useState(0);
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
-  console.log('transac', transactions?.length);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log('useFocusEffect!!!!!');
-      if (user) {
-        dispatch(accountSetUp(user.userId));
-        console.log('use effect user called.>>>>>>>>', user.userId);
-      }
-    }, [user, dispatch]),
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     console.log('useFocusEffect!!!!!');
+  //     if (user) {
+  //       dispatch(accountSetUp(user.userId));
+  //       console.log('use effect user called.>>>>>>>>', user.userId);
+  //     }
+  //   }, [user, dispatch]),
+  // );
 
   const toggleShow = () => {
     dispatch(toggleShowBalance(!showBalance));
@@ -50,13 +59,6 @@ const Dashboard = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      console.log('use effect user called.......');
-      dispatch(accountSetUp(user.userId));
-    }
-  }, [user, dispatch]);
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -69,19 +71,30 @@ const Dashboard = ({ navigation }) => {
           </View>
           <TitleText text={`Hi, ${user?.firstName}`} size={14} />
         </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.notifyBtn}
-          onPress={() => navigation.navigate('notifications')}>
-          <Notification />
-        </TouchableOpacity>
+        <View style={styles.row}>
+          <View style={styles.row}>
+            <Image
+              source={require('@images/nigeria_flag.png')}
+              resizeMode="cover"
+              style={styles.countryFlag}
+            />
+            <ChevronDown size={10} />
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.notifyBtn}
+            onPress={() => navigation.navigate('notifications')}>
+            <Notification />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <View style={styles.padded}>
           <ImageBackground
-            source={require('@images/dashboard_bg.png')}
+            source={require('@images/dashboard/routepay_bg.png')}
             resizeMode="cover"
+            imageStyle={styles.dashboard}
             style={styles.dashboard}>
             <ScrollView
               horizontal
@@ -89,7 +102,7 @@ const Dashboard = ({ navigation }) => {
               pagingEnabled
               onMomentumScrollEnd={onMomentumScrollEnd}>
               <View style={styles.slide}>
-                <View style={styles.dashboardWallet}>
+                <View style={styles.dashboardPoints}>
                   <RegularText
                     text="WALLET BALANCE"
                     style={styles.dashboardLabel}
@@ -99,7 +112,7 @@ const Dashboard = ({ navigation }) => {
                       <>
                         <TitleText
                           text={nairaFormat(wallet?.balance)}
-                          style={styles.dashboardPoint}
+                          style={[styles.dashboardPoint, { marginLeft: 42 }]}
                         />
                         <TouchableOpacity
                           activeOpacity={0.8}
@@ -112,7 +125,10 @@ const Dashboard = ({ navigation }) => {
                       <>
                         <TitleText
                           text="********"
-                          style={[styles.dashboardPoint, { marginTop: 10 }]}
+                          style={[
+                            styles.dashboardPoint,
+                            { marginTop: 10, marginLeft: 40 },
+                          ]}
                         />
                         <TouchableOpacity
                           activeOpacity={0.8}
@@ -127,24 +143,6 @@ const Dashboard = ({ navigation }) => {
               </View>
               {/*  */}
               <View style={styles.slide}>
-                <View style={styles.dashboardRow}>
-                  <View>
-                    <RegularText text="NAME" style={styles.dashboardLabel} />
-                    <RegularText
-                      text={`${dashboard?.firstname} ${dashboard?.lastname}`}
-                      size={14}
-                      color="#F9F7F6"
-                    />
-                  </View>
-                  <View>
-                    <RegularText text="TIER" style={styles.dashboardLabel} />
-                    <RegularText
-                      text={dashboard?.customerclass}
-                      size={14}
-                      color="#F9F7F6"
-                    />
-                  </View>
-                </View>
                 <View style={styles.dashboardPoints}>
                   <RegularText
                     text="LOYALTY BALANCE"
@@ -156,20 +154,7 @@ const Dashboard = ({ navigation }) => {
                   />
                 </View>
                 <View style={styles.dashboardRow}>
-                  <View>
-                    <RegularText
-                      text="WALLET ID"
-                      style={styles.dashboardLabel}
-                    />
-                    <RegularText
-                      text={dashboard?.memberid.replace(
-                        /(?<=^(?:.{4})+)(?!$)/g,
-                        ' ',
-                      )} // "4352  4210  5674  2341"
-                      size={14}
-                      color="#F9F7F6"
-                    />
-                  </View>
+                  <View />
                   <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.refreshBtn}
@@ -205,7 +190,11 @@ const Dashboard = ({ navigation }) => {
               style={styles.row}
               onPress={() => navigation.navigate('wallet_topup')}>
               <Image
-                source={require('@images/dashboard/topup.png')}
+                source={
+                  theme === 'dark'
+                    ? require('@images/dashboard/topup_dark.png')
+                    : require('@images/dashboard/topup.png')
+                }
                 resizeMode="cover"
                 style={styles.boxIcon}
               />
@@ -216,7 +205,11 @@ const Dashboard = ({ navigation }) => {
               style={styles.row}
               onPress={() => navigation.navigate('send_money')}>
               <Image
-                source={require('@images/dashboard/sendmoney.png')}
+                source={
+                  theme === 'dark'
+                    ? require('@images/dashboard/sendmoney_dark.png')
+                    : require('@images/dashboard/sendmoney.png')
+                }
                 resizeMode="cover"
                 style={styles.boxIcon}
               />
@@ -229,10 +222,9 @@ const Dashboard = ({ navigation }) => {
               activeOpacity={0.8}
               style={styles.link}
               onPress={() => navigation.navigate('airtime')}>
-              <Image
-                source={require('@images/dashboard/buy_airtime_dark.png')}
-                resizeMode="contain"
-                style={styles.linkImg}
+              <AirtimeIcon
+                size={20}
+                color={theme === 'dark' ? '#4575F6' : '#FF6600'}
               />
               <RegularText text="Buy Airtime" size={11} />
             </TouchableOpacity>
@@ -241,11 +233,7 @@ const Dashboard = ({ navigation }) => {
               activeOpacity={0.8}
               style={styles.link}
               onPress={() => navigation.navigate('data')}>
-              <Image
-                source={require('@images/dashboard/buy_data_dark.png')}
-                resizeMode="contain"
-                style={styles.linkImg}
-              />
+              <DataIcon color={theme === 'dark' ? '#4575F6' : '#9747FF'} />
               <RegularText text="Buy Data" size={11} />
             </TouchableOpacity>
 
@@ -253,11 +241,7 @@ const Dashboard = ({ navigation }) => {
               activeOpacity={0.8}
               style={styles.link}
               onPress={() => navigation.navigate('buy_fuel')}>
-              <Image
-                source={require('@images/dashboard/buy_fuel_dark.png')}
-                resizeMode="contain"
-                style={styles.linkImg}
-              />
+              <FuelIcon color={theme === 'dark' ? '#4575F6' : '#FCC729'} />
               <RegularText text="Buy Fuel" size={11} />
             </TouchableOpacity>
 
@@ -265,11 +249,7 @@ const Dashboard = ({ navigation }) => {
               activeOpacity={0.8}
               style={styles.link}
               onPress={() => navigation.navigate('bills')}>
-              <Image
-                source={require('@images/dashboard/pay_bills_dark.png')}
-                resizeMode="contain"
-                style={styles.linkImg}
-              />
+              <BillsIcon color={theme === 'dark' ? '#4575F6' : '#4575F6'} />
               <RegularText text="Pay Bills" size={11} />
             </TouchableOpacity>
           </View>

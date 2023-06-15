@@ -474,7 +474,7 @@ export const AirtimeIcon = (props: Props) => {
       fill="none"
       {...props}>
       <Path
-        stroke="#F60"
+        stroke={props.color || '#F60'}
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M11.57.572H2.429c-.631 0-1.143.511-1.143 1.142v12.572c0 .631.512 1.143 1.143 1.143h9.143c.631 0 1.143-.512 1.143-1.143V1.714c0-.63-.512-1.142-1.143-1.142ZM6.143 12.572h1.714"
@@ -501,6 +501,50 @@ export const DataIcon = (props: Props) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M12.077 9A13.809 13.809 0 0 1 9 17a13.81 13.81 0 0 1-3.077-8A13.81 13.81 0 0 1 9 1a13.809 13.809 0 0 1 3.077 8Z"
+    />
+  </Svg>
+);
+
+export const FuelIcon = (props: Props) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={props.size || 24}
+    height={props.size || 24}
+    fill="none"
+    {...props}>
+    <Path
+      stroke={props.color || '#4575F6'}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M17.464 12.75a1.357 1.357 0 0 0 1.357-1.357V8.679a1.357 1.357 0 0 0-1.357-1.358h-2.036l-1.045-3.148a1.357 1.357 0 0 0-1.357-.923H7.584a1.357 1.357 0 0 0-1.357.923L5.25 7.32H2.535A1.357 1.357 0 0 0 1.178 8.68v2.714a1.357 1.357 0 0 0 1.357 1.357"
+    />
+    <Path
+      stroke={props.color || '#4575F6'}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M5.25 15.464a2.714 2.714 0 1 0 0-5.428 2.714 2.714 0 0 0 0 5.428ZM14.75 15.464a2.714 2.714 0 1 0 0-5.428 2.714 2.714 0 0 0 0 5.428ZM7.964 12.75h4.072M10 3.25V.536"
+    />
+  </Svg>
+);
+
+export const BillsIcon = (props: Props) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={props.size || 24}
+    height={props.size || 24}
+    fill="none"
+    {...props}>
+    <Path
+      stroke={props.color || '#4575F6'}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M16.072.714H1.929C1.219.714.643 1.29.643 2v9c0 .71.576 1.286 1.286 1.286h14.143c.71 0 1.285-.576 1.285-1.286V2c0-.71-.575-1.286-1.285-1.286Z"
+    />
+    <Path
+      stroke={props.color || '#4575F6'}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9 8.429A1.929 1.929 0 1 0 9 4.57 1.929 1.929 0 0 0 9 8.43ZM3.857 3.929H4.5M13.5 9.072h.643"
     />
   </Svg>
 );
@@ -666,25 +710,3 @@ export const Notification = (props: Props) => {
     </Svg>
   );
 };
-
-// export const DataIcon = (props: Props) => (
-//   <Svg
-//     xmlns="http://www.w3.org/2000/svg"
-//     width={24}
-//     height={24}
-//     fill="none"
-//     {...props}>
-//     <Path
-//       stroke="#15151A"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//       d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16ZM1 9h16"
-//     />
-//     <Path
-//       stroke="#15151A"
-//       strokeLinecap="round"
-//       strokeLinejoin="round"
-//       d="M12.077 9A13.809 13.809 0 0 1 9 17a13.81 13.81 0 0 1-3.077-8A13.81 13.81 0 0 1 9 1a13.809 13.809 0 0 1 3.077 8Z"
-//     />
-//   </Svg>
-// );
