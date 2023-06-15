@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { TERMII_API, TERMII_SENDER } from '@env';
 import { View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
-import Config from 'react-native-config';
 import {
   BackgroundView,
   Button,
@@ -10,18 +10,11 @@ import {
   RegularText,
   TitleText,
 } from '@common';
-import { useLoginStyles } from './styles';
 import { AuthNavigationProps } from '@types';
-import {
-  apiService,
-  formatPhone,
-  postCreateWallet,
-  postRegister,
-} from '@utils';
+import { apiService, formatPhone, postRegister } from '@utils';
+import { useLoginStyles } from './styles';
 
-const { TERMII_API } = Config;
-
-const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
+const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
   const { payload } = route.params;
   const [otpCode, setOtpCode] = useState('');
   const [codeId, setCodeId] = useState('');
@@ -47,8 +40,8 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
       pin_length: 6,
       pin_placeholder: '< 1234 >',
       // message_text: 'Hi there, your RoutePay verification code is < 1234 >',
-      message_text: 'Hi Ayodeji, your CARVIVA Fuel Wallet code is < 1234 >',
-      from: 'CARVIVA',
+      message_text: `Hi ${payload.firstName}, your CARVIVA Fuel Wallet code is < 1234 >`,
+      from: TERMII_SENDER,
     };
 
     try {
@@ -59,8 +52,9 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
         },
         body: JSON.stringify(dataToSend),
       });
-      const { pinId } = await resp.json();
-      // console.log('sendPhoneOTP', res);
+      const res = await resp.json();
+      console.log('sendPhoneOTP', res);
+      const { pinId } = res;
       setCodeId(pinId);
       // {"pinId": "95c6083c-c277-46ac-a93d-3526b70ba285", "smsStatus": "Message Sent", "status": 200, "to": "2347038327370"}
     } catch (error: any) {
@@ -172,4 +166,4 @@ const OTPVerification = ({ navigation, route }: AuthNavigationProps) => {
     </BackgroundView>
   );
 };
-export default OTPVerification;
+export default PhoneVerification;

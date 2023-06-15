@@ -39,10 +39,7 @@ export type MainStackParamList = {
   };
 };
 
-export type AuthNavigationProps = NativeStackScreenProps<
-  AuthStackParamList,
-  'phone_verification'
->;
+export type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList>;
 
 export type MainNavigationProps = NativeStackScreenProps<
   MainStackParamList,

@@ -24,6 +24,7 @@ import axios from 'axios';
 
 const TransactionSuccess = ({ navigation, route }) => {
   const { order } = useAppSelector(state => state.misc);
+  const { user } = useAppSelector(state => state.user);
   const {
     type,
     buttonText,
@@ -46,7 +47,9 @@ const TransactionSuccess = ({ navigation, route }) => {
 
   useFocusEffect(
     useCallback(() => {
-      if (!isWalletPayment) {
+      if (isWalletPayment) {
+        setOrderStatus('success');
+      } else {
         setIsLoading(true);
         verifyTransaction();
       }
@@ -92,7 +95,12 @@ const TransactionSuccess = ({ navigation, route }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${access_token}`,
         },
-        body: JSON.stringify(orderPayload),
+        body: JSON.stringify({
+          ...orderPayload,
+          paymentMode: 'routepay',
+          transactionReference: trnxRef,
+          externalReference: user?.userId,
+        }),
       });
       const response = await resp.json();
       console.log('chargeTransaction FETCH', response);

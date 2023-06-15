@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-// import { decode } from 'react-native-pure-jwt';
 import { decode } from 'base-64';
-import Config from 'react-native-config';
 import {
   BackgroundView,
   Button,
@@ -11,14 +9,8 @@ import {
   RegularText,
   TitleText,
 } from '@common';
-import { useLoginStyles } from './styles';
 import { AuthNavigationProps } from '@types';
-import {
-  apiService,
-  getProfile,
-  postCreateWallet,
-  postVerify2fa,
-} from '@utils';
+import { apiService, getProfile, postVerify2fa } from '@utils';
 import {
   accountSetUp,
   loyaltySetUp,
@@ -26,7 +18,7 @@ import {
   useAppDispatch,
   userLogin,
 } from '@store';
-const { CLIENT_SECRET = '' } = Config;
+import { useLoginStyles } from './styles';
 
 const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
   const { email = '', password = '' } = route.params;

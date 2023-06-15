@@ -6,10 +6,9 @@ import Login from '../screens/auth/Login';
 import Register from '../screens/auth/Register';
 import ForgotPassword from '../screens/auth/ForgotPassword';
 import ResetPassword from '../screens/auth/ResetPassword';
-import OTPVerification from '../screens/auth/OTPVerification';
+import OTPVerification from '../screens/auth/PhoneVerification';
 import Welcome from '../screens/auth/Welcome';
 import SetPIN from '../screens/auth/SetPIN';
-import EmailVerification from '../screens/auth/EmailVerification';
 import { useAppSelector } from '@store';
 import Verify2FA from '../screens/auth/Verify2FA';
 
@@ -27,7 +26,7 @@ const AuthStack = () => {
       <Stack.Screen name="forgot_password" component={ForgotPassword} />
       <Stack.Screen name="reset_password" component={ResetPassword} />
       <Stack.Screen name="phone_verification" component={OTPVerification} />
-      <Stack.Screen name="email_verification" component={EmailVerification} />
+      {/* <Stack.Screen name="email_verification" component={EmailVerification} /> */}
       <Stack.Screen name="verify_2fa" component={Verify2FA} />
       <Stack.Screen name="set_pin" component={SetPIN} />
       <Stack.Screen name="welcome" component={Welcome} />

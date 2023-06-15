@@ -9,6 +9,7 @@ import {
   setlogOffTime,
   useAppDispatch,
   useAppSelector,
+  userLogout,
 } from '@store';
 import { StatusBar } from 'react-native-bars';
 import { AppState } from 'react-native';
@@ -19,7 +20,7 @@ const Router = () => {
     useAppSelector(state => state.user);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const timer = useRef(24000);
+  const timer = useRef(240000); //4mins check
 
   useEffect(() => {
     console.log('!!!!!! ==== APP INDEX FILE ===== !!!!!!!!');
@@ -27,7 +28,7 @@ const Router = () => {
     dispatch(setappState(AppState.currentState));
     const state = AppState.addEventListener('change', handleAppStateChange);
     if (lockAlertVisibility) {
-      // navigation.navigate('unlock');
+      dispatch(userLogout());
       console.log('USER LOCK!!!!!');
     }
     // if (user?.pinEnabled) {
@@ -63,6 +64,7 @@ const Router = () => {
         dispatch(setLockAert(true));
         if (!lockAlertVisibility) {
           // navigation.navigate('unlock');
+          dispatch(userLogout());
           console.log('USER LOCK TWO!!!!!');
         }
       }

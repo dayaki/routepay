@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   ImageBackground,
@@ -37,15 +37,13 @@ const Dashboard = ({ navigation }) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     console.log('useFocusEffect!!!!!');
-  //     if (user) {
-  //       dispatch(accountSetUp(user.userId));
-  //       console.log('use effect user called.>>>>>>>>', user.userId);
-  //     }
-  //   }, [user, dispatch]),
-  // );
+  useFocusEffect(
+    React.useCallback(() => {
+      if (user) {
+        dispatch(accountSetUp(user.userId));
+      }
+    }, [user, dispatch]),
+  );
 
   const toggleShow = () => {
     dispatch(toggleShowBalance(!showBalance));

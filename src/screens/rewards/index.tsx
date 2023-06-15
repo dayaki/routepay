@@ -96,7 +96,7 @@ const Rewards = ({ navigation }) => {
       <Header title="Rewards" hideBalance />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <ImageBackground
-          source={require('@images/dashboard_bg.png')}
+          source={require('@images/dashboard/wallet_bg.png')}
           resizeMode="cover"
           style={styles.dashboard}>
           <View style={styles.dashboardRow}>

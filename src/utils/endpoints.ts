@@ -1,5 +1,6 @@
-import Config from 'react-native-config';
-const { BASE_URL, SERVER_URL } = Config;
+// import Config from 'react-native-config';
+// const { BASE_URL, SERVER_URL } = Config;
+const BASE_URL = 'https://apidev.routepay.com';
 
 // export const BaseUrl = '';
 export const baseURL = `${BASE_URL}/api`;
