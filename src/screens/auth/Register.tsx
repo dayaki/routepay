@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { useLoginStyles } from './styles';
 import {
   BackgroundView,
   Button,
   Input,
-  Loader,
   RegularText,
   TextButton,
   TitleText,
 } from '@common';
 import { Lock, Mail, PhoneIcon, UserIcon } from '@icons';
 import { AuthNavigationProps } from '@types';
-import { apiService, passwordTests, postRegister } from '@utils';
+import { apiService, openLink, passwordTests, postRegister } from '@utils';
 import { useToast } from 'react-native-toast-notifications';
 
 const Register = ({ navigation, route }: AuthNavigationProps) => {
@@ -188,8 +188,19 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
         <View style={styles.finePrint}>
           <Text style={styles.fineText}>
             By proceeding, you agree to our{' '}
-            <Text style={styles.fineTextBold}>Terms of Service</Text> and{' '}
-            <Text style={styles.fineTextBold}>Privacy Policy</Text>
+            <Text
+              style={styles.fineTextBold}
+              onPress={() => openLink('https://routepay.com/about-routepay/')}>
+              Terms of Service
+            </Text>{' '}
+            and{' '}
+            <Text
+              style={styles.fineTextBold}
+              onPress={() =>
+                openLink('https://routepay.com/routepay-services/')
+              }>
+              Privacy Policy
+            </Text>
           </Text>
         </View>
         <View style={styles.row}>

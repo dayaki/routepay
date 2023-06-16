@@ -4,6 +4,7 @@ import android.os.Bundle;
 import com.zoontek.rnbars.RNBars;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
+import com.proyecto26.inappbrowser.RNInAppBrowserModule;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
@@ -24,6 +25,12 @@ public class MainActivity extends ReactActivity {
     SplashScreen.show(this);
     RNBars.init(this, "light-content"); // initialize with initial bars styles (could be dark-content)
     super.onCreate(null);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    RNInAppBrowserModule.onStart(this);
   }
 
   /**
