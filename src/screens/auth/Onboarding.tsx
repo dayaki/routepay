@@ -7,17 +7,17 @@ import { Button, TitleText, ViewWrapper } from '@common';
 const slides = [
   {
     key: 'one',
-    title: 'Enjoy Exclusive Rewards Whenever You Meet a Transaction Goal',
+    title: 'Pay Your Bills and Subscriptions with Utmost Convenience.',
     image: require('@images/onboarding_1.png'),
   },
   {
     key: 'two',
-    title: 'Purchase Airline and Event Tickets Without Stress',
+    title: 'Enjoy Exclusive Rewards on Your Transactions.',
     image: require('@images/onboarding_2.png'),
   },
   {
     key: 'three',
-    title: 'Pay For Your Bills and Subscriptions Conveniently',
+    title: 'Purchase Your Airline and Event Tickets with Ease.',
     image: require('@images/onboarding_3.png'),
   },
 ];
