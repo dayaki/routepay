@@ -187,6 +187,10 @@ export const useLoginStyles = () => {
       marginBottom: ms(30),
       textAlign: 'center',
     },
+    errorText: {
+      marginTop: ms(-20),
+      marginBottom: ms(20),
+    },
     centeredTexts: {
       alignItems: 'center',
     },

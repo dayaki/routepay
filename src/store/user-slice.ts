@@ -14,6 +14,7 @@ const initialState = {
   user: undefined,
   token: undefined,
   username: null,
+  email: null,
   wallet: { balance: 0 },
   isAuthenticated: false,
   onboarded: false,
@@ -32,6 +33,7 @@ export const userSlice = createSlice({
       state.isAuthenticated = true;
       state.onboarded = true;
       state.username = payload.firstName;
+      state.email = payload.email;
     },
     updateToken: (state, { payload }) => {
       state.token = payload;

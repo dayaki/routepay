@@ -15,6 +15,7 @@ export interface UserState {
   user: IsUser | undefined;
   token: string | undefined;
   username: string | null;
+  email: string | null;
   wallet: IsWallet;
   isAuthenticated: boolean;
   onboarded: boolean;

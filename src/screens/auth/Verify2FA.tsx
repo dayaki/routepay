@@ -22,9 +22,8 @@ import { useLoginStyles } from './styles';
 
 const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
   const { email = '', password = '' } = route.params;
-  // const email = route.params.email || '';
-  // const password = route.params.password || '';
   const [pin, setPin] = useState('');
+  const [hasError, setHasError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const styles = useLoginStyles();
   const dispatch = useAppDispatch();
@@ -37,18 +36,23 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
         code: pin,
       });
       console.log('verifyOtp', response);
-      handleLogin(response);
+      const { accessToken } = response;
+      if (accessToken) {
+        handleLogin(accessToken);
+      } else {
+        setHasError('Invalid Two Factor code. Check the code and try again!');
+        setIsLoading(false);
+      }
     } catch (error) {
       console.log('verifyOtp ERR', error);
       setIsLoading(false);
     }
   };
 
-  const handleLogin = async (data: any) => {
+  const handleLogin = async (token: string) => {
     try {
-      const { accessToken } = data;
-      dispatch(updateToken(accessToken));
-      const payload = await decode(accessToken.split('.')[1]);
+      dispatch(updateToken(token));
+      const payload = await decode(token.split('.')[1]);
       const { sub } = JSON.parse(payload);
       const userProfile = await apiService(getProfile(sub), 'get');
       dispatch(accountSetUp(userProfile.userId));
@@ -80,14 +84,17 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
             text="Enter the 6-digit code sent to your email address"
             style={styles.otpLabel}
           />
+          {!!hasError && (
+            <RegularText
+              size={12}
+              text={hasError}
+              color="red"
+              style={styles.errorText}
+            />
+          )}
           <OTPInput setCode={setPin} onResend={resendOtp} />
         </View>
-        <Button
-          text="Continue"
-          disabled={!pin}
-          onPress={verifyOtp}
-          isLoading={isLoading}
-        />
+        <Button text="Continue" disabled={!pin} onPress={verifyOtp} />
       </View>
     </BackgroundView>
   );

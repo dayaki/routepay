@@ -24,9 +24,9 @@ import {
 import { useLoginStyles } from './styles';
 
 const Login = ({ navigation, route }) => {
-  const { username } = useAppSelector(state => state.user);
+  const { username, email } = useAppSelector(state => state.user);
   const goBack = route.params?.goBack || true;
-  const [email, setEmail] = useState('');
+  const [userEmail, setUserEmail] = useState(email || '');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState('');
@@ -40,7 +40,7 @@ const Login = ({ navigation, route }) => {
         data: { accessToken, message, twoFactorEnabled },
       } = await axios.get('https://authdev.routepay.com/api/token', {
         auth: {
-          username: email,
+          username: userEmail,
           password: password,
         },
       });
@@ -51,7 +51,7 @@ const Login = ({ navigation, route }) => {
         } else if (message.includes('Invalid Login Attempt')) {
           setHasError('Invalid email address or password.');
         } else if (twoFactorEnabled) {
-          navigation.navigate('verify_2fa', { email, password });
+          navigation.navigate('verify_2fa', { email: userEmail, password });
         }
       } else {
         dispatch(updateToken(accessToken));
@@ -90,10 +90,10 @@ const Login = ({ navigation, route }) => {
           </View>
           <Input
             editable={!isLoading}
-            value={email}
+            value={userEmail}
             keyboardType="email-address"
             autoCapitalize="none"
-            onChangeText={setEmail}
+            onChangeText={setUserEmail}
             placeholder="Email or mobile number"
             leftIcon={<Mail size={14} />}
           />
@@ -110,7 +110,7 @@ const Login = ({ navigation, route }) => {
           )}
           <Button
             text="Login"
-            disabled={!email || password.length < 5}
+            disabled={!userEmail || password.length < 5}
             onPress={handleLogin}
             style={styles.loginBtn}
             isLoading={isLoading}
