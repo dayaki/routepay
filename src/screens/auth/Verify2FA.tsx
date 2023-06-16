@@ -19,6 +19,7 @@ import {
   userLogin,
 } from '@store';
 import { useLoginStyles } from './styles';
+import axios from 'axios';
 
 const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
   const { email = '', password = '' } = route.params;
@@ -71,6 +72,16 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
 
   const resendOtp = async () => {
     console.log('sendinf.....');
+    try {
+      await axios.get('https://authdev.routepay.com/api/token', {
+        auth: {
+          username: email,
+          password: password,
+        },
+      });
+    } catch (error) {
+      console.log('resendOtp ERR', error);
+    }
   };
 
   return (
