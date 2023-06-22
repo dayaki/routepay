@@ -285,16 +285,18 @@ export const OTPInput = ({
   secure,
   onResend,
   setCode,
+  onVoiceCall,
 }: {
   secure?: boolean;
   onResend: () => void;
   setCode: (otp: string) => void;
+  onVoiceCall: () => void;
 }) => {
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(0);
   const [canResend, setCanResend] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval>>();
-  const otpRef = useRef<OTPInputView>(null);
+  const otpRef = useRef<OTPInputView>();
   const styles = useStyles();
   const { colors } = useTheme();
 
@@ -313,7 +315,7 @@ export const OTPInput = ({
   useEffect(() => {
     if (seconds === 0) {
       if (minutes === 0) {
-        clearInterval(intervalRef.current);
+        // clearInterval(intervalRef.current);
         setCanResend(true);
       } else {
         setMinutes(minutes - 1);
@@ -322,6 +324,10 @@ export const OTPInput = ({
       }
     }
   }, [seconds, minutes]);
+
+  const resetTimer = () => {
+    setSeconds(59);
+  };
 
   const timeInterval = () => {
     if (seconds > 0) {
@@ -332,8 +338,14 @@ export const OTPInput = ({
   };
 
   const resendCode = async () => {
+    resetTimer();
     onResend();
-    intervalRef.current = setInterval(() => timeInterval(), 1000);
+    setCanResend(false);
+  };
+
+  const voiceCall = async () => {
+    onVoiceCall();
+    resetTimer();
     setCanResend(false);
   };
 
@@ -368,6 +380,15 @@ export const OTPInput = ({
           </>
         )}
       </View>
+      {canResend && (
+        <View style={[styles.row, { justifyContent: 'center', marginTop: 20 }]}>
+          <TextButton
+            text="Get OTP code via voice call"
+            color={colors.primary}
+            onPress={voiceCall}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -397,7 +418,7 @@ export const Checkbox = ({
       disableText={!text}
       text={text}
       innerIconStyle={styles.checkbox}
-      fillColor={colors.selector}
+      fillColor={colors.primary}
       textStyle={[styles.textStyle, textStyle]}
       checkIconImageSource={
         theme === 'dark'
@@ -453,6 +474,7 @@ const useStyles = () => {
   return StyleSheet.create({
     checkbox: {
       borderColor: colors.inputColor,
+      // backgroundColor: 'red',
     },
     otpWrapper: {
       height: ms(60),

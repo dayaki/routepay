@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TERMII_API, TERMII_SENDER } from '@env';
+import { TERMII_API, TERMII_SENDER, TERMII_VOICE_API } from '@env';
 import { View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 import {
@@ -17,8 +17,9 @@ import { useLoginStyles } from './styles';
 const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
   const { payload } = route.params;
   const [otpCode, setOtpCode] = useState('');
-  const [codeId, setCodeId] = useState('');
+  const [codeId, setCodeId] = useState<string | number>('');
   const [isLoading, setIsLoading] = useState(false);
+  const [useVoice, setUseVoice] = useState(false);
   const toast = useToast();
   const styles = useLoginStyles();
 
@@ -29,18 +30,18 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
   }, []);
 
   const sendPhoneOTP = async () => {
+    setUseVoice(false);
     const dataToSend = {
       api_key: TERMII_API,
       message_type: 'NUMERIC',
       pin_type: 'NUMERIC',
-      channel: 'generic',
+      channel: 'dnd',
       to: formatPhone(payload.phoneNumber),
       pin_attempts: 3,
-      pin_time_to_live: 1,
+      pin_time_to_live: 5,
       pin_length: 6,
       pin_placeholder: '< 1234 >',
-      // message_text: 'Hi there, your RoutePay verification code is < 1234 >',
-      message_text: `Hi ${payload.firstName}, your CARVIVA Fuel Wallet code is < 1234 >`,
+      message_text: `Hi ${payload.firstName}, your RoutePay confirmation code is < 1234 >. It expires in 5mins`,
       from: TERMII_SENDER,
     };
 
@@ -56,7 +57,33 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
       console.log('sendPhoneOTP', res);
       const { pinId } = res;
       setCodeId(pinId);
-      // {"pinId": "95c6083c-c277-46ac-a93d-3526b70ba285", "smsStatus": "Message Sent", "status": 200, "to": "2347038327370"}
+    } catch (error: any) {
+      console.log('sendPhoneOTP ERR', error);
+      toast.show(error.message, { type: 'warning' });
+    }
+  };
+
+  const sendVoiceOTP = async () => {
+    setUseVoice(true);
+    const otp = Math.floor(Math.random() * 90000);
+    console.log('voice otp', otp);
+    const dataToSend = {
+      api_key: TERMII_API,
+      phone_number: formatPhone(payload.phoneNumber),
+      code: otp,
+    };
+
+    try {
+      const resp = await fetch(TERMII_VOICE_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+      });
+      const res = await resp.json();
+      console.log('sendPhoneOTP', res);
+      setCodeId(otp);
     } catch (error: any) {
       console.log('sendPhoneOTP ERR', error);
       toast.show(error.message, { type: 'warning' });
@@ -65,35 +92,50 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
 
   const verifyOtp = async () => {
     setIsLoading(true);
-    try {
-      const resp = await fetch('https://api.ng.termii.com/api/sms/otp/verify', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          api_key: TERMII_API,
-          pin_id: codeId,
-          pin: otpCode,
-        }),
-      });
-      const response = await resp.json();
-      const { verified } = response;
-      console.log('verifyOtp response', response);
-      if (verified === 'Expired') {
-        toast.show('Confirmation code has expired!', { type: 'warning' });
+    if (!useVoice) {
+      try {
+        const resp = await fetch(
+          'https://api.ng.termii.com/api/sms/otp/verify',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              api_key: TERMII_API,
+              pin_id: codeId,
+              pin: otpCode,
+            }),
+          },
+        );
+        const response = await resp.json();
+        const { verified } = response;
+        console.log('verifyOtp response', response);
+        if (verified === 'Expired') {
+          toast.show('Confirmation code has expired!', { type: 'warning' });
+          setIsLoading(false);
+          return;
+        } else if (verified === false) {
+          toast.show('Invalid confirmation code.', { type: 'warning' });
+          setIsLoading(false);
+          return;
+        }
+        registerUser();
+      } catch (error: any) {
+        console.log('verifyOtp ERR', error);
+        toast.show(error.message, { type: 'warning' });
         setIsLoading(false);
-        return;
-      } else if (verified === false) {
-        toast.show('Invalid confirmation code.', { type: 'warning' });
-        setIsLoading(false);
-        return;
       }
-      registerUser();
-    } catch (error: any) {
-      console.log('verifyOtp ERR', error);
-      toast.show(error.message, { type: 'warning' });
-      setIsLoading(false);
+    } else {
+      setTimeout(() => {
+        if (codeId === otpCode) {
+          registerUser();
+        } else {
+          toast.show('Invalid confirmation code.', { type: 'warning' });
+          setIsLoading(false);
+          return;
+        }
+      }, 600);
     }
   };
 
@@ -154,7 +196,11 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
             text="Enter the 6-digit code sent to your mobile number"
             style={styles.otpLabel}
           />
-          <OTPInput setCode={setOtpCode} onResend={sendPhoneOTP} />
+          <OTPInput
+            setCode={setOtpCode}
+            onResend={sendPhoneOTP}
+            onVoiceCall={sendVoiceOTP}
+          />
         </View>
         <Button
           text="Continue"
