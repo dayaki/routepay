@@ -92,6 +92,12 @@ export const useStyles = () => {
       color: colors.navTitle,
       width: '80%',
     },
+    fineText: {
+      fontSize: 10,
+      // fontWeight: '600',
+      marginTop: ms(12),
+      color: colors.primary,
+    },
     beneficiaryWrapper: {
       borderTopColor: colors.dash,
       borderTopWidth: 0.3,

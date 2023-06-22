@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
-import { Header, RegularText } from '@common';
+import { Header, MediumText, RegularText } from '@common';
 import { useAppSelector } from '@store';
 import { useStyles } from '../styles';
 
@@ -14,7 +14,7 @@ const SendMoney = ({ navigation }) => {
         <View style={styles.boxes}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate('send_routepay')}
+            //onPress={() => navigation.navigate('send_routepay')}
             style={[styles.box, styles.boxed]}>
             <Image
               source={
@@ -29,11 +29,13 @@ const SendMoney = ({ navigation }) => {
               text="Send to any Routepay wallet"
               style={styles.boxText}
             />
+            <MediumText text="Coming soon." style={styles.fineText} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}
-            onPress={() => navigation.navigate('send_bank')}>
+            // onPress={() => navigation.navigate('send_bank')}
+          >
             <Image
               source={
                 theme === 'dark'
@@ -44,13 +46,15 @@ const SendMoney = ({ navigation }) => {
               style={styles.boxIcon}
             />
             <RegularText text="Send to a bank account" style={styles.boxText} />
+            <MediumText text="Coming soon." style={styles.fineText} />
           </TouchableOpacity>
         </View>
         <View style={styles.boxes}>
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}
-            onPress={() => navigation.navigate('send_beneficiary')}>
+            // onPress={() => navigation.navigate('send_beneficiary')}
+          >
             <Image
               source={
                 theme === 'dark'
@@ -61,13 +65,15 @@ const SendMoney = ({ navigation }) => {
               style={styles.boxIcon}
             />
             <RegularText text="Send to a Beneficiary" style={styles.boxText} />
+            <MediumText text="Coming soon." style={styles.fineText} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}
-            onPress={() =>
-              navigation.navigate('send_beneficiary', { type: 'recent' })
-            }>
+            // onPress={() =>
+            //   navigation.navigate('send_beneficiary', { type: 'recent' })
+            // }
+          >
             <Image
               source={
                 theme === 'dark'
@@ -81,6 +87,7 @@ const SendMoney = ({ navigation }) => {
               text="Send via Recent Transfers"
               style={styles.boxText}
             />
+            <MediumText text="Coming soon." style={styles.fineText} />
           </TouchableOpacity>
         </View>
       </View>

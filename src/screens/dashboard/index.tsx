@@ -61,12 +61,15 @@ const Dashboard = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.row}>
-          <View style={styles.name}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate('account')}
+            style={styles.name}>
             <TitleText
               text={`${user?.firstName[0]}${user?.lastName[0]}`}
               size={20}
             />
-          </View>
+          </TouchableOpacity>
           <TitleText text={`Hi, ${user?.firstName}`} size={14} />
         </View>
         <View style={styles.row}>
@@ -81,7 +84,7 @@ const Dashboard = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.notifyBtn}
-            onPress={() => navigation.navigate('notifications')}>
+            onPress={() => navigation.navigate('transaction_history')}>
             <Notification />
           </TouchableOpacity>
         </View>

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 import { Close } from '@icons';
-import { Button, Input, Loader, TitleText } from '@common';
+import { Button, Input, Loader, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
 import { apiService, passwordTests, putChangePassword } from '@utils';
-import { useAppSelector } from '@store';
+import { useAppDispatch, useAppSelector, userLogout } from '@store';
 
 const ChangePassword = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
@@ -16,6 +16,7 @@ const ChangePassword = ({ navigation }) => {
   const [hasError, setHasError] = useState('');
   const styles = useStyles();
   const toast = useToast();
+  const dispatch = useAppDispatch();
 
   const verifyPassword = () => {
     if (password.length > 0) {
@@ -66,7 +67,9 @@ const ChangePassword = ({ navigation }) => {
         console.log('chnage pass', message, succeeded);
         if (succeeded) {
           toast.show('Password changed successfully!');
-          navigation.goBack();
+          setTimeout(() => {
+            dispatch(userLogout());
+          }, 500);
         } else if (
           message.includes(
             'PasswordTooShort,PasswordRequiresNonAlphanumeric,PasswordRequiresUpper',
@@ -123,6 +126,11 @@ const ChangePassword = ({ navigation }) => {
             onBlur={verifyConfirmPassword}
             hasError={!!hasError}
             errorMessage={hasError}
+          />
+          <TitleText
+            text="NB. You will be logged out after changing your password."
+            size={12}
+            style={{ marginTop: -14, opacity: 0.5 }}
           />
         </View>
         <Button

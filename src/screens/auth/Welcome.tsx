@@ -4,8 +4,17 @@ import { Button, TitleText, ViewWrapper } from '@common';
 import { useStyles } from './styles';
 
 const Welcome = ({ navigation, route }) => {
-  const { name } = route.params || '';
+  const { name } = route.params;
+  const [userName, setUserName] = React.useState('');
   const styles = useStyles();
+
+  React.useEffect(() => {
+    setUserName(name);
+    return () => {
+      setUserName('');
+    };
+  }, [name]);
+
   return (
     <ViewWrapper>
       <ScrollView>
@@ -31,10 +40,11 @@ const Welcome = ({ navigation, route }) => {
             style={styles.welcomeTitle}
           />
           <Text style={styles.welcomeText}>
-            It’s so good to have you here, {name}!!! You’ve earned{' '}
+            It’s so good to have you here, {userName}!!! Kindly verify your
+            email to continue. You’ve earned{' '}
             <Text style={styles.bold}>100</Text>{' '}
             <Text style={styles.brand}>coins</Text>. And, you can earn more
-            points on every transaction.
+            points on every transaction. email.
           </Text>
           <Button
             text="Continue"
