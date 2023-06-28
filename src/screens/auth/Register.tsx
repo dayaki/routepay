@@ -190,15 +190,13 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
             By proceeding, you agree to our{' '}
             <Text
               style={styles.fineTextBold}
-              onPress={() => openLink('https://routepay.com/about-routepay/')}>
+              onPress={() => openLink('https://routepay.com/terms/')}>
               Terms of Service
             </Text>{' '}
             and{' '}
             <Text
               style={styles.fineTextBold}
-              onPress={() =>
-                openLink('https://routepay.com/routepay-services/')
-              }>
+              onPress={() => openLink('https://routepay.com/privacy/')}>
               Privacy Policy
             </Text>
           </Text>
