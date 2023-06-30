@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { Text, View } from 'react-native';
 import { decode } from 'base-64';
 import axios from 'axios';
@@ -12,7 +11,7 @@ import {
   TitleText,
 } from '@common';
 import { Lock, Mail } from '@icons';
-import { apiService, getProfile } from '@utils';
+import { apiService, getLogin, getProfile } from '@utils';
 import {
   accountSetUp,
   loyaltySetUp,
@@ -38,7 +37,7 @@ const Login = ({ navigation, route }) => {
     try {
       const {
         data: { accessToken, message, twoFactorEnabled },
-      } = await axios.get('https://authdev.routepay.com/api/token', {
+      } = await axios.get(getLogin, {
         auth: {
           username: userEmail,
           password: password,

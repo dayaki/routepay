@@ -31,11 +31,19 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
   const toast = useToast();
 
   const handleBlur = () => {
-    if (!!email && !!name && !!phone && !!password && password.length > 5) {
+    if (
+      !!email &&
+      !!name &&
+      !!phone &&
+      phone.length === 11 &&
+      !!password &&
+      password.length > 5
+    ) {
       setHasErrors(false);
     } else {
       setHasErrors(true);
     }
+    console.log('phone len', phone.length);
   };
 
   const verifyPassword = () => {

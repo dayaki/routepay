@@ -11,6 +11,8 @@ const ReviewPayment = ({ navigation, route }) => {
   console.log('ReviewPayment DATA', data);
   const styles = useStyles();
 
+  const onContinue = () => {};
+
   return (
     <View style={styles.container}>
       <Header title="Review Payment" centered hideBalance />
@@ -229,6 +231,7 @@ const ReviewPayment = ({ navigation, route }) => {
           </View>
           <Button
             text="Continue payment"
+            disabled={type === 'scan'}
             onPress={() =>
               navigation.navigate('payment_options', { data, type })
             }

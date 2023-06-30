@@ -90,7 +90,7 @@ export const useStyles = () => {
       fontSize: 14,
       lineHeight: 21,
       color: colors.navTitle,
-      width: '80%',
+      width: '94%',
     },
     fineText: {
       fontSize: 10,

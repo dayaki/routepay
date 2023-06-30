@@ -10,7 +10,7 @@ import {
   TitleText,
 } from '@common';
 import { AuthNavigationProps } from '@types';
-import { apiService, getProfile, postVerify2fa } from '@utils';
+import { apiService, getLogin, getProfile, postVerify2fa } from '@utils';
 import {
   accountSetUp,
   loyaltySetUp,
@@ -73,7 +73,7 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
   const resendOtp = async () => {
     console.log('sendinf.....');
     try {
-      await axios.get('https://authdev.routepay.com/api/token', {
+      await axios.get(getLogin, {
         auth: {
           username: email,
           password: password,

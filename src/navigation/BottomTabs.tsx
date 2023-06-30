@@ -14,6 +14,7 @@ import Dashboard from '../screens/dashboard';
 import Profile from '../screens/profile';
 import Wallet from '../screens/wallet';
 import Rewards from '../screens/rewards';
+import { Pressable } from 'react-native';
 
 const TabStack = createBottomTabNavigator();
 
@@ -80,6 +81,7 @@ const BottomTabs = () => {
         name="rewards"
         component={Rewards}
         options={{
+          tabBarButton: props => <Pressable {...props} disabled />,
           tabBarIcon: ({ focused }) => (
             <RewardTabIcon fill={focused ? '#FF6600' : 'none'} />
           ),

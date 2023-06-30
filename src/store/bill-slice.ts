@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   apiService,
-  getBills,
+  billsApi,
   getBillsByCategory,
   getBillsCategory,
+  postBundleLookup,
 } from '@utils';
 import { BillState, IsBillCategory, IsBillProvider } from '@types';
 import axios from 'axios';
@@ -30,8 +31,8 @@ export const getAllBillsByCategories = createAsyncThunk(
 // export const getAllBills = createAsyncThunk('bills/bills', async () => {
 //   try {
 //     const { data } = await axios.get(
-//       'https://apidev.routepay.com/bills/api/v1/bill',
-//       {
+//       `${billsApi}/bill',
+//      `{
 //         headers: { Authorization: `Bearer ${store.getState().user.token}` },
 //       },
 //     );
@@ -43,12 +44,9 @@ export const getAllBillsByCategories = createAsyncThunk(
 
 export const getAirtimeBills = createAsyncThunk('bills/airtime', async () => {
   try {
-    const { data } = await axios.get(
-      'https://apidev.routepay.com/bills/api/v1/bill/1/category',
-      {
-        headers: { Authorization: `Bearer ${store.getState().user.token}` },
-      },
-    );
+    const { data } = await axios.get(`${billsApi}/bill/1/category`, {
+      headers: { Authorization: `Bearer ${store.getState().user.token}` },
+    });
     return data;
   } catch (error) {
     console.log('getAirtimeBills ERR', error);
@@ -57,12 +55,9 @@ export const getAirtimeBills = createAsyncThunk('bills/airtime', async () => {
 
 export const getCableBills = createAsyncThunk('bills/cable', async () => {
   try {
-    const { data } = await axios.get(
-      'https://apidev.routepay.com/bills/api/v1/bill/2/category',
-      {
-        headers: { Authorization: `Bearer ${store.getState().user.token}` },
-      },
-    );
+    const { data } = await axios.get(`${billsApi}/bill/2/category`, {
+      headers: { Authorization: `Bearer ${store.getState().user.token}` },
+    });
     return data;
   } catch (error) {
     console.log('getAirtimeBills ERR', error);
@@ -71,12 +66,9 @@ export const getCableBills = createAsyncThunk('bills/cable', async () => {
 
 export const getPowerBills = createAsyncThunk('bills/power', async () => {
   try {
-    const { data } = await axios.get(
-      'https://apidev.routepay.com/bills/api/v1/bill/3/category',
-      {
-        headers: { Authorization: `Bearer ${store.getState().user.token}` },
-      },
-    );
+    const { data } = await axios.get(`${billsApi}/bill/3/category`, {
+      headers: { Authorization: `Bearer ${store.getState().user.token}` },
+    });
     return data;
   } catch (error) {
     console.log('getAirtimeBills ERR', error);
@@ -85,12 +77,9 @@ export const getPowerBills = createAsyncThunk('bills/power', async () => {
 
 export const getPinBills = createAsyncThunk('bills/pin', async () => {
   try {
-    const { data } = await axios.get(
-      'https://apidev.routepay.com/bills/api/v1/bill/4/category',
-      {
-        headers: { Authorization: `Bearer ${store.getState().user.token}` },
-      },
-    );
+    const { data } = await axios.get(`${billsApi}/bill/4/category`, {
+      headers: { Authorization: `Bearer ${store.getState().user.token}` },
+    });
     return data;
   } catch (error) {
     console.log('getAirtimeBills ERR', error);
@@ -99,12 +88,9 @@ export const getPinBills = createAsyncThunk('bills/pin', async () => {
 
 export const getBundleBills = createAsyncThunk('bills/bundles', async () => {
   try {
-    const { data } = await axios.get(
-      'https://apidev.routepay.com/bills/api/v1/bill/5/category',
-      {
-        headers: { Authorization: `Bearer ${store.getState().user.token}` },
-      },
-    );
+    const { data } = await axios.get(`${billsApi}/bill/5/category`, {
+      headers: { Authorization: `Bearer ${store.getState().user.token}` },
+    });
     return data;
   } catch (error) {
     console.log('getAirtimeBills ERR', error);
@@ -114,7 +100,7 @@ export const getBundleBills = createAsyncThunk('bills/bundles', async () => {
 export const getFuelBills = createAsyncThunk('bills/fuel', async () => {
   try {
     const { data } = await axios.post(
-      'https://apidev.routepay.com/bills/api/v1/Payment/lookup',
+      postBundleLookup,
       {
         billCode: 'FUEL',
         payload: {},

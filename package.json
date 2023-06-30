@@ -34,7 +34,6 @@
     "react-native-bars": "^2.2.0",
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-camera-kit": "^13.0.0",
-    "react-native-config": "^1.5.1",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-image-crop-picker": "^0.39.0",
     "react-native-inappbrowser-reborn": "^3.7.0",
@@ -85,6 +84,10 @@
     "react-query-native-devtools": "^4.0.0",
     "react-test-renderer": "18.2.0",
     "typescript": "4.8.4"
+  },
+  "resolutions": {
+    "@babel/core": "^7.20.2",
+    "babel-loader": "^8.3.0"
   },
   "jest": {
     "preset": "react-native"

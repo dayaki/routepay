@@ -26,7 +26,7 @@ const SendMoney = ({ navigation }) => {
               style={styles.boxIcon}
             />
             <RegularText
-              text="Send to any Routepay wallet"
+              text="Send to Routepay wallet"
               style={styles.boxText}
             />
             <MediumText text="Coming soon." style={styles.fineText} />
@@ -83,10 +83,7 @@ const SendMoney = ({ navigation }) => {
               resizeMode="cover"
               style={styles.boxIcon}
             />
-            <RegularText
-              text="Send via Recent Transfers"
-              style={styles.boxText}
-            />
+            <RegularText text="Use Recent Transfers" style={styles.boxText} />
             <MediumText text="Coming soon." style={styles.fineText} />
           </TouchableOpacity>
         </View>

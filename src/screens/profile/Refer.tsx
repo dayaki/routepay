@@ -98,7 +98,7 @@ const Refer = ({ navigation }) => {
             Share your referral message and link with your friends and instantly
             earn 200 points as soon as they complete a transaction on Routepay.
           </Text>
-          <Button text="Share" onPress={handleShare} />
+          <Button text="Share" onPress={handleShare} disabled />
         </View>
       </ScrollView>
     </View>

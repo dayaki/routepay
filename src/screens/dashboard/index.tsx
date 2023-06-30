@@ -150,7 +150,8 @@ const Dashboard = ({ navigation }) => {
                     style={styles.dashboardLabel}
                   />
                   <TitleText
-                    text={`${dashboard?.points} pts`}
+                    // text={`${dashboard?.points} pts`}
+                    text="0.00 pts"
                     style={styles.dashboardPoint}
                   />
                 </View>
@@ -159,7 +160,10 @@ const Dashboard = ({ navigation }) => {
                   <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.refreshBtn}
-                    onPress={() => navigation.navigate('rewards')}>
+                    onPress={
+                      () => {}
+                      // navigation.navigate('rewards')
+                    }>
                     <Image
                       source={require('@images/dashboard/arrow_btn.png')}
                       resizeMode="cover"
@@ -265,21 +269,14 @@ const Dashboard = ({ navigation }) => {
           style={styles.adScroll}>
           <TouchableOpacity activeOpacity={0.8} style={styles.adsBtn}>
             <Image
-              source={require('@images/dashboard/ads.png')}
+              source={require('@images/dashboard/ads.jpg')}
               resizeMode="cover"
               style={styles.adImage}
             />
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8} style={styles.adsBtn}>
             <Image
-              source={require('@images/dashboard/ads.png')}
-              resizeMode="cover"
-              style={styles.adImage}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.adsBtn}>
-            <Image
-              source={require('@images/dashboard/ads.png')}
+              source={require('@images/dashboard/ads.jpg')}
               resizeMode="cover"
               style={styles.adImage}
             />

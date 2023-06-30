@@ -28,6 +28,7 @@ const Statement = ({ navigation }) => {
           </View>
         </View>
         <Button
+          disabled
           text="Continue"
           onPress={() =>
             navigation.navigate('send_statement', { type: selectionOption })

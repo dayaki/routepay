@@ -1,10 +1,9 @@
-// import Config from 'react-native-config';
-// const { BASE_URL, SERVER_URL } = Config;
-const BASE_URL = 'https://apidev.routepay.com';
+import { BASE_URL, AUTH_URL } from '@env';
+console.log('from endpint sver', BASE_URL, AUTH_URL);
 
 // export const BaseUrl = '';
 export const baseURL = `${BASE_URL}/api`;
-export const authURL = 'https://authdev.routepay.com';
+export const authURL = `${AUTH_URL}`;
 export const merchantApi = `${BASE_URL}/merchant/api/v1`;
 export const billsApi = `${BASE_URL}/bills/api/v1`;
 export const paymentApi = `${BASE_URL}/payment/api/v1`;

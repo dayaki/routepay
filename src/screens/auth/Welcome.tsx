@@ -47,7 +47,7 @@ const Welcome = ({ navigation, route }) => {
             points on every transaction. email.
           </Text>
           <Button
-            text="Continue"
+            text="Login to continue"
             style={styles.registerBtn}
             onPress={() => navigation.navigate('login', { goBack: false })}
           />

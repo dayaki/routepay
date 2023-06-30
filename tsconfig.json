@@ -4,6 +4,7 @@
     "jsx": "react",
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "typeRoots": ["./src/types"],
     "baseUrl": "./",
     "paths": {
       "*": ["./src/*"],

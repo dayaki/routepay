@@ -3,8 +3,10 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { Close } from '@icons';
 import { Button, DatePicker, Input, RegularText, TitleText } from '@common';
 import { useStyles } from '../styles';
+import { useAppSelector } from '@store';
 
 const SendStatement = ({ navigation, route }) => {
+  const { user } = useAppSelector(state => state.user);
   const type = route.params.type || '';
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
@@ -14,8 +16,7 @@ const SendStatement = ({ navigation, route }) => {
   const handleSubmit = () => {
     navigation.navigate('transaction_success', {
       title: 'Successful!',
-      message:
-        'We’ve successfully sent your account statement to your email - janedoe@gmail.com',
+      message: `We’ve successfully sent your account statement to your email - ${user.email}`,
       buttonText: 'Continue',
       data: {
         email,
@@ -45,7 +46,7 @@ const SendStatement = ({ navigation, route }) => {
                 Kindly select your desired dates. Your statement will be sent to
                 your registered email -{' '}
                 <Text style={[styles.contenttText, { color: '#FF6600' }]}>
-                  janedoe@gmail.com
+                  {user?.email}
                 </Text>
               </Text>
             </View>
