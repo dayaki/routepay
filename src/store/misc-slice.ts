@@ -16,7 +16,6 @@ import { getWallet } from './user-slice';
 
 export const accountSetUp = (userId: string) => (dispatch: any) => {
   dispatch(getAllTransactions());
-  dispatch(getWallet(userId));
   dispatch(getBillCategories());
   // dispatch(getAllBills());
   dispatch(getFuelBills());
@@ -25,6 +24,7 @@ export const accountSetUp = (userId: string) => (dispatch: any) => {
   dispatch(getCableBills());
   dispatch(getPowerBills());
   dispatch(getPinBills());
+  // dispatch(getWallet(userId));
 };
 
 export const getAllTransactions = createAsyncThunk(

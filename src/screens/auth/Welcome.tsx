@@ -41,10 +41,7 @@ const Welcome = ({ navigation, route }) => {
           />
           <Text style={styles.welcomeText}>
             It’s so good to have you here, {userName}!!! Kindly verify your
-            email to continue. You’ve earned{' '}
-            <Text style={styles.bold}>100</Text>{' '}
-            <Text style={styles.brand}>coins</Text>. And, you can earn more
-            points on every transaction. email.
+            email to continue.
           </Text>
           <Button
             text="Login to continue"

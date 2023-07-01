@@ -9,6 +9,7 @@ import {
 import { RegularText, TextButton, TitleText, TransactionList } from '@common';
 import {
   accountSetUp,
+  getWallet,
   toggleShowBalance,
   useAppDispatch,
   useAppSelector,
@@ -40,6 +41,7 @@ const Dashboard = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (user) {
+        dispatch(getWallet(user.userId));
         dispatch(accountSetUp(user.userId));
       }
     }, [user, dispatch]),

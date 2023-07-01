@@ -24,7 +24,7 @@ export type AuthStackParamList = {
     };
   };
   email_verification: { email: string };
-  set_pin: undefined;
+  set_pin: { payload: any; password: string };
   welcome: { name: string } | undefined;
 };
 
