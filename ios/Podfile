@@ -13,7 +13,8 @@ prepare_react_native_project!
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+#flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled(["Debug"], { 'Flipper' => '0.203.0' })
+#flipper_config = FlipperConfiguration.enabled(["Debug"], { 'Flipper' => '0.203.0' })
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -38,7 +39,8 @@ target 'RoutePay' do
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    :flipper_configuration => flipper_config,
+#    :flipper_configuration => flipper_config,
+    :flipper_configuration => FlipperConfiguration.enabled(["Debug"], { 'Flipper' => '0.163.0' }),
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
@@ -49,6 +51,7 @@ target 'RoutePay' do
   end
 
   post_install do |installer|
+#    apply_flipper_fix(installer)
     react_native_post_install(
       installer,
       # Set `mac_catalyst_enabled` to `true` in order to apply patches
@@ -57,4 +60,13 @@ target 'RoutePay' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
+  
+#  def apply_flipper_fix(installer)
+#    # Enable Flipper for simulators only
+#    if target.name.start_with?('Flipper')
+#      target.build_configurations.each do |config|
+#        config.build_settings['VALID_ARCHS'] = 'arm64 arm64e'
+#      end
+#    end
+#  end
 end
