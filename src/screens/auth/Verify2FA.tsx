@@ -60,9 +60,11 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
       dispatch(loyaltySetUp('08032009444')); //userProfile.phoneNumber
       if (!userProfile.pinEnabled) {
         navigation.navigate('set_pin', { payload: userProfile, password });
+        setIsLoading(false);
       } else {
         // dispatch(accountSetUp(userProfile.userId));
         dispatch(userLogin(userProfile));
+        setIsLoading(false);
       }
     } catch (error) {
       console.log('handleLogin ERR', error);

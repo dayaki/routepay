@@ -1,4 +1,5 @@
-import { Alert, Linking } from 'react-native';
+import { Linking } from 'react-native';
+import { PAYMENT_CLIENT_ID, PAYMENT_CLIENT_SECRET } from '@env';
 import { moderateScale } from 'react-native-size-matters';
 import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import uuid from 'react-native-uuid';
@@ -156,8 +157,8 @@ export const initPaymentFlow = async (payload: any) => {
       url: postPaymentToken,
       data: qs.stringify({
         grant_type: 'client_credentials',
-        client_id: 'yMesQUqwMDFebeb',
-        client_secret: 'BUAIQoSElenGnypcfLJftByjcMsLEd',
+        client_id: PAYMENT_CLIENT_ID,
+        client_secret: PAYMENT_CLIENT_SECRET,
       }),
       headers: {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -165,7 +166,7 @@ export const initPaymentFlow = async (payload: any) => {
     });
     console.log('Merchant TOKEN', data.access_token);
     const data2send = {
-      merchantId: 'yMesQUqwMDFebeb',
+      merchantId: PAYMENT_CLIENT_ID,
       returnUrl: 'https://routepay.com/about-routepay',
       merchantReference: getUniqueID(),
       currency: 'NGN',
