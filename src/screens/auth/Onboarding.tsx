@@ -7,18 +7,23 @@ import { Button, TitleText, ViewWrapper } from '@common';
 const slides = [
   {
     key: 'one',
-    title: 'Pay Your Bills and Subscriptions with Utmost Convenience.',
-    image: require('@images/onboarding_1.png'),
+    title: 'Pay bills & subscriptions conveniently.',
+    image: require('@images/onboarding/onboarding_1.jpeg'),
   },
   {
     key: 'two',
-    title: 'Enjoy Exclusive Rewards on Your Transactions.',
-    image: require('@images/onboarding_2.png'),
+    title: 'Power your lifestyle. Pay bills in a zap!',
+    image: require('@images/onboarding/onboarding_2.jpeg'),
   },
   {
     key: 'three',
-    title: 'Purchase Your Airline and Event Tickets with Ease.',
-    image: require('@images/onboarding_3.png'),
+    title: 'Travel everywhere. Buy airline tickets & more!',
+    image: require('@images/onboarding/onboarding_3.jpeg'),
+  },
+  {
+    key: 'four',
+    title: 'Pay bills & subscriptions conveniently.',
+    image: require('@images/onboarding/onboarding_4.jpeg'),
   },
 ];
 
@@ -81,6 +86,12 @@ const Onboarding = ({ navigation }) => {
         style={[
           styles.paginationDot,
           activeIndex === 2 && styles.paginationDotActive,
+        ]}
+      />
+      <View
+        style={[
+          styles.paginationDot,
+          activeIndex === 3 && styles.paginationDotActive,
         ]}
       />
     </View>
