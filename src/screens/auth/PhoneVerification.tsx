@@ -200,6 +200,7 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
             setCode={setOtpCode}
             onResend={sendPhoneOTP}
             onVoiceCall={sendVoiceOTP}
+            isEmail={false}
           />
         </View>
         <Button

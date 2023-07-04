@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'react-native-bars';
+import { AppState } from 'react-native';
 import moment from 'moment';
 import AuthStack from './AuthStack';
 import MainStack from './MainStack';
@@ -11,8 +13,6 @@ import {
   useAppSelector,
   userLogout,
 } from '@store';
-import { StatusBar } from 'react-native-bars';
-import { AppState } from 'react-native';
 
 const Router = () => {
   const { theme } = useAppSelector(state => state.misc);

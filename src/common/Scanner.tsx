@@ -34,7 +34,6 @@ export const Scanner = ({ onDone }: { onDone: (code: string) => void }) => {
             },
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            console.log('You can use the camera');
             setHasPermission(true);
           } else {
             console.log('Camera permission denied');
@@ -48,7 +47,6 @@ export const Scanner = ({ onDone }: { onDone: (code: string) => void }) => {
             PERMISSIONS.IOS.CAMERA,
             PERMISSIONS.IOS.PHOTO_LIBRARY,
           ]);
-          console.log('ios permission', permission);
           if (
             permission[PERMISSIONS.IOS.CAMERA] === RESULTS.GRANTED ||
             permission[PERMISSIONS.IOS.PHOTO_LIBRARY] === RESULTS.GRANTED
