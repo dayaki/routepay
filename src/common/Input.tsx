@@ -286,11 +286,13 @@ export const OTPInput = ({
   onResend,
   setCode,
   onVoiceCall,
+  isEmail = true,
 }: {
   secure?: boolean;
   onResend: () => void;
   setCode: (otp: string) => void;
-  onVoiceCall: () => void;
+  onVoiceCall?: () => void;
+  isEmail?: boolean;
 }) => {
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(0);
@@ -344,7 +346,9 @@ export const OTPInput = ({
   };
 
   const voiceCall = async () => {
-    onVoiceCall();
+    if (onVoiceCall) {
+      onVoiceCall();
+    }
     resetTimer();
     setCanResend(false);
   };
@@ -380,7 +384,7 @@ export const OTPInput = ({
           </>
         )}
       </View>
-      {canResend && (
+      {canResend && !isEmail && (
         <View style={[styles.row, { justifyContent: 'center', marginTop: 20 }]}>
           <TextButton
             text="Get OTP code via voice call"

@@ -40,6 +40,7 @@ const ScanReview = ({ navigation, route }) => {
               value={amount}
               keyboardType="number-pad"
               onChangeText={setAmount}
+              returnKeyType="done"
             />
           </View>
         </View>
@@ -54,7 +55,7 @@ const ScanReview = ({ navigation, route }) => {
             />
           </View>
           <Button
-            disabled={!amount}
+            disabled={true}
             text="Continue payment"
             onPress={() =>
               navigation.navigate('payment_options', { data, type: 'scan' })
