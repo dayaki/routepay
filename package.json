@@ -40,6 +40,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^15.0.1",
+    "react-native-permissions": "^3.8.3",
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-raw-bottom-sheet": "^2.2.0",
     "react-native-reanimated": "^3.1.0",
@@ -57,6 +58,10 @@
     "short-unique-id": "^4.4.4",
     "toggle-switch-react-native": "^3.3.0"
   },
+  "reactNativePermissionsIOS": [
+    "Camera",
+    "PhotoLibrary"
+  ],
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",

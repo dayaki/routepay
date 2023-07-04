@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { StyleSheet, View, PermissionsAndroid, Platform } from 'react-native';
+import {
+  PERMISSIONS,
+  RESULTS,
+  openSettings,
+  checkMultiple,
+  requestMultiple,
+} from 'react-native-permissions';
 import { Camera } from 'react-native-camera-kit';
 import { useTheme } from './Colors';
 import { ms } from '@utils';
@@ -34,6 +41,36 @@ export const Scanner = ({ onDone }: { onDone: (code: string) => void }) => {
           }
         } catch (err) {
           console.warn(err);
+        }
+      } else {
+        try {
+          const permission = await checkMultiple([
+            PERMISSIONS.IOS.CAMERA,
+            PERMISSIONS.IOS.PHOTO_LIBRARY,
+          ]);
+          console.log('ios permission', permission);
+          if (
+            permission[PERMISSIONS.IOS.CAMERA] === RESULTS.GRANTED ||
+            permission[PERMISSIONS.IOS.PHOTO_LIBRARY] === RESULTS.GRANTED
+          ) {
+            setHasPermission(true);
+          } else if (
+            permission[PERMISSIONS.IOS.CAMERA] === RESULTS.DENIED ||
+            permission[PERMISSIONS.IOS.PHOTO_LIBRARY] === RESULTS.DENIED
+          ) {
+            await requestMultiple([
+              PERMISSIONS.IOS.CAMERA,
+              PERMISSIONS.IOS.PHOTO_LIBRARY,
+            ]);
+            setHasPermission(true);
+          } else if (
+            permission[PERMISSIONS.IOS.CAMERA] === RESULTS.BLOCKED ||
+            permission[PERMISSIONS.IOS.PHOTO_LIBRARY] === RESULTS.BLOCKED
+          ) {
+            await openSettings();
+          }
+        } catch (error) {
+          console.log('camera error', error);
         }
       }
     })();

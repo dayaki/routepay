@@ -11,8 +11,6 @@ const ReviewPayment = ({ navigation, route }) => {
   console.log('ReviewPayment DATA', data);
   const styles = useStyles();
 
-  const onContinue = () => {};
-
   return (
     <View style={styles.container}>
       <Header title="Review Payment" centered hideBalance />
