@@ -83,7 +83,7 @@ const ChangePIN = ({ navigation }) => {
             value={userPin}
             onChangeText={setuserPin}
             keyboardType="number-pad"
-            maxLength={6}
+            maxLength={4}
             placeholder="New PIN"
             returnKeyType="done"
           />
@@ -92,7 +92,7 @@ const ChangePIN = ({ navigation }) => {
             onChangeText={setConfirmPin}
             placeholder="Confirm New PIN"
             keyboardType="number-pad"
-            maxLength={6}
+            maxLength={4}
             onBlur={verifyPin}
             returnKeyType="done"
             hasError={!!hasError}
@@ -104,8 +104,8 @@ const ChangePIN = ({ navigation }) => {
           onPress={handleSubmit}
           disabled={
             !password ||
-            userPin.length !== 6 ||
-            confirmPin.length !== 6 ||
+            userPin.length !== 4 ||
+            confirmPin.length !== 4 ||
             !!hasError
           }
         />
