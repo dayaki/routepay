@@ -1,56 +1,47 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Close } from '@icons';
-import {
-  Loader,
-  Primary,
-  RegularText,
-  TitleText,
-  TransactionPIN,
-} from '@common';
+import { Button, Input, Loader, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
-import { apiService, postSetPin, postVerifyPin } from '@utils';
+import { apiService, postSetPin } from '@utils';
+import { useToast } from 'react-native-toast-notifications';
 
 const ChangePIN = ({ navigation }) => {
-  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState('');
+  const [password, setPassword] = useState('');
+  const [userPin, setuserPin] = useState('');
+  const [confirmPin, setConfirmPin] = useState('');
   const styles = useStyles();
+  const toast = useToast();
 
-  const verifyPin = async (pin: string) => {
-    setIsLoading(true);
-    try {
-      const { status } = await apiService(postVerifyPin(pin), 'post', {
-        params: { pin: pin },
-      });
-      console.log('verifyPin', status);
-      if (status) {
-        setPage(2);
-      } else {
-        setHasError('Invalid PIN. Check and try again.');
-      }
-    } catch (error) {
-      console.log('verifyPin ERR', error);
-    } finally {
-      setIsLoading(false);
+  const verifyPin = () => {
+    if (userPin !== confirmPin) {
+      setHasError('PIN and confirm PIN does not match.');
+    } else {
+      setHasError('');
     }
   };
 
-  const changePin = async (pin: string) => {
+  const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const status = await apiService(postSetPin, 'post', {
-        pin: pin,
-        password: 'string',
+      const { message, status } = await apiService(postSetPin, 'post', {
+        pin: userPin,
+        password: password,
       });
+      if (status && message.includes('Succeeded')) {
+        toast.show('Transaction PIN changed successfully.', {
+          type: 'success',
+        });
+        navigation.goBack();
+      } else {
+        setHasError('Invalid password, check and try again.');
+      }
       console.log('changePin', status);
-      // if (status) {
-      //   setPage(2);
-      // } else {
-      //   setHasError('Invalid PIN. Check and try again.');
-      // }
     } catch (error) {
       console.log('changePin ERR', error);
+      setHasError('Invalid password, check and try again.');
     } finally {
       setIsLoading(false);
     }
@@ -69,6 +60,64 @@ const ChangePIN = ({ navigation }) => {
       </View>
       <View style={styles.contentt}>
         <View>
+          <TitleText
+            text="Change PIN"
+            size={20}
+            style={[styles.contenttTitle, { marginBottom: 15 }]}
+          />
+          <RegularText
+            text="Change your transactional PIN"
+            size={14}
+            style={[
+              styles.supportLabel,
+              { textAlign: 'center', marginBottom: 60 },
+            ]}
+          />
+          <Input
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Your Password"
+            isPassword
+          />
+          <Input
+            value={userPin}
+            onChangeText={setuserPin}
+            keyboardType="number-pad"
+            maxLength={6}
+            placeholder="New PIN"
+            returnKeyType="done"
+          />
+          <Input
+            value={confirmPin}
+            onChangeText={setConfirmPin}
+            placeholder="Confirm New PIN"
+            keyboardType="number-pad"
+            maxLength={6}
+            onBlur={verifyPin}
+            returnKeyType="done"
+            hasError={!!hasError}
+            errorMessage={hasError}
+          />
+        </View>
+        <Button
+          text="Change PIN"
+          onPress={handleSubmit}
+          disabled={
+            !password ||
+            userPin.length !== 6 ||
+            confirmPin.length !== 6 ||
+            !!hasError
+          }
+        />
+      </View>
+    </View>
+  );
+};
+
+export default ChangePIN;
+
+{
+  /* <View>
           {page === 1 && (
             <>
               <TitleText
@@ -112,10 +161,5 @@ const ChangePIN = ({ navigation }) => {
             </>
           )}
           <TransactionPIN handleSubmit={page === 1 ? verifyPin : changePin} />
-        </View>
-      </View>
-    </View>
-  );
-};
-
-export default ChangePIN;
+        </View> */
+}

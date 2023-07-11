@@ -8,7 +8,7 @@ import { useStyles } from './styles';
 const PaymentOptions = ({ navigation, route }) => {
   const { user } = useAppSelector(state => state.user);
   const { data = {}, type = '' } = route.params;
-  const [selectionOption, setSelectionOption] = useState('wallet');
+  const [selectionOption, setSelectionOption] = useState('card');
   const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
 
@@ -50,6 +50,7 @@ const PaymentOptions = ({ navigation, route }) => {
           <View style={[styles.row, { marginBottom: 31 }]}>
             <Checkbox
               text="Pay with wallet"
+              disabled
               isChecked={selectionOption === 'wallet'}
               onPress={() => setSelectionOption('wallet')}
             />

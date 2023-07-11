@@ -126,6 +126,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
   return (
     <BackgroundView hasBack>
       <KeyboardAwareScrollView
+        enableOnAndroid={true}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.content}>
         <TitleText text="Create an account" />

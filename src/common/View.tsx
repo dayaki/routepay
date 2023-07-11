@@ -165,14 +165,14 @@ const useStyles = () => {
     },
     wrapper: {
       flex: 1,
-      paddingTop: ms(60),
+      paddingTop: Platform.OS === 'android' ? ms(40) : ms(60),
       paddingHorizontal: ms(20),
       backgroundColor: colors.background,
     },
     header: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: ms(40),
+      marginBottom: Platform.OS === 'android' ? ms(20) : ms(40),
     },
     networkLogo: {
       width: ms(24),
