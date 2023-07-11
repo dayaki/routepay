@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Header, Input, Loader, RegularText } from '@common';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
-import { initPaymentFlow } from '@utils';
+import { initPaymentFlow, moneyFormat } from '@utils';
 import { useStyles } from './styles';
 import { OrderPayload } from '@types';
 
 const WalletTopup = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
   const [amount, setAmount] = useState('');
+  const [customAmount, setCustomAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const styles = useStyles();
+
+  const handleCustomAmount = (figure: string) => {
+    setAmount(figure);
+    const formatted = moneyFormat(figure, 0);
+    setCustomAmount(formatted);
+  };
 
   const handlePayment = async () => {
     setIsLoading(true);
@@ -61,8 +68,8 @@ const WalletTopup = ({ navigation }) => {
           <Input
             placeholder="Amount"
             label="Amount"
-            value={amount}
-            onChangeText={setAmount}
+            value={customAmount}
+            onChangeText={handleCustomAmount}
             keyboardType="number-pad"
             returnKeyType="done"
           />

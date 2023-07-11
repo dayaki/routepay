@@ -4,7 +4,7 @@ import { Button, Header, Input, Select } from '@common';
 import { useStyles } from '../styles';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { IsBillProvider } from '@types';
-import { apiService, getUniqueID, postBundleLookup } from '@utils';
+import { apiService, getUniqueID, moneyFormat, postBundleLookup } from '@utils';
 
 type Payload = {
   billCode: string;
@@ -16,10 +16,17 @@ const BuyNetworkPins = ({ navigation, route }) => {
   const [number, setNumber] = useState('');
   const [quantity, setQuantity] = useState('');
   const [amount, setAmount] = useState<string>('');
+  const [customAmount, setCustomAmount] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState<IsBillProvider>();
   const styles = useStyles();
   const dispatch = useAppDispatch();
   console.log('pins', data);
+
+  const handleCustomAmount = (figure: string) => {
+    setAmount(figure);
+    const formatted = moneyFormat(figure, 0);
+    setCustomAmount(formatted);
+  };
 
   const handleSelection = (item: IsBillProvider) => {
     console.log('selected Network', item);
@@ -118,8 +125,8 @@ const BuyNetworkPins = ({ navigation, route }) => {
           <Input
             placeholder="Amount"
             returnKeyType="done"
-            value={amount}
-            onChangeText={setAmount}
+            value={customAmount}
+            onChangeText={handleCustomAmount}
             keyboardType="number-pad"
             inputStyle={styles.input}
           />

@@ -10,7 +10,7 @@ import {
 } from '@common';
 import { updateOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
-import { getImage, getUniqueID } from '@utils';
+import { getImage, getUniqueID, moneyFormat } from '@utils';
 import { IsBillProvider, OrderPayload } from '@types';
 
 const AMOUNTS = ['100', '200', '500', '1000'];
@@ -20,6 +20,7 @@ const BuyAirtime = ({ navigation, route }) => {
   const { airtime } = useAppSelector(state => state.bill);
   const [phone, setPhone] = useState(userPhone);
   const [amount, setAmount] = useState<string>('');
+  const [customAmount, setCustomAmount] = useState('');
   const [selectedAmount, setSelectedAmount] = useState('');
   const [selectedNetwork, setSelectedNetwork] = useState<IsBillProvider>();
   const dispatch = useAppDispatch();
@@ -28,6 +29,12 @@ const BuyAirtime = ({ navigation, route }) => {
   const handleSelection = (text: string) => {
     setSelectedAmount(text);
     setAmount(text);
+  };
+
+  const handleCustomAmount = (figure: string) => {
+    setAmount(figure);
+    const formatted = moneyFormat(figure, 0);
+    setCustomAmount(formatted);
   };
 
   const onContinue = () => {
@@ -66,8 +73,8 @@ const BuyAirtime = ({ navigation, route }) => {
           <Input
             placeholder="Amount"
             returnKeyType="done"
-            value={amount}
-            onChangeText={setAmount}
+            value={customAmount}
+            onChangeText={handleCustomAmount}
             keyboardType="number-pad"
             inputStyle={styles.input}
             // hasError

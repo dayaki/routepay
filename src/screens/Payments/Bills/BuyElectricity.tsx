@@ -4,7 +4,7 @@ import { Button, Header, Input, RegularText, Select, TitleText } from '@common';
 import { useStyles } from '../styles';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { IsBillProvider, OrderPayload } from '@types';
-import { apiService, getUniqueID, postBundleLookup } from '@utils';
+import { apiService, getUniqueID, moneyFormat, postBundleLookup } from '@utils';
 
 type Payload = {
   billCode: string;
@@ -18,10 +18,17 @@ const BuyElectricity = ({ navigation, route }) => {
   const data = route.params.data;
   const [meter, setMeter] = useState('');
   const [amount, setAmount] = useState('');
+  const [customAmount, setCustomAmount] = useState('');
   const [selectedCompany, setSelectedCompany] = useState<IsBillProvider>();
   const [customerData, setCustomerData] = useState<any>();
   const dispatch = useAppDispatch();
   const styles = useStyles();
+
+  const handleCustomAmount = (figure: string) => {
+    setAmount(figure);
+    const formatted = moneyFormat(figure, 0);
+    setCustomAmount(formatted);
+  };
 
   const handleSelection = (item: IsBillProvider) => {
     console.log('selected item', item);
@@ -114,8 +121,8 @@ const BuyElectricity = ({ navigation, route }) => {
           <Input
             placeholder="Amount"
             returnKeyType="done"
-            value={amount}
-            onChangeText={setAmount}
+            value={customAmount}
+            onChangeText={handleCustomAmount}
             keyboardType="number-pad"
             inputStyle={styles.input}
           />

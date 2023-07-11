@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { OrderPayload } from '@types';
-import { getUniqueID } from '@utils';
+import { getUniqueID, moneyFormat } from '@utils';
 import { useStyles } from './styles';
 
 const BuyFuel = ({ navigation }) => {
@@ -11,10 +11,17 @@ const BuyFuel = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
   const [phone, setPhone] = useState('');
   const [amount, setAmount] = useState<string>('');
+  const [customAmount, setCustomAmount] = useState('');
   const [selectedStation, setSelectedStation] = useState('');
   const styles = useStyles();
   const dispatch = useAppDispatch();
   console.log('fuel', fuel);
+
+  const handleCustomAmount = (figure: string) => {
+    setAmount(figure);
+    const formatted = moneyFormat(figure, 0);
+    setCustomAmount(formatted);
+  };
 
   const onContinue = () => {
     const data2send: OrderPayload = {
@@ -71,8 +78,8 @@ const BuyFuel = ({ navigation }) => {
           <Input
             placeholder="Amount"
             returnKeyType="done"
-            value={amount}
-            onChangeText={setAmount}
+            value={customAmount}
+            onChangeText={handleCustomAmount}
             keyboardType="number-pad"
             inputStyle={styles.input}
           />

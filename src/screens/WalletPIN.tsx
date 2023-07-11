@@ -25,7 +25,6 @@ const WalletPIN = ({ navigation, route }) => {
     setError('');
     try {
       const { status } = await apiService(postVerifyPin(code), 'post', {});
-      console.log('Verify PIN', status);
       if (status) {
         chargeWallet();
       } else {
@@ -33,7 +32,6 @@ const WalletPIN = ({ navigation, route }) => {
         setIsLoading(false);
       }
     } catch (err) {
-      console.log('Verify PIN ERR', err);
       setIsLoading(false);
     }
   };
@@ -45,7 +43,6 @@ const WalletPIN = ({ navigation, route }) => {
         'post',
         order?.orderPayload,
       );
-      console.log('chargeWallet', response);
       const { status, responseDescription } = response;
       if (status === 200 && responseDescription === 'Successful') {
         navigation.navigate('transaction_success', {
@@ -93,7 +90,7 @@ const WalletPIN = ({ navigation, route }) => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.forgotPinBtn}
-          onPress={() => {}}>
+          onPress={() => navigation.navigate('change_pin')}>
           <TitleText
             text="Forgot Pin?"
             size={14}
