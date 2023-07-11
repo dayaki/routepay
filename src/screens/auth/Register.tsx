@@ -26,6 +26,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasErrors, setHasErrors] = useState(true);
   const [passwordError, setPasswordError] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [errors, setErrors] = useState(error);
   const styles = useLoginStyles();
   const toast = useToast();
@@ -34,14 +35,19 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
     if (
       !!email &&
       !!name &&
-      !!phone &&
       phone.length === 11 &&
       !!password &&
       password.length > 5
     ) {
       setHasErrors(false);
+      setPhoneError('');
     } else {
       setHasErrors(true);
+      if (phone.length < 11) {
+        setPhoneError('Phone number must be 11 digits.');
+      } else if (phone.length === 11) {
+        setPhoneError('');
+      }
     }
     console.log('phone len', phone.length);
   };
@@ -168,6 +174,8 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
           placeholder="Mobile number"
           keyboardType="number-pad"
           leftIcon={<PhoneIcon />}
+          hasError={!!phoneError}
+          errorMessage={phoneError}
         />
         <Input
           value={password}
