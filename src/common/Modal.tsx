@@ -57,7 +57,7 @@ export const SelectModal = ({
                     activeOpacity={0.8}
                     onPress={() => onSelect(item)}
                     style={styles.row}>
-                    <TitleText text={getName(item[selector])} size={11} />
+                    <TitleText text={getName(item[selector])} size={14} />
                   </TouchableOpacity>
                   <Checkbox
                     isChecked={
@@ -114,7 +114,7 @@ export const NetworkModal = ({
                         resizeMode="contain"
                         style={styles.networkLogo}
                       />
-                      <TitleText text={getName(network.billCode)} size={11} />
+                      <TitleText text={getName(network.billCode)} size={14} />
                     </TouchableOpacity>
                     <Checkbox
                       isChecked={selectedNetwork?.billCode === network.billCode}
@@ -165,20 +165,15 @@ export const DataModal = ({
                     style={styles.row}
                     onPress={() => onSelect(item)}>
                     <ProviderIcon name={getName(networkName)} />
-                    {/* <Image
-                        source={getImage(networkName)}
-                        resizeMode="cover"
-                        style={styles.networkLogo}
-                      /> */}
                     <View>
                       <RegularText
                         text={item.dataName}
-                        size={11}
+                        size={14}
                         style={styles.dataType}
                       />
                       <RegularText
                         text={nairaFormat(item.amount)}
-                        size={11}
+                        size={12}
                         style={styles.dataType}
                       />
                     </View>
