@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { useTheme } from '@common';
 import { ms } from '@utils';
 
@@ -40,13 +40,9 @@ export const useStyles = () => {
       width: '100%',
       alignSelf: 'center',
     },
-    slide: {
-      width: '100%',
-      alignSelf: 'center',
-    },
     imageWraper: {
       width: ms(340),
-      height: ms(430),
+      height: Platform.OS === 'android' ? ms(400) : ms(430),
       marginBottom: ms(20),
       alignSelf: 'center',
     },
@@ -82,7 +78,7 @@ export const useStyles = () => {
       backgroundColor: colors.pagination,
     },
     buttons: {
-      marginTop: ms(40),
+      marginTop: Platform.OS === 'android' ? ms(20) : ms(40),
     },
     registerBtn: {
       marginBottom: ms(10),

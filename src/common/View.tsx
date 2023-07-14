@@ -160,7 +160,7 @@ const useStyles = () => {
     },
     viewWrapper: {
       flex: 1,
-      paddingTop: ms(60),
+      paddingTop: Platform.OS === 'android' ? ms(40) : ms(60),
       backgroundColor: colors.background,
     },
     wrapper: {
