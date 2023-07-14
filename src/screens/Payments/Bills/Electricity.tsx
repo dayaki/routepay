@@ -11,12 +11,18 @@ const Electricity = ({ navigation }) => {
   const [data, setData] = useState<IsBillProvider[]>();
   const styles = useStyles();
 
+  console.log('power', power);
+
   useEffect(() => {
     let fileredData: IsBillProvider[] | undefined;
     if (selectionOption === 'prepaid') {
-      fileredData = power?.filter(elem => elem.billCode.includes('PREPAID'));
+      fileredData = power?.filter(elem =>
+        elem.displayName.toLowerCase().includes('prepaid'),
+      );
     } else {
-      fileredData = power?.filter(elem => elem.billCode.includes('POSTPAID'));
+      fileredData = power?.filter(elem =>
+        elem.displayName.toLowerCase().includes('postpaid'),
+      );
     }
     setData(fileredData);
   }, []);
