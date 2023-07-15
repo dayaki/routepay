@@ -5,6 +5,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { ToastProvider } from 'react-native-toast-notifications';
 import axios, { AxiosHeaders } from 'axios';
 import { PersistGate } from 'redux-persist/integration/react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { encode } from 'base-64';
 import { persistor, store, userLogout } from '@store';
@@ -58,9 +59,7 @@ axios.interceptors.response.use(
   error => {
     const { config = {}, response = {} } = error || {};
     const { status, data = {} } = response || {};
-    const { message, title } = data;
-    console.log('expired token RESPONSE => OUTSIDE', response);
-    console.log('expired token DATA => OUTSIDE', data);
+    // const { message, title } = data;
     if (
       status &&
       status === 401 &&
@@ -108,23 +107,25 @@ const App = () => {
           normalColor="gray"
           offsetBottom={50}
           swipeEnabled={true}>
-          <NavigationContainer
-            ref={navigationRef}
-            linking={linking}
-            fallback={<Text>Loading...</Text>}
-            theme={
-              store.getState().misc.theme === 'dark' ? DarkMode : LightMode
-            }>
-            <StatusBar
-              animated={true}
-              barStyle={
-                store.getState().misc.theme === 'dark'
-                  ? 'light-content'
-                  : 'dark-content'
-              }
-            />
-            <Router />
-          </NavigationContainer>
+          <SafeAreaProvider>
+            <NavigationContainer
+              ref={navigationRef}
+              linking={linking}
+              fallback={<Text>Loading...</Text>}
+              theme={
+                store.getState().misc.theme === 'dark' ? DarkMode : LightMode
+              }>
+              <StatusBar
+                animated={true}
+                barStyle={
+                  store.getState().misc.theme === 'dark'
+                    ? 'light-content'
+                    : 'dark-content'
+                }
+              />
+              <Router />
+            </NavigationContainer>
+          </SafeAreaProvider>
         </ToastProvider>
       </PersistGate>
     </Provider>
