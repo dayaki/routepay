@@ -3,6 +3,7 @@ import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { useToast } from 'react-native-toast-notifications';
+import VersionInfo from 'react-native-version-info';
 import { Header, LogoutModal, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
 import { MenuRightArrow } from '@icons';
@@ -157,6 +158,10 @@ const Profile = ({ navigation }) => {
             </View>
             <MenuRightArrow />
           </TouchableOpacity>
+          <RegularText
+            text={`App version: v${VersionInfo.appVersion} (${VersionInfo.buildVersion})`}
+            style={styles.versionInfo}
+          />
         </View>
       </ScrollView>
     </View>
