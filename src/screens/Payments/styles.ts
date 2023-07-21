@@ -40,7 +40,7 @@ export const useStyles = () => {
       flex: 1,
       paddingHorizontal: ms(20),
       justifyContent: 'space-between',
-      paddingBottom: ms(40),
+      paddingBottom: ms(50),
     },
     input: {
       // fontWeight: '700',

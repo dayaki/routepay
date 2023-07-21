@@ -310,9 +310,10 @@ const useStyles = () => {
       paddingBottom: ms(10),
     },
     networkLogo: {
-      width: ms(24),
-      height: ms(24),
+      width: ms(34),
+      height: ms(34),
       borderRadius: ms(24 / 2),
+      // borderRadius: 6,
       marginRight: ms(8),
     },
     row: {

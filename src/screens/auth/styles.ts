@@ -26,24 +26,27 @@ export const useStyles = () => {
     waves: {
       width: '100%',
       height: ms(461),
-      left: 0,
-      position: 'relative',
-      zIndex: 50,
+      position: 'absolute',
+      zIndex: 10,
     },
     slider: {
-      position: 'absolute',
-      zIndex: 100,
+      flex: 1,
       width: '90%',
+      height: '100%',
       alignSelf: 'center',
+      position: 'relative',
+      zIndex: 100,
     },
     slide: {
-      width: '100%',
-      alignSelf: 'center',
+      flex: 1,
+      // backgroundColor: 'pink',
+      justifyContent: 'space-between',
     },
     imageWraper: {
       width: ms(340),
-      height: Platform.OS === 'android' ? ms(400) : ms(430),
-      marginBottom: ms(20),
+      // height: Platform.OS === 'android' ? ms(400) : ms(430),
+      height: '70%',
+      marginBottom: ms(10),
       alignSelf: 'center',
     },
     image: {
@@ -55,11 +58,11 @@ export const useStyles = () => {
     title: {
       textAlign: 'center',
       lineHeight: 30,
-      marginBottom: ms(40),
+      // marginBottom: ms(40),
     },
     pagination: {
-      position: 'absolute',
-      bottom: 180,
+      position: 'relative',
+      bottom: Platform.OS === 'ios' ? ms(150) : ms(130),
       flexDirection: 'row',
       alignItems: 'center',
       alignContent: 'center',
@@ -81,7 +84,7 @@ export const useStyles = () => {
       marginTop: Platform.OS === 'android' ? ms(20) : ms(40),
     },
     registerBtn: {
-      marginBottom: ms(10),
+      // marginBottom: ms(10),
     },
     welcomeTitle: {
       textAlign: 'center',
@@ -117,7 +120,19 @@ export const useLoginStyles = () => {
     content: {
       flex: 1,
       justifyContent: 'space-between',
-      paddingBottom: ms(50),
+      // paddingBottom: ms(50),
+    },
+    register: {
+      flex: 1,
+      backgroundColor: colors.background,
+      paddingHorizontal: ms(20),
+      // paddingBottom: ms(40),
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: Platform.OS === 'android' ? ms(20) : ms(40),
+      paddingTop: Platform.OS === 'android' ? ms(40) : ms(60),
     },
     title: {
       marginBottom: ms(10),

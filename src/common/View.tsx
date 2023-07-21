@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
   Platform,
+  ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native-bars';
@@ -38,7 +39,11 @@ export const BackgroundView = ({
   const navigation = useNavigation();
   const styles = useStyles();
   return (
-    <View style={styles.wrapper}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.wrapper}
+      nestedScrollEnabled
+      contentContainerStyle={styles.wrapperContennt}>
       {hasBack && (
         <View style={styles.header}>
           <TouchableOpacity
@@ -49,7 +54,7 @@ export const BackgroundView = ({
         </View>
       )}
       {children}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -169,14 +174,18 @@ const useStyles = () => {
       paddingHorizontal: ms(20),
       backgroundColor: colors.background,
     },
+    wrapperContennt: {
+      flex: 1,
+      paddingBottom: ms(30),
+    },
     header: {
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: Platform.OS === 'android' ? ms(20) : ms(40),
     },
     networkLogo: {
-      width: ms(24),
-      height: ms(24),
+      width: ms(34),
+      height: ms(34),
       marginRight: ms(8),
     },
     headerWrapper: {

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { InAppBrowser } from 'react-native-inappbrowser-reborn';
 import { useLoginStyles } from './styles';
 import {
   BackgroundView,
@@ -11,7 +10,7 @@ import {
   TextButton,
   TitleText,
 } from '@common';
-import { Lock, Mail, PhoneIcon, UserIcon } from '@icons';
+import { BackArrow, Lock, Mail, PhoneIcon, UserIcon } from '@icons';
 import { AuthNavigationProps } from '@types';
 import { apiService, openLink, passwordTests, postRegister } from '@utils';
 import { useToast } from 'react-native-toast-notifications';
@@ -88,6 +87,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
   };
 
   const handleSignup = async () => {
+    setIsLoading(true);
     try {
       const payload = {
         email,
@@ -102,7 +102,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
       console.log('handleSignup', resp);
       if (succeeded) {
         console.log('successed', succeeded);
-        navigation.navigate('welcome');
+        navigation.navigate('welcome', { name: payload.firstName });
       } else {
         let errorMessage: string = '';
         if (message.includes('Duplicate Email')) {
@@ -130,11 +130,23 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
   };
 
   return (
-    <BackgroundView hasBack>
-      <KeyboardAwareScrollView
+    <KeyboardAwareScrollView
+      style={styles.register}
+      showsVerticalScrollIndicator={false}
+      enableOnAndroid={true}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          activeOpacity={0.3}
+          onPress={() => navigation.goBack()}>
+          <BackArrow />
+        </TouchableOpacity>
+      </View>
+      {/* <KeyboardAwareScrollView
         enableOnAndroid={true}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}>
+        contentContainerStyle={styles.content}
+        nestedScrollEnabled> */}
+      <View>
         <TitleText text="Create an account" />
         <View style={styles.texts}>
           <Text style={styles.label}>
@@ -218,7 +230,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
             </Text>
           </Text>
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, { marginBottom: 30 }]}>
           <RegularText text="Have an account? " />
           <TextButton
             text="Log In"
@@ -226,8 +238,8 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
             textStyle={styles.brand}
           />
         </View>
-      </KeyboardAwareScrollView>
-    </BackgroundView>
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 

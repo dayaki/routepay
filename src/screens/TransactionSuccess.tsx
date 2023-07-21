@@ -292,8 +292,8 @@ const useStyles = () => {
     },
     imageWraper: {
       width: ms(340),
-      height: ms(399),
-      marginBottom: ms(30),
+      height: ms(320),
+      marginBottom: ms(20),
       alignSelf: 'center',
     },
     imageWraperr: {
@@ -331,7 +331,7 @@ const useStyles = () => {
       color: colors.text,
       textAlign: 'center',
       alignSelf: 'center',
-      marginBottom: ms(30),
+      marginBottom: ms(20),
       width: '64%',
     },
     bold: {

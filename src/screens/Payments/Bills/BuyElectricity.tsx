@@ -103,7 +103,7 @@ const BuyElectricity = ({ navigation, route }) => {
           <Input
             placeholder="Meter number"
             value={meter}
-            maxLength={11}
+            maxLength={13}
             onChangeText={setMeter}
             textContentType="telephoneNumber"
             keyboardType="number-pad"

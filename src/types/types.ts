@@ -32,6 +32,7 @@ export interface IsBillProvider {
   billCategoryId: number;
   minAmount: number;
   maxAmount: number;
+  displayName: string;
 }
 
 export interface IsDataPlan {

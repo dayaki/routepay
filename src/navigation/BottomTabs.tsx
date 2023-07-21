@@ -14,7 +14,8 @@ import Dashboard from '../screens/dashboard';
 import Profile from '../screens/profile';
 import Wallet from '../screens/wallet';
 import Rewards from '../screens/rewards';
-import { Pressable } from 'react-native';
+import { Platform, Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const TabStack = createBottomTabNavigator();
 
@@ -30,6 +31,8 @@ const BottomTabs = () => {
     console.log('colordsss THEME', theme, color, text);
     return { color, text };
   };
+
+  const insets = useSafeAreaInsets();
   return (
     <TabStack.Navigator
       screenOptions={{
@@ -45,6 +48,7 @@ const BottomTabs = () => {
           paddingTop: 13,
           backgroundColor: getColor().color,
           borderTopColor: getColor().color,
+          // paddingBottom: Platform.OS === 'android' ? insets.bottom : 0,
         },
       }}>
       <TabStack.Screen

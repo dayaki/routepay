@@ -61,7 +61,7 @@ const WalletTopup = ({ navigation }) => {
       <View style={styles.content}>
         <View>
           <RegularText
-            text="Enter the amount you want top up your wallet with below and you will be redirected to make payment."
+            text="Enter the amount you want to top up your wallet with below. You will then be redirected to make payment."
             size={14}
             style={{ lineHeight: 25, marginBottom: 30 }}
           />

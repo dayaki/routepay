@@ -29,6 +29,8 @@ const BuyAirtime = ({ navigation, route }) => {
   const handleSelection = (text: string) => {
     setSelectedAmount(text);
     setAmount(text);
+    const formatted = moneyFormat(text, 0);
+    setCustomAmount(formatted);
   };
 
   const handleCustomAmount = (figure: string) => {

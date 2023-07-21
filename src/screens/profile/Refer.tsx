@@ -50,7 +50,7 @@ const Refer = ({ navigation }) => {
         </TouchableOpacity>
         <TitleText text="Refer & Earn" size={23} />
       </View>
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.waveWrapper}>
           <Image
             source={require('@images/brand_waves_inverse.png')}
@@ -98,7 +98,12 @@ const Refer = ({ navigation }) => {
             Share your referral message and link with your friends and instantly
             earn 200 points as soon as they complete a transaction on Routepay.
           </Text>
-          <Button text="Share" onPress={handleShare} disabled />
+          <Button
+            text="Share"
+            onPress={handleShare}
+            disabled
+            style={{ marginBottom: 50 }}
+          />
         </View>
       </ScrollView>
     </View>

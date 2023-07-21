@@ -195,7 +195,9 @@ const Dashboard = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.row}
-              onPress={() => navigation.navigate('wallet_topup')}>
+              onPress={() => {}}
+              // navigation.navigate('wallet_topup')
+            >
               <Image
                 source={
                   theme === 'dark'

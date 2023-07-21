@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 // import { useTheme } from '@react-navigation/native';
 import { ms } from '@utils';
 import { useTheme } from '@common';
@@ -136,12 +136,13 @@ export const useStyles = () => {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      paddingTop: ms(60),
+      paddingTop: Platform.OS === 'ios' ? ms(60) : ms(30),
     },
     backBtn: {
       alignSelf: 'flex-start',
       position: 'absolute',
-      left: ms(10),
+      top: ms(20),
+      left: ms(20),
       bottom: 0,
       padding: ms(10),
     },
@@ -238,6 +239,13 @@ export const useStyles = () => {
     or: {
       marginBottom: ms(30),
       alignSelf: 'center',
+    },
+    versionInfo: {
+      textAlign: 'center',
+      alignSelf: 'center',
+      fontSize: 11,
+      marginTop: 6,
+      opacity: 0.6,
     },
   });
 };
