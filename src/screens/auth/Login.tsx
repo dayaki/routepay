@@ -122,7 +122,7 @@ const Login = ({ navigation, route }) => {
             />
           </View>
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, { flexWrap: 'wrap' }]}>
           <RegularText text="Don’t have an account? " />
           <TextButton
             text="Create an account"

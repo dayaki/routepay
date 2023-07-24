@@ -120,6 +120,7 @@ export const useLoginStyles = () => {
     content: {
       flex: 1,
       justifyContent: 'space-between',
+      paddingBottom: ms(30),
       // paddingBottom: ms(50),
     },
     register: {

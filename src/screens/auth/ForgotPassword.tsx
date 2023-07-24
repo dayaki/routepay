@@ -22,7 +22,7 @@ const ForgotPassword = ({ navigation }: AuthNavigationProps) => {
       });
       console.log('forgot pass', succeeded);
       if (succeeded) {
-        openRef.current.open();
+        openRef.current?.open();
       } else {
         sethasError(message);
       }
@@ -35,7 +35,7 @@ const ForgotPassword = ({ navigation }: AuthNavigationProps) => {
   };
 
   const onContinue = () => {
-    openRef.current.close();
+    openRef.current?.close();
     navigation.navigate('login');
   };
 
