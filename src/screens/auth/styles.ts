@@ -161,6 +161,17 @@ export const useLoginStyles = () => {
     loginBtn: {
       marginVertical: ms(20),
     },
+    rbSheet: {
+      backgroundColor: colors.selector,
+      borderRadius: ms(12),
+      paddingTop: ms(29),
+      paddingHorizontal: ms(25),
+    },
+    resetLabel: {
+      marginTop: ms(10),
+      lineHeight: 22,
+      marginBottom: ms(30),
+    },
     finePrint: {
       marginBottom: ms(20),
       marginTop: ms(-16),
@@ -201,6 +212,10 @@ export const useLoginStyles = () => {
     errorText: {
       marginTop: ms(-20),
       marginBottom: ms(20),
+    },
+    errorTextPass: {
+      color: 'red',
+      marginTop: ms(-10),
     },
     centeredTexts: {
       alignItems: 'center',
