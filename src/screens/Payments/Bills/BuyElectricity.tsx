@@ -31,7 +31,6 @@ const BuyElectricity = ({ navigation, route }) => {
   };
 
   const handleSelection = (item: IsBillProvider) => {
-    console.log('selected item', item);
     setSelectedCompany(item);
     lookup(item.billCode);
   };
@@ -103,7 +102,7 @@ const BuyElectricity = ({ navigation, route }) => {
           <Input
             placeholder="Meter number"
             value={meter}
-            maxLength={13}
+            maxLength={15}
             onChangeText={setMeter}
             textContentType="telephoneNumber"
             keyboardType="number-pad"
