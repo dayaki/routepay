@@ -48,7 +48,6 @@ const CableTV = ({ navigation }) => {
   }, [selectedPlan]);
 
   const handleSelection = (data: IsBillProvider) => {
-    console.log('selected Network', data);
     setSelectedNetwork(data);
     lookup(data.billCode);
     setSelectedPlan(null);

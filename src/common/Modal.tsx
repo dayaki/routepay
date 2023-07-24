@@ -312,7 +312,7 @@ const useStyles = () => {
     networkLogo: {
       width: ms(34),
       height: ms(34),
-      borderRadius: ms(24 / 2),
+      borderRadius: ms(6),
       // borderRadius: 6,
       marginRight: ms(8),
     },

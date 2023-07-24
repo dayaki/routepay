@@ -86,31 +86,28 @@ export const formatPhone = (phoneNum: string): string => {
 };
 
 export const getImage = (slug: string) => {
-  const name = slug.split(' ')[0].toLowerCase();
-  // console.log('getImage', slug, name);
-  switch (name) {
-    case 'mtn':
-      return require('@images/networks/mtn.png');
-    case 'airtel':
-      return require('@images/networks/airtel.png');
-    case 'etisalat':
-      return require('@images/networks/9mobile.png');
-    case 'glo':
-      return require('@images/networks/glo.png');
-    case 'smile':
-      return require('@images/networks/smile.png');
-    case 'spectranet':
-      return require('@images/networks/spectranet.png');
-    case 'startimes':
-      return require('@images/networks/startimes.png');
-    case 'showmax':
-      return require('@images/networks/showmax.png');
-    case 'gotv':
-      return require('@images/networks/gotv.png');
-    case 'dstv':
-      return require('@images/networks/dstv.png');
-    default:
-      return require('@images/networks/blank.png');
+  if (slug.includes('mtn')) {
+    return require('@images/networks/mtn.png');
+  } else if (slug.includes('airtel')) {
+    return require('@images/networks/airtel.png');
+  } else if (slug.includes('etisalat')) {
+    return require('@images/networks/9mobile.png');
+  } else if (slug.includes('glo')) {
+    return require('@images/networks/glo.png');
+  } else if (slug.includes('smile')) {
+    return require('@images/networks/smile.png');
+  } else if (slug.includes('spectranet')) {
+    return require('@images/networks/spectranet.png');
+  } else if (slug.includes('showmax')) {
+    return require('@images/networks/showmax.png');
+  } else if (slug.includes('gotv')) {
+    return require('@images/networks/gotv.png');
+  } else if (slug.includes('boxoffice')) {
+    return require('@images/networks/box_office.png');
+  } else if (slug.includes('dstv')) {
+    return require('@images/networks/dstv.png');
+  } else {
+    return require('@images/networks/blank.png');
   }
 };
 
