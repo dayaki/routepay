@@ -43,6 +43,7 @@ interface SelectProps {
   selected: IsBillProvider | undefined;
   data: IsBillProvider[];
   title: string;
+  largeIcon?: boolean;
   onSelect: (data: IsBillProvider) => void;
 }
 
@@ -199,6 +200,7 @@ export const NetworkSelect = ({
   onSelect,
   data,
   title,
+  largeIcon,
 }: SelectProps) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
@@ -212,6 +214,7 @@ export const NetworkSelect = ({
         onClose={() => setShowModal(false)}
         onSelect={onSelect}
         selectedNetwork={selected}
+        largeIcon={largeIcon}
       />
       <TouchableOpacity
         activeOpacity={0.7}

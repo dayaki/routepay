@@ -53,6 +53,7 @@ export interface ModalProps {
   data: IsBillProvider[];
   onClose: () => void;
   title: string;
+  largeIcon?: boolean;
   onSelect: (text: IsBillProvider) => void;
 }
 

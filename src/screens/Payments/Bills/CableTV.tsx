@@ -235,6 +235,7 @@ const CableTV = ({ navigation }) => {
             label="Service provider"
             selected={selectedNetwork}
             onSelect={handleSelection}
+            largeIcon
           />
           {plans && plans.length && (
             <Select

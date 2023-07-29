@@ -86,26 +86,30 @@ export const formatPhone = (phoneNum: string): string => {
 };
 
 export const getImage = (slug: string) => {
-  if (slug.includes('mtn')) {
+  const name = slug.toLowerCase();
+  console.log('getImage', name);
+  if (name.includes('mtn')) {
     return require('@images/networks/mtn.png');
-  } else if (slug.includes('airtel')) {
+  } else if (name.includes('airtel')) {
     return require('@images/networks/airtel.png');
-  } else if (slug.includes('etisalat')) {
+  } else if (name.includes('etisalat')) {
     return require('@images/networks/9mobile.png');
-  } else if (slug.includes('glo')) {
+  } else if (name.includes('glo')) {
     return require('@images/networks/glo.png');
-  } else if (slug.includes('smile')) {
+  } else if (name.includes('smile')) {
     return require('@images/networks/smile.png');
-  } else if (slug.includes('spectranet')) {
+  } else if (name.includes('spectranet')) {
     return require('@images/networks/spectranet.png');
-  } else if (slug.includes('showmax')) {
+  } else if (name.includes('showmax')) {
     return require('@images/networks/showmax.png');
-  } else if (slug.includes('gotv')) {
+  } else if (name.includes('gotv')) {
     return require('@images/networks/gotv.png');
-  } else if (slug.includes('boxoffice')) {
+  } else if (name.includes('boxoffice')) {
     return require('@images/networks/box_office.png');
-  } else if (slug.includes('dstv')) {
+  } else if (name.includes('dstv')) {
     return require('@images/networks/dstv.png');
+  } else if (name.includes('startimes')) {
+    return require('@images/networks/startimes.png');
   } else {
     return require('@images/networks/blank.png');
   }

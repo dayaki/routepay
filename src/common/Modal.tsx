@@ -83,6 +83,7 @@ export const NetworkModal = ({
   onSelect,
   data,
   title,
+  largeIcon,
 }: ModalProps) => {
   const styles = useStyles();
   return (
@@ -112,7 +113,11 @@ export const NetworkModal = ({
                           getName(network.billCode).toLowerCase(),
                         )}
                         resizeMode="contain"
-                        style={styles.networkLogo}
+                        style={
+                          largeIcon
+                            ? styles.networkLogoLarge
+                            : styles.networkLogo
+                        }
                       />
                       <TitleText text={getName(network.billCode)} size={14} />
                     </TouchableOpacity>
@@ -312,6 +317,13 @@ const useStyles = () => {
     networkLogo: {
       width: ms(34),
       height: ms(34),
+      borderRadius: ms(6),
+      // borderRadius: 6,
+      marginRight: ms(8),
+    },
+    networkLogoLarge: {
+      width: ms(50),
+      height: ms(50),
       borderRadius: ms(6),
       // borderRadius: 6,
       marginRight: ms(8),
