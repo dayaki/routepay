@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { OrderPayload } from '@types';
-import { getUniqueID, moneyFormat } from '@utils';
+import { formatPhone, getUniqueID, moneyFormat } from '@utils';
 import { useStyles } from './styles';
 
 const BuyFuel = ({ navigation }) => {
@@ -32,14 +32,14 @@ const BuyFuel = ({ navigation }) => {
           firstName: user?.firstName,
           lastName: user?.lastName,
           email: user?.email,
-          mobileNumber: user?.phoneNumber, //'2348032009444',
+          mobileNumber: formatPhone(phone), //'2348032009444',
           fuelCode: 'Petrol',
           fuelStation: selectedStation.fuelStation,
           amount: amount,
         },
       },
     };
-
+    console.log('data2send!!!', data2send);
     dispatch(newOrder(data2send));
     navigation.navigate('review_payment', {
       type: 'fuel',

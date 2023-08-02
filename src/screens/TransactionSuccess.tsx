@@ -102,6 +102,12 @@ const TransactionSuccess = ({ navigation, route }) => {
           externalReference: user?.userId,
         }),
       });
+      console.log('chargeTransaction PAYLOAD', {
+        ...orderPayload,
+        paymentMode: 'routepay',
+        transactionReference: trnxRef,
+        externalReference: user?.userId,
+      });
       const response = await resp.json();
       console.log('chargeTransaction FETCH', response);
       const { responseDescription, status } = response; //responseCode
