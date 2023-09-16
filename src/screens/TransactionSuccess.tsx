@@ -128,7 +128,8 @@ const TransactionSuccess = ({ navigation, route }) => {
     try {
       const resp = await apiService(postWalletTopup, 'post', {
         transactionReference: trnxRef,
-        amount: orderPayload.payload?.amount,
+        amount: Number(orderPayload?.payload?.amount),
+        externalId: user?.phoneNumber,
       });
       dispatch(updateWalletBalance(resp.balance));
       setOrderStatus('success');
