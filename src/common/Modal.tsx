@@ -25,12 +25,14 @@ export const SelectModal = ({
   data,
   title,
   selector,
+  onSelection,
 }: {
   show: boolean;
   selector: string;
   onClose: () => void;
   selected: any;
   onSelect: (item: any) => void;
+  onSelection: (item: any) => void;
   data: [] | undefined;
   title: string;
 }) => {
@@ -69,7 +71,13 @@ export const SelectModal = ({
               )}
             />
           </View>
-          <Button text="Continue" onPress={onClose} />
+          <Button
+            text="Continue"
+            onPress={() => {
+              onSelection(selected);
+              onClose();
+            }}
+          />
         </View>
       </Modal>
     </View>

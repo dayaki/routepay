@@ -1,0 +1,14 @@
+{
+  "secure": {
+    "AUTH_URL": "https://authdev.routepay.com",
+    "BASE_URL": "https://apiqa.routepay.com",
+    "PAYMENT_CLIENT_ID": "yMesQUqwMDFebeb",
+    "PAYMENT_CLIENT_SECRET": "BUAIQoSElenGnypcfLJftByjcMsLEd"
+  },
+  "public": {
+    "APP_NAME": "Keys Example",
+    "BUNDLE_ID": "com.example.rnkeys.dev",
+    "ANDROID_CODE": "50",
+    "PACKAGE_ID": "com.example.rnkeys.dev"
+  }
+}

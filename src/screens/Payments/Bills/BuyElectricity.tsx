@@ -75,7 +75,10 @@ const BuyElectricity = ({ navigation, route }) => {
           customerName: customerData.customerName,
           address: customerData.address,
           districtNumber: customerData.districtNumber,
-          customerNumber: customerData.customerNumber,
+          customerNumber:
+            customerData.customerNumber !== ''
+              ? customerData.customerNumber
+              : meter,
           amount: amount,
         },
       },

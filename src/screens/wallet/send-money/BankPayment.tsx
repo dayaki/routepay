@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {
@@ -11,31 +11,67 @@ import {
   TextCounter,
 } from '@common';
 import { useStyles } from '../styles';
+import { apiService, postVerifyBank } from '@utils';
+
+type BankAccountData = {
+  verificationId: string | null;
+  beneficiaryAccountNumber: string | null;
+  beneficiaryAccountName: string | null;
+  bankCode: string | null;
+  bvn: string | null;
+};
 
 const BankPayment = ({ navigation }) => {
+  const [banks, setBanks] = useState([]);
   const [accountNumber, setAccountNumber] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
   const [saveBeneficiary, setSaveBeneficiary] = useState(false);
-  const [userData, setUserData] = useState();
-  const [hasUser, setHasUser] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const [userData, setUserData] = useState<BankAccountData>();
+  const [hasErrors, setHasErrors] = useState('');
   const styles = useStyles();
+
+  useEffect(() => {
+    fetchBanks();
+  }, []);
+
+  const fetchBanks = async () => {
+    const resp = await fetch('https://nigerianbanks.xyz/');
+    const tempBanks = await resp.json();
+    setBanks(tempBanks);
+  };
+
+  const accountLookup = async (selected: any) => {
+    setIsFetching(true);
+    try {
+      const resp = await apiService(postVerifyBank, 'post', {
+        transferType: 'account',
+        accountNumber: accountNumber,
+        bankCode: selected.code,
+      });
+      console.log('accountLookup', resp);
+      setUserData(resp);
+    } catch (error) {
+      setHasErrors('Account information not found.');
+      console.log('accountLookup err', error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header title="Send Money" centered />
       <KeyboardAwareScrollView
         style={styles.content}
-        contentContainerStyle={{
-          flex: 1,
-          justifyContent: 'space-between',
-          paddingBottom: 40,
-        }}>
+        contentContainerStyle={styles.containerStyle}>
         <View>
           <RegularText
             text="Please provide the details of the account you would like to send money to below"
             size={14}
-            style={{ lineHeight: 25, marginBottom: 30 }}
+            style={styles.label}
           />
           <Input
             value={accountNumber}
@@ -47,17 +83,30 @@ const BankPayment = ({ navigation }) => {
           />
           {accountNumber.length === 10 && (
             <Select
+              data={banks}
+              selector="name"
               label="What bank?"
               selected={selectedBank}
               onSelect={setSelectedBank}
+              onSelection={val => accountLookup(val)}
             />
           )}
-          {accountNumber.length === 10 && selectedBank && (
+
+          {isFetching && <ActivityIndicator size="small" color="#000" />}
+          {!!hasErrors && !isFetching && (
+            <RegularText
+              text={hasErrors}
+              color="red"
+              size={14}
+              style={styles.error}
+            />
+          )}
+          {userData && userData.beneficiaryAccountNumber && !isFetching && (
             <>
               <Input
                 editable={false}
-                value={'Ayodeji Subair'}
-                onChangeText={setAmount}
+                value={userData.beneficiaryAccountName || ''}
+                onChangeText={() => {}}
                 placeholder="Account number"
               />
               <Input
@@ -89,13 +138,14 @@ const BankPayment = ({ navigation }) => {
         </View>
         <Button
           text="Continue"
+          disabled={!!hasErrors}
           onPress={() =>
             navigation.navigate('review_payment', {
               type: 'bank_payment',
               data: {
-                accountNumber: '08123456789',
-                bankName: 'Guaranty trust',
-                accountName: 'Ayodeji Subair',
+                bank: selectedBank,
+                account: userData,
+                beneficiary: saveBeneficiary,
                 remark: memo,
                 amount,
               },

@@ -1,5 +1,8 @@
-import { BASE_URL, AUTH_URL } from '@env';
-console.log('from endpint sver', BASE_URL, AUTH_URL);
+// import { BASE_URL, AUTH_URL } from '@env';
+// import Keys from 'react-native-keys';
+const AUTH_URL = 'https://authdev.routepay.com';
+const BASE_URL = 'https://apiqa.routepay.com';
+console.log('Keys', AUTH_URL, BASE_URL);
 
 // export const BaseUrl = '';
 export const baseURL = `${BASE_URL}/api`;
@@ -24,6 +27,9 @@ export const getProfile = (userId: number | string) =>
 export const postCreateWallet = `${billsApi}/wallet`;
 export const getWalletBalance = (id: string) => `${billsApi}/Wallet/${id}`;
 export const postWalletTopup = `${billsApi}/wallet/topup`;
+export const postVerifyBank = `${billsApi}/transfer/verify`;
+export const postMakeTransfer = `${billsApi}/transfer`;
+export const postValidateTransfer = `${billsApi}/transfer/validate`;
 
 // Bills
 export const getBills = `${billsApi}/bill`;
