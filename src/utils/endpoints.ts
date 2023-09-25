@@ -2,7 +2,6 @@
 // import Keys from 'react-native-keys';
 const AUTH_URL = 'https://authdev.routepay.com';
 const BASE_URL = 'https://apiqa.routepay.com';
-console.log('Keys', AUTH_URL, BASE_URL);
 
 // export const BaseUrl = '';
 export const baseURL = `${BASE_URL}/api`;
