@@ -34,8 +34,7 @@ const SendMoney = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}
-            // onPress={() => navigation.navigate('send_bank')}
-          >
+            onPress={() => navigation.navigate('send_bank')}>
             <Image
               source={
                 theme === 'dark'
@@ -46,7 +45,7 @@ const SendMoney = ({ navigation }) => {
               style={styles.boxIcon}
             />
             <RegularText text="Send to a bank account" style={styles.boxText} />
-            <MediumText text="Coming soon." style={styles.fineText} />
+            {/* <MediumText text="Coming soon." style={styles.fineText} /> */}
           </TouchableOpacity>
         </View>
         <View style={styles.boxes}>

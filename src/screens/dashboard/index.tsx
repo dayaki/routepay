@@ -24,7 +24,7 @@ import {
   FuelIcon,
   Notification,
 } from '@icons';
-import { nairaFormat } from '@utils';
+import { apiService, nairaFormat, postCreateWallet } from '@utils';
 import { useStyles } from './styles';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -33,7 +33,7 @@ const Dashboard = ({ navigation }) => {
   const { showBalance, transactions, theme } = useAppSelector(
     state => state.misc,
   );
-  const { dashboard } = useAppSelector(state => state.loyalty);
+  // const { dashboard } = useAppSelector(state => state.loyalty);
   const [currentIndex, setCurrentIndex] = useState(0);
   const styles = useStyles();
   const dispatch = useAppDispatch();
@@ -41,11 +41,30 @@ const Dashboard = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       if (user) {
-        dispatch(getWallet(user.userId));
+        dispatch(getWallet(user.phoneNumber));
         dispatch(accountSetUp(user.userId));
+        // check if first time user, create wallet
+        // createAccount();
       }
     }, [user, dispatch]),
   );
+
+  const createAccount = async () => {
+    try {
+      const resp = await apiService(postCreateWallet, 'post', {
+        externalId: user?.phoneNumber,
+        walletType: 'USER',
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        bvn: '12345678909',
+        gender: 0,
+        dob: '1997-08-21',
+      });
+      console.log('create wallet', resp);
+    } catch (error) {
+      console.log('create wallet Err', error);
+    }
+  };
 
   const toggleShow = () => {
     dispatch(toggleShowBalance(!showBalance));
@@ -195,9 +214,7 @@ const Dashboard = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.row}
-              onPress={() => {}}
-              // navigation.navigate('wallet_topup')
-            >
+              onPress={() => navigation.navigate('wallet_topup')}>
               <Image
                 source={
                   theme === 'dark'

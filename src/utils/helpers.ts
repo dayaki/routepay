@@ -62,9 +62,9 @@ export const obscureNumber = (accountNumber: string) => {
   // return `${name[0]}${new Array(name.length).join('*')}@${domain}`;
 };
 
-export const getUniqueID = (limit: number = 10) => {
+export const getUniqueID = (limit: number = 10, isNumeric = false) => {
   const uid = new ShortUniqueId();
-  return uid(limit);
+  return isNumeric ? Date.now() : uid(limit);
 };
 
 export const formatPhone = (phoneNum: string): string => {

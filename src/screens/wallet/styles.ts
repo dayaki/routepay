@@ -9,6 +9,16 @@ export const useStyles = () => {
       flex: 1,
       backgroundColor: colors.background,
     },
+    containerStyle: {
+      flex: 1,
+      justifyContent: 'space-between',
+      paddingBottom: ms(40),
+    },
+    label: {
+      lineHeight: 25,
+      marginBottom: ms(30),
+    },
+    error: { textAlign: 'center', marginTop: ms(10) },
     header: {
       backgroundColor: colors.pink300,
       paddingHorizontal: ms(20),

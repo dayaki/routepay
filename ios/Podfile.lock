@@ -328,6 +328,10 @@ PODS:
   - React-jsinspector (0.71.8)
   - React-logger (0.71.8):
     - glog
+  - react-native-keys (0.6.0):
+    - OpenSSL-Universal
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
   - react-native-safe-area-context (4.7.1):
     - React-Core
   - react-native-splash-screen (3.3.0):
@@ -529,6 +533,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-keys (from `../node_modules/react-native-keys`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-version-info (from `../node_modules/react-native-version-info`)
@@ -620,6 +625,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-keys:
+    :path: "../node_modules/react-native-keys"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -715,6 +722,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 747911ab5921641b4ed7e4900065896597142125
   React-jsinspector: c712f9e3bb9ba4122d6b82b4f906448b8a281580
   React-logger: 342f358b8decfbf8f272367f4eacf4b6154061be
+  react-native-keys: 4bcd9c892d3debc3e05c4acb6f84e1b3703c85fb
   react-native-safe-area-context: 9697629f7b2cda43cf52169bb7e0767d330648c2
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-version-info: a106f23009ac0db4ee00de39574eb546682579b9
@@ -751,4 +759,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 00b6c043c3e978c210df5211b926b1e695f69ece
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1

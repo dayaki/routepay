@@ -38,8 +38,19 @@ const SetPIN = ({ navigation, route }) => {
   const createWallet = async () => {
     try {
       const resp = await apiService(postCreateWallet, 'post', {
-        externalId: payload.userId,
+        // externalId: payload.userId,
+        // walletType: 'USER',
+        externalId: payload.phoneNumber,
         walletType: 'USER',
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        // bvn: payload.bvn,
+        // gender: 0,
+        // dob: payload.dob, //'1997-08-21',
+        // //
+        bvn: '12345678909',
+        gender: 0,
+        dob: '1997-08-21',
       });
       console.log('createWallet', resp);
       dispatch(accountSetUp(payload.userId));

@@ -139,6 +139,7 @@ export const Select = ({
   data,
   selector,
   useLabel,
+  onSelection,
 }: {
   label: string;
   selected: any;
@@ -146,12 +147,12 @@ export const Select = ({
   useLabel?: string;
   data: [] | undefined;
   onSelect: (item: any) => void;
+  onSelection: (item: any) => void;
   selector: string;
 }) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
   const { colors } = useTheme();
-  console.log('selected!!!!!', selected);
   return (
     <>
       <SelectModal
@@ -162,6 +163,7 @@ export const Select = ({
         onClose={() => setShowModal(false)}
         onSelect={onSelect}
         selected={selected}
+        onSelection={onSelection}
       />
       <TouchableOpacity
         activeOpacity={0.7}
@@ -169,25 +171,9 @@ export const Select = ({
         onPress={() => setShowModal(true)}>
         <RegularText
           text={selected ? capitalize(selected[selector]) : label}
-          // selected ? selected.length > 0 || selected ? capitalize(selected[selector]): label
           size={14}
           color={colors.inputColor}
         />
-        {/* {selected ? (
-          <View style={styles.row}>
-            <TitleText
-              text={capitalize(selected[selector])}
-              size={14}
-              color={colors.inputColor}
-            />
-          </View>
-        ) : (
-          <RegularText
-            text={selected ? capitalize(selected[selector]) : label}
-            size={14}
-            color={colors.inputColor}
-          />
-        )} */}
         <ChevronDown size={8} />
       </TouchableOpacity>
     </>
