@@ -64,3 +64,7 @@ yarn-error.log
 
 .env
 *.keystore
+
+
+# testing
+/coverage
