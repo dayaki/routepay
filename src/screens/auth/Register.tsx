@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useLoginStyles } from './styles';
-import {
-  BackgroundView,
-  Button,
-  Input,
-  RegularText,
-  TextButton,
-  TitleText,
-} from '@common';
+import { Button, Input, RegularText, TextButton, TitleText } from '@common';
 import { BackArrow, Lock, Mail, PhoneIcon, UserIcon } from '@icons';
 import { AuthNavigationProps } from '@types';
-import { apiService, openLink, passwordTests, postRegister } from '@utils';
+import {
+  apiService,
+  formatPhone,
+  openLink,
+  passwordTests,
+  postRegister,
+} from '@utils';
 import { useToast } from 'react-native-toast-notifications';
 
 const Register = ({ navigation, route }: AuthNavigationProps) => {
@@ -74,7 +73,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
     setIsLoading(true);
     const payload = {
       email,
-      phoneNumber: phone,
+      phoneNumber: formatPhone(phone),
       password: password,
       firstName: name.split(' ')[0],
       lastName: name.split(' ')[1],
@@ -91,7 +90,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
     try {
       const payload = {
         email,
-        phoneNumber: phone,
+        phoneNumber: formatPhone(phone),
         password: password,
         firstName: name.split(' ')[0],
         lastName: name.split(' ')[1],

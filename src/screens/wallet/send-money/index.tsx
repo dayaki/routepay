@@ -14,7 +14,7 @@ const SendMoney = ({ navigation }) => {
         <View style={styles.boxes}>
           <TouchableOpacity
             activeOpacity={0.8}
-            //onPress={() => navigation.navigate('send_routepay')}
+            onPress={() => navigation.navigate('send_routepay')}
             style={[styles.box, styles.boxed]}>
             <Image
               source={
@@ -29,7 +29,6 @@ const SendMoney = ({ navigation }) => {
               text="Send to Routepay wallet"
               style={styles.boxText}
             />
-            <MediumText text="Coming soon." style={styles.fineText} />
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}

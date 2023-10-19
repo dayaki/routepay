@@ -7,14 +7,21 @@ import {
   TitleText,
   TransactionPIN,
 } from '@common';
-import { apiService, postCharge, postVerifyPin } from '@utils';
+import {
+  apiService,
+  getUniqueID,
+  postCharge,
+  postMakeTransfer,
+  postVerifyPin,
+} from '@utils';
 import { useLoginStyles } from './auth/styles';
 import { useAppSelector } from '@store';
 import { useToast } from 'react-native-toast-notifications';
 
 const WalletPIN = ({ navigation, route }) => {
   const { order } = useAppSelector(state => state.misc);
-  const { type } = route.params;
+  const { user } = useAppSelector(state => state.user);
+  const { type, data } = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const styles = useLoginStyles();
@@ -26,7 +33,11 @@ const WalletPIN = ({ navigation, route }) => {
     try {
       const { status } = await apiService(postVerifyPin(code), 'post', {});
       if (status) {
-        chargeWallet();
+        if (type.includes('payment')) {
+          makeTransfer();
+        } else {
+          chargeWallet();
+        }
       } else {
         setError('Incorrect Transaction PIN.');
         setIsLoading(false);
@@ -61,6 +72,46 @@ const WalletPIN = ({ navigation, route }) => {
     }
   };
 
+  const makeTransfer = async () => {
+    try {
+      let payload;
+      if (type === 'bank_payment') {
+        payload = {
+          sourceAccountNumber: user?.phoneNumber,
+          transferType: 'account',
+          beneficiaryAccountNumber: data.account.beneficiaryAccountNumber,
+          beneficiaryAccountName: data.account.beneficiaryAccountName,
+          bankCode: data.account.bankCode,
+          amount: data.amount,
+          paymentReference: getUniqueID(8),
+          verificationId: data.account.verificationId,
+          transferLocation: '1.38716,3.05117',
+          transferNarration: data.remark,
+          merchantReference: '235466776',
+        };
+      } else {
+        payload = {
+          sourceAccountNumber: user?.phoneNumber,
+          transferType: 'wallet',
+          beneficiaryAccountNumber: data.account.beneficiaryAccountNumber,
+          beneficiaryAccountName: data.account.beneficiaryAccountName,
+          bankCode: data.account.bankCode,
+          amount: data.amount,
+          paymentReference: getUniqueID(8),
+          verificationId: data.account.verificationId,
+          transferLocation: '1.38716,3.05117',
+          transferNarration: data.remark,
+          merchantReference: '235466776',
+        };
+      }
+      const res = await apiService(postMakeTransfer, 'post', payload);
+      setIsLoading(false);
+      navigation.navigate('verify_otp', { data: { ...data, ...res, type } });
+    } catch (err: any) {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <BackgroundView hasBack>
       <Loader show={isLoading} />
@@ -81,6 +132,7 @@ const WalletPIN = ({ navigation, route }) => {
             />
           )}
           <TransactionPIN
+            hasError={!!error}
             // hasError={!!error}
             // resetError={() => setError('')}
             handleSubmit={handleSubmit}

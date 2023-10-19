@@ -11,7 +11,7 @@ import {
   TitleText,
 } from '@common';
 import { AuthNavigationProps } from '@types';
-import { apiService, formatPhone, postRegister } from '@utils';
+import { apiService, postRegister } from '@utils';
 import { useLoginStyles } from './styles';
 
 const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
@@ -36,7 +36,7 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
       message_type: 'NUMERIC',
       pin_type: 'NUMERIC',
       channel: 'dnd',
-      to: formatPhone(payload.phoneNumber),
+      to: payload.phoneNumber,
       pin_attempts: 3,
       pin_time_to_live: 5,
       pin_length: 6,
@@ -69,7 +69,7 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
     console.log('voice otp', otp);
     const dataToSend = {
       api_key: TERMII_API,
-      phone_number: formatPhone(payload.phoneNumber),
+      phone_number: payload.phoneNumber,
       code: otp,
     };
 

@@ -30,6 +30,8 @@ export const postVerifyBank = `${billsApi}/transfer/verify`;
 export const postMakeTransfer = `${billsApi}/transfer`;
 export const postValidateTransfer = `${billsApi}/transfer/validate`;
 
+export const getBanks = `${billsApi}/transfer/banks`;
+
 // Bills
 export const getBills = `${billsApi}/bill`;
 export const getBillsCategory = `${billsApi}/billcategory`;

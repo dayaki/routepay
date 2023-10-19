@@ -8,6 +8,9 @@ export interface IsUser {
   imageUrl: string | null;
   created: Date;
   createdBy: string;
+  bvn: string | null;
+  bvnVerified: boolean | null;
+  gender: string | null;
   lastModified: Date | null;
   lastModifiedBy: Date | null;
   roleId: string;

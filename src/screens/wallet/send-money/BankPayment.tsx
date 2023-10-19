@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import ToggleSwitch from 'toggle-switch-react-native';
 import {
   Button,
   Header,
@@ -11,7 +10,7 @@ import {
   TextCounter,
 } from '@common';
 import { useStyles } from '../styles';
-import { apiService, postVerifyBank } from '@utils';
+import { apiService, getBanks, postVerifyBank } from '@utils';
 
 type BankAccountData = {
   verificationId: string | null;
@@ -27,7 +26,6 @@ const BankPayment = ({ navigation }) => {
   const [selectedBank, setSelectedBank] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
-  const [saveBeneficiary, setSaveBeneficiary] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [userData, setUserData] = useState<BankAccountData>();
   const [hasErrors, setHasErrors] = useState('');
@@ -38,21 +36,22 @@ const BankPayment = ({ navigation }) => {
   }, []);
 
   const fetchBanks = async () => {
-    const resp = await fetch('https://nigerianbanks.xyz/');
-    const tempBanks = await resp.json();
-    setBanks(tempBanks);
+    const bankss = await apiService(getBanks, 'get');
+    setBanks(bankss);
   };
 
+  // 0112345678
   const accountLookup = async (selected: any) => {
     setIsFetching(true);
     try {
       const resp = await apiService(postVerifyBank, 'post', {
         transferType: 'account',
         accountNumber: accountNumber,
-        bankCode: selected.code,
+        bankCode: selected.bankCode,
       });
       console.log('accountLookup', resp);
       setUserData(resp);
+      setHasErrors('');
     } catch (error) {
       setHasErrors('Account information not found.');
       console.log('accountLookup err', error);
@@ -84,7 +83,7 @@ const BankPayment = ({ navigation }) => {
           {accountNumber.length === 10 && (
             <Select
               data={banks}
-              selector="name"
+              selector="bankName"
               label="What bank?"
               selected={selectedBank}
               onSelect={setSelectedBank}
@@ -123,29 +122,18 @@ const BankPayment = ({ navigation }) => {
                 maxLength={40}
                 rightIcon={<TextCounter text={memo} />}
               />
-              <View style={styles.beneficiary}>
-                <RegularText text="Save as Beneficiary?" size={14} />
-                <ToggleSwitch
-                  isOn={saveBeneficiary}
-                  onColor="#008751"
-                  offColor="#FF6600"
-                  size="small"
-                  onToggle={setSaveBeneficiary}
-                />
-              </View>
             </>
           )}
         </View>
         <Button
           text="Continue"
-          disabled={!!hasErrors}
+          disabled={!!hasErrors || !amount || !memo}
           onPress={() =>
             navigation.navigate('review_payment', {
               type: 'bank_payment',
               data: {
                 bank: selectedBank,
                 account: userData,
-                beneficiary: saveBeneficiary,
                 remark: memo,
                 amount,
               },

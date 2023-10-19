@@ -14,11 +14,19 @@ export const useStyles = () => {
       justifyContent: 'space-between',
       paddingBottom: ms(40),
     },
+    contentStyle: {
+      flex: 1,
+      justifyContent: 'space-between',
+      paddingBottom: ms(40),
+    },
     label: {
       lineHeight: 25,
       marginBottom: ms(30),
     },
+    pageLabel: { lineHeight: ms(25), marginBottom: ms(30) },
+    loader: { marginVertical: ms(20) },
     error: { textAlign: 'center', marginTop: ms(10) },
+    errorText: { color: 'red', textAlign: 'center' },
     header: {
       backgroundColor: colors.pink300,
       paddingHorizontal: ms(20),

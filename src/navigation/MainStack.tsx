@@ -40,9 +40,11 @@ import Notifications from '../screens/Notifications';
 import Webview from '../screens/Webview';
 import WalletTopup from '../screens/dashboard/WalletTopup';
 import ScanReview from '../screens/payments/ScanReview';
+import TransactionOTP from '../screens/TransactionOTP';
+import { MainStackParamList } from '@types';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const MainStack = () => {
   return (
@@ -65,6 +67,7 @@ const MainStack = () => {
       <Stack.Screen name="review_payment" component={ReviewPayment} />
       <Stack.Screen name="payment_options" component={PaymentOptions} />
       <Stack.Screen name="wallet_pin" component={WalletPIN} />
+      <Stack.Screen name="verify_otp" component={TransactionOTP} />
       <Stack.Screen name="transaction_success" component={TransactionSuccess} />
       {/*  */}
       <Stack.Screen name="rewards" component={Rewards} />

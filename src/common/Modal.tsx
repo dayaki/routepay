@@ -52,6 +52,7 @@ export const SelectModal = ({
           </View>
           <View style={styles.networks}>
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={data}
               renderItem={({ item }) => (
                 <View style={styles.network}>

@@ -276,12 +276,14 @@ export const OTPInput = ({
   setCode,
   onVoiceCall,
   isEmail = true,
+  shouldResend = true,
 }: {
   secure?: boolean;
   onResend: () => void;
   setCode: (otp: string) => void;
   onVoiceCall?: () => void;
   isEmail?: boolean;
+  shouldResend?: boolean;
 }) => {
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(0);
@@ -354,33 +356,38 @@ export const OTPInput = ({
         selectionColor={colors.text}
         onCodeFilled={setCode}
       />
-      <View style={styles.countdown}>
-        {canResend ? (
-          <>
-            <RegularText text="Didn’t receive a code? " />
-            <TextButton
-              text="Resend code"
-              color={colors.primary}
-              onPress={resendCode}
-            />
-          </>
-        ) : (
-          <>
-            <RegularText text="Resend code in " />
-            <RegularText
-              text={`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
-            />
-          </>
-        )}
-      </View>
-      {canResend && !isEmail && (
-        <View style={[styles.row, { justifyContent: 'center', marginTop: 20 }]}>
-          <TextButton
-            text="Get OTP code via voice call"
-            color={colors.primary}
-            onPress={voiceCall}
-          />
-        </View>
+      {shouldResend && (
+        <>
+          <View style={styles.countdown}>
+            {canResend ? (
+              <>
+                <RegularText text="Didn’t receive a code? " />
+                <TextButton
+                  text="Resend code"
+                  color={colors.primary}
+                  onPress={resendCode}
+                />
+              </>
+            ) : (
+              <>
+                <RegularText text="Resend code in " />
+                <RegularText
+                  text={`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+                />
+              </>
+            )}
+          </View>
+          {canResend && !isEmail && (
+            <View
+              style={[styles.row, { justifyContent: 'center', marginTop: 20 }]}>
+              <TextButton
+                text="Get OTP code via voice call"
+                color={colors.primary}
+                onPress={voiceCall}
+              />
+            </View>
+          )}
+        </>
       )}
     </View>
   );

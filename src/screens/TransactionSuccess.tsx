@@ -33,6 +33,7 @@ const TransactionSuccess = ({ navigation, route }) => {
     trnxRef,
     access_token,
     isWalletPayment,
+    data,
   } = route.params;
   const [orderStatus, setOrderStatus] = useState<'success' | 'fail'>('fail');
   const [isLoading, setIsLoading] = useState(false);
@@ -122,7 +123,6 @@ const TransactionSuccess = ({ navigation, route }) => {
       setIsLoading(false);
     }
   };
-  2551;
 
   const topupWallet = async () => {
     try {
@@ -185,6 +185,19 @@ const TransactionSuccess = ({ navigation, route }) => {
                   <Text style={styles.welcomeText}>
                     Your wallet topup of{' '}
                     {nairaFormat(orderPayload?.payload?.amount)} was successful.
+                  </Text>
+                )}
+                {type === 'payment' && (
+                  <Text style={styles.welcomeText}>
+                    You’ve just sent {nairaFormat(data.amount)} to a Routepay
+                    account: {data.account.beneficiaryAccountName}.
+                  </Text>
+                )}
+                {type === 'bank_payment' && (
+                  <Text style={styles.welcomeText}>
+                    You’ve just sent {nairaFormat(data.amount)} to
+                    {data.account.beneficiaryAccountName}'s $
+                    {data.bank.bankName} account.
                   </Text>
                 )}
                 {type === 'airtime' && (

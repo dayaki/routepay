@@ -31,11 +31,21 @@ export type AuthStackParamList = {
 export type MainStackParamList = {
   transaction_success: {
     type: string;
-    message: string;
-    title: string;
-    buttonText: string;
-    data: {} | undefined;
-    routePath: string | undefined;
+    message?: string;
+    title?: string;
+    buttonText?: string;
+    data?: {};
+    routePath?: string;
+    isWalletPayment?: boolean;
+  };
+  verify_otp: {
+    data: {
+      responseCode: string;
+      responseDescription: string;
+      transferReference: string;
+      merchantReference: string;
+      type: string;
+    };
   };
 };
 
@@ -44,4 +54,9 @@ export type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList>;
 export type MainNavigationProps = NativeStackScreenProps<
   MainStackParamList,
   'transaction_success'
+>;
+
+export type VerifyOtpProps = NativeStackScreenProps<
+  MainStackParamList,
+  'verify_otp'
 >;

@@ -71,9 +71,9 @@ export const TransactionPIN = ({
   resetError,
 }: {
   handleSubmit: (pin: string) => void;
-  resetError: () => void;
+  resetError?: () => void;
   external?: boolean;
-  hasError: boolean;
+  hasError?: boolean;
 }) => {
   const styles = useStyles();
   const [pin, setPin] = useState('');

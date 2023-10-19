@@ -11,6 +11,14 @@ const ReviewPayment = ({ navigation, route }) => {
   console.log('ReviewPayment DATA', data);
   const styles = useStyles();
 
+  const onContinue = () => {
+    if (type.includes('payment')) {
+      navigation.navigate('wallet_pin', { data, type });
+    } else {
+      navigation.navigate('payment_options', { data, type });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header title="Review Payment" centered hideBalance />
@@ -51,11 +59,21 @@ const ReviewPayment = ({ navigation, route }) => {
             <>
               <View style={styles.reviewItem}>
                 <RegularText text="Recipient’s mobile no" size={14} />
-                <TitleText text={data.phone} size={14} />
+                <TitleText
+                  text={data.account.beneficiaryAccountNumber}
+                  size={14}
+                />
+              </View>
+              <View style={styles.reviewItem}>
+                <RegularText text="Account name" size={14} />
+                <TitleText
+                  text={data.account.beneficiaryAccountName}
+                  size={14}
+                />
               </View>
               <View style={styles.reviewItem}>
                 <RegularText text="Amount" size={14} />
-                <TitleText text={nairaFormat(data.amount)} size={14} />
+                <TitleText text={nairaFormat(data.amount, 0)} size={14} />
               </View>
               <View style={styles.reviewItem}>
                 <RegularText text="Remark" size={14} />
@@ -89,15 +107,21 @@ const ReviewPayment = ({ navigation, route }) => {
             <>
               <View style={styles.reviewItem}>
                 <RegularText text="Account number" size={14} />
-                <TitleText text={data.accountNumber} size={14} />
+                <TitleText
+                  text={data.account.beneficiaryAccountNumber}
+                  size={14}
+                />
               </View>
               <View style={styles.reviewItem}>
                 <RegularText text="Bank’s name" size={14} />
-                <TitleText text={data.bankName} size={14} />
+                <TitleText text={data.bank.bankName} size={14} />
               </View>
               <View style={styles.reviewItem}>
                 <RegularText text="Account name" size={14} />
-                <TitleText text={data.accountName} size={14} />
+                <TitleText
+                  text={data.account.beneficiaryAccountName}
+                  size={14}
+                />
               </View>
               <View style={styles.reviewItem}>
                 <RegularText text="Amount" size={14} />
@@ -230,9 +254,7 @@ const ReviewPayment = ({ navigation, route }) => {
           <Button
             text="Continue payment"
             disabled={type === 'scan'}
-            onPress={() =>
-              navigation.navigate('payment_options', { data, type })
-            }
+            onPress={onContinue}
           />
         </View>
       </View>
