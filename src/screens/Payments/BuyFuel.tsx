@@ -64,6 +64,7 @@ const BuyFuel = ({ navigation }) => {
             title="Choose Filling Station"
             selected={selectedStation}
             onSelect={setSelectedStation}
+            onSelection={setSelectedStation}
           />
           <Input
             placeholder="Phone number"

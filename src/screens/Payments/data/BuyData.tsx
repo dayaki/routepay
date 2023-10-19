@@ -19,8 +19,6 @@ const BuyData = ({ navigation, route }) => {
   const dispatch = useAppDispatch();
   const styles = useStyles();
 
-  console.log('selectedNetwork BUBNDLE', bundle);
-
   const handleSelection = (data: IsBillProvider) => {
     console.log('selected Networked', data);
     setSelectedNetwork(data);
@@ -69,6 +67,7 @@ const BuyData = ({ navigation, route }) => {
         payload: {
           mobileNumber: phone,
           amount: selectedData?.amount,
+          dataCode: selectedData?.dataCode,
         },
       },
       orderData: {
