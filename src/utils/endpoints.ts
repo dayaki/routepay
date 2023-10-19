@@ -1,6 +1,6 @@
 // import { BASE_URL, AUTH_URL } from '@env';
 // import Keys from 'react-native-keys';
-const AUTH_URL = 'https://authdev.routepay.com';
+const AUTH_URL = 'https://authqa.routepay.com';
 const BASE_URL = 'https://apiqa.routepay.com';
 
 // export const BaseUrl = '';

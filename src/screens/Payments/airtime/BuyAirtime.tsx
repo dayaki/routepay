@@ -44,6 +44,9 @@ const BuyAirtime = ({ navigation, route }) => {
       orderPayload: {
         billCode: selectedNetwork?.billCode,
         merchantReference: getUniqueID(),
+        paymentMode: 'purse',
+        transactionReference: '',
+        externalReference: '',
         payload: {
           mobileNumber: phone,
           amount: amount,

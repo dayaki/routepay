@@ -11,12 +11,15 @@ const Data = ({ navigation }) => {
 
   const onContinue = () => {
     if (selectionOption === 'self') {
-      navigation.navigate('buy_data', { phone: user?.phoneNumber });
+      navigation.navigate('buy_data', {
+        phone: user?.phoneNumber.startsWith('234')
+          ? `0${user.phoneNumber.slice(3)}`
+          : user?.phoneNumber,
+      });
     } else {
       navigation.navigate('buy_data', { phone: '' });
     }
   };
-
   return (
     <View style={styles.container}>
       <Header title="Buy Data" centered />

@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Checkbox, Header } from '@common';
 import { useStyles } from '../styles';
-import { getAirtimeBills, useAppDispatch, useAppSelector } from '@store';
+import { useAppSelector } from '@store';
 
 const Airtime = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
-  const { airtime } = useAppSelector(state => state.bill);
   const [selectionOption, setSelectionOption] = useState('self');
   const styles = useStyles();
-  const dispatch = useAppDispatch();
-
-  console.log('Airtime', airtime);
-
-  // useEffect(() => {
-  //   dispatch(getAirtimeBills());
-  // }, [dispatch]);
 
   const onContinue = () => {
     if (selectionOption === 'self') {
-      navigation.navigate('buy_airtime', { phone: user?.phoneNumber });
+      navigation.navigate('buy_airtime', {
+        phone: user?.phoneNumber.startsWith('234')
+          ? `0${user.phoneNumber.slice(3)}`
+          : user?.phoneNumber,
+      });
     } else {
       navigation.navigate('buy_airtime', { phone: '' });
     }

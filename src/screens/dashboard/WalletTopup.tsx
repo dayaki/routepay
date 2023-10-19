@@ -34,7 +34,11 @@ const WalletTopup = ({ navigation }) => {
         },
       };
       const resp = await initPaymentFlow(payload);
-      const payloadd: OrderPayload = { orderPayload: { payload: { amount } } };
+      const payloadd: OrderPayload = {
+        orderPayload: {
+          payload: { amount: Number(amount.replace(/,/g, '')) },
+        },
+      };
       dispatch(newOrder(payloadd));
       console.log('WalletTopup', resp);
       navigation.navigate('browser', {

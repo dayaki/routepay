@@ -112,9 +112,12 @@ export type OrderPayload = {
   orderPayload: {
     billCode?: string;
     merchantReference?: string;
+    transactionReference?: string;
+    paymentMode?: 'purse' | 'routepay';
+    externalReference?: string;
     payload?: {
       mobileNumber?: string;
-      amount?: string;
+      amount?: string | number;
       firstName?: string;
       lastName?: string;
       email?: string;

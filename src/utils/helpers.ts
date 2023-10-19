@@ -158,8 +158,8 @@ export const initPaymentFlow = async (payload: any) => {
       url: postPaymentToken,
       data: qs.stringify({
         grant_type: 'client_credentials',
-        client_id: PAYMENT_CLIENT_ID,
-        client_secret: PAYMENT_CLIENT_SECRET,
+        client_id: 'KvzzjGWKzSNKAew',
+        client_secret: 'KJKYufntfGtlEDJWgzxPwNgIPHCXoj',
       }),
       headers: {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
@@ -167,7 +167,7 @@ export const initPaymentFlow = async (payload: any) => {
     });
     console.log('Merchant TOKEN', data.access_token);
     const data2send = {
-      merchantId: PAYMENT_CLIENT_ID,
+      merchantId: 'KvzzjGWKzSNKAew',
       returnUrl: 'https://routepay.com/about-routepay',
       merchantReference: getUniqueID(),
       currency: 'NGN',

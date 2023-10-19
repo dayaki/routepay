@@ -50,7 +50,6 @@ const PaymentOptions = ({ navigation, route }) => {
           <View style={[styles.row, { marginBottom: 31 }]}>
             <Checkbox
               text="Pay with wallet"
-              disabled
               isChecked={selectionOption === 'wallet'}
               onPress={() => setSelectionOption('wallet')}
             />
