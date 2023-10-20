@@ -1,38 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
-import { Green, Header, Primary, RegularText, TitleText } from '@common';
-import { getAllTransactions, useAppDispatch, useAppSelector } from '@store';
-import { apiService, getTransactions, nairaFormat } from '@utils';
-import { IsTransaction } from '@types';
+import { Header, Primary, RegularText, TitleText } from '@common';
+import { useAppDispatch, useAppSelector } from '@store';
+import { apiService, nairaFormat, postTransferHistory } from '@utils';
 import { useStyles } from './styles';
 import moment from 'moment';
 import { capitalize } from 'lodash';
 
 const TransactionHistory = ({ navigation }) => {
-  const { theme, transactions } = useAppSelector(state => state.misc);
+  const [isLoading, setIsLoading] = useState(true);
+  const [history, setHistory] = useState();
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getAllTransactions());
+    getTransactions();
   }, []);
+
+  const getTransactions = async () => {
+    try {
+      //       hasNextPage: true
+      //  hasPreviousPage: false
+      // ▶items: [, , , , , , , , , ]
+      //  pageNumber: 1
+      //  totalCount: 14
+      //  totalPages: 2
+      const { items } = await apiService(postTransferHistory, 'post', {
+        pageNumber: 1,
+        pageSize: 10,
+        searchRequest: {
+          externalReference: '',
+          merchantReference: '',
+          transferReference: '',
+          transferType: '',
+          startDate: '',
+          endDate: '',
+          transferStatus: '00',
+        },
+      });
+      setHistory(items);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Header title="Transaction History" centered hideBalance />
       <View style={styles.scroll}>
-        {!transactions ? (
-          <ActivityIndicator size="small" color="#fff" />
+        {isLoading ? (
+          <ActivityIndicator size="small" color="#000" />
         ) : (
           <FlashList
             showsVerticalScrollIndicator={false}
-            data={transactions}
+            data={history}
             renderItem={({ item }) => (
               <View style={styles.history}>
                 <View style={styles.historyTexts}>
                   <RegularText
-                    text={capitalize(item.billCode || item.providerName)}
+                    text={item.beneficiaryAccountName}
                     style={styles.historyText}
                   />
                   <RegularText
