@@ -31,6 +31,7 @@ export const postMakeTransfer = `${billsApi}/transfer`;
 export const postValidateTransfer = `${billsApi}/transfer/validate`;
 
 export const getBanks = `${billsApi}/transfer/banks`;
+export const postBvnCheck = `${merchantApi}/kyc/bvn`;
 
 // Bills
 export const getBills = `${billsApi}/bill`;

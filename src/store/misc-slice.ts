@@ -14,7 +14,8 @@ import {
 import { DarkMode, LightMode } from '@common';
 import { getWallet } from './user-slice';
 
-export const accountSetUp = (userId: string) => (dispatch: any) => {
+export const accountSetUp = (userPhone: string) => (dispatch: any) => {
+  dispatch(getWallet(userPhone));
   dispatch(getAllTransactions());
   dispatch(getBillCategories());
   // dispatch(getAllBills());
@@ -24,7 +25,6 @@ export const accountSetUp = (userId: string) => (dispatch: any) => {
   dispatch(getCableBills());
   dispatch(getPowerBills());
   dispatch(getPinBills());
-  // dispatch(getWallet(userId));
 };
 
 export const getAllTransactions = createAsyncThunk(

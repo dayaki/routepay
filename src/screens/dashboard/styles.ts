@@ -36,6 +36,37 @@ export const useStyles = () => {
       alignItems: 'center',
       justifyContent: 'space-between',
     },
+    gender: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: ms(20),
+    },
+    genderBtn: {
+      paddingVertical: ms(10),
+      width: '48%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 6,
+      flexDirection: 'row',
+      borderColor: colors.pink300,
+      borderWidth: 1,
+    },
+    genderText: {
+      marginRight: ms(4),
+    },
+    genderIcon: {
+      width: ms(20),
+      height: ms(20),
+      marginRight: ms(10),
+    },
+    dot: {
+      width: ms(8),
+      height: ms(8),
+      borderRadius: ms(4),
+      backgroundColor: 'green',
+      // marginLeft: ms(10),
+    },
     name: {
       width: ms(42),
       height: ms(42),
@@ -62,6 +93,16 @@ export const useStyles = () => {
     },
     padded: {
       paddingHorizontal: ms(20),
+    },
+    rbSheet: {
+      backgroundColor: colors.background,
+      borderRadius: ms(7),
+      padding: ms(20),
+      paddingTop: ms(30),
+    },
+    label: {
+      marginTop: ms(10),
+      marginBottom: ms(30),
     },
     dashboard: {
       // padding: ms(20),

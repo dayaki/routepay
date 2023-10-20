@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Image,
   ImageBackground,
@@ -6,10 +6,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { RegularText, TextButton, TitleText, TransactionList } from '@common';
+import RBSheet from 'react-native-raw-bottom-sheet';
+import {
+  Button,
+  DatePicker,
+  Input,
+  MediumText,
+  RegularText,
+  TextButton,
+  TitleText,
+  TransactionList,
+} from '@common';
 import {
   accountSetUp,
-  getWallet,
   toggleShowBalance,
   useAppDispatch,
   useAppSelector,
@@ -24,7 +33,12 @@ import {
   FuelIcon,
   Notification,
 } from '@icons';
-import { apiService, nairaFormat, postCreateWallet } from '@utils';
+import {
+  apiService,
+  nairaFormat,
+  postBvnCheck,
+  postCreateWallet,
+} from '@utils';
 import { useStyles } from './styles';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -35,14 +49,18 @@ const Dashboard = ({ navigation }) => {
   );
   // const { dashboard } = useAppSelector(state => state.loyalty);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [dob, setDob] = useState<Date | null>(null);
+  const [bvn, setBvn] = useState('');
+  const [gender, setGender] = useState<'male' | 'female'>('male');
+  const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
   const dispatch = useAppDispatch();
+  const bvnSheet = useRef<RBSheet>(null);
 
   useFocusEffect(
     React.useCallback(() => {
       if (user) {
-        dispatch(getWallet(user.phoneNumber));
-        dispatch(accountSetUp(user.userId));
+        dispatch(accountSetUp(user.phoneNumber));
         // check if first time user, create wallet
         // createAccount();
       }
@@ -75,6 +93,35 @@ const Dashboard = ({ navigation }) => {
     const index = Math.round(nativeEvent.contentOffset.x / 320);
     if (index !== currentIndex) {
       setCurrentIndex(index);
+    }
+  };
+
+  const closeSheet = () => {
+    bvnSheet.current?.close();
+    setIsLoading(false);
+  };
+
+  const checkBvn = async () => {
+    if (bvn.length === 11) {
+      setIsLoading(true);
+      try {
+        const { url } = await apiService(postBvnCheck, 'post', {
+          uniqueRef: user?.userId, //user id (sub in accessToken
+          bvn: '22222222280', //The user entered BVN
+          isUser: true,
+        });
+        closeSheet();
+        navigation.navigate('browser', {
+          params: {
+            uri: url,
+            type: 'bvn',
+          },
+        });
+        // navigation.navigate('bvn_verification')
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -214,7 +261,11 @@ const Dashboard = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.row}
-              onPress={() => navigation.navigate('wallet_topup')}>
+              onPress={() =>
+                !user?.bvnVerified
+                  ? navigation.navigate('wallet_topup')
+                  : bvnSheet.current?.open()
+              }>
               <Image
                 source={
                   theme === 'dark'
@@ -333,6 +384,66 @@ const Dashboard = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
+      <RBSheet
+        ref={bvnSheet}
+        height={460}
+        openDuration={250}
+        customStyles={{
+          container: styles.rbSheet,
+        }}>
+        <View>
+          <TitleText text="Create Your RoutePay Wallet" />
+          <RegularText
+            text="Provide the data below to enable us create a wallet for you."
+            style={styles.label}
+          />
+          <Input
+            placeholder="Your BVN"
+            value={bvn}
+            onChangeText={setBvn}
+            keyboardType="number-pad"
+            maxLength={11}
+            returnKeyType="done"
+          />
+          <DatePicker
+            placeholder="Date of Birth"
+            value={dob}
+            onSelect={setDob}
+          />
+          <View style={styles.gender}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.genderBtn}
+              onPress={() => setGender('male')}>
+              <Image
+                source={require('@images/male.png')}
+                resizeMode="cover"
+                style={styles.genderIcon}
+              />
+              <RegularText text="Male" style={styles.genderText} />
+              {gender === 'male' && <View style={styles.dot} />}
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.genderBtn}
+              onPress={() => setGender('female')}>
+              <Image
+                source={require('@images/female.png')}
+                resizeMode="cover"
+                style={styles.genderIcon}
+              />
+              <RegularText text="Female" style={styles.genderText} />
+              {gender === 'female' && <View style={styles.dot} />}
+            </TouchableOpacity>
+          </View>
+          <Button
+            text="Verify BVN"
+            onPress={checkBvn}
+            isLoading={isLoading}
+            disabled={bvn.length < 11}
+          />
+        </View>
+      </RBSheet>
     </View>
   );
 };

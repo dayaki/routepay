@@ -29,6 +29,7 @@ export type AuthStackParamList = {
 };
 
 export type MainStackParamList = {
+  bvn_verification: undefined;
   transaction_success: {
     type: string;
     message?: string;
