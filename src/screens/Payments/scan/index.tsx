@@ -46,8 +46,8 @@ const ScanPay = ({ navigation }) => {
       console.log('codedata', codeData);
       navigation.navigate('scan_review', {
         data: {
-          wallet_id: codeData.slice(4, 4 + 11),
-          name: codeData.slice(15),
+          wallet_id: codeData.slice(4, 4 + 13),
+          name: codeData.slice(17),
           payment_type: 'RoutePay',
         },
       });

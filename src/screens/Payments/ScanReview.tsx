@@ -1,14 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Button, Header, Input, RegularText, TitleText } from '@common';
+import {
+  Button,
+  Header,
+  Input,
+  RegularText,
+  TextCounter,
+  TitleText,
+} from '@common';
 import { useStyles } from './styles';
 import { Exclamation } from '@icons';
-import { nairaFormat } from '@utils';
+import { apiService, nairaFormat, postVerifyBank } from '@utils';
+
+type Account = {
+  verificationId: string | null;
+  beneficiaryAccountNumber: string;
+  beneficiaryAccountName: string;
+  bankCode: string | null;
+  bvn: string | null;
+};
 
 const ScanReview = ({ navigation, route }) => {
   const data = route.params.data || null;
   const [amount, setAmount] = useState('');
+  const [memo, setMemo] = useState('');
+  const [userData, setUserData] = useState<Account>();
+  const [hasError, setHasError] = useState('');
   const styles = useStyles();
+
+  useEffect(() => {
+    accountLookup();
+  }, [data]);
+
+  const accountLookup = async () => {
+    try {
+      const response = await apiService(postVerifyBank, 'post', {
+        transferType: 'wallet',
+        accountNumber: data.wallet_id,
+        bankCode: '',
+      });
+      setUserData(response);
+      setHasError('');
+    } catch (error: any) {
+      setHasError(error.title);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -42,6 +78,12 @@ const ScanReview = ({ navigation, route }) => {
               onChangeText={setAmount}
               returnKeyType="done"
             />
+            <Input
+              value={memo}
+              onChangeText={setMemo}
+              placeholder="Remark"
+              rightIcon={<TextCounter text={memo} />}
+            />
           </View>
         </View>
 
@@ -55,10 +97,17 @@ const ScanReview = ({ navigation, route }) => {
             />
           </View>
           <Button
-            disabled={true}
+            disabled={!amount || !memo}
             text="Continue payment"
             onPress={() =>
-              navigation.navigate('payment_options', { data, type: 'scan' })
+              navigation.navigate('wallet_pin', {
+                data: {
+                  account: userData,
+                  remark: memo,
+                  amount,
+                },
+                type: 'payment',
+              })
             }
           />
         </View>
