@@ -56,8 +56,8 @@ export const useStyles = () => {
       marginRight: ms(4),
     },
     genderIcon: {
-      width: ms(20),
-      height: ms(20),
+      width: ms(18),
+      height: ms(18),
       marginRight: ms(10),
     },
     dot: {

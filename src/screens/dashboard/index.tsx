@@ -115,6 +115,7 @@ const Dashboard = ({ navigation }) => {
           params: {
             uri: url,
             type: 'bvn',
+            data: { dob, gender },
           },
         });
         // navigation.navigate('bvn_verification')
@@ -262,7 +263,7 @@ const Dashboard = ({ navigation }) => {
               activeOpacity={0.8}
               style={styles.row}
               onPress={() =>
-                !user?.bvnVerified
+                user?.bvnVerified
                   ? navigation.navigate('wallet_topup')
                   : bvnSheet.current?.open()
               }>
@@ -437,7 +438,7 @@ const Dashboard = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <Button
-            text="Verify BVN"
+            text="Create Wallet"
             onPress={checkBvn}
             isLoading={isLoading}
             disabled={bvn.length < 11}
