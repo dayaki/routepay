@@ -33,6 +33,14 @@ const Webview = ({ route, navigation }) => {
         access_token: params.access_token,
       });
     }
+
+    if (url.startsWith('https://apiqa.routepay')) {
+      webview.current?.stopLoading();
+      setHasRedirected(true);
+      navigation.navigate('bvn_verification', {
+        data: params.data,
+      });
+    }
   };
 
   const runFirst = `

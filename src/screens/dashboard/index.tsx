@@ -67,23 +67,6 @@ const Dashboard = ({ navigation }) => {
     }, [user, dispatch]),
   );
 
-  const createAccount = async () => {
-    try {
-      const resp = await apiService(postCreateWallet, 'post', {
-        externalId: user?.phoneNumber,
-        walletType: 'USER',
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        bvn: '12345678909',
-        gender: 0,
-        dob: '1997-08-21',
-      });
-      console.log('create wallet', resp);
-    } catch (error) {
-      console.log('create wallet Err', error);
-    }
-  };
-
   const toggleShow = () => {
     dispatch(toggleShowBalance(!showBalance));
   };
@@ -115,7 +98,7 @@ const Dashboard = ({ navigation }) => {
           params: {
             uri: url,
             type: 'bvn',
-            data: { dob, gender },
+            data: { dob, gender, bvn },
           },
         });
         // navigation.navigate('bvn_verification')
