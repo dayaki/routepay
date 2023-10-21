@@ -6,12 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {
   Button,
   DatePicker,
   Input,
-  MediumText,
   RegularText,
   TextButton,
   TitleText,
@@ -33,21 +33,14 @@ import {
   FuelIcon,
   Notification,
 } from '@icons';
-import {
-  apiService,
-  nairaFormat,
-  postBvnCheck,
-  postCreateWallet,
-} from '@utils';
+import { apiService, nairaFormat, postBvnCheck } from '@utils';
 import { useStyles } from './styles';
-import { useFocusEffect } from '@react-navigation/native';
 
 const Dashboard = ({ navigation }) => {
   const { user, wallet } = useAppSelector(state => state.user);
   const { showBalance, transactions, theme } = useAppSelector(
     state => state.misc,
   );
-  // const { dashboard } = useAppSelector(state => state.loyalty);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dob, setDob] = useState<Date | null>(null);
   const [bvn, setBvn] = useState('');
@@ -61,8 +54,6 @@ const Dashboard = ({ navigation }) => {
     React.useCallback(() => {
       if (user) {
         dispatch(accountSetUp(user.phoneNumber));
-        // check if first time user, create wallet
-        // createAccount();
       }
     }, [user, dispatch]),
   );
@@ -89,8 +80,8 @@ const Dashboard = ({ navigation }) => {
       setIsLoading(true);
       try {
         const { url } = await apiService(postBvnCheck, 'post', {
-          uniqueRef: user?.userId, //user id (sub in accessToken
-          bvn: '22222222280', //The user entered BVN
+          uniqueRef: user?.userId,
+          bvn: bvn,
           isUser: true,
         });
         closeSheet();
@@ -98,10 +89,9 @@ const Dashboard = ({ navigation }) => {
           params: {
             uri: url,
             type: 'bvn',
-            data: { dob, gender, bvn },
+            data: { dob: dob?.toISOString().split('T')[0], gender, bvn },
           },
         });
-        // navigation.navigate('bvn_verification')
       } catch (error) {
       } finally {
         setIsLoading(false);
@@ -164,7 +154,11 @@ const Dashboard = ({ navigation }) => {
                     {showBalance ? (
                       <>
                         <TitleText
-                          text={nairaFormat(wallet?.balance)}
+                          text={
+                            user?.bvn
+                              ? nairaFormat(wallet?.balance)
+                              : nairaFormat(0)
+                          }
                           style={[styles.dashboardPoint, { marginLeft: 42 }]}
                         />
                         <TouchableOpacity
@@ -246,7 +240,7 @@ const Dashboard = ({ navigation }) => {
               activeOpacity={0.8}
               style={styles.row}
               onPress={() =>
-                user?.bvnVerified
+                user?.bvn
                   ? navigation.navigate('wallet_topup')
                   : bvnSheet.current?.open()
               }>
@@ -424,7 +418,7 @@ const Dashboard = ({ navigation }) => {
             text="Create Wallet"
             onPress={checkBvn}
             isLoading={isLoading}
-            disabled={bvn.length < 11}
+            disabled={bvn.length < 11 || !dob}
           />
         </View>
       </RBSheet>

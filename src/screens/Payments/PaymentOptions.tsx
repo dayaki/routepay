@@ -15,8 +15,6 @@ const PaymentOptions = ({ navigation, route }) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
 
-  console.log('obPaymentOptionsject', data);
-
   useEffect(() => {
     dispatch(
       updateOrderPayment({

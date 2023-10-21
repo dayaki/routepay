@@ -126,8 +126,7 @@ const Login = ({ navigation, route }) => {
           <RegularText text="Don’t have an account? " />
           <TextButton
             text="Create an account"
-            // onPress={() => navigation.navigate('signup')}
-            onPress={() => navigation.navigate('welcome', { name: 'Dayo' })}
+            onPress={() => navigation.navigate('signup')}
             textStyle={styles.brand}
           />
         </View>

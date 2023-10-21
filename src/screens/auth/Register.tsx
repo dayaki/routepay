@@ -100,7 +100,6 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
       const { message, succeeded } = resp;
       console.log('handleSignup', resp);
       if (succeeded) {
-        console.log('successed', succeeded);
         navigation.navigate('welcome', { name: payload.firstName });
       } else {
         let errorMessage: string = '';
@@ -116,11 +115,6 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
           type: 'warning',
         });
       }
-      // {
-      //   "id": "17124f37-eb88-44bf-a44c-e3a334931a49",
-      //   "message": "Succeeded",
-      //   "succeeded": true
-      // }
     } catch (err) {
       console.log('handleSignup ERR', err);
     } finally {

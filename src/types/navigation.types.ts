@@ -30,6 +30,7 @@ export type AuthStackParamList = {
 
 export type MainStackParamList = {
   bvn_verification: undefined;
+  wallet_confirmation: undefined;
   transaction_success: {
     type: string;
     message?: string;

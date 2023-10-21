@@ -43,6 +43,7 @@ import ScanReview from '../screens/payments/ScanReview';
 import TransactionOTP from '../screens/TransactionOTP';
 import { MainStackParamList } from '@types';
 import BVNVerification from '../screens/dashboard/BvnVerification';
+import WalletConfirmation from '../screens/dashboard/WalletConfirmation';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -52,6 +53,7 @@ const MainStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home" component={BottomTabs} />
       <Stack.Screen name="wallet_topup" component={WalletTopup} />
+      <Stack.Screen name="wallet_confirmation" component={WalletConfirmation} />
       <Stack.Screen name="payments" component={Payments} />
       <Stack.Screen name="airtime" component={Airtime} />
       <Stack.Screen name="buy_airtime" component={BuyAirtime} />

@@ -19,7 +19,12 @@ import {
   postCharge,
   postWalletTopup,
 } from '@utils';
-import { updateWalletBalance, useAppDispatch, useAppSelector } from '@store';
+import {
+  getWallet,
+  updateWalletBalance,
+  useAppDispatch,
+  useAppSelector,
+} from '@store';
 import axios from 'axios';
 
 const TransactionSuccess = ({ navigation, route }) => {
@@ -50,6 +55,9 @@ const TransactionSuccess = ({ navigation, route }) => {
     useCallback(() => {
       if (isWalletPayment) {
         setOrderStatus('success');
+        if (user) {
+          dispatch(getWallet(user?.phoneNumber));
+        }
       } else {
         setIsLoading(true);
         verifyTransaction();
