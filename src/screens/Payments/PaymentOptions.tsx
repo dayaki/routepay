@@ -6,12 +6,16 @@ import { updateOrderPayment, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from './styles';
 
 const PaymentOptions = ({ navigation, route }) => {
-  const { user } = useAppSelector(state => state.user);
+  const { user, wallet } = useAppSelector(state => state.user);
   const { data = {}, type = '' } = route.params;
-  const [selectionOption, setSelectionOption] = useState('wallet');
+  const [selectionOption, setSelectionOption] = useState(
+    user?.bvnVerified ? 'wallet' : 'card',
+  );
   const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
   const dispatch = useAppDispatch();
+
+  console.log('obPaymentOptionsject', data);
 
   useEffect(() => {
     dispatch(
@@ -68,6 +72,9 @@ const PaymentOptions = ({ navigation, route }) => {
           <View style={[styles.row, { marginBottom: 31 }]}>
             <Checkbox
               text="Pay with wallet"
+              disabled={
+                !user?.bvnVerified || wallet.balance < Number(data.amount)
+              }
               isChecked={selectionOption === 'wallet'}
               onPress={() => selectOption('wallet')}
             />
