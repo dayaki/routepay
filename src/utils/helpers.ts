@@ -10,12 +10,6 @@ import axios from 'axios';
 import qs from 'qs';
 import { postInitPayment, postPaymentToken } from './endpoints';
 
-// const strongRegex = new RegExp(
-//   '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})(?=.*[!@#$%^&*/\\\\)(+=._-])',
-// );
-// const mediumRegex = new RegExp(
-//   '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})',
-// );
 const lowercase = new RegExp('(?=.*[a-z])');
 const uppercase = new RegExp('(?=.*[A-Z])');
 const number = new RegExp('(?=.*[0-9])');
@@ -52,14 +46,10 @@ export const truncateWords = (str: string, max: number = 4): string => {
 export const obscureEmail = (email: string) => {
   const [name] = email.split('@');
   return `${name}@***`;
-  // return `${name[0]}${new Array(name.length).join('*')}@${domain}`;
 };
 
 export const obscureNumber = (accountNumber: string) => {
-  // const [name] = email.split('@');
-  // return `${name}@***`;
   return `******${accountNumber.substring(accountNumber.length - 4)}`;
-  // return `${name[0]}${new Array(name.length).join('*')}@${domain}`;
 };
 
 export const getUniqueID = (limit: number = 10, isNumeric = false) => {
@@ -158,22 +148,20 @@ export const initPaymentFlow = async (payload: any) => {
       url: postPaymentToken,
       data: qs.stringify({
         grant_type: 'client_credentials',
-        client_id: 'KvzzjGWKzSNKAew',
-        client_secret: 'KJKYufntfGtlEDJWgzxPwNgIPHCXoj',
+        client_id: PAYMENT_CLIENT_ID,
+        client_secret: PAYMENT_CLIENT_SECRET,
       }),
       headers: {
         'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
       },
     });
-    console.log('Merchant TOKEN', data.access_token);
     const data2send = {
-      merchantId: 'KvzzjGWKzSNKAew',
+      merchantId: PAYMENT_CLIENT_ID,
       returnUrl: 'https://routepay.com/about-routepay',
       merchantReference: getUniqueID(),
       currency: 'NGN',
       ...payload,
     };
-    // console.log('data2send...', data2send);
     const { data: resp } = await axios.post(postInitPayment, data2send, {
       headers: {
         Authorization: `Bearer ${data.access_token}`,
@@ -237,12 +225,3 @@ export const openLink = async (url: string) => {
     InAppBrowser.close();
   }
 };
-
-// export const refreshToken = async () => {
-//   try {
-//     const resp = await apiService(getRefreshToken, 'get');
-//     console.log('refreshToken...', resp);
-//   } catch (error) {
-//     console.log('refreshToken ERR', error);
-//   }
-// };

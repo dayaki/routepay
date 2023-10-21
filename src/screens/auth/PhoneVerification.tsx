@@ -23,13 +23,11 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
   const toast = useToast();
   const styles = useLoginStyles();
 
-  console.log('PhoneVerification', payload);
-
-  // useEffect(() => {
-  //   if (payload) {
-  //     sendPhoneOTP();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (payload) {
+      sendPhoneOTP();
+    }
+  }, []);
 
   const sendPhoneOTP = async () => {
     setUseVoice(false);
@@ -94,51 +92,50 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
 
   const verifyOtp = async () => {
     setIsLoading(true);
-    registerUser();
-    // if (!useVoice) {
-    //   try {
-    //     const resp = await fetch(
-    //       'https://api.ng.termii.com/api/sms/otp/verify',
-    //       {
-    //         method: 'POST',
-    //         headers: {
-    //           'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //           api_key: TERMII_API,
-    //           pin_id: codeId,
-    //           pin: otpCode,
-    //         }),
-    //       },
-    //     );
-    //     const response = await resp.json();
-    //     const { verified } = response;
-    //     if (verified === 'Expired') {
-    //       toast.show('Confirmation code has expired!', { type: 'warning' });
-    //       setIsLoading(false);
-    //       return;
-    //     } else if (verified === false) {
-    //       toast.show('Invalid confirmation code.', { type: 'warning' });
-    //       setIsLoading(false);
-    //       return;
-    //     }
-    //     registerUser();
-    //   } catch (error: any) {
-    //     console.log('verifyOtp ERR', error);
-    //     toast.show(error.message, { type: 'warning' });
-    //     setIsLoading(false);
-    //   }
-    // } else {
-    //   setTimeout(() => {
-    //     if (codeId === otpCode) {
-    //       registerUser();
-    //     } else {
-    //       toast.show('Invalid confirmation code.', { type: 'warning' });
-    //       setIsLoading(false);
-    //       return;
-    //     }
-    //   }, 600);
-    // }
+    if (!useVoice) {
+      try {
+        const resp = await fetch(
+          'https://api.ng.termii.com/api/sms/otp/verify',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              api_key: TERMII_API,
+              pin_id: codeId,
+              pin: otpCode,
+            }),
+          },
+        );
+        const response = await resp.json();
+        const { verified } = response;
+        if (verified === 'Expired') {
+          toast.show('Confirmation code has expired!', { type: 'warning' });
+          setIsLoading(false);
+          return;
+        } else if (verified === false) {
+          toast.show('Invalid confirmation code.', { type: 'warning' });
+          setIsLoading(false);
+          return;
+        }
+        registerUser();
+      } catch (error: any) {
+        console.log('verifyOtp ERR', error);
+        toast.show(error.message, { type: 'warning' });
+        setIsLoading(false);
+      }
+    } else {
+      setTimeout(() => {
+        if (codeId === otpCode) {
+          registerUser();
+        } else {
+          toast.show('Invalid confirmation code.', { type: 'warning' });
+          setIsLoading(false);
+          return;
+        }
+      }, 600);
+    }
   };
 
   const registerUser = async () => {
@@ -171,20 +168,6 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
       setIsLoading(false);
     }
   };
-
-  // const createWallet = async (userId: string) => {
-  //   console.log('createWallet ID', userId);
-  //   try {
-  //     const resp = await apiService(postCreateWallet, 'post', {
-  //       externalId: userId,
-  //       walletType: 'USER',
-  //     });
-  //     console.log('createWallet', resp);
-  //     navigation.navigate('welcome', { name: payload.firstName });
-  //   } catch (error) {
-  //     console.log('createWallet ERR', error);
-  //   }
-  // };
 
   return (
     <BackgroundView hasBack>
