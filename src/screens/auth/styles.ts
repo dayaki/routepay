@@ -241,3 +241,59 @@ export const useLoginStyles = () => {
     },
   });
 };
+
+export const useWelcomeStyles = () => {
+  const { colors } = useTheme();
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+      paddingTop: Platform.OS === 'android' ? ms(40) : ms(60),
+    },
+    waveWrapper: {
+      width: '100%',
+      // height: ms(440),
+      flex: 1.8,
+      marginBottom: ms(20),
+    },
+    wavess: {
+      width: '100%',
+      height: '100%',
+      position: 'absolute',
+      top: 20,
+    },
+    imageWraper: {
+      width: '90%',
+      height: '100%',
+      alignSelf: 'center',
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+      borderRadius: ms(20),
+      alignSelf: 'center',
+    },
+    sliders: {
+      width: '90%',
+      alignSelf: 'center',
+      flex: 1,
+    },
+    welcomeTitle: {
+      textAlign: 'center',
+      lineHeight: 30,
+      width: '80%',
+      alignSelf: 'center',
+      marginBottom: ms(20),
+    },
+    welcomeText: {
+      fontSize: 14,
+      lineHeight: 25,
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: ms(30),
+    },
+    bold: {
+      fontWeight: '700',
+    },
+  });
+};

@@ -23,11 +23,13 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
   const toast = useToast();
   const styles = useLoginStyles();
 
-  useEffect(() => {
-    if (payload) {
-      sendPhoneOTP();
-    }
-  }, []);
+  console.log('PhoneVerification', payload);
+
+  // useEffect(() => {
+  //   if (payload) {
+  //     sendPhoneOTP();
+  //   }
+  // }, []);
 
   const sendPhoneOTP = async () => {
     setUseVoice(false);
@@ -92,51 +94,51 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
 
   const verifyOtp = async () => {
     setIsLoading(true);
-    if (!useVoice) {
-      try {
-        const resp = await fetch(
-          'https://api.ng.termii.com/api/sms/otp/verify',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              api_key: TERMII_API,
-              pin_id: codeId,
-              pin: otpCode,
-            }),
-          },
-        );
-        const response = await resp.json();
-        const { verified } = response;
-        console.log('verifyOtp response', response);
-        if (verified === 'Expired') {
-          toast.show('Confirmation code has expired!', { type: 'warning' });
-          setIsLoading(false);
-          return;
-        } else if (verified === false) {
-          toast.show('Invalid confirmation code.', { type: 'warning' });
-          setIsLoading(false);
-          return;
-        }
-        registerUser();
-      } catch (error: any) {
-        console.log('verifyOtp ERR', error);
-        toast.show(error.message, { type: 'warning' });
-        setIsLoading(false);
-      }
-    } else {
-      setTimeout(() => {
-        if (codeId === otpCode) {
-          registerUser();
-        } else {
-          toast.show('Invalid confirmation code.', { type: 'warning' });
-          setIsLoading(false);
-          return;
-        }
-      }, 600);
-    }
+    registerUser();
+    // if (!useVoice) {
+    //   try {
+    //     const resp = await fetch(
+    //       'https://api.ng.termii.com/api/sms/otp/verify',
+    //       {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //           api_key: TERMII_API,
+    //           pin_id: codeId,
+    //           pin: otpCode,
+    //         }),
+    //       },
+    //     );
+    //     const response = await resp.json();
+    //     const { verified } = response;
+    //     if (verified === 'Expired') {
+    //       toast.show('Confirmation code has expired!', { type: 'warning' });
+    //       setIsLoading(false);
+    //       return;
+    //     } else if (verified === false) {
+    //       toast.show('Invalid confirmation code.', { type: 'warning' });
+    //       setIsLoading(false);
+    //       return;
+    //     }
+    //     registerUser();
+    //   } catch (error: any) {
+    //     console.log('verifyOtp ERR', error);
+    //     toast.show(error.message, { type: 'warning' });
+    //     setIsLoading(false);
+    //   }
+    // } else {
+    //   setTimeout(() => {
+    //     if (codeId === otpCode) {
+    //       registerUser();
+    //     } else {
+    //       toast.show('Invalid confirmation code.', { type: 'warning' });
+    //       setIsLoading(false);
+    //       return;
+    //     }
+    //   }, 600);
+    // }
   };
 
   const registerUser = async () => {
@@ -145,7 +147,6 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
       const { id, message, succeeded } = resp;
       console.log('registerUser', resp);
       if (succeeded) {
-        // createWallet(id);
         navigation.navigate('welcome', { name: payload.firstName });
       } else {
         let errorMessage: string = '';
