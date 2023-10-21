@@ -64,6 +64,8 @@ const BuyData = ({ navigation, route }) => {
       orderPayload: {
         billCode: selectedNetwork?.billCode,
         merchantReference: getUniqueID(),
+        transactionReference: getUniqueID(),
+        externalReference: '',
         payload: {
           mobileNumber: phone,
           amount: selectedData?.amount,

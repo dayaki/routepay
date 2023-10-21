@@ -61,6 +61,15 @@ export const miscSlice = createSlice({
     updateOrder: (state, { payload }) => {
       state.order = { ...state.order, ...payload };
     },
+    updateOrderPayment: (state, { payload }) => {
+      if (state.order) {
+        const temp = { ...state.order };
+        temp.orderPayload = { ...state.order.orderPayload, ...payload };
+        state.order = temp;
+      } else {
+        state.order = state.order;
+      }
+    },
     // clearOrder: state => {
     //   state.order = undefined;
     // },
@@ -83,6 +92,7 @@ export const {
   toggleShowBalance,
   newOrder,
   updateOrder,
+  updateOrderPayment,
   // clearOrder,
 } = miscSlice.actions;
 

@@ -28,11 +28,13 @@ const BuyFuel = ({ navigation }) => {
       orderPayload: {
         billCode: 'FUEL',
         merchantReference: getUniqueID(),
+        transactionReference: getUniqueID(10),
+        externalReference: '',
         payload: {
           firstName: user?.firstName,
           lastName: user?.lastName,
           email: user?.email,
-          mobileNumber: formatPhone(phone), //'2348032009444',
+          mobileNumber: formatPhone(phone),
           fuelCode: 'Petrol',
           fuelStation: selectedStation.fuelStation,
           amount: amount,

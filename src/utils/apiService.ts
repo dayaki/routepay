@@ -44,7 +44,7 @@ export const apiService = (
         resolve(res.data || res);
       })
       .catch(error => {
-        console.log('axios error', error.response);
+        console.log('axios error', error);
         if (error && !error.response) {
           console.log(
             'Could not connect to the server, please check your internet connection',

@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Button, Checkbox, Header, Loader } from '@common';
 import { initPaymentFlow } from '@utils';
-import { useAppSelector } from '@store';
+import { updateOrderPayment, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from './styles';
 
 const PaymentOptions = ({ navigation, route }) => {
   const { user } = useAppSelector(state => state.user);
   const { data = {}, type = '' } = route.params;
-  const [selectionOption, setSelectionOption] = useState('card');
+  const [selectionOption, setSelectionOption] = useState('wallet');
   const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      updateOrderPayment({
+        paymentMode: 'purse',
+      }),
+    );
+  }, [dispatch]);
+
+  const selectOption = (selected: 'wallet' | 'card') => {
+    setSelectionOption(selected);
+    dispatch(
+      updateOrderPayment({
+        paymentMode: selected === 'wallet' ? 'purse' : 'routepay',
+      }),
+    );
+  };
 
   const onContinue = async () => {
     if (selectionOption === 'card') {
@@ -51,14 +69,14 @@ const PaymentOptions = ({ navigation, route }) => {
             <Checkbox
               text="Pay with wallet"
               isChecked={selectionOption === 'wallet'}
-              onPress={() => setSelectionOption('wallet')}
+              onPress={() => selectOption('wallet')}
             />
           </View>
           <View style={[styles.row, { marginBottom: 29 }]}>
             <Checkbox
               text="Pay with card"
               isChecked={selectionOption === 'card'}
-              onPress={() => setSelectionOption('card')}
+              onPress={() => selectOption('card')}
             />
           </View>
         </View>
