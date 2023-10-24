@@ -119,6 +119,7 @@ const BuyElectricity = ({ navigation, route }) => {
             label="Electricity company"
             selected={selectedCompany}
             onSelect={handleSelection}
+            onSelection={handleSelection}
           />
           <Input
             placeholder="Amount"

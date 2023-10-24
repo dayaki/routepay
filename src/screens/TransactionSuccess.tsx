@@ -58,6 +58,8 @@ const TransactionSuccess = ({ navigation, route }) => {
         if (user) {
           dispatch(getWallet(user?.phoneNumber));
         }
+      } else if (type.includes('payment')) {
+        setOrderStatus('success');
       } else {
         setIsLoading(true);
         verifyTransaction();
@@ -67,16 +69,16 @@ const TransactionSuccess = ({ navigation, route }) => {
 
   const verifyTransaction = async () => {
     try {
-      const { data } = await axios.get(getTransactionStatus(trnxRef), {
+      const { data: resData } = await axios.get(getTransactionStatus(trnxRef), {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
       });
-      console.log('verifyTransaction..!!!!!!!!', data);
+      console.log('verifyTransaction..!!!!!!!!', resData);
       // check if payment was successful
       if (
-        data.paymentStatus === 0 &&
-        data.paymentDescription === 'Successful'
+        resData.paymentStatus === 0 &&
+        resData.paymentDescription === 'Successful'
       ) {
         if (type === 'wallet') {
           topupWallet();

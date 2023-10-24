@@ -70,9 +70,9 @@ const PaymentOptions = ({ navigation, route }) => {
           <View style={[styles.row, { marginBottom: 31 }]}>
             <Checkbox
               text="Pay with wallet"
-              disabled={
-                !user?.bvnVerified || wallet.balance < Number(data.amount)
-              }
+              // disabled={
+              //   !user?.bvnVerified || wallet.balance < Number(data.amount)
+              // }
               isChecked={selectionOption === 'wallet'}
               onPress={() => selectOption('wallet')}
             />

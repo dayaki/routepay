@@ -39,6 +39,7 @@ export type MainStackParamList = {
     data?: {};
     routePath?: string;
     isWalletPayment?: boolean;
+    trnxRef: string;
   };
   verify_otp: {
     data: {

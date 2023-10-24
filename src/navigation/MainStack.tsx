@@ -33,7 +33,7 @@ import Beneficiary from '../screens/wallet/send-money/Beneficiary';
 import PayBeneficiary from '../screens/wallet/send-money/PayBeneficiary';
 import ReceiveMoney from '../screens/wallet/receive-money';
 import RouteLink from '../screens/wallet/receive-money/RouteLink';
-import TransactionHistory from '../screens/wallet/History';
+import WalletHistory from '../screens/wallet/History';
 import Rewards from '../screens/rewards';
 import Leadership from '../screens/rewards/Leadership';
 import Notifications from '../screens/Notifications';
@@ -44,6 +44,7 @@ import TransactionOTP from '../screens/TransactionOTP';
 import { MainStackParamList } from '@types';
 import BVNVerification from '../screens/dashboard/BvnVerification';
 import WalletConfirmation from '../screens/dashboard/WalletConfirmation';
+import TransactionHistory from '../screens/TransactionHistory';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -84,6 +85,7 @@ const MainStack = () => {
       <Stack.Screen name="pay_beneficiary" component={PayBeneficiary} />
       <Stack.Screen name="receive_money" component={ReceiveMoney} />
       <Stack.Screen name="route_link" component={RouteLink} />
+      <Stack.Screen name="wallet_history" component={WalletHistory} />
       <Stack.Screen name="transaction_history" component={TransactionHistory} />
       <Stack.Screen name="scan_review" component={ScanReview} />
 

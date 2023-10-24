@@ -126,7 +126,11 @@ const Dashboard = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.notifyBtn}
-            onPress={() => navigation.navigate('transaction_history')}>
+            onPress={() =>
+              navigation.navigate('transaction_history', {
+                transactions: transactions,
+              })
+            }>
             <Notification />
           </TouchableOpacity>
         </View>
@@ -340,7 +344,11 @@ const Dashboard = ({ navigation }) => {
               text="View All"
               size={11}
               color="#FF6600"
-              onPress={() => navigation.navigate('transaction_history')}
+              onPress={() =>
+                navigation.navigate('transaction_history', {
+                  transactions: transactions,
+                })
+              }
             />
           </View>
           {!transactions || transactions.length === 0 ? (

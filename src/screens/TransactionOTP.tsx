@@ -19,6 +19,8 @@ const TransactionOTP = ({ navigation, route }: VerifyOtpProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const styles = useLoginStyles();
 
+  console.log('data!!!)))!!!', data);
+
   const completeTransaction = async () => {
     setIsLoading(true);
     try {
@@ -26,12 +28,13 @@ const TransactionOTP = ({ navigation, route }: VerifyOtpProps) => {
         transferReference: data.transferReference,
         otp: pin,
       });
-      console.log('verifyOtp', response);
-      const { responseDescription } = response;
+      const { responseDescription, transferReference } = response;
       setIsLoading(false);
       if (responseDescription === 'Successful') {
         navigation.navigate('transaction_success', {
           type: data.type,
+          trnxRef: transferReference,
+          data: data,
         });
       } else {
         setHasError(responseDescription);

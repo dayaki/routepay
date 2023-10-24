@@ -113,7 +113,7 @@ const Wallet = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.box, styles.boxed]}
-            onPress={() => navigation.navigate('transaction_history')}>
+            onPress={() => navigation.navigate('wallet_history')}>
             <Image
               source={
                 theme === 'dark'

@@ -92,6 +92,8 @@ const CableTV = ({ navigation }) => {
         orderPayload: {
           billCode: selectedNetwork.billCode,
           merchantReference: getUniqueID(),
+          transactionReference: getUniqueID(),
+          externalReference: '',
           payload: {
             mobileNumber: phone,
             validityPeriod: selectedPlan.validityPeriod,
@@ -249,6 +251,7 @@ const CableTV = ({ navigation }) => {
               title="Choose Subscription plan"
               selected={selectedPlan}
               onSelect={setSelectedPlan}
+              onSelection={setSelectedPlan}
             />
           )}
           {/* {bouquets && bouquets.length > 0 && (
