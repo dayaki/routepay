@@ -42,6 +42,11 @@ export const useStyles = () => {
       justifyContent: 'space-between',
       paddingBottom: ms(50),
     },
+    errorText: {
+      color: 'red',
+      fontSize: 14,
+      marginTop: ms(4),
+    },
     input: {
       // fontWeight: '700',
       color: colors.inputColor,

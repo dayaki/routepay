@@ -48,6 +48,13 @@ export const obscureEmail = (email: string) => {
   return `${name}@***`;
 };
 
+export const extractAmount = (amount: string | number) => {
+  if (typeof amount === 'number') {
+    return amount;
+  }
+  return Number(amount.replace(/,/g, ''));
+};
+
 export const obscureNumber = (accountNumber: string) => {
   return `******${accountNumber.substring(accountNumber.length - 4)}`;
 };
