@@ -4,7 +4,13 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Button, Header, Input, RegularText, TextCounter } from '@common';
 import { useStyles } from '../styles';
 import { SearchIcon } from '@icons';
-import { apiService, formatPhone, postVerifyBank } from '@utils';
+import {
+  apiService,
+  extractAmount,
+  formatPhone,
+  moneyFormat,
+  postVerifyBank,
+} from '@utils';
 
 type Account = {
   verificationId: string | null;
@@ -17,11 +23,18 @@ type Account = {
 const Routepay = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [amount, setAmount] = useState('');
+  const [customAmount, setCustomAmount] = useState('');
   const [memo, setMemo] = useState('');
   const [userData, setUserData] = useState<Account>();
   const [hasError, setHasError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
+
+  const handleCustomAmount = (figure: string) => {
+    setAmount(figure);
+    const formatted = moneyFormat(figure, 0);
+    setCustomAmount(formatted);
+  };
 
   // 08038158300
   const accountLookup = async () => {
@@ -84,8 +97,8 @@ const Routepay = ({ navigation }) => {
                 placeholder="Account number"
               />
               <Input
-                value={amount}
-                onChangeText={setAmount}
+                value={customAmount}
+                onChangeText={handleCustomAmount}
                 placeholder="Amount"
                 keyboardType="number-pad"
                 returnKeyType="done"
@@ -101,14 +114,15 @@ const Routepay = ({ navigation }) => {
         </View>
         <Button
           text="Continue"
-          disabled={!userData || !memo || !amount}
+          disabled={!userData || !amount}
           onPress={() =>
             navigation.navigate('review_payment', {
               type: 'payment',
               data: {
                 account: userData,
-                remark: memo,
-                amount,
+                remark:
+                  memo || `Payment to ${userData?.beneficiaryAccountNumber}`,
+                amount: extractAmount(amount),
               },
             })
           }

@@ -80,7 +80,7 @@ const PaymentOptions = ({ navigation, route }) => {
             </View>
             <View style={[styles.row, { marginBottom: 29 }]}>
               <Checkbox
-                text="Pay with card"
+                text="Pay with card, transfer & other options"
                 isChecked={selectionOption === 'card'}
                 onPress={() => selectOption('card')}
               />
@@ -94,11 +94,7 @@ const PaymentOptions = ({ navigation, route }) => {
           )}
         </View>
         <View>
-          <Button
-            text="Continue payment"
-            onPress={onContinue}
-            isLoading={isLoading}
-          />
+          <Button text="Continue payment" onPress={onContinue} />
         </View>
       </View>
     </View>

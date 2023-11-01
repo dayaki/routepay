@@ -10,7 +10,13 @@ import {
   TextCounter,
 } from '@common';
 import { useStyles } from '../styles';
-import { apiService, getBanks, postVerifyBank } from '@utils';
+import {
+  apiService,
+  extractAmount,
+  getBanks,
+  moneyFormat,
+  postVerifyBank,
+} from '@utils';
 
 type BankAccountData = {
   verificationId: string | null;
@@ -25,6 +31,7 @@ const BankPayment = ({ navigation }) => {
   const [accountNumber, setAccountNumber] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
   const [amount, setAmount] = useState('');
+  const [customAmount, setCustomAmount] = useState('');
   const [memo, setMemo] = useState('');
   const [isFetching, setIsFetching] = useState(false);
   const [userData, setUserData] = useState<BankAccountData>();
@@ -37,7 +44,14 @@ const BankPayment = ({ navigation }) => {
 
   const fetchBanks = async () => {
     const bankss = await apiService(getBanks, 'get');
-    setBanks(bankss);
+    const temps = bankss.sort((a, b) => a.bankName.localeCompare(b.bankName));
+    setBanks(temps);
+  };
+
+  const handleCustomAmount = (figure: string) => {
+    setAmount(figure);
+    const formatted = moneyFormat(figure, 0);
+    setCustomAmount(formatted);
   };
 
   // 0112345678
@@ -109,8 +123,8 @@ const BankPayment = ({ navigation }) => {
                 placeholder="Account number"
               />
               <Input
-                value={amount}
-                onChangeText={setAmount}
+                value={customAmount}
+                onChangeText={handleCustomAmount}
                 returnKeyType="done"
                 keyboardType="number-pad"
                 placeholder="Amount"
@@ -127,15 +141,16 @@ const BankPayment = ({ navigation }) => {
         </View>
         <Button
           text="Continue"
-          disabled={!!hasErrors || !amount || !memo}
+          disabled={!!hasErrors || !amount}
           onPress={() =>
             navigation.navigate('review_payment', {
               type: 'bank_payment',
               data: {
                 bank: selectedBank,
                 account: userData,
-                remark: memo,
-                amount,
+                remark:
+                  memo || `Payment to ${userData?.beneficiaryAccountNumber}`,
+                amount: extractAmount(amount),
               },
             })
           }

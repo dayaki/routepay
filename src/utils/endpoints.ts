@@ -29,6 +29,7 @@ export const postWalletTopup = `${billsApi}/wallet/topup`;
 export const postVerifyBank = `${billsApi}/transfer/verify`;
 export const postMakeTransfer = `${billsApi}/transfer`;
 export const postValidateTransfer = `${billsApi}/transfer/validate`;
+export const postWalletHistory = `${billsApi}/wallet/transactionhistory`;
 
 export const getBanks = `${billsApi}/transfer/banks`;
 export const postBvnCheck = `${merchantApi}/kyc/bvn`;

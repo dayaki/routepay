@@ -218,7 +218,7 @@ const TransactionSuccess = ({ navigation, route }) => {
                 )}
                 {type === 'data' && (
                   <Text style={styles.welcomeText}>
-                    You’ve just purchased {orderData?.plan} with{' '}
+                    You’ve just purchased {orderData?.plan || 'data'} with{' '}
                     {nairaFormat(orderPayload?.payload?.amount)}.
                   </Text>
                 )}
@@ -240,6 +240,14 @@ const TransactionSuccess = ({ navigation, route }) => {
                   <Text style={styles.welcomeText}>
                     You’ve just subscribed your {orderData.company} with{' '}
                     {nairaFormat(orderPayload?.payload?.amount)}.
+                  </Text>
+                )}
+
+                {type === 'pin' && (
+                  <Text style={styles.welcomeText}>
+                    You’ve just purchased {orderPayload?.payload?.quantity}{' '}
+                    quantities of {orderData.network.displayName} rechargeable
+                    PINs worth {nairaFormat(orderPayload?.payload?.amount)}.
                   </Text>
                 )}
                 <Button

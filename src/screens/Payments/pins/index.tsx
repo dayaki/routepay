@@ -10,7 +10,6 @@ const Pins = ({ navigation }) => {
   const [selectionOption, setSelectionOption] = useState('network');
   const [data, setData] = useState<IsBillProvider[]>();
   const styles = useStyles();
-  console.log('pins', pins);
 
   useEffect(() => {
     let fileredData: IsBillProvider[] | undefined;

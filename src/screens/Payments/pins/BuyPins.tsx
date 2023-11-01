@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Button, Header, Input, Select } from '@common';
 import { useStyles } from '../styles';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
-import { IsBillProvider } from '@types';
+import { IsBillProvider, OrderPayload } from '@types';
 import { apiService, getUniqueID, moneyFormat, postBundleLookup } from '@utils';
 
 type Payload = {
@@ -13,6 +13,9 @@ type Payload = {
 
 const BuyNetworkPins = ({ navigation, route }) => {
   const { data } = route.params;
+  const { user } = useAppSelector(state => state.user);
+  const [plans, setPlans] = useState();
+  const [selectedPin, setSelectedPin] = useState();
   const [number, setNumber] = useState('');
   const [quantity, setQuantity] = useState('');
   const [amount, setAmount] = useState<string>('');
@@ -20,7 +23,15 @@ const BuyNetworkPins = ({ navigation, route }) => {
   const [selectedNetwork, setSelectedNetwork] = useState<IsBillProvider>();
   const styles = useStyles();
   const dispatch = useAppDispatch();
-  console.log('pins', data);
+
+  useEffect(() => {
+    if (quantity.length > 0) {
+      const tempAmount = Number(selectedPin.amount) * Number(quantity);
+      setAmount(tempAmount.toString());
+      const formatted = moneyFormat(tempAmount, 0);
+      setCustomAmount(formatted);
+    }
+  }, [quantity, selectedPin]);
 
   const handleCustomAmount = (figure: string) => {
     setAmount(figure);
@@ -50,22 +61,23 @@ const BuyNetworkPins = ({ navigation, route }) => {
         data2send,
       );
       console.log('PINs lookiup', response);
-      // if (response.length) {
-      //   setPlans(response);
-      // } else {
-      //   setCustomerData(response);
-      //   setAmount(response.amount);
-      //   setPlans(response.bouquets);
-      // }
+      setPlans(response);
     } catch (error) {
       console.log('CableTV lookup err', error);
     }
   };
 
   const onContinue = () => {
-    let payload;
+    let payload: OrderPayload = {
+      orderPayload: {},
+      orderData: {
+        quantity: quantity,
+        network: selectedNetwork,
+        type: selectedNetwork?.billCode.includes('JAMB') ? 'waec' : 'recharge',
+      },
+    };
     if (selectedNetwork?.billCode.includes('JAMB')) {
-      payload = {
+      payload.orderPayload = {
         billCode: selectedNetwork?.billCode,
         merchantReference: getUniqueID(),
         payload: {
@@ -76,12 +88,14 @@ const BuyNetworkPins = ({ navigation, route }) => {
         },
       };
     } else {
-      payload = {
+      payload.orderPayload = {
         billCode: selectedNetwork?.billCode,
         merchantReference: getUniqueID(),
+        transactionReference: getUniqueID(10),
+        externalReference: '',
         payload: {
-          quantity: 2,
-          amount: '1000',
+          quantity: Number(quantity),
+          amount: amount,
         },
       };
     }
@@ -90,6 +104,8 @@ const BuyNetworkPins = ({ navigation, route }) => {
     navigation.navigate('review_payment', {
       type: 'pin',
       data: {
+        phone: user?.phoneNumber,
+        quantity,
         amount,
         selectedNetwork,
       },
@@ -108,11 +124,18 @@ const BuyNetworkPins = ({ navigation, route }) => {
             label="Network provider"
             selected={selectedNetwork}
             onSelect={handleSelection}
+            onSelection={handleSelection}
           />
           <Select
+            title="Available PINs - Amount"
             label="Available pins"
-            selected={selectedNetwork}
-            onSelect={setSelectedNetwork}
+            data={plans}
+            noName
+            selector="amount"
+            useLabel="amount"
+            selected={selectedPin}
+            onSelect={setSelectedPin}
+            onSelection={setSelectedPin}
           />
           <Input
             placeholder="Quantity of pins"
@@ -126,6 +149,7 @@ const BuyNetworkPins = ({ navigation, route }) => {
             placeholder="Amount"
             returnKeyType="done"
             value={customAmount}
+            editable={false}
             onChangeText={handleCustomAmount}
             keyboardType="number-pad"
             inputStyle={styles.input}

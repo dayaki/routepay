@@ -139,6 +139,7 @@ export const Select = ({
   data,
   selector,
   useLabel,
+  noName,
   onSelection,
 }: {
   label: string;
@@ -149,6 +150,7 @@ export const Select = ({
   onSelect: (item: any) => void;
   onSelection: (item: any) => void;
   selector: string;
+  noName?: boolean;
 }) => {
   const [showModal, setShowModal] = useState(false);
   const styles = useStyles();
@@ -164,6 +166,7 @@ export const Select = ({
         onSelect={onSelect}
         selected={selected}
         onSelection={onSelection}
+        noName={noName}
       />
       <TouchableOpacity
         activeOpacity={0.7}

@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Button, DataSelect, Header, Input, NetworkSelect } from '@common';
+import {
+  Button,
+  DataSelect,
+  Header,
+  Input,
+  NetworkSelect,
+  RegularText,
+  TitleText,
+} from '@common';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
 import { IsBillProvider, IsDataPlan, OrderPayload } from '@types';
@@ -20,7 +28,6 @@ const BuyData = ({ navigation, route }) => {
   const styles = useStyles();
 
   const handleSelection = (data: IsBillProvider) => {
-    console.log('selected Networked', data);
     setSelectedNetwork(data);
     lookup(data.billCode);
     setSelectedData([]);
@@ -60,7 +67,7 @@ const BuyData = ({ navigation, route }) => {
   };
 
   const onContinue = () => {
-    const payload: OrderPayload = {
+    let payload: OrderPayload = {
       orderPayload: {
         billCode: selectedNetwork?.billCode,
         merchantReference: getUniqueID(),
@@ -68,7 +75,7 @@ const BuyData = ({ navigation, route }) => {
         externalReference: '',
         payload: {
           mobileNumber: phone,
-          amount: selectedData?.amount,
+          amount: selectedData?.amount || amount,
           dataCode: selectedData?.dataCode,
         },
       },
@@ -76,14 +83,55 @@ const BuyData = ({ navigation, route }) => {
         plan: selectedData?.dataName,
       },
     };
+    if (selectedNetwork?.billCode === 'SPECTRANET') {
+      payload.orderPayload = {
+        billCode: selectedNetwork.billCode,
+        merchantReference: getUniqueID(),
+        transactionReference: getUniqueID(10),
+        externalReference: '',
+        payload: {
+          accountNumber: dataPlans.accountNumber,
+          customerName: dataPlans.customerName,
+          planId: dataPlans.planId,
+          amount: amount,
+        },
+      };
+    } else if (selectedNetwork?.billCode === 'SMILE') {
+      payload.orderPayload = {
+        billCode: 'SMILE',
+        merchantReference: getUniqueID(),
+        transactionReference: getUniqueID(10),
+        externalReference: '',
+        payload: {
+          mobileNumber: userPhone,
+          amount: amount,
+        },
+      };
+    }
+    // const payload: OrderPayload = {
+    //   orderPayload: {
+    //     billCode: selectedNetwork?.billCode,
+    //     merchantReference: getUniqueID(),
+    //     transactionReference: getUniqueID(),
+    //     externalReference: '',
+    //     payload: {
+    //       mobileNumber: phone,
+    //       amount: selectedData?.amount || amount,
+    //       dataCode: selectedData?.dataCode,
+    //     },
+    //   },
+    //   orderData: {
+    //     plan: selectedData?.dataName,
+    //   },
+    // };
     dispatch(newOrder(payload));
     navigation.navigate('review_payment', {
       type: 'data',
       data: {
         phone,
         selectedNetwork,
-        amount: selectedData?.amount,
-        data_plan: selectedData?.dataName,
+        amount: selectedData?.amount || amount,
+        data_plan: selectedData?.dataName || 'N/A',
       },
     });
   };
@@ -110,33 +158,70 @@ const BuyData = ({ navigation, route }) => {
             selected={selectedNetwork}
             onSelect={data => handleSelection(data)}
           />
-          {dataPlans && dataPlans.length && (
-            <DataSelect
-              networkName={selectedNetwork?.billCode || ''}
-              data={dataPlans || []}
-              title="Choose Data Plan"
-              label="Data plan"
-              selectedNetwork={selectedData}
-              selectedPlan={selectedData}
-              onSelect={data => setSelectedData(data)}
-            />
-          )}
-          <Input
-            placeholder="Amount"
-            returnKeyType="done"
-            value={nairaFormat(selectedData?.amount || 0)}
-            editable={false}
-            keyboardType="number-pad"
-            inputStyle={styles.input}
-          />
+          {dataPlans &&
+            (Array.isArray(dataPlans) ? (
+              <>
+                <DataSelect
+                  networkName={selectedNetwork?.billCode || ''}
+                  data={dataPlans || []}
+                  title="Choose Data Plan"
+                  label="Data plan"
+                  selectedNetwork={selectedData}
+                  selectedPlan={selectedData}
+                  onSelect={data => setSelectedData(data)}
+                />
+                <Input
+                  placeholder="Amount"
+                  returnKeyType="done"
+                  value={nairaFormat(selectedData?.amount || 0)}
+                  editable={false}
+                  keyboardType="number-pad"
+                  inputStyle={styles.input}
+                />
+              </>
+            ) : (
+              <>
+                <View style={[styles.review, { marginBottom: 24 }]}>
+                  <View style={styles.reviewItem}>
+                    <RegularText text="Name" size={14} />
+                    <TitleText text={dataPlans?.customerName} size={14} />
+                  </View>
+                  {dataPlans.accountNumber && (
+                    <View style={styles.reviewItem}>
+                      <RegularText text="Number" size={14} />
+                      <TitleText text={dataPlans?.accountNumber} size={14} />
+                    </View>
+                  )}
+                </View>
+                <Input
+                  placeholder="Amount"
+                  returnKeyType="done"
+                  value={amount}
+                  onChangeText={setAmount}
+                  keyboardType="number-pad"
+                  inputStyle={styles.input}
+                />
+              </>
+            ))}
         </View>
-        <Button
-          text="Continue"
-          onPress={onContinue}
-          disabled={
-            !phone || !selectedNetwork || !selectedData || !selectedData.amount
-          }
-        />
+        {Array.isArray(dataPlans) ? (
+          <Button
+            text="Continue"
+            onPress={onContinue}
+            disabled={
+              !phone ||
+              !selectedNetwork ||
+              !selectedData ||
+              !selectedData.amount
+            }
+          />
+        ) : (
+          <Button
+            text="Continue"
+            onPress={onContinue}
+            disabled={!phone || !selectedNetwork || !amount}
+          />
+        )}
       </View>
     </View>
   );

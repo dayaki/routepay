@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 import { Header, Primary, RegularText, TitleText } from '@common';
 import { useAppDispatch, useAppSelector } from '@store';
-import { apiService, nairaFormat, postTransferHistory } from '@utils';
+import { apiService, nairaFormat, postWalletHistory } from '@utils';
 import { useStyles } from './styles';
 import moment from 'moment';
 import { capitalize } from 'lodash';
 
 const TransactionHistory = ({ navigation }) => {
+  const { user } = useAppSelector(state => state.user);
   const [isLoading, setIsLoading] = useState(true);
   const [history, setHistory] = useState();
   const styles = useStyles();
@@ -20,25 +21,14 @@ const TransactionHistory = ({ navigation }) => {
 
   const getTransactions = async () => {
     try {
-      //       hasNextPage: true
-      //  hasPreviousPage: false
-      // ▶items: [, , , , , , , , , ]
-      //  pageNumber: 1
-      //  totalCount: 14
-      //  totalPages: 2
-      const { items } = await apiService(postTransferHistory, 'post', {
-        pageNumber: 1,
-        pageSize: 10,
-        searchRequest: {
-          externalReference: '',
-          merchantReference: '',
-          transferReference: '',
-          transferType: '',
-          startDate: '',
-          endDate: '',
-          transferStatus: '00',
-        },
+      const today = new Date();
+      const items = await apiService(postWalletHistory, 'post', {
+        externalId: user.phoneNumber,
+        fromDate: new Date(new Date().setDate(today.getDate() - 30)),
+        toDate: today,
+        Limit: 100,
       });
+      console.log('items', items);
       setHistory(items);
     } catch (error) {
     } finally {
@@ -60,11 +50,13 @@ const TransactionHistory = ({ navigation }) => {
               <View style={styles.history}>
                 <View style={styles.historyTexts}>
                   <RegularText
-                    text={item.beneficiaryAccountName}
+                    text={item.narration}
                     style={styles.historyText}
                   />
                   <RegularText
-                    text={moment(item.created).format('DD MMMM, YYYY, HH:MMa')}
+                    text={moment(item.transactionDate).format(
+                      'DD MMMM, YYYY, HH:MMa',
+                    )}
                     style={styles.historyLabel}
                   />
                 </View>

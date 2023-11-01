@@ -136,6 +136,9 @@ export type OrderPayload = {
       smartcardNumber?: string;
       paymentCycle?: string;
       bouquetCode?: string;
+      accountNumber?: string;
+      planId?: string;
+      quantity?: string | number;
     };
   };
   orderData?: any;

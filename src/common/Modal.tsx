@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import { getImage, getName, ms, nairaFormat } from '@utils';
+import { getImage, getName, moneyFormat, ms, nairaFormat } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { Close } from '@icons';
 import { Checkbox } from './Input';
@@ -26,6 +26,7 @@ export const SelectModal = ({
   title,
   selector,
   onSelection,
+  noName,
 }: {
   show: boolean;
   selector: string;
@@ -35,6 +36,7 @@ export const SelectModal = ({
   onSelection: (item: any) => void;
   data: [] | undefined;
   title: string;
+  noName?: boolean;
 }) => {
   const styles = useStyles();
   return (
@@ -60,7 +62,14 @@ export const SelectModal = ({
                     activeOpacity={0.8}
                     onPress={() => onSelect(item)}
                     style={styles.row}>
-                    <TitleText text={getName(item[selector])} size={14} />
+                    {noName ? (
+                      <TitleText
+                        text={nairaFormat(item[selector], 0)}
+                        size={14}
+                      />
+                    ) : (
+                      <TitleText text={getName(item[selector])} size={14} />
+                    )}
                   </TouchableOpacity>
                   <Checkbox
                     isChecked={
