@@ -257,7 +257,7 @@ const Dashboard = ({ navigation }) => {
                 resizeMode="cover"
                 style={styles.boxIcon}
               />
-              <TitleText text="Top-up Wallet" size={11} />
+              <TitleText text="Fund Wallet" size={11} />
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}

@@ -46,7 +46,9 @@ const Login = ({ navigation, route }) => {
       console.log('handleLogin', accessToken, message);
       if (!accessToken) {
         if (message.includes('This email address is not confirmed')) {
-          setHasError(message);
+          setHasError(
+            'Please confirm your account with the email confirmation message sent to your mailbox.',
+          );
         } else if (message.includes('Invalid Login Attempt')) {
           setHasError('Invalid email address or password.');
         } else if (twoFactorEnabled) {

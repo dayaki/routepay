@@ -15,8 +15,8 @@ const Pins = ({ navigation }) => {
     let fileredData: IsBillProvider[] | undefined;
     if (selectionOption === 'jamb') {
       fileredData = pins?.filter(
-        elem =>
-          elem.billCode.includes('JAMB') || elem.billCode.includes('WAEC'),
+        // elem.billCode.includes('JAMB') || elem.billCode.includes('WAEC'),
+        elem => elem.billCode.includes('WAEC'),
       );
     } else {
       fileredData = pins?.filter(

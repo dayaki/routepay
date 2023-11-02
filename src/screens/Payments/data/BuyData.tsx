@@ -154,7 +154,7 @@ const BuyData = ({ navigation, route }) => {
           <NetworkSelect
             title="Choose Network Provider"
             label="Network provider"
-            data={bundle || []}
+            data={bundle?.filter(elem => !elem.billCode.includes('SPEC')) || []}
             selected={selectedNetwork}
             onSelect={data => handleSelection(data)}
           />
