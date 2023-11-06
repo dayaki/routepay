@@ -23,11 +23,11 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
   const toast = useToast();
   const styles = useLoginStyles();
 
-  useEffect(() => {
-    if (payload) {
-      sendPhoneOTP();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (payload) {
+  //     sendPhoneOTP();
+  //   }
+  // }, []);
 
   const sendPhoneOTP = async () => {
     setUseVoice(false);
@@ -92,6 +92,8 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
 
   const verifyOtp = async () => {
     setIsLoading(true);
+    registerUser();
+    return;
     if (!useVoice) {
       try {
         const resp = await fetch(
@@ -161,9 +163,9 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
       }
     } catch (error) {
       console.log('registerUser ERR', error);
-      navigation.navigate('signup', {
-        error: 'Network error, please try again.',
-      });
+      // navigation.navigate('signup', {
+      //   error: 'Network error, please try again.',
+      // });
     } finally {
       setIsLoading(false);
     }
