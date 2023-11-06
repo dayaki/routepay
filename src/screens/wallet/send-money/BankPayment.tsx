@@ -17,6 +17,7 @@ import {
   moneyFormat,
   postVerifyBank,
 } from '@utils';
+import { useAppSelector } from '@store';
 
 type BankAccountData = {
   verificationId: string | null;
@@ -27,6 +28,7 @@ type BankAccountData = {
 };
 
 const BankPayment = ({ navigation }) => {
+  const { wallet } = useAppSelector(state => state.user);
   const [banks, setBanks] = useState([]);
   const [accountNumber, setAccountNumber] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
@@ -71,6 +73,24 @@ const BankPayment = ({ navigation }) => {
       console.log('accountLookup err', error);
     } finally {
       setIsFetching(false);
+    }
+  };
+
+  const onContinue = () => {
+    if (Number(extractAmount(amount)) > wallet.balance) {
+      setHasErrors(
+        'Insufficent wallet balance, topup your wallet to pay with wallet.',
+      );
+    } else {
+      navigation.navigate('review_payment', {
+        type: 'bank_payment',
+        data: {
+          bank: selectedBank,
+          account: userData,
+          remark: memo || `Payment to ${userData?.beneficiaryAccountNumber}`,
+          amount: extractAmount(amount),
+        },
+      });
     }
   };
 
@@ -142,18 +162,7 @@ const BankPayment = ({ navigation }) => {
         <Button
           text="Continue"
           disabled={!!hasErrors || !amount}
-          onPress={() =>
-            navigation.navigate('review_payment', {
-              type: 'bank_payment',
-              data: {
-                bank: selectedBank,
-                account: userData,
-                remark:
-                  memo || `Payment to ${userData?.beneficiaryAccountNumber}`,
-                amount: extractAmount(amount),
-              },
-            })
-          }
+          onPress={onContinue}
         />
       </KeyboardAwareScrollView>
     </View>
