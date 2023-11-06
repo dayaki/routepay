@@ -36,16 +36,14 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
         username: email,
         code: pin,
       });
-      console.log('verifyOtp', response);
       const { accessToken } = response;
       if (accessToken) {
         handleLogin(accessToken);
       } else {
-        setHasError('Invalid Two Factor code. Check the code and try again!');
+        setHasError('Invalid code. Check the code and try again!');
         setIsLoading(false);
       }
     } catch (error) {
-      console.log('verifyOtp ERR', error);
       setIsLoading(false);
     }
   };
