@@ -26,7 +26,12 @@ export const useStyles = () => {
     pageLabel: { lineHeight: ms(25), marginBottom: ms(30) },
     loader: { marginVertical: ms(20) },
     error: { textAlign: 'center', marginTop: ms(10) },
-    errorText: { color: 'red', textAlign: 'center' },
+    errorText: {
+      color: 'red',
+      textAlign: 'center',
+      fontSize: 14,
+      textAlign: 'left',
+    },
     header: {
       backgroundColor: colors.pink300,
       paddingHorizontal: ms(20),

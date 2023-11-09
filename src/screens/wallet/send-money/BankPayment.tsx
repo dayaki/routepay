@@ -56,6 +56,16 @@ const BankPayment = ({ navigation }) => {
     setCustomAmount(formatted);
   };
 
+  const validate = () => {
+    if (Number(extractAmount(amount)) > wallet.balance) {
+      setHasErrors(
+        'Insufficent wallet balance. Topup your wallet to pay with wallet.',
+      );
+    } else {
+      setHasErrors('');
+    }
+  };
+
   // 0112345678
   const accountLookup = async (selected: any) => {
     setIsFetching(true);
@@ -126,14 +136,7 @@ const BankPayment = ({ navigation }) => {
           )}
 
           {isFetching && <ActivityIndicator size="small" color="#000" />}
-          {!!hasErrors && !isFetching && (
-            <RegularText
-              text={hasErrors}
-              color="red"
-              size={14}
-              style={styles.error}
-            />
-          )}
+
           {userData && userData.beneficiaryAccountNumber && !isFetching && (
             <>
               <Input
@@ -146,6 +149,7 @@ const BankPayment = ({ navigation }) => {
                 value={customAmount}
                 onChangeText={handleCustomAmount}
                 returnKeyType="done"
+                onBlur={validate}
                 keyboardType="number-pad"
                 placeholder="Amount"
               />
@@ -158,10 +162,19 @@ const BankPayment = ({ navigation }) => {
               />
             </>
           )}
+
+          {!!hasErrors && !isFetching && (
+            <RegularText
+              text={hasErrors}
+              color="red"
+              size={14}
+              style={styles.errorText}
+            />
+          )}
         </View>
         <Button
           text="Continue"
-          disabled={!!hasErrors || !amount}
+          disabled={!!hasErrors || !amount || !!hasErrors}
           onPress={onContinue}
         />
       </KeyboardAwareScrollView>

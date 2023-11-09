@@ -11,6 +11,7 @@ import {
   moneyFormat,
   postVerifyBank,
 } from '@utils';
+import { useAppSelector } from '@store';
 
 type Account = {
   verificationId: string | null;
@@ -21,6 +22,7 @@ type Account = {
 };
 
 const Routepay = ({ navigation }) => {
+  const { wallet } = useAppSelector(state => state.user);
   const [searchText, setSearchText] = useState('');
   const [amount, setAmount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
@@ -34,6 +36,16 @@ const Routepay = ({ navigation }) => {
     setAmount(figure);
     const formatted = moneyFormat(figure, 0);
     setCustomAmount(formatted);
+  };
+
+  const validate = () => {
+    if (Number(extractAmount(amount)) > wallet.balance) {
+      setHasError(
+        'Insufficent wallet balance. Topup your wallet to pay with wallet.',
+      );
+    } else {
+      setHasError('');
+    }
   };
 
   // 08038158300
@@ -53,6 +65,23 @@ const Routepay = ({ navigation }) => {
       } finally {
         setIsLoading(false);
       }
+    }
+  };
+
+  const onContinue = () => {
+    if (Number(extractAmount(amount)) > wallet.balance) {
+      setHasError(
+        'Insufficent wallet balance. Topup your wallet to pay with wallet.',
+      );
+    } else {
+      navigation.navigate('review_payment', {
+        type: 'payment',
+        data: {
+          account: userData,
+          remark: memo || `Payment to ${userData?.beneficiaryAccountNumber}`,
+          amount: extractAmount(amount),
+        },
+      });
     }
   };
 
@@ -85,9 +114,7 @@ const Routepay = ({ navigation }) => {
               style={styles.loader}
             />
           )}
-          {!!hasError && !isLoading && (
-            <RegularText text={hasError} style={styles.errorText} />
-          )}
+
           {!isLoading && !!userData && (
             <>
               <Input
@@ -100,6 +127,7 @@ const Routepay = ({ navigation }) => {
                 value={customAmount}
                 onChangeText={handleCustomAmount}
                 placeholder="Amount"
+                onBlur={validate}
                 keyboardType="number-pad"
                 returnKeyType="done"
               />
@@ -111,21 +139,15 @@ const Routepay = ({ navigation }) => {
               />
             </>
           )}
+
+          {!!hasError && !isLoading && (
+            <RegularText text={hasError} style={styles.errorText} />
+          )}
         </View>
         <Button
           text="Continue"
-          disabled={!userData || !amount}
-          onPress={() =>
-            navigation.navigate('review_payment', {
-              type: 'payment',
-              data: {
-                account: userData,
-                remark:
-                  memo || `Payment to ${userData?.beneficiaryAccountNumber}`,
-                amount: extractAmount(amount),
-              },
-            })
-          }
+          disabled={!userData || !amount || !!hasError}
+          onPress={onContinue}
         />
       </KeyboardAwareScrollView>
     </View>

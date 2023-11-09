@@ -301,7 +301,7 @@ export const OTPInput = ({
     if (otpRef.current) {
       setTimeout(() => {
         otpRef?.current?.focusField(0);
-      }, 500);
+      }, 100);
     }
     return () => {
       clearInterval(intervalRef.current);
@@ -483,7 +483,7 @@ const useStyles = () => {
       height: ms(60),
     },
     otpInput: {
-      width: ms(54),
+      width: ms(50),
       height: ms(54),
       borderRadius: ms(28),
       backgroundColor: colors.input,
