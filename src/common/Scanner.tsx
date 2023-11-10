@@ -99,15 +99,18 @@ export const useStyles = () => {
     },
     wrapper: {
       backgroundColor: colors.input,
-      width: ms(180),
-      height: ms(170),
+      width: Platform.OS === 'android' ? ms(180) : '100%',
+      height: Platform.OS === 'android' ? ms(170) : ms(400),
       alignSelf: 'center',
       justifyContent: 'center',
       alignItems: 'center',
     },
     camera: {
-      width: ms(180),
-      height: ms(170),
+      // width: ms(180),
+      // height: ms(170),
+      width: Platform.OS === 'android' ? ms(180) : '80%',
+      height: Platform.OS === 'android' ? ms(170) : '80%',
+      alignSelf: 'center',
     },
   });
 };

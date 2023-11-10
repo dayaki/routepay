@@ -36,11 +36,9 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>RoutePay needs to know your location for added security</string>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>RoutePay needs access to your photo library</string>
+	<string>RoutePay needs access to your Camera.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>DMSans-Bold.ttf</string>
