@@ -8,6 +8,7 @@ type TextProps = {
   color?: string;
   style?: {};
   onPress?: () => void;
+  numberOfLines?: number;
   // style?: TextStyle | TextStyle[];
 };
 
@@ -47,10 +48,12 @@ export const RegularText = ({
   style,
   color,
   onPress,
+  numberOfLines,
 }: TextProps) => {
   const styles = useStyles();
   return (
     <Text
+      numberOfLines={numberOfLines}
       style={[
         styles.regular,
         style,

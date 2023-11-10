@@ -21,12 +21,12 @@ const NAV_ITEMS = [
     darkIcon: require('@images/account/refer_dark.png'),
     link: 'refer',
   },
-  {
-    name: 'Account Statement',
-    icon: require('@images/account/account.png'),
-    darkIcon: require('@images/account/account_dark.png'),
-    link: 'statement',
-  },
+  // {
+  //   name: 'Account Statement',
+  //   icon: require('@images/account/account.png'),
+  //   darkIcon: require('@images/account/account_dark.png'),
+  //   link: 'statement',
+  // },
   {
     name: 'Support Center',
     icon: require('@images/account/support.png'),
