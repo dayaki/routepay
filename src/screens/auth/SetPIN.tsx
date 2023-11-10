@@ -46,7 +46,7 @@ const SetPIN = ({ navigation, route }) => {
             text="Create your wallet pin to securely confirm your transactions"
             style={styles.otpLabel}
           />
-          <TransactionPIN handleSubmit={setPin} external />
+          <TransactionPIN handleSubmit={setPin} pin={pin} setPin={setPin} />
         </View>
         <Button disabled={!pin} text="Continue" onPress={createPin} />
       </View>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import {
   BackgroundView,
@@ -23,15 +23,22 @@ const WalletPIN = ({ navigation, route }) => {
   const { user } = useAppSelector(state => state.user);
   const { type, data } = route.params;
   const [isLoading, setIsLoading] = useState(false);
+  const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const styles = useLoginStyles();
   const toast = useToast();
 
-  const handleSubmit = async (code: string) => {
+  useEffect(() => {
+    if (code.length === 1) {
+      setError('');
+    }
+  }, [code]);
+
+  const handleSubmit = async (pin: string) => {
     setIsLoading(true);
     setError('');
     try {
-      const { status } = await apiService(postVerifyPin(code), 'post', {});
+      const { status } = await apiService(postVerifyPin(pin), 'post', {});
       if (status) {
         if (type.includes('payment')) {
           makeTransfer();
@@ -40,6 +47,7 @@ const WalletPIN = ({ navigation, route }) => {
         }
       } else {
         setError('Incorrect Transaction PIN.');
+        setCode('');
         setIsLoading(false);
       }
     } catch (err) {
@@ -132,11 +140,10 @@ const WalletPIN = ({ navigation, route }) => {
             />
           )}
           <TransactionPIN
+            pin={code}
+            setPin={setCode}
             hasError={!!error}
-            // hasError={!!error}
-            // resetError={() => setError('')}
             handleSubmit={handleSubmit}
-            external
           />
         </View>
         <TouchableOpacity

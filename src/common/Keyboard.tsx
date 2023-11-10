@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RegularText, TitleText } from './Text';
 import { ms } from '@utils';
@@ -66,34 +66,24 @@ export const Keyboard = ({
 
 export const TransactionPIN = ({
   handleSubmit,
-  external,
   hasError,
-  resetError,
+  pin,
+  setPin,
 }: {
   handleSubmit: (pin: string) => void;
-  resetError?: () => void;
-  external?: boolean;
   hasError?: boolean;
+  pin: string;
+  setPin: (code: string) => void;
 }) => {
   const styles = useStyles();
-  const [pin, setPin] = useState('');
 
   useEffect(() => {
     if (pin.length === 4) {
-      if (external) {
-        handleSubmit(pin);
-      } else {
-        setTimeout(() => {
-          handleSubmit(pin);
-          setPin('');
-        }, 200);
-      }
+      handleSubmit(pin);
     }
-  }, [pin]);
+  }, [pin, handleSubmit]);
 
   const handleInput = (value: string) => {
-    console.log('handleInput', value);
-    // resetError();
     if (pin.length < 4) {
       setPin(pin + value);
     }
@@ -114,6 +104,7 @@ export const TransactionPIN = ({
         {pin.length > 0 && !hasError ? (
           <TitleText text={pin[0]} size={20} style={styles.pinText} />
         ) : (
+          // <View style={styles.pinDott} />
           <View style={styles.pinDot} />
         )}
         {pin.length > 0 && !hasError ? (
@@ -196,6 +187,13 @@ const useStyles = () => {
       borderRadius: 6,
       marginRight: ms(7),
       backgroundColor: colors.input,
+    },
+    pinDott: {
+      width: ms(16),
+      height: ms(16),
+      borderRadius: 10,
+      marginRight: ms(7),
+      backgroundColor: 'blue',
     },
     pinText: {
       marginRight: ms(10),
