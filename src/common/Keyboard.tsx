@@ -65,23 +65,21 @@ export const Keyboard = ({
 };
 
 export const TransactionPIN = ({
-  handleSubmit,
   hasError,
   pin,
   setPin,
 }: {
-  handleSubmit: (pin: string) => void;
   hasError?: boolean;
   pin: string;
   setPin: (code: string) => void;
 }) => {
   const styles = useStyles();
 
-  useEffect(() => {
-    if (pin.length === 4) {
-      handleSubmit(pin);
-    }
-  }, [pin, handleSubmit]);
+  // useEffect(() => {
+  //   if (pin.length === 4) {
+  //     handleSubmit(pin);
+  //   }
+  // }, [pin, handleSubmit]);
 
   const handleInput = (value: string) => {
     if (pin.length < 4) {
@@ -102,27 +100,124 @@ export const TransactionPIN = ({
     <View style={styles.centered}>
       <View style={styles.indicator}>
         {pin.length > 0 && !hasError ? (
-          <TitleText text={pin[0]} size={20} style={styles.pinText} />
+          <View style={styles.pinDotSmall}>
+            <TitleText text={pin[0]} size={20} style={styles.pinText} />
+          </View>
         ) : (
           // <View style={styles.pinDott} />
           <View style={styles.pinDot} />
         )}
         {pin.length > 0 && !hasError ? (
-          <TitleText text={pin[1]} size={20} style={styles.pinText} />
+          <View style={styles.pinDotSmall}>
+            <TitleText text={pin[1]} size={20} style={styles.pinText} />
+          </View>
         ) : (
           <View style={styles.pinDot} />
         )}
         {pin.length > 0 && !hasError ? (
-          <TitleText text={pin[2]} size={20} style={styles.pinText} />
+          <View style={styles.pinDotSmall}>
+            <TitleText text={pin[2]} size={20} style={styles.pinText} />
+          </View>
         ) : (
           <View style={styles.pinDot} />
         )}
         {pin.length > 0 && !hasError ? (
-          <TitleText text={pin[3]} size={20} style={styles.pinText} />
+          <View style={styles.pinDotSmall}>
+            <TitleText text={pin[3]} size={20} style={styles.pinText} />
+          </View>
         ) : (
           <View style={styles.pinDot} />
         )}
       </View>
+      <Keyboard handleInput={handleInput} handleDelete={handleDelete} />
+    </View>
+  );
+};
+
+export const VirtualTransactionPIN = ({
+  handleSubmit,
+  hasError,
+  pin,
+  setPin,
+  renderView,
+}: {
+  handleSubmit: (pin: string) => void;
+  hasError?: boolean;
+  pin: string;
+  setPin: (code: string) => void;
+  renderView: any;
+}) => {
+  const styles = useStyles();
+
+  useEffect(() => {
+    if (pin.length === 6) {
+      handleSubmit(pin);
+    }
+  }, [pin, handleSubmit]);
+
+  const handleInput = (value: string) => {
+    if (pin.length < 6) {
+      setPin(pin + value);
+    }
+  };
+
+  const handleDelete = () => {
+    if (pin.length) {
+      let pinCode = pin.split('');
+      pinCode.pop();
+      let newPin = pinCode.join('');
+      setPin(newPin);
+    }
+  };
+
+  return (
+    <View style={styles.centered}>
+      <View style={styles.indicator}>
+        {pin.length > 0 && !hasError ? (
+          <View style={styles.pinDotBig}>
+            <TitleText text={pin[0]} size={20} style={styles.pinText} />
+          </View>
+        ) : (
+          // <View style={styles.pinDott} />
+          <View style={styles.pinDotBig} />
+        )}
+        {pin.length > 0 && !hasError ? (
+          <View style={styles.pinDotBig}>
+            <TitleText text={pin[1]} size={20} style={styles.pinText} />
+          </View>
+        ) : (
+          <View style={styles.pinDotBig} />
+        )}
+        {pin.length > 0 && !hasError ? (
+          <View style={styles.pinDotBig}>
+            <TitleText text={pin[2]} size={20} style={styles.pinText} />
+          </View>
+        ) : (
+          <View style={styles.pinDotBig} />
+        )}
+        {pin.length > 0 && !hasError ? (
+          <View style={styles.pinDotBig}>
+            <TitleText text={pin[3]} size={20} style={styles.pinText} />
+          </View>
+        ) : (
+          <View style={styles.pinDotBig} />
+        )}
+        {pin.length > 0 && !hasError ? (
+          <View style={styles.pinDotBig}>
+            <TitleText text={pin[4]} size={20} style={styles.pinText} />
+          </View>
+        ) : (
+          <View style={styles.pinDotBig} />
+        )}
+        {pin.length > 0 && !hasError ? (
+          <View style={styles.pinDotBig}>
+            <TitleText text={pin[5]} size={20} style={styles.pinText} />
+          </View>
+        ) : (
+          <View style={styles.pinDotBig} />
+        )}
+      </View>
+      {renderView()}
       <Keyboard handleInput={handleInput} handleDelete={handleDelete} />
     </View>
   );
@@ -182,11 +277,31 @@ const useStyles = () => {
       justifyContent: 'center',
     },
     pinDot: {
-      width: ms(11),
-      height: ms(11),
-      borderRadius: 6,
+      width: ms(40),
+      height: ms(40),
+      borderRadius: 20,
       marginRight: ms(7),
       backgroundColor: colors.input,
+    },
+    pinDotSmall: {
+      width: ms(40),
+      height: ms(40),
+      borderRadius: 20,
+      marginRight: ms(7),
+      backgroundColor: colors.input,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
+    },
+    pinDotBig: {
+      width: ms(40),
+      height: ms(40),
+      borderRadius: 20,
+      marginRight: ms(7),
+      backgroundColor: colors.input,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'row',
     },
     pinDott: {
       width: ms(16),
@@ -196,7 +311,7 @@ const useStyles = () => {
       backgroundColor: 'blue',
     },
     pinText: {
-      marginRight: ms(10),
+      // marginRight: ms(10),
     },
   });
 };

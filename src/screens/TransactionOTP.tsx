@@ -4,9 +4,9 @@ import {
   BackgroundView,
   Button,
   Loader,
-  OTPInput,
   RegularText,
   TitleText,
+  VirtualOTPInput,
 } from '@common';
 import { VerifyOtpProps } from '@types';
 import { apiService, postValidateTransfer } from '@utils';
@@ -18,8 +18,6 @@ const TransactionOTP = ({ navigation, route }: VerifyOtpProps) => {
   const [hasError, setHasError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const styles = useLoginStyles();
-
-  console.log('data!!!)))!!!', data);
 
   const completeTransaction = async () => {
     setIsLoading(true);
@@ -83,8 +81,9 @@ const TransactionOTP = ({ navigation, route }: VerifyOtpProps) => {
               style={styles.errorText}
             />
           )}
-          <OTPInput
+          <VirtualOTPInput
             setCode={setPin}
+            code={pin}
             onResend={resendOtp}
             shouldResend={false}
           />

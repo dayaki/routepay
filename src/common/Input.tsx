@@ -20,6 +20,7 @@ import { IsBillProvider, IsDataPlan } from '@types';
 import { useAppSelector } from '@store';
 import { useTheme } from './Colors';
 import moment from 'moment';
+import { TransactionPIN, VirtualTransactionPIN } from './Keyboard';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -396,6 +397,126 @@ export const OTPInput = ({
   );
 };
 
+export const VirtualOTPInput = ({
+  onResend,
+  code,
+  setCode,
+  onVoiceCall,
+  isEmail = true,
+  shouldResend = true,
+}: {
+  code: string;
+  secure?: boolean;
+  onResend: () => void;
+  setCode: (otp: string) => void;
+  onVoiceCall?: () => void;
+  isEmail?: boolean;
+  shouldResend?: boolean;
+}) => {
+  const [seconds, setSeconds] = useState(59);
+  const [minutes, setMinutes] = useState(0);
+  const [canResend, setCanResend] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval>>();
+  const styles = useStyles();
+  const { colors } = useTheme();
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => timeInterval(), 1000);
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (seconds === 0) {
+      if (minutes === 0) {
+        // clearInterval(intervalRef.current);
+        setCanResend(true);
+      } else {
+        setMinutes(minutes - 1);
+        setSeconds(59);
+        setCanResend(false);
+      }
+    }
+  }, [seconds, minutes]);
+
+  const resetTimer = () => {
+    setSeconds(59);
+  };
+
+  const timeInterval = () => {
+    if (seconds > 0) {
+      setSeconds(prevSeconds => {
+        return prevSeconds - 1;
+      });
+    }
+  };
+
+  const resendCode = async () => {
+    resetTimer();
+    onResend();
+    setCanResend(false);
+  };
+
+  const voiceCall = async () => {
+    if (onVoiceCall) {
+      onVoiceCall();
+    }
+    resetTimer();
+    setCanResend(false);
+  };
+
+  return (
+    <View style={styles.otpWrapper}>
+      <VirtualTransactionPIN
+        renderView={() =>
+          shouldResend && (
+            <View style={styles.wrapper}>
+              <View style={styles.countdown}>
+                {canResend ? (
+                  <>
+                    <RegularText text="Didn’t receive a code? " />
+                    <TextButton
+                      text="Resend code"
+                      color={colors.primary}
+                      onPress={resendCode}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <RegularText text="Resend code in " />
+                    <RegularText
+                      text={`${minutes}:${
+                        seconds < 10 ? `0${seconds}` : seconds
+                      }`}
+                    />
+                  </>
+                )}
+              </View>
+              {canResend && !isEmail && (
+                <View
+                  style={[
+                    styles.row,
+                    { justifyContent: 'center', marginTop: 20 },
+                  ]}>
+                  <TextButton
+                    text="Get OTP code via voice call"
+                    color={colors.primary}
+                    onPress={voiceCall}
+                  />
+                </View>
+              )}
+            </View>
+          )
+        }
+        pin={code}
+        setPin={setCode}
+        handleSubmit={setCode}
+      />
+    </View>
+  );
+};
+
 export const Checkbox = ({
   onPress,
   isChecked,
@@ -475,6 +596,10 @@ export const DatePicker = ({
 const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
+    wrapper: {
+      marginTop: -40,
+      marginBottom: ms(60),
+    },
     checkbox: {
       borderColor: colors.inputColor,
       // backgroundColor: 'red',
@@ -506,7 +631,7 @@ const useStyles = () => {
     countdown: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginTop: ms(30),
+      // marginTop: ms(30),
       alignSelf: 'center',
     },
     inputWrapper: {

@@ -32,6 +32,9 @@ const WalletPIN = ({ navigation, route }) => {
     if (code.length === 1) {
       setError('');
     }
+    if (code.length === 4) {
+      handleSubmit(code);
+    }
   }, [code]);
 
   const handleSubmit = async (pin: string) => {
@@ -69,7 +72,6 @@ const WalletPIN = ({ navigation, route }) => {
           type,
         });
       } else {
-        //
         toast.show('Transaction failed!', { type: 'warning' });
         navigation.goBack();
       }
@@ -116,6 +118,7 @@ const WalletPIN = ({ navigation, route }) => {
       setIsLoading(false);
       navigation.navigate('verify_otp', { data: { ...data, ...res, type } });
     } catch (err: any) {
+      toast.show(err.title, { type: 'warning' });
       setIsLoading(false);
     }
   };
@@ -136,15 +139,15 @@ const WalletPIN = ({ navigation, route }) => {
               text={error}
               size={12}
               color="red"
-              style={{ marginTop: -10, marginBottom: 10 }}
+              style={{ marginTop: -20 }}
             />
           )}
-          <TransactionPIN
-            pin={code}
-            setPin={setCode}
-            hasError={!!error}
-            handleSubmit={handleSubmit}
-          />
+          <View
+            style={{
+              marginTop: 20,
+            }}>
+            <TransactionPIN pin={code} setPin={setCode} hasError={!!error} />
+          </View>
         </View>
         <TouchableOpacity
           activeOpacity={0.7}

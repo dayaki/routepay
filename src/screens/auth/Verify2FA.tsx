@@ -8,6 +8,7 @@ import {
   OTPInput,
   RegularText,
   TitleText,
+  VirtualOTPInput,
 } from '@common';
 import { AuthNavigationProps } from '@types';
 import { apiService, getLogin, getProfile, postVerify2fa } from '@utils';
@@ -103,7 +104,7 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
               style={styles.errorText}
             />
           )}
-          <OTPInput setCode={setPin} onResend={resendOtp} />
+          <VirtualOTPInput setCode={setPin} code={pin} onResend={resendOtp} />
         </View>
         <Button text="Continue" disabled={!pin} onPress={verifyOtp} />
       </View>
