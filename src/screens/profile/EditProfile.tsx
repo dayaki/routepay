@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { Keyboard, TouchableOpacity, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useToast } from 'react-native-toast-notifications';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -34,6 +34,9 @@ const EditProfile = ({ navigation }) => {
     } else if (editable === 'phone') {
       setTimeout(() => phoneInputRef.current?.focus(), 100);
     }
+    return () => {
+      Keyboard.dismiss();
+    };
   }, [editable]);
 
   const handleUpdate = async () => {

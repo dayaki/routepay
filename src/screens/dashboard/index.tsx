@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import {
   Image,
   ImageBackground,
+  Keyboard,
   ScrollView,
   TouchableOpacity,
   View,
@@ -77,6 +78,7 @@ const Dashboard = ({ navigation }) => {
 
   const checkBvn = async () => {
     if (bvn.length === 11) {
+      Keyboard.dismiss();
       setIsLoading(true);
       try {
         const { url } = await apiService(postBvnCheck, 'post', {

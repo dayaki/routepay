@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Keyboard, TouchableOpacity, View } from 'react-native';
 import { Close } from '@icons';
 import { Button, Input, Loader, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
@@ -15,6 +15,12 @@ const ChangePIN = ({ navigation }) => {
   const styles = useStyles();
   const toast = useToast();
 
+  useEffect(() => {
+    return () => {
+      Keyboard.dismiss();
+    };
+  }, []);
+
   const verifyPin = () => {
     if (userPin !== confirmPin) {
       setHasError('PIN and confirm PIN does not match.');
@@ -24,6 +30,7 @@ const ChangePIN = ({ navigation }) => {
   };
 
   const handleSubmit = async () => {
+    Keyboard.dismiss();
     setIsLoading(true);
     try {
       const { message, status } = await apiService(postSetPin, 'post', {

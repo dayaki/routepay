@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Keyboard, TouchableOpacity, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 import { Close } from '@icons';
 import { Button, Input, Loader, RegularText, TitleText } from '@common';
@@ -17,6 +17,12 @@ const ChangePassword = ({ navigation }) => {
   const styles = useStyles();
   const toast = useToast();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    return () => {
+      Keyboard.dismiss();
+    };
+  }, []);
 
   const verifyPassword = () => {
     if (password.length > 0) {
@@ -52,6 +58,7 @@ const ChangePassword = ({ navigation }) => {
 
   const handleSubmit = async () => {
     if (password === confirmPassword) {
+      Keyboard.dismiss();
       setIsLoading(true);
       try {
         const { succeeded, message } = await apiService(

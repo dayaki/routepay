@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Keyboard, View } from 'react-native';
 import { Button, Header, Input, Loader, RegularText } from '@common';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { initPaymentFlow, moneyFormat } from '@utils';
@@ -13,6 +13,12 @@ const WalletTopup = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const styles = useStyles();
+
+  useEffect(() => {
+    return () => {
+      Keyboard.dismiss();
+    };
+  }, []);
 
   const handleCustomAmount = (figure: string) => {
     setAmount(figure);
