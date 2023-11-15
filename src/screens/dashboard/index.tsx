@@ -3,6 +3,7 @@ import {
   Image,
   ImageBackground,
   Keyboard,
+  Platform,
   ScrollView,
   TouchableOpacity,
   View,
@@ -248,7 +249,9 @@ const Dashboard = ({ navigation }) => {
               onPress={() =>
                 user?.bvn
                   ? navigation.navigate('wallet_topup')
-                  : bvnSheet.current?.open()
+                  : Platform.OS === 'ios'
+                  ? bvnSheet.current?.open()
+                  : navigation.navigate('create_wallet')
               }>
               <Image
                 source={

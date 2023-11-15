@@ -45,6 +45,7 @@ import { MainStackParamList } from '@types';
 import BVNVerification from '../screens/dashboard/BvnVerification';
 import WalletConfirmation from '../screens/dashboard/WalletConfirmation';
 import TransactionHistory from '../screens/TransactionHistory';
+import CreateWallet from '../screens/dashboard/CreateWallet';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -53,6 +54,7 @@ const MainStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home" component={BottomTabs} />
+      <Stack.Screen name="create_wallet" component={CreateWallet} />
       <Stack.Screen name="wallet_topup" component={WalletTopup} />
       <Stack.Screen name="wallet_confirmation" component={WalletConfirmation} />
       <Stack.Screen name="payments" component={Payments} />

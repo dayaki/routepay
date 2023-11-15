@@ -58,7 +58,7 @@ const ReviewPayment = ({ navigation, route }) => {
           {type === 'payment' && (
             <>
               <View style={styles.reviewItem}>
-                <RegularText text="Recipient’s mobile no" size={14} />
+                <RegularText text="Recipient Account No" size={14} />
                 <TitleText
                   text={data.account.beneficiaryAccountNumber}
                   size={14}
