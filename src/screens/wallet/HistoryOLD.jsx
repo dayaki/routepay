@@ -58,7 +58,7 @@ const TransactionHistory = ({ navigation }) => {
                     style={styles.historyText}
                   />
                   <RegularText
-                    text={moment(item.created).format('DD MMMM, YYYY, HH:MMa')}
+                    text={moment(item.created).format('DD MMMM, YYYY, HH:mma')}
                     style={styles.historyLabel}
                   />
                 </View>

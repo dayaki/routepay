@@ -25,7 +25,7 @@ export const TransactionList = ({
       <View style={styles.historyTexts}>
         <TitleText text={capitalize(desc)} style={styles.historyText} />
         <RegularText
-          text={moment(date).format('DD MMMM, YYYY, HH:MMa')}
+          text={moment(date).format('DD MMMM, YYYY, HH:mma')}
           style={styles.historyLabel}
         />
       </View>

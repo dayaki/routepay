@@ -22,7 +22,7 @@ const TransactionHistory = ({ navigation, route }) => {
               <View style={styles.historyTexts}>
                 <RegularText text={item.billCode} style={styles.historyText} />
                 <RegularText
-                  text={moment(item.created).format('DD MMMM, YYYY, HH:MMa')}
+                  text={moment(item.created).format('DD MMMM, YYYY, HH:mma')}
                   style={styles.historyLabel}
                 />
               </View>
