@@ -10,7 +10,8 @@ import {
 } from '@common';
 import { useStyles } from './styles';
 import { Exclamation } from '@icons';
-import { apiService, nairaFormat, postVerifyBank } from '@utils';
+import { apiService, extractAmount, nairaFormat, postVerifyBank } from '@utils';
+import { useAppSelector } from '@store';
 
 type Account = {
   verificationId: string | null;
@@ -21,6 +22,7 @@ type Account = {
 };
 
 const ScanReview = ({ navigation, route }) => {
+  const { wallet } = useAppSelector(state => state.user);
   const data = route.params.data || null;
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
@@ -31,6 +33,16 @@ const ScanReview = ({ navigation, route }) => {
   useEffect(() => {
     accountLookup();
   }, [data]);
+
+  const validate = () => {
+    if (Number(extractAmount(amount)) > wallet.balance) {
+      setHasError(
+        'Insufficent wallet balance. Topup your wallet to pay with wallet.',
+      );
+    } else {
+      setHasError('');
+    }
+  };
 
   const accountLookup = async () => {
     try {
@@ -43,6 +55,23 @@ const ScanReview = ({ navigation, route }) => {
       setHasError('');
     } catch (error: any) {
       setHasError(error.title);
+    }
+  };
+
+  const onContinue = () => {
+    if (Number(extractAmount(amount)) > wallet.balance) {
+      setHasError(
+        'Insufficent wallet balance. Topup your wallet to pay with wallet.',
+      );
+    } else {
+      navigation.navigate('wallet_pin', {
+        data: {
+          account: userData,
+          remark: memo,
+          amount,
+        },
+        type: 'payment',
+      });
     }
   };
 
@@ -74,6 +103,7 @@ const ScanReview = ({ navigation, route }) => {
               placeholder="Enter amount"
               label="Amount"
               value={amount}
+              onBlur={validate}
               keyboardType="number-pad"
               onChangeText={setAmount}
               returnKeyType="done"
@@ -85,6 +115,9 @@ const ScanReview = ({ navigation, route }) => {
               rightIcon={<TextCounter text={memo} />}
             />
           </View>
+          {!!hasError && (
+            <RegularText text={hasError} style={styles.errorText} />
+          )}
         </View>
 
         <View>
@@ -99,16 +132,7 @@ const ScanReview = ({ navigation, route }) => {
           <Button
             disabled={!amount || !memo}
             text="Continue payment"
-            onPress={() =>
-              navigation.navigate('wallet_pin', {
-                data: {
-                  account: userData,
-                  remark: memo,
-                  amount,
-                },
-                type: 'payment',
-              })
-            }
+            onPress={onContinue}
           />
         </View>
       </View>
