@@ -104,6 +104,12 @@ export const useStyles = () => {
       marginTop: ms(10),
       marginBottom: ms(30),
     },
+    input: {
+      marginBottom: ms(20),
+    },
+    inputLabel: {
+      marginBottom: ms(10),
+    },
     dashboard: {
       // padding: ms(20),
       backgroundColor: '#1F1F23',

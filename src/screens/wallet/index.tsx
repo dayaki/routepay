@@ -53,7 +53,11 @@ const Wallet = ({ navigation }) => {
         <View style={styles.boxes}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => navigation.navigate('send_money')}
+            onPress={() =>
+              user?.bvn
+                ? navigation.navigate('send_money')
+                : navigation.navigate('create_wallet')
+            }
             style={[styles.box, styles.boxed]}>
             <Image
               source={

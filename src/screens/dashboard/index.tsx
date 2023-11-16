@@ -251,7 +251,7 @@ const Dashboard = ({ navigation }) => {
                   ? navigation.navigate('wallet_topup')
                   : Platform.OS === 'ios'
                   ? bvnSheet.current?.open()
-                  : navigation.navigate('create_wallet')
+                  : navigation.navigate('create_wallett')
               }>
               <Image
                 source={

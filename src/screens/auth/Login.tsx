@@ -43,7 +43,6 @@ const Login = ({ navigation, route }) => {
           password: password,
         },
       });
-      console.log('handleLogin', accessToken, message);
       if (!accessToken) {
         if (message.includes('This email address is not confirmed')) {
           setHasError(

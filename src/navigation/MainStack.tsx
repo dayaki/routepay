@@ -46,6 +46,9 @@ import BVNVerification from '../screens/dashboard/BvnVerification';
 import WalletConfirmation from '../screens/dashboard/WalletConfirmation';
 import TransactionHistory from '../screens/TransactionHistory';
 import CreateWallet from '../screens/dashboard/CreateWallet';
+import CreateWalletTwo from '../screens/dashboard/CreateWalletTwo';
+import CreateWalletThree from '../screens/dashboard/CreateWalletThree';
+import CreateWallett from '../screens/dashboard/CreateWallett';
 
 // const Stack = createNativeStackNavigator<AuthStackParamList>();
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -55,6 +58,9 @@ const MainStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home" component={BottomTabs} />
       <Stack.Screen name="create_wallet" component={CreateWallet} />
+      <Stack.Screen name="create_wallett" component={CreateWallett} />
+      <Stack.Screen name="create_wallet_two" component={CreateWalletTwo} />
+      <Stack.Screen name="create_wallet_three" component={CreateWalletThree} />
       <Stack.Screen name="wallet_topup" component={WalletTopup} />
       <Stack.Screen name="wallet_confirmation" component={WalletConfirmation} />
       <Stack.Screen name="payments" component={Payments} />
