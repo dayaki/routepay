@@ -69,6 +69,8 @@ const BuyElectricity = ({ navigation, route }) => {
       orderPayload: {
         billCode: selectedCompany?.billCode,
         merchantReference: getUniqueID(),
+        transactionReference: getUniqueID(12),
+        externalReference: '',
         payload: {
           mobileNumber: user?.phoneNumber,
           customerEmail: user?.email,

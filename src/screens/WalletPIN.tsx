@@ -13,6 +13,8 @@ import {
   postCharge,
   postMakeTransfer,
   postVerifyPin,
+  sendPins,
+  sendToken,
 } from '@utils';
 import { useLoginStyles } from './auth/styles';
 import { useAppSelector } from '@store';
@@ -60,13 +62,15 @@ const WalletPIN = ({ navigation, route }) => {
 
   const chargeWallet = async () => {
     try {
-      const response = await apiService(
-        postCharge,
-        'post',
-        order?.orderPayload,
-      );
-      const { status, responseDescription } = response;
+      const resp = await apiService(postCharge, 'post', order?.orderPayload);
+      const { status, responseDescription, response } = resp;
       if (status === 200 && responseDescription === 'Successful') {
+        if (type === 'pin') {
+          await sendPins(response, user?.phoneNumber || '', type, data.amount);
+        }
+        if (type === 'electricity') {
+          await sendToken(response.token, user?.phoneNumber || '', data.amount);
+        }
         navigation.navigate('transaction_success', {
           isWalletPayment: true,
           type,

@@ -8,13 +8,27 @@ import { truncate, sample } from 'lodash';
 import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 import qs from 'qs';
-import { postInitPayment, postPaymentToken } from './endpoints';
+import { PostMessage, postInitPayment, postPaymentToken } from './endpoints';
+import { apiService } from './apiService';
 
 const lowercase = new RegExp('(?=.*[a-z])');
 const uppercase = new RegExp('(?=.*[A-Z])');
 const number = new RegExp('(?=.*[0-9])');
 const specialCharacters = new RegExp('(?=.*[!@#$%^&*/\\\\)(+=._-])');
 const length = new RegExp('(?=.{8,})');
+
+type MessageProps = {
+  type: 'sms' | 'email';
+  phone: string;
+  message: string;
+  from?: string;
+  to?: string;
+  cc?: string;
+  subject?: string;
+  typeId?: string;
+};
+
+type PinType = [{ pinCode: string }];
 
 export const ms = (num: number) => moderateScale(num);
 
@@ -231,4 +245,69 @@ export const openLink = async (url: string) => {
   } finally {
     InAppBrowser.close();
   }
+};
+
+export const sendMessage = async ({
+  type,
+  message,
+  phone,
+  from,
+  to,
+  cc,
+  subject,
+  typeId,
+}: MessageProps) => {
+  let payload;
+  if (type === 'sms') {
+    payload = {
+      messageType: 'sms',
+      phoneNumber: phone,
+      smsMessage: message,
+    };
+  } else {
+    payload = {
+      messageType: 'email',
+      emailMessage: message,
+      from: from,
+      to: to,
+      cc: cc,
+      subject: subject,
+      notificationTypeId: typeId,
+    };
+  }
+  try {
+    const response = apiService(PostMessage, 'post', payload);
+    console.log('sendMessage success', response);
+  } catch (error) {
+    console.log('sendMessage error', error);
+  }
+};
+
+export const sendPins = async (
+  pins: PinType,
+  phone: string,
+  amount: string,
+) => {
+  const userPins = pins.map(elem => elem.pinCode).toString();
+  await sendMessage({
+    type: 'sms',
+    phone: phone,
+    message: `Your PIN transaction of ${nairaFormat(
+      amount,
+    )} was successful. PIN: ${userPins}`,
+  });
+};
+
+export const sendToken = async (
+  token: string,
+  phone: string,
+  amount: string,
+) => {
+  await sendMessage({
+    type: 'sms',
+    phone: phone,
+    message: `Your Electricity transaction of ${nairaFormat(
+      amount,
+    )} was successful. Token: ${token}`,
+  });
 };

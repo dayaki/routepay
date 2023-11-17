@@ -18,6 +18,8 @@ import {
   nairaFormat,
   postCharge,
   postWalletTopup,
+  sendPins,
+  sendToken,
 } from '@utils';
 import {
   getWallet,
@@ -119,10 +121,14 @@ const TransactionSuccess = ({ navigation, route }) => {
         transactionReference: trnxRef,
         externalReference: user?.userId,
       });
-      const response = await resp.json();
-      console.log('chargeTransaction FETCH', response);
-      const { responseDescription, status } = response; //responseCode
+      const { responseDescription, status, response } = await resp.json();
       if (status === 200 && responseDescription === 'Successful') {
+        if (type === 'pin') {
+          await sendPins(response, user?.phoneNumber || '', data.amount);
+        }
+        if (type === 'electricity') {
+          await sendToken(response.token, user?.phoneNumber || '', data.amount);
+        }
         setOrderStatus('success');
       } else {
         setOrderStatus('fail');

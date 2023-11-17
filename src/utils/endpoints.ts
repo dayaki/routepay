@@ -60,3 +60,5 @@ export const postInitPayment = `${paymentApi}/Payment/SetRequest`;
 export const getTransactionStatus = (transID: string) =>
   `${paymentApi}/Payment/GetTransaction/${transID}`;
 export const postCharge = `${billsApi}/Payment/charge`;
+
+export const PostMessage = `${billsApi}/notify`;
