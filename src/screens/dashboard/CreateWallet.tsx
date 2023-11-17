@@ -1,75 +1,119 @@
 import React, { useState } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, Keyboard, TouchableOpacity, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useStyles } from './styles';
-import { Button, DatePicker, Header, RegularText } from '@common';
+import {
+  Button,
+  DatePicker,
+  Header,
+  Input,
+  RegularText,
+  TitleText,
+} from '@common';
+import { apiService, postBvnCheck } from '@utils';
+import { useAppSelector } from '@store';
 
-const CreateWallet = ({ navigation }) => {
+const CreateWallett = ({ navigation }) => {
+  const { user } = useAppSelector(state => state.user);
   const [dob, setDob] = useState<Date | null>(null);
-  const [gender, setGender] = useState<'male' | 'female'>();
+  const [bvn, setBvn] = useState('');
+  const [gender, setGender] = useState<'male' | 'female'>('male');
+  const [isLoading, setIsLoading] = useState(false);
   const styles = useStyles();
 
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        console.log('leaving screen.....');
+        Keyboard.dismiss();
+      };
+    }, []),
+  );
+
+  const checkBvn = async () => {
+    if (bvn.length === 11) {
+      Keyboard.dismiss();
+      setIsLoading(true);
+      try {
+        const { url } = await apiService(postBvnCheck, 'post', {
+          uniqueRef: user?.userId,
+          bvn: bvn,
+          isUser: true,
+        });
+        setIsLoading(false);
+        navigation.navigate('browser', {
+          params: {
+            uri: url,
+            type: 'bvn',
+            data: { dob: dob?.toISOString().split('T')[0], gender, bvn },
+          },
+        });
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
   return (
-    <View style={styles.contain}>
-      <Header title="Account Verification" centered hideBalance />
+    <View style={styles.container}>
+      <Header title="Create Wallet" centered hideBalance />
       <View style={styles.content}>
         <View>
-          {/* <TitleText text="Create Your RoutePay Wallet" /> */}
+          <TitleText text="Create Your RoutePay Wallet" />
           <RegularText
             text="Provide the data below to enable us create a wallet for you."
             style={styles.label}
           />
-
-          <View style={styles.input}>
-            <RegularText text="Date of Birth" style={styles.inputLabel} />
-            <DatePicker
-              placeholder="Date of Birth"
-              value={dob}
-              onSelect={setDob}
-            />
-          </View>
-          <View style={styles.input}>
-            <RegularText text="Gender" style={styles.inputLabel} />
-            <View style={styles.gender}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.genderBtn}
-                onPress={() => setGender('male')}>
-                <Image
-                  source={require('@images/male.png')}
-                  resizeMode="cover"
-                  style={styles.genderIcon}
-                />
-                <RegularText text="Male" style={styles.genderText} />
-                {gender === 'male' && <View style={styles.dot} />}
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.genderBtn}
-                onPress={() => setGender('female')}>
-                <Image
-                  source={require('@images/female.png')}
-                  resizeMode="cover"
-                  style={styles.genderIcon}
-                />
-                <RegularText text="Female" style={styles.genderText} />
-                {gender === 'female' && <View style={styles.dot} />}
-              </TouchableOpacity>
-            </View>
+          <Input
+            placeholder="Your BVN"
+            value={bvn}
+            onChangeText={setBvn}
+            keyboardType="number-pad"
+            maxLength={11}
+            returnKeyType="done"
+          />
+          <DatePicker
+            placeholder="Date of Birth"
+            value={dob}
+            onSelect={setDob}
+          />
+          <View style={styles.gender}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.genderBtn}
+              onPress={() => setGender('male')}>
+              <Image
+                source={require('@images/male.png')}
+                resizeMode="cover"
+                style={styles.genderIcon}
+              />
+              <RegularText text="Male" style={styles.genderText} />
+              {gender === 'male' && <View style={styles.dot} />}
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.genderBtn}
+              onPress={() => setGender('female')}>
+              <Image
+                source={require('@images/female.png')}
+                resizeMode="cover"
+                style={styles.genderIcon}
+              />
+              <RegularText text="Female" style={styles.genderText} />
+              {gender === 'female' && <View style={styles.dot} />}
+            </TouchableOpacity>
           </View>
         </View>
         <Button
-          text="Continue"
-          onPress={() =>
-            navigation.navigate('create_wallet_two', {
-              gender,
-              dob,
-            })
-          }
-          disabled={!dob || !gender}
+          text="Create Wallet"
+          onPress={checkBvn}
+          isLoading={isLoading}
+          disabled={bvn.length < 11 || !dob}
         />
       </View>
     </View>
   );
 };
 
-export default CreateWallet;
+export default CreateWallett;

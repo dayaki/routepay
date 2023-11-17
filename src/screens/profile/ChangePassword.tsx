@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Keyboard, TouchableOpacity, View } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 import { Close } from '@icons';
-import { Button, Input, Loader, RegularText, TitleText } from '@common';
+import { Button, Input, Loader, TitleText } from '@common';
 import { useStyles } from './styles';
 import { apiService, passwordTests, putChangePassword } from '@utils';
 import { useAppDispatch, useAppSelector, userLogout } from '@store';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ChangePassword = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
@@ -18,11 +19,14 @@ const ChangePassword = ({ navigation }) => {
   const toast = useToast();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    return () => {
-      Keyboard.dismiss();
-    };
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        console.log('leaving screen.....');
+        Keyboard.dismiss();
+      };
+    }, []),
+  );
 
   const verifyPassword = () => {
     if (password.length > 0) {

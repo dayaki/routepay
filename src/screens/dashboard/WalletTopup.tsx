@@ -5,6 +5,7 @@ import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { initPaymentFlow, moneyFormat } from '@utils';
 import { useStyles } from './styles';
 import { OrderPayload } from '@types';
+import { useFocusEffect } from '@react-navigation/native';
 
 const WalletTopup = ({ navigation }) => {
   const { user } = useAppSelector(state => state.user);
@@ -14,11 +15,14 @@ const WalletTopup = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const styles = useStyles();
 
-  useEffect(() => {
-    return () => {
-      Keyboard.dismiss();
-    };
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        console.log('leaving screen.....');
+        Keyboard.dismiss();
+      };
+    }, []),
+  );
 
   const handleCustomAmount = (figure: string) => {
     setAmount(figure);

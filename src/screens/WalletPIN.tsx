@@ -66,7 +66,7 @@ const WalletPIN = ({ navigation, route }) => {
       const { status, responseDescription, response } = resp;
       if (status === 200 && responseDescription === 'Successful') {
         if (type === 'pin') {
-          await sendPins(response, user?.phoneNumber || '', type, data.amount);
+          await sendPins(response, user?.phoneNumber || '', data.amount);
         }
         if (type === 'electricity') {
           await sendToken(response.token, user?.phoneNumber || '', data.amount);

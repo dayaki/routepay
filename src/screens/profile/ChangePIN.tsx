@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Keyboard, TouchableOpacity, View } from 'react-native';
 import { Close } from '@icons';
 import { Button, Input, Loader, RegularText, TitleText } from '@common';
 import { useStyles } from './styles';
 import { apiService, postSetPin } from '@utils';
 import { useToast } from 'react-native-toast-notifications';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ChangePIN = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -15,11 +16,14 @@ const ChangePIN = ({ navigation }) => {
   const styles = useStyles();
   const toast = useToast();
 
-  useEffect(() => {
-    return () => {
-      Keyboard.dismiss();
-    };
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        console.log('leaving screen.....');
+        Keyboard.dismiss();
+      };
+    }, []),
+  );
 
   const verifyPin = () => {
     if (userPin !== confirmPin) {

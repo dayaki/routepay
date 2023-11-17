@@ -8,6 +8,7 @@ import { useStyles } from './styles';
 import { Lock, Mail, PhoneIcon, ProfileEditIcon, UserIcon } from '@icons';
 import { useAppDispatch, useAppSelector } from '@store';
 import { apiService, ms, postUpdateProfile } from '@utils';
+import { useFocusEffect } from '@react-navigation/native';
 
 const EditButton = ({ onPress }: { onPress: () => void }) => (
   <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
@@ -27,6 +28,15 @@ const EditProfile = ({ navigation }) => {
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const toast = useToast();
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        console.log('leaving screen.....');
+        Keyboard.dismiss();
+      };
+    }, []),
+  );
 
   useEffect(() => {
     if (editable === 'email') {
