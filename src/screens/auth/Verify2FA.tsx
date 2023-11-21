@@ -56,7 +56,7 @@ const Verify2FA = ({ navigation, route }: AuthNavigationProps) => {
       const { sub } = JSON.parse(payload);
       const userProfile = await apiService(getProfile(sub), 'get');
       dispatch(accountSetUp(userProfile.userId));
-      dispatch(loyaltySetUp('08032009444')); //userProfile.phoneNumber
+      // dispatch(loyaltySetUp('08032009444')); //userProfile.phoneNumber
       if (!userProfile.pinEnabled) {
         navigation.navigate('set_pin', { payload: userProfile, password });
         setIsLoading(false);

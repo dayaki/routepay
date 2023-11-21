@@ -34,12 +34,20 @@ const Login = ({ navigation, route }) => {
 
   const handleLogin = async () => {
     setIsLoading(true);
+    let updateUsername;
+    if (/^\d+$/.test(userEmail)) {
+      updateUsername = userEmail.startsWith('234')
+        ? `0${userEmail.slice(3)}`
+        : `234${userEmail.slice(1)}`;
+    } else {
+      updateUsername = userEmail;
+    }
     try {
       const {
         data: { accessToken, message, twoFactorEnabled },
       } = await axios.get(getLogin, {
         auth: {
-          username: userEmail,
+          username: updateUsername,
           password: password,
         },
       });
@@ -51,7 +59,10 @@ const Login = ({ navigation, route }) => {
         } else if (message.includes('Invalid Login Attempt')) {
           setHasError('Invalid email address or password.');
         } else if (twoFactorEnabled) {
-          navigation.navigate('verify_2fa', { email: userEmail, password });
+          navigation.navigate('verify_2fa', {
+            email: updateUsername,
+            password,
+          });
         }
       } else {
         dispatch(updateToken(accessToken));
