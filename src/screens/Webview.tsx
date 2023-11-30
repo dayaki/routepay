@@ -22,7 +22,6 @@ const Webview = ({ route, navigation }) => {
 
   const onNavigationStateChange = async (event: WebViewNativeEvent) => {
     const { url } = event;
-    console.log('onNavigationStateChange URL', url);
 
     if (url.includes('/about-routepay')) {
       webview.current?.stopLoading();
@@ -34,7 +33,7 @@ const Webview = ({ route, navigation }) => {
       });
     }
 
-    if (url.startsWith('https://apiqa.routepay')) {
+    if (url.includes('routepay.com/merchant/api/')) {
       webview.current?.stopLoading();
       setHasRedirected(true);
       navigation.navigate('bvn_verification', {

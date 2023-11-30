@@ -14,13 +14,13 @@ import { getName, ms } from '@utils';
 import { RegularText, TitleText } from './Text';
 import { TextButton } from './Button';
 import { ChevronDown, EyeClose, EyeIcon, Lock } from '@icons';
-import { DataModal, FuelModal, NetworkModal, SelectModal } from './Modal';
+import { DataModal, NetworkModal, SelectModal } from './Modal';
 import { ProviderIcon } from './View';
 import { IsBillProvider, IsDataPlan } from '@types';
 import { useAppSelector } from '@store';
 import { useTheme } from './Colors';
 import moment from 'moment';
-import { TransactionPIN, VirtualTransactionPIN } from './Keyboard';
+import { VirtualTransactionPIN } from './Keyboard';
 
 interface InputProps extends TextInputProps {
   label?: string;
@@ -598,7 +598,7 @@ const useStyles = () => {
   return StyleSheet.create({
     wrapper: {
       marginTop: -40,
-      marginBottom: ms(60),
+      marginBottom: ms(30),
     },
     checkbox: {
       borderColor: colors.inputColor,

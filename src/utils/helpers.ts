@@ -8,8 +8,15 @@ import { truncate, sample } from 'lodash';
 import ShortUniqueId from 'short-unique-id';
 import axios from 'axios';
 import qs from 'qs';
-import { PostMessage, postInitPayment, postPaymentToken } from './endpoints';
+import {
+  PostMessage,
+  getProfile,
+  postInitPayment,
+  postPaymentToken,
+} from './endpoints';
 import { apiService } from './apiService';
+import { decode } from 'base-64';
+import { store, userLogin } from '@store';
 
 const lowercase = new RegExp('(?=.*[a-z])');
 const uppercase = new RegExp('(?=.*[A-Z])');
@@ -310,4 +317,13 @@ export const sendToken = async (
       amount,
     )} was successful. Token: ${token}`,
   });
+};
+
+export const getUserProfile = async () => {
+  console.log('calling getUserProfile....');
+  const token = store.getState().user.token ?? '';
+  const payload = decode(token.split('.')[1]);
+  const { sub } = JSON.parse(payload);
+  const user = await apiService(getProfile(sub), 'get');
+  store.dispatch(userLogin(user));
 };

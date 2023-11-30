@@ -19,6 +19,43 @@ export const useStyles = () => {
       justifyContent: 'space-between',
       paddingBottom: ms(40),
     },
+    rbSheet: {
+      backgroundColor: colors.background,
+      borderRadius: ms(7),
+      padding: ms(20),
+      paddingTop: ms(30),
+    },
+    gender: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: ms(20),
+    },
+    genderBtn: {
+      paddingVertical: ms(10),
+      width: '48%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 6,
+      flexDirection: 'row',
+      borderColor: colors.pink300,
+      borderWidth: 1,
+    },
+    genderText: {
+      marginRight: ms(4),
+    },
+    genderIcon: {
+      width: ms(18),
+      height: ms(18),
+      marginRight: ms(10),
+    },
+    dot: {
+      width: ms(8),
+      height: ms(8),
+      borderRadius: ms(4),
+      backgroundColor: 'green',
+      // marginLeft: ms(10),
+    },
     label: {
       lineHeight: 25,
       marginBottom: ms(30),

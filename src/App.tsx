@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Text } from 'react-native';
+import { Text, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import { ToastProvider } from 'react-native-toast-notifications';
@@ -12,7 +12,7 @@ import { persistor, store, userLogout } from '@store';
 import Router from './navigation';
 import { navigationRef } from './navigation/RootNavigation';
 import { DarkMode, LightMode } from '@common';
-import { StatusBar } from 'react-native-bars';
+// import { StatusBar } from 'react-native-bars';
 import {
   getLogin,
   postForgotPass,
