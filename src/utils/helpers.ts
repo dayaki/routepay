@@ -320,7 +320,6 @@ export const sendToken = async (
 };
 
 export const getUserProfile = async () => {
-  console.log('calling getUserProfile....');
   const token = store.getState().user.token ?? '';
   const payload = decode(token.split('.')[1]);
   const { sub } = JSON.parse(payload);

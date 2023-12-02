@@ -33,6 +33,7 @@ const Webview = ({ route, navigation }) => {
       });
     }
 
+    // NIBSS bvn verification
     if (url.includes('routepay.com/merchant/api/')) {
       webview.current?.stopLoading();
       setHasRedirected(true);
