@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Keyboard, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Keyboard, TouchableOpacity, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { useStyles } from './styles';
 import {
@@ -10,7 +10,7 @@ import {
   RegularText,
   TitleText,
 } from '@common';
-import { apiService, postBvnCheck } from '@utils';
+import { apiService, postBvnCheck, postCreateWallet } from '@utils';
 import { useAppSelector } from '@store';
 
 const CreateWallett = ({ navigation }) => {
@@ -35,20 +35,19 @@ const CreateWallett = ({ navigation }) => {
       Keyboard.dismiss();
       setIsLoading(true);
       try {
-        const { url } = await apiService(postBvnCheck, 'post', {
-          uniqueRef: user?.userId,
+        await apiService(postCreateWallet, 'post', {
+          externalId: user?.phoneNumber,
+          walletType: 'USER',
+          firstName: user?.firstName,
+          lastName: user?.lastName,
           bvn: bvn,
-          isUser: true,
+          gender: gender === 'male' ? 1 : 0,
+          dob: dob,
         });
-        setIsLoading(false);
-        navigation.navigate('browser', {
-          params: {
-            uri: url,
-            type: 'bvn',
-            data: { dob: dob?.toISOString().split('T')[0], gender, bvn },
-          },
-        });
-      } catch (error) {
+        navigation.navigate('wallet_confirmation');
+      } catch (error: any) {
+        console.log('create wallet Err', error);
+        Alert.alert('Error Encountered', error.title);
       } finally {
         setIsLoading(false);
       }

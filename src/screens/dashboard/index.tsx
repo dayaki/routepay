@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import {
+  Alert,
   Image,
   ImageBackground,
   Keyboard,
@@ -37,8 +38,15 @@ import {
   FuelIcon,
   Notification,
 } from '@icons';
-import { apiService, getUserProfile, nairaFormat, postBvnCheck } from '@utils';
+import {
+  apiService,
+  getUserProfile,
+  nairaFormat,
+  postBvnCheck,
+  postCreateWallet,
+} from '@utils';
 import { useStyles } from './styles';
+import moment from 'moment';
 
 const Dashboard = ({ navigation }) => {
   const { user, wallet } = useAppSelector(state => state.user);
@@ -89,21 +97,35 @@ const Dashboard = ({ navigation }) => {
     if (bvn.length === 11) {
       Keyboard.dismiss();
       setIsLoading(true);
+      const payload = {
+        externalId: user?.phoneNumber,
+        walletType: 'USER',
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        mobileNumber: user?.phoneNumber,
+        bvn: bvn,
+        gender: gender === 'male' ? 1 : 0,
+        dob: moment(dob).format('YYYY-MM-DD'),
+      };
       try {
-        const { url } = await apiService(postBvnCheck, 'post', {
-          uniqueRef: user?.userId,
-          bvn: bvn,
-          isUser: true,
-        });
-        closeSheet();
-        navigation.navigate('browser', {
-          params: {
-            uri: url,
-            type: 'bvn',
-            data: { dob: dob?.toISOString().split('T')[0], gender, bvn },
-          },
-        });
-      } catch (error) {
+        const { statusCode } = await apiService(
+          postCreateWallet,
+          'post',
+          payload,
+        );
+
+        if (statusCode === '00') {
+          closeSheet();
+          navigation.navigate('wallet_confirmation');
+        } else {
+          Alert.alert(
+            'Wallet Creation Failed!',
+            'Unable to create wallet at the moment. Contact RoutePay.',
+          );
+        }
+      } catch (error: any) {
+        console.log('create wallet Err', error);
+        Alert.alert('Error Encountered', error.title);
       } finally {
         setIsLoading(false);
       }
@@ -264,7 +286,7 @@ const Dashboard = ({ navigation }) => {
                 activeOpacity={0.8}
                 style={styles.row}
                 onPress={() =>
-                  user?.bvnVerified
+                  wallet.status !== undefined && wallet.status === 'Active'
                     ? navigation.navigate('wallet_topup')
                     : Platform.OS === 'ios'
                     ? bvnSheet.current?.open()

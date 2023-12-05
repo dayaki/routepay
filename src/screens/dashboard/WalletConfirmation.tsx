@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Image, View, Text } from 'react-native';
 import { Button, TitleText } from '@common';
 import { apiService, getProfile } from '@utils';
-import { updateUser, useAppDispatch, useAppSelector } from '@store';
+import { getWallet, updateUser, useAppDispatch, useAppSelector } from '@store';
 import { useWelcomeStyles } from '../auth/styles';
 
 const WalletConfirmation = ({ navigation }) => {
@@ -19,6 +19,7 @@ const WalletConfirmation = ({ navigation }) => {
       try {
         const response = await apiService(getProfile(user?.userId), 'get');
         dispatch(updateUser(response));
+        dispatch(getWallet(user.phoneNumber));
       } catch (error) {}
     }
   };

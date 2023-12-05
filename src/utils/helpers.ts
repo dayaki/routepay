@@ -16,7 +16,7 @@ import {
 } from './endpoints';
 import { apiService } from './apiService';
 import { decode } from 'base-64';
-import { store, userLogin } from '@store';
+import { getWallet, store } from '@store';
 
 const lowercase = new RegExp('(?=.*[a-z])');
 const uppercase = new RegExp('(?=.*[A-Z])');
@@ -324,5 +324,6 @@ export const getUserProfile = async () => {
   const payload = decode(token.split('.')[1]);
   const { sub } = JSON.parse(payload);
   const user = await apiService(getProfile(sub), 'get');
-  store.dispatch(userLogin(user));
+  // store.dispatch(userLogin(user));
+  store.dispatch(getWallet(user.phoneNumber));
 };

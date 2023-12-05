@@ -25,7 +25,7 @@ import { apiService, postBvnCheck } from '@utils';
 
 const Wallet = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
-  const { user } = useAppSelector(state => state.user);
+  const { user, wallet } = useAppSelector(state => state.user);
   const [dob, setDob] = useState<Date | null>(null);
   const [bvn, setBvn] = useState('');
   const [gender, setGender] = useState<'male' | 'female'>('male');
@@ -87,7 +87,7 @@ const Wallet = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() =>
-              user?.bvnVerified
+              wallet.status !== undefined && wallet.status === 'Active'
                 ? navigation.navigate('send_money')
                 : Platform.OS === 'ios'
                 ? bvnSheet.current?.open()

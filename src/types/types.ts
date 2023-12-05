@@ -23,6 +23,9 @@ export interface IsWallet {
   balance: number;
   walletType: string;
   created: Date;
+  status: string;
+  accountNumber: string;
+  accountName: string;
 }
 
 export interface IsBillCategory {
