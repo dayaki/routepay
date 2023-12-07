@@ -12,7 +12,7 @@ type Payload = {
 };
 
 const BuyNetworkPins = ({ navigation, route }) => {
-  const { data } = route.params;
+  const { data, title } = route.params;
   const { user } = useAppSelector(state => state.user);
   const [plans, setPlans] = useState();
   const [selectedPin, setSelectedPin] = useState();
@@ -114,7 +114,7 @@ const BuyNetworkPins = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <Header title="Buy Network Pin" centered />
+      <Header title={title ? 'Buy Exam Pin' : 'Buy Network Pin'} centered />
       <View style={styles.content}>
         <View>
           <Select

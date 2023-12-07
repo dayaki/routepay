@@ -162,7 +162,7 @@ const Wallet = ({ navigation }) => {
               resizeMode="cover"
               style={styles.boxIcon}
             />
-            <TitleText text="Transaction History" size={14} />
+            <TitleText text="Transactions" size={14} />
             <RegularText
               text="View the history of all your transactions"
               style={styles.boxLabel}

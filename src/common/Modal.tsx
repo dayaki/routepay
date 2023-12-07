@@ -189,16 +189,15 @@ export const DataModal = ({
                     onPress={() => onSelect(item)}>
                     <ProviderIcon name={getName(networkName)} />
                     <View>
-                      <RegularText
-                        text={item.dataName}
-                        size={14}
-                        style={styles.dataType}
-                      />
-                      <RegularText
-                        text={nairaFormat(item.amount)}
-                        size={12}
-                        style={styles.dataType}
-                      />
+                      <View style={styles.textWrapper}>
+                        <RegularText
+                          text={item.dataName}
+                          size={14}
+                          style={styles.dataType}
+                        />
+                      </View>
+
+                      <RegularText text={nairaFormat(item.amount)} size={12} />
                     </View>
                   </TouchableOpacity>
                   <Checkbox
@@ -349,6 +348,12 @@ const useStyles = () => {
     row: {
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    textWrapper: {
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      width: 220,
     },
     dataType: {
       lineHeight: 20,

@@ -3,7 +3,6 @@ import { apiService, getTransactions } from '@utils';
 import { IsTransaction, MiscState, OrderPayload } from '@types';
 import {
   getAirtimeBills,
-  getAllBills,
   getBillCategories,
   getBundleBills,
   getCableBills,

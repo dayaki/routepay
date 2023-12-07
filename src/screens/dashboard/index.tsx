@@ -200,11 +200,7 @@ const Dashboard = ({ navigation }) => {
                       {showBalance ? (
                         <>
                           <TitleText
-                            text={
-                              user?.bvnVerified
-                                ? nairaFormat(wallet?.balance)
-                                : nairaFormat(0)
-                            }
+                            text={nairaFormat(wallet?.balance || 0)}
                             style={[styles.dashboardPoint, { marginLeft: 42 }]}
                           />
                           <TouchableOpacity

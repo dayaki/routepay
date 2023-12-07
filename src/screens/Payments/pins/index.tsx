@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Button, Checkbox, Header } from '@common';
 import { useStyles } from '../styles';
@@ -10,14 +10,16 @@ const Pins = ({ navigation }) => {
   const [selectionOption, setSelectionOption] = useState('network');
   const [data, setData] = useState<IsBillProvider[]>();
   const styles = useStyles();
+  const hasTitle = useRef(false);
 
   useEffect(() => {
     let fileredData: IsBillProvider[] | undefined;
     if (selectionOption === 'jamb') {
       fileredData = pins?.filter(
-        // elem.billCode.includes('JAMB') || elem.billCode.includes('WAEC'),
-        elem => elem.billCode.includes('WAEC'),
+        elem =>
+          elem.billCode.includes('JAMB') || elem.billCode.includes('WAEC'),
       );
+      hasTitle.current = true;
     } else {
       fileredData = pins?.filter(
         elem =>
@@ -28,7 +30,10 @@ const Pins = ({ navigation }) => {
   }, [selectionOption, pins]);
 
   const onContinue = () => {
-    navigation.navigate('network_pins', { data: data });
+    navigation.navigate('network_pins', {
+      data: data,
+      title: hasTitle.current,
+    });
   };
 
   return (
