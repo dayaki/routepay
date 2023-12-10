@@ -136,11 +136,8 @@ const Dashboard = ({ navigation }) => {
     <>
       <StatusBar
         animated={true}
-        barStyle={
-          store.getState().misc.theme === 'dark'
-            ? 'light-content'
-            : 'dark-content'
-        }
+        backgroundColor={theme === 'dark' ? '#000' : '#fff'}
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
       <View style={styles.container}>
         <View style={styles.header}>

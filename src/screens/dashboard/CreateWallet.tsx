@@ -55,63 +55,65 @@ const CreateWallett = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <Header title="Create Wallet" centered hideBalance />
-      <View style={styles.content}>
-        <View>
-          <TitleText text="Create Your RoutePay Wallet" />
-          <RegularText
-            text="Provide the data below to enable us create a wallet for you."
-            style={styles.label}
-          />
-          <Input
-            placeholder="Your BVN"
-            value={bvn}
-            onChangeText={setBvn}
-            keyboardType="number-pad"
-            maxLength={11}
-            returnKeyType="done"
-          />
-          <DatePicker
-            placeholder="Date of Birth"
-            value={dob}
-            onSelect={setDob}
-          />
-          <View style={styles.gender}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.genderBtn}
-              onPress={() => setGender('male')}>
-              <Image
-                source={require('@images/male.png')}
-                resizeMode="cover"
-                style={styles.genderIcon}
-              />
-              <RegularText text="Male" style={styles.genderText} />
-              {gender === 'male' && <View style={styles.dot} />}
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.genderBtn}
-              onPress={() => setGender('female')}>
-              <Image
-                source={require('@images/female.png')}
-                resizeMode="cover"
-                style={styles.genderIcon}
-              />
-              <RegularText text="Female" style={styles.genderText} />
-              {gender === 'female' && <View style={styles.dot} />}
-            </TouchableOpacity>
+      <View style={[styles.container, { paddingTop: 0 }]}>
+        <View style={styles.content}>
+          <View>
+            <TitleText text="Create Your RoutePay Wallet" />
+            <RegularText
+              text="Provide the data below to enable us create a wallet for you."
+              style={styles.label}
+            />
+            <Input
+              placeholder="Your BVN"
+              value={bvn}
+              onChangeText={setBvn}
+              keyboardType="number-pad"
+              maxLength={11}
+              returnKeyType="done"
+            />
+            <DatePicker
+              placeholder="Date of Birth"
+              value={dob}
+              onSelect={setDob}
+            />
+            <View style={styles.gender}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.genderBtn}
+                onPress={() => setGender('male')}>
+                <Image
+                  source={require('@images/male.png')}
+                  resizeMode="cover"
+                  style={styles.genderIcon}
+                />
+                <RegularText text="Male" style={styles.genderText} />
+                {gender === 'male' && <View style={styles.dot} />}
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.genderBtn}
+                onPress={() => setGender('female')}>
+                <Image
+                  source={require('@images/female.png')}
+                  resizeMode="cover"
+                  style={styles.genderIcon}
+                />
+                <RegularText text="Female" style={styles.genderText} />
+                {gender === 'female' && <View style={styles.dot} />}
+              </TouchableOpacity>
+            </View>
           </View>
+          <Button
+            text="Create Wallet"
+            onPress={checkBvn}
+            isLoading={isLoading}
+            disabled={bvn.length < 11 || !dob}
+          />
         </View>
-        <Button
-          text="Create Wallet"
-          onPress={checkBvn}
-          isLoading={isLoading}
-          disabled={bvn.length < 11 || !dob}
-        />
       </View>
-    </View>
+    </>
   );
 };
 

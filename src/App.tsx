@@ -12,7 +12,6 @@ import { persistor, store, userLogout } from '@store';
 import Router from './navigation';
 import { navigationRef } from './navigation/RootNavigation';
 import { DarkMode, LightMode } from '@common';
-// import { StatusBar } from 'react-native-bars';
 import {
   getLogin,
   postForgotPass,
@@ -115,14 +114,17 @@ const App = () => {
               theme={
                 store.getState().misc.theme === 'dark' ? DarkMode : LightMode
               }>
-              <StatusBar
+              {/* <StatusBar
                 animated={true}
+                backgroundColor={
+                  store.getState().misc.theme === 'dark' ? '#000' : '#fff'
+                }
                 barStyle={
                   store.getState().misc.theme === 'dark'
                     ? 'light-content'
                     : 'dark-content'
                 }
-              />
+              /> */}
               <Router />
             </NavigationContainer>
           </SafeAreaProvider>

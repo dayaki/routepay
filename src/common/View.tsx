@@ -6,9 +6,10 @@ import {
   Image,
   Platform,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { StatusBar } from 'react-native-bars';
+// import { StatusBar } from 'react-native-bars';
 import { getImage, ms, nairaFormat } from '@utils';
 import { BackArrow, ChevronBack, Exclamation } from '@icons';
 import { RegularText, TitleText } from './Text';
@@ -81,35 +82,47 @@ export const Header = ({
   color?: string;
 }) => {
   const { wallet } = useAppSelector(state => state.user);
+  const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
   const { goBack } = useNavigation();
   return (
-    <View
-      style={[
-        styles.headerWrapper,
-        centered && styles.centeredHeader,
-        hideBalance && styles.paddedHeader,
-      ]}>
-      {centered && (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={[styles.backBtn, hideBalance && styles.backBtnHide]}
-          onPress={goBack}>
-          <ChevronBack color="#15151A" />
-        </TouchableOpacity>
-      )}
-      <TitleText text={title} color={woodsmoke} />
-      {!hideBalance && (
-        <View style={styles.walletBalance}>
-          <RegularText text="Your wallet balance: " size={11} color="#15151A" />
-          <TitleText
-            text={nairaFormat(wallet.balance)}
-            size={11}
-            color={color || '#15151A'}
-          />
-        </View>
-      )}
-    </View>
+    <>
+      <StatusBar
+        animated={true}
+        backgroundColor={pink300}
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+      />
+      <View
+        style={[
+          styles.headerWrapper,
+          centered && styles.centeredHeader,
+          hideBalance && styles.paddedHeader,
+        ]}>
+        {centered && (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={[styles.backBtn, hideBalance && styles.backBtnHide]}
+            onPress={goBack}>
+            <ChevronBack color="#15151A" />
+          </TouchableOpacity>
+        )}
+        <TitleText text={title} color={woodsmoke} />
+        {!hideBalance && (
+          <View style={styles.walletBalance}>
+            <RegularText
+              text="Your wallet balance: "
+              size={11}
+              color="#15151A"
+            />
+            <TitleText
+              text={nairaFormat(wallet.balance)}
+              size={11}
+              color={color || '#15151A'}
+            />
+          </View>
+        )}
+      </View>
+    </>
   );
 };
 
