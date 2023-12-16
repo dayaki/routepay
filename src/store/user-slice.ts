@@ -59,7 +59,7 @@ export const userSlice = createSlice({
       state.lockAlertVisibility = false;
       state.logOffTime = '';
       state.appState = '';
-      state.wallet = { ...state.wallet, balance: 0 };
+      state.wallet = { balance: 0 };
     },
   },
   extraReducers: builder => {

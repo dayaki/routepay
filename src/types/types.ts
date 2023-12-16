@@ -19,13 +19,13 @@ export interface IsUser {
 }
 
 export interface IsWallet {
-  externalId: string;
+  externalId?: string;
   balance: number;
-  walletType: string;
-  created: Date;
-  status: string;
-  accountNumber: string;
-  accountName: string;
+  walletType?: string;
+  created?: Date;
+  status?: string;
+  accountNumber?: string;
+  accountName?: string;
 }
 
 export interface IsBillCategory {
