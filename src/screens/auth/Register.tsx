@@ -4,8 +4,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useLoginStyles } from './styles';
 import { Button, Input, RegularText, TextButton, TitleText } from '@common';
 import { BackArrow, Lock, Mail, PhoneIcon, UserIcon } from '@icons';
-import { AuthNavigationProps } from '@types';
+import { RegisterNavProps } from '@types';
 import {
+  PutActivateAccount,
   apiService,
   formatPhone,
   openLink,
@@ -14,8 +15,8 @@ import {
 } from '@utils';
 import { useToast } from 'react-native-toast-notifications';
 
-const Register = ({ navigation, route }: AuthNavigationProps) => {
-  const { error } = route.params || false;
+const Register = ({ navigation, route }: RegisterNavProps) => {
+  const error = route.params?.error;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -25,9 +26,11 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
   const [hasErrors, setHasErrors] = useState(true);
   const [passwordError, setPasswordError] = useState('');
   const [phoneError, setPhoneError] = useState('');
-  const [errors, setErrors] = useState(error);
+  const [errors, setErrors] = useState(error?.message);
   const styles = useLoginStyles();
   const toast = useToast();
+
+  console.log('error.payload', error);
 
   const handleBlur = () => {
     if (
@@ -71,22 +74,38 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
 
   const goVerify = () => {
     setIsLoading(true);
-    const payload = {
-      email,
-      phoneNumber: formatPhone(phone),
-      password: password,
-      firstName: name.split(' ')[0],
-      lastName: name.split(' ')[1],
-      status: true,
-    };
-    setTimeout(() => {
-      setIsLoading(false);
-      navigation.navigate('phone_verification', { payload });
-    }, 1000);
+    if (!error) {
+      const payload = {
+        email,
+        phoneNumber: formatPhone(phone),
+        password: password,
+        firstName: name.split(' ')[0],
+        lastName: name.split(' ')[1],
+        status: true,
+      };
+      setTimeout(() => {
+        setIsLoading(false);
+        navigation.navigate('phone_verification', { payload });
+      }, 1000);
+    } else if (error && `${formatPhone(phone)}` !== error.payload.phoneNumber) {
+      const payload = {
+        email,
+        phoneNumber: formatPhone(phone),
+        password: password,
+        firstName: name.split(' ')[0],
+        lastName: name.split(' ')[1],
+        status: true,
+      };
+      setTimeout(() => {
+        setIsLoading(false);
+        navigation.navigate('phone_verification', { payload });
+      }, 1000);
+    } else {
+      handleSignup();
+    }
   };
 
   const handleSignup = async () => {
-    setIsLoading(true);
     try {
       const payload = {
         email,
@@ -97,18 +116,24 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
         status: true,
       };
       const resp = await apiService(postRegister, 'post', payload);
-      const { message, succeeded } = resp;
-      console.log('handleSignup', resp);
+      const { id, message, succeeded } = resp;
       if (succeeded) {
+        const sub = JSON.parse(id);
+        console.log('JSON.parse', sub);
+        await apiService(PutActivateAccount(id), 'put');
         navigation.navigate('welcome', { name: payload.firstName });
       } else {
         let errorMessage: string = '';
-        if (message.includes('Duplicate Email')) {
+        if (message.toLowerCase().includes('duplicate email')) {
           errorMessage = 'Your email address is already in use!';
+        } else if (message.toLowerCase().includes('duplicate phone')) {
+          errorMessage = 'Your phone number is already in use!';
         } else if (
           message.includes('PasswordTooShort,PasswordRequiresNonAlphanumeric')
         ) {
           errorMessage = 'Password requires special characters and uppercase.';
+        } else {
+          errorMessage = message;
         }
         setErrors(errorMessage);
         toast.show(errorMessage, {
@@ -116,7 +141,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
         });
       }
     } catch (err) {
-      console.log('handleSignup ERR', err);
+      setErrors('Network error, please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -134,11 +159,6 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
           <BackArrow />
         </TouchableOpacity>
       </View>
-      {/* <KeyboardAwareScrollView
-        enableOnAndroid={true}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.content}
-        nestedScrollEnabled> */}
       <View>
         <TitleText text="Create an account" />
         <View style={styles.texts}>
@@ -147,20 +167,31 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
             <Text style={styles.brandName}>routepay</Text>.
           </Text>
         </View>
-        {!!errors && (
+        {(!!errors || error) && (
           <RegularText
-            text={errors}
+            text={errors || error.message}
             color="red"
             size={13}
-            style={{ marginBottom: 10 }}
+            style={{ marginBottom: 20, marginTop: -20 }}
           />
         )}
         <Input
           value={name}
           onChangeText={setName}
-          placeholder="Full name"
+          placeholder="Your BVN full name"
           onBlur={handleBlur}
           leftIcon={<UserIcon size={16} />}
+        />
+        <Input
+          value={phone}
+          onChangeText={setPhone}
+          maxLength={11}
+          onBlur={handleBlur}
+          placeholder="Your BVN mobile number"
+          keyboardType="number-pad"
+          leftIcon={<PhoneIcon />}
+          hasError={!!phoneError}
+          errorMessage={phoneError}
         />
         <Input
           value={email}
@@ -171,17 +202,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
           keyboardType="email-address"
           leftIcon={<Mail size={14} />}
         />
-        <Input
-          value={phone}
-          onChangeText={setPhone}
-          maxLength={11}
-          onBlur={handleBlur}
-          placeholder="Mobile number"
-          keyboardType="number-pad"
-          leftIcon={<PhoneIcon />}
-          hasError={!!phoneError}
-          errorMessage={phoneError}
-        />
+
         <Input
           value={password}
           onChangeText={setPassword}
@@ -204,7 +225,7 @@ const Register = ({ navigation, route }: AuthNavigationProps) => {
           disabled={hasErrors}
           text="Create an account"
           isLoading={isLoading}
-          onPress={error ? handleSignup : goVerify}
+          onPress={goVerify}
           style={styles.loginBtn}
         />
         <View style={styles.finePrint}>

@@ -4,7 +4,13 @@ import { Button, Header, Input, RegularText, Select, TitleText } from '@common';
 import { useStyles } from '../styles';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { IsBillProvider, OrderPayload } from '@types';
-import { apiService, getUniqueID, moneyFormat, postBundleLookup } from '@utils';
+import {
+  apiService,
+  extractAmount,
+  getUniqueID,
+  moneyFormat,
+  postBundleLookup,
+} from '@utils';
 
 type Payload = {
   billCode: string;
@@ -81,7 +87,7 @@ const BuyElectricity = ({ navigation, route }) => {
             customerData.customerNumber !== ''
               ? customerData.customerNumber
               : meter,
-          amount: amount,
+          amount: extractAmount(amount),
         },
       },
       orderData: {

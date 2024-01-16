@@ -271,7 +271,7 @@ const useStyles = () => {
     indicator: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: ms(60),
+      marginBottom: ms(30),
       height: ms(22),
       alignSelf: 'center',
       justifyContent: 'center',

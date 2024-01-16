@@ -25,6 +25,7 @@ const Pins = ({ navigation }) => {
         elem =>
           !elem.billCode.includes('JAMB') && !elem.billCode.includes('WAEC'),
       );
+      hasTitle.current = false;
     }
     setData(fileredData);
   }, [selectionOption, pins]);

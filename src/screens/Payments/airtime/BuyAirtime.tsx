@@ -10,7 +10,7 @@ import {
 } from '@common';
 import { updateOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
-import { getImage, getUniqueID, moneyFormat } from '@utils';
+import { extractAmount, getImage, getUniqueID, moneyFormat } from '@utils';
 import { IsBillProvider, OrderPayload } from '@types';
 
 const AMOUNTS = ['100', '200', '500', '1000'];
@@ -49,7 +49,7 @@ const BuyAirtime = ({ navigation, route }) => {
         externalReference: '',
         payload: {
           mobileNumber: phone,
-          amount: amount,
+          amount: extractAmount(amount),
         },
       },
     };

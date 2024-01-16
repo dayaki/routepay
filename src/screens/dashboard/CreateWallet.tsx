@@ -10,10 +10,12 @@ import {
   RegularText,
   TitleText,
 } from '@common';
-import { apiService, postBvnCheck, postCreateWallet } from '@utils';
+import { apiService, postCreateWallet } from '@utils';
 import { useAppSelector } from '@store';
+import moment from 'moment';
+import { MainNavigationProps } from 'types';
 
-const CreateWallett = ({ navigation }) => {
+const CreateWallett = ({ navigation }: MainNavigationProps) => {
   const { user } = useAppSelector(state => state.user);
   const [dob, setDob] = useState<Date | null>(null);
   const [bvn, setBvn] = useState('');
@@ -24,7 +26,6 @@ const CreateWallett = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       return () => {
-        console.log('leaving screen.....');
         Keyboard.dismiss();
       };
     }, []),
@@ -35,16 +36,24 @@ const CreateWallett = ({ navigation }) => {
       Keyboard.dismiss();
       setIsLoading(true);
       try {
-        await apiService(postCreateWallet, 'post', {
+        const { statusCode } = await apiService(postCreateWallet, 'post', {
           externalId: user?.phoneNumber,
           walletType: 'USER',
           firstName: user?.firstName,
           lastName: user?.lastName,
+          mobileNumber: user?.phoneNumber,
           bvn: bvn,
-          gender: gender === 'male' ? 1 : 0,
-          dob: dob,
+          gender: gender === 'male' ? 'M' : 'F',
+          dob: moment(dob).format('YYYY-MM-DD'),
         });
-        navigation.navigate('wallet_confirmation');
+        if (statusCode === '00') {
+          navigation.navigate('wallet_confirmation');
+        } else {
+          Alert.alert(
+            'Wallet Creation Failed!',
+            'Unable to create wallet at the moment. Contact RoutePay.',
+          );
+        }
       } catch (error: any) {
         console.log('create wallet Err', error);
         Alert.alert('Error Encountered', error.title);

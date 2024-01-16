@@ -4,6 +4,7 @@ import {
   FlatList,
   Image,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -27,6 +28,9 @@ export const SelectModal = ({
   selector,
   onSelection,
   noName,
+  searchText,
+  setSearchText,
+  canSearch,
 }: {
   show: boolean;
   selector: string;
@@ -37,6 +41,9 @@ export const SelectModal = ({
   data: [] | undefined;
   title: string;
   noName?: boolean;
+  searchText?: string;
+  setSearchText?: (text: string) => void;
+  canSearch?: boolean;
 }) => {
   const styles = useStyles();
   return (
@@ -52,7 +59,15 @@ export const SelectModal = ({
             </TouchableOpacity>
             <TitleText text={title} size={14} />
           </View>
-          <View style={styles.networks}>
+          {canSearch && (
+            <TextInput
+              placeholder="Search bank"
+              value={searchText}
+              onChangeText={setSearchText}
+              style={styles.search}
+            />
+          )}
+          <View style={[styles.networks, canSearch && { height: '70%' }]}>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={data}
@@ -267,6 +282,13 @@ const useStyles = () => {
       position: 'absolute',
       bottom: ms(90),
       width: '100%',
+    },
+    search: {
+      borderWidth: 1,
+      borderColor: 'rgba(0,0,0,0.2)',
+      borderRadius: 4,
+      paddingVertical: 12,
+      paddingLeft: 6,
     },
     logoutText: {
       width: '60%',

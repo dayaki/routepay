@@ -120,7 +120,7 @@ const BuyNetworkPins = ({ navigation, route }) => {
           <Select
             selector="displayName"
             data={data}
-            title={title ? 'Select Exam PIN' : 'Select Network PIN'}
+            title={title ? 'Select Exam Provider' : 'Select Network PIN'}
             label={title ? 'Exam Provider' : 'Network provider'}
             selected={selectedNetwork}
             onSelect={handleSelection}

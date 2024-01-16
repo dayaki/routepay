@@ -30,6 +30,7 @@ type BankAccountData = {
 const BankPayment = ({ navigation }) => {
   const { wallet } = useAppSelector(state => state.user);
   const [banks, setBanks] = useState([]);
+  const [banksDB, setBanksDB] = useState([]);
   const [accountNumber, setAccountNumber] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
   const [amount, setAmount] = useState('');
@@ -48,6 +49,7 @@ const BankPayment = ({ navigation }) => {
     const bankss = await apiService(getBanks, 'get');
     const temps = bankss.sort((a, b) => a.bankName.localeCompare(b.bankName));
     setBanks(temps);
+    setBanksDB(temps);
   };
 
   const handleCustomAmount = (figure: string) => {
@@ -75,9 +77,12 @@ const BankPayment = ({ navigation }) => {
         accountNumber: accountNumber,
         bankCode: selected.bankCode,
       });
-      console.log('accountLookup', resp);
-      setUserData(resp);
-      setHasErrors('');
+      if (resp.beneficiaryAccountName === '') {
+        setHasErrors('Account information not found.');
+      } else {
+        setUserData(resp);
+        setHasErrors('');
+      }
     } catch (error) {
       setHasErrors('Account information not found.');
       console.log('accountLookup err', error);
@@ -101,6 +106,17 @@ const BankPayment = ({ navigation }) => {
           amount: extractAmount(amount),
         },
       });
+    }
+  };
+
+  const handleBankFilter = (name: string) => {
+    if (name !== '') {
+      const temp = banksDB.filter(elem =>
+        elem.bankName.toLocaleLowerCase().includes(name.toLocaleLowerCase()),
+      );
+      setBanks(temp);
+    } else {
+      setBanks(banksDB);
     }
   };
 
@@ -128,9 +144,11 @@ const BankPayment = ({ navigation }) => {
             <Select
               data={banks}
               selector="bankName"
+              onSearch={handleBankFilter}
               label="What bank?"
               selected={selectedBank}
               onSelect={setSelectedBank}
+              canSearch={true}
               onSelection={val => accountLookup(val)}
             />
           )}

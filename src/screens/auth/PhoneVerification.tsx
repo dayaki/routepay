@@ -10,11 +10,14 @@ import {
   RegularText,
   TitleText,
 } from '@common';
-import { AuthNavigationProps } from '@types';
-import { apiService, postRegister } from '@utils';
+import { PhoneVerificationNavProps } from '@types';
+import { PutActivateAccount, apiService, postRegister } from '@utils';
 import { useLoginStyles } from './styles';
 
-const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
+const PhoneVerification = ({
+  navigation,
+  route,
+}: PhoneVerificationNavProps) => {
   const { payload } = route.params;
   const [otpCode, setOtpCode] = useState('');
   const [codeId, setCodeId] = useState<string | number>('');
@@ -22,6 +25,7 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
   const [useVoice, setUseVoice] = useState(false);
   const toast = useToast();
   const styles = useLoginStyles();
+  console.log('payload', payload);
 
   useEffect(() => {
     if (payload) {
@@ -142,28 +146,39 @@ const PhoneVerification = ({ navigation, route }: AuthNavigationProps) => {
     try {
       const resp = await apiService(postRegister, 'post', payload);
       const { id, message, succeeded } = resp;
-      console.log('registerUser', resp);
       if (succeeded) {
+        await apiService(PutActivateAccount(id), 'put');
         navigation.navigate('welcome', { name: payload.firstName });
       } else {
         let errorMessage: string = '';
-        if (message.includes('Duplicate Email')) {
+        if (message.toLowerCase().includes('duplicate email')) {
           errorMessage = 'Your email address is already in use!';
+        } else if (message.toLowerCase().includes('duplicate phone')) {
+          errorMessage = 'Your phone number is already in use!';
         } else if (
           message.includes('PasswordTooShort,PasswordRequiresNonAlphanumeric')
         ) {
           errorMessage = 'Password requires special characters and uppercase.';
+        } else {
+          errorMessage === message;
         }
         toast.show(errorMessage, {
           type: 'warning',
         });
-        navigation.navigate('signup', { error: errorMessage });
+        navigation.navigate('signup', {
+          error: {
+            message: errorMessage,
+            payload: { phoneNumber: payload.phoneNumber, email: payload.email },
+          },
+        });
       }
     } catch (error) {
-      console.log('registerUser ERR', error);
-      // navigation.navigate('signup', {
-      //   error: 'Network error, please try again.',
-      // });
+      navigation.navigate('signup', {
+        error: {
+          payload: { phoneNumber: payload.phoneNumber, email: payload.email },
+          message: 'Network error, please try again.',
+        },
+      });
     } finally {
       setIsLoading(false);
     }

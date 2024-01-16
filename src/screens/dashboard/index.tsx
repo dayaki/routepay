@@ -104,7 +104,7 @@ const Dashboard = ({ navigation }) => {
         lastName: user?.lastName,
         mobileNumber: user?.phoneNumber,
         bvn: bvn,
-        gender: gender === 'male' ? 1 : 0,
+        gender: gender === 'male' ? 'M' : 'F',
         dob: moment(dob).format('YYYY-MM-DD'),
       };
       try {

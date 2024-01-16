@@ -117,6 +117,7 @@ export interface IsTransaction {
 export type OrderPayload = {
   orderPayload: {
     billCode?: string;
+    dataCode?: string;
     merchantReference?: string;
     transactionReference?: string;
     paymentMode?: 'purse' | 'routepay';

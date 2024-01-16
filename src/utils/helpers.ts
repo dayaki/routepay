@@ -25,7 +25,7 @@ const specialCharacters = new RegExp('(?=.*[!@#$%^&*/\\\\)(+=._-])');
 const length = new RegExp('(?=.{8,})');
 
 type MessageProps = {
-  type: 'sms' | 'email';
+  type: 'sms' | 'email' | 'both';
   phone: string;
   message: string;
   from?: string;
@@ -262,29 +262,29 @@ export const sendMessage = async ({
   to,
   cc,
   subject,
-  typeId,
 }: MessageProps) => {
-  let payload;
-  if (type === 'sms') {
-    payload = {
-      messageType: 'sms',
+  let payload = {
+    messageType: type,
+    sms: {
       phoneNumber: phone,
-      smsMessage: message,
-    };
-  } else {
-    payload = {
-      messageType: 'email',
-      emailMessage: message,
-      from: from,
-      to: to,
-      cc: cc,
-      subject: subject,
-      notificationTypeId: typeId,
-    };
-  }
+      message: message,
+    },
+    email: {
+      message,
+      from,
+      to,
+      cc,
+      subject,
+      source: 0,
+      recepientName: '',
+      header: '',
+      buttonLink: '',
+      buttonText: '',
+      code: '',
+    },
+  };
   try {
-    const response = apiService(PostMessage, 'post', payload);
-    console.log('sendMessage success', response);
+    await apiService(PostMessage, 'post', payload);
   } catch (error) {
     console.log('sendMessage error', error);
   }

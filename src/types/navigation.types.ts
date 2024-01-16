@@ -1,14 +1,21 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import {
-  CompositeScreenProps,
-  NavigatorScreenParams,
-} from '@react-navigation/native';
+// import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+// import {
+//   CompositeScreenProps,
+//   NavigatorScreenParams,
+// } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type AuthStackParamList = {
   onboarding: undefined;
   login: { goBack: boolean } | undefined;
-  signup: { error: string };
+  signup:
+    | {
+        error: {
+          message: string;
+          payload: { phoneNumber: string; email: string };
+        };
+      }
+    | undefined;
   verify_email: { email: string };
   forgot_password: undefined;
   reset_password: undefined;
@@ -25,7 +32,7 @@ export type AuthStackParamList = {
   };
   email_verification: { email: string };
   set_pin: { payload: any; password: string };
-  welcome: { name: string } | undefined;
+  welcome: { name: string };
 };
 
 export type MainStackParamList = {
@@ -53,12 +60,26 @@ export type MainStackParamList = {
 };
 
 export type AuthNavigationProps = NativeStackScreenProps<AuthStackParamList>;
+export type MainNavigationProps = NativeStackScreenProps<MainStackParamList>;
 
-export type MainNavigationProps = NativeStackScreenProps<
+export type LoginNavProps = NativeStackScreenProps<AuthStackParamList, 'login'>;
+export type RegisterNavProps = NativeStackScreenProps<
+  AuthStackParamList,
+  'signup'
+>;
+export type PhoneVerificationNavProps = NativeStackScreenProps<
+  AuthStackParamList,
+  'phone_verification'
+>;
+export type WelcomeNavProps = NativeStackScreenProps<
+  AuthStackParamList,
+  'welcome'
+>;
+
+export type TransactionNavProps = NativeStackScreenProps<
   MainStackParamList,
   'transaction_success'
 >;
-
 export type VerifyOtpProps = NativeStackScreenProps<
   MainStackParamList,
   'verify_otp'

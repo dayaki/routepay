@@ -12,7 +12,13 @@ import {
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
 import { IsBillProvider, IsDataPlan, OrderPayload } from '@types';
-import { apiService, getUniqueID, nairaFormat, postBundleLookup } from '@utils';
+import {
+  apiService,
+  extractAmount,
+  getUniqueID,
+  nairaFormat,
+  postBundleLookup,
+} from '@utils';
 
 const BuyData = ({ navigation, route }) => {
   const userPhone = route.params.phone || '';
@@ -70,12 +76,13 @@ const BuyData = ({ navigation, route }) => {
     let payload: OrderPayload = {
       orderPayload: {
         billCode: selectedNetwork?.billCode,
+        dataCode: selectedData?.dataCode,
         merchantReference: getUniqueID(),
         transactionReference: getUniqueID(),
         externalReference: '',
         payload: {
           mobileNumber: phone,
-          amount: selectedData?.amount || amount,
+          amount: extractAmount(selectedData?.amount || amount),
           dataCode: selectedData?.dataCode,
         },
       },
@@ -93,7 +100,7 @@ const BuyData = ({ navigation, route }) => {
           accountNumber: dataPlans.accountNumber,
           customerName: dataPlans.customerName,
           planId: dataPlans.planId,
-          amount: amount,
+          amount: extractAmount(amount),
         },
       };
     } else if (selectedNetwork?.billCode === 'SMILE') {
@@ -104,26 +111,10 @@ const BuyData = ({ navigation, route }) => {
         externalReference: '',
         payload: {
           mobileNumber: userPhone,
-          amount: amount,
+          amount: extractAmount(amount),
         },
       };
     }
-    // const payload: OrderPayload = {
-    //   orderPayload: {
-    //     billCode: selectedNetwork?.billCode,
-    //     merchantReference: getUniqueID(),
-    //     transactionReference: getUniqueID(),
-    //     externalReference: '',
-    //     payload: {
-    //       mobileNumber: phone,
-    //       amount: selectedData?.amount || amount,
-    //       dataCode: selectedData?.dataCode,
-    //     },
-    //   },
-    //   orderData: {
-    //     plan: selectedData?.dataName,
-    //   },
-    // };
     dispatch(newOrder(payload));
     navigation.navigate('review_payment', {
       type: 'data',

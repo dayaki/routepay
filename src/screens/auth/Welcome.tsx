@@ -1,10 +1,11 @@
 import React from 'react';
 import { Image, View, Text } from 'react-native';
 import { Button, TitleText } from '@common';
+import { WelcomeNavProps } from '@types';
 import { useWelcomeStyles } from './styles';
 
-const Welcome = ({ navigation, route }) => {
-  const { name } = route.params;
+const Welcome = ({ navigation, route }: WelcomeNavProps) => {
+  const name = route.params?.name;
   const [userName, setUserName] = React.useState('');
   const styles = useWelcomeStyles();
 
@@ -40,8 +41,8 @@ const Welcome = ({ navigation, route }) => {
         />
         <Text style={styles.welcomeText}>
           It’s so good to have you here,{' '}
-          <Text style={styles.bold}>{userName}</Text>!!! Kindly verify your
-          email to continue using RoutePay.
+          <Text style={styles.bold}>{userName}</Text>!!! Kindly login to
+          continue using Routepay.
         </Text>
         <Button
           text="Login to continue"

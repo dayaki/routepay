@@ -9,6 +9,7 @@ import {
 } from '@common';
 import {
   apiService,
+  extractAmount,
   getUniqueID,
   postCharge,
   postMakeTransfer,
@@ -96,7 +97,7 @@ const WalletPIN = ({ navigation, route }) => {
           beneficiaryAccountNumber: data.account.beneficiaryAccountNumber,
           beneficiaryAccountName: data.account.beneficiaryAccountName,
           bankCode: data.account.bankCode,
-          amount: data.amount,
+          amount: extractAmount(data.amount),
           paymentReference: getUniqueID(8),
           verificationId: data.account.verificationId,
           transferLocation: '1.38716,3.05117',
@@ -110,7 +111,7 @@ const WalletPIN = ({ navigation, route }) => {
           beneficiaryAccountNumber: data.account.beneficiaryAccountNumber,
           beneficiaryAccountName: data.account.beneficiaryAccountName,
           bankCode: data.account.bankCode,
-          amount: data.amount,
+          amount: extractAmount(data.amount),
           paymentReference: getUniqueID(8),
           verificationId: data.account.verificationId,
           transferLocation: '1.38716,3.05117',

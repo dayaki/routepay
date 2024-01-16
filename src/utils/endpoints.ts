@@ -1,8 +1,4 @@
-// import { BASE_URL, AUTH_URL } from '@env';
-// import Keys from 'react-native-keys';
 import { AUTH_URL, BASE_URL } from '@env';
-// const AUTH_URL = 'https://auth.routepay.com';
-// const BASE_URL = 'https://api.routepay.com';
 
 // export const BaseUrl = '';
 export const baseURL = `${BASE_URL}/api`;
@@ -62,3 +58,5 @@ export const getTransactionStatus = (transID: string) =>
 export const postCharge = `${billsApi}/Payment/charge`;
 
 export const PostMessage = `${billsApi}/notify`;
+export const PutActivateAccount = (userId: string) =>
+  `${merchantApi}/Users/ActivateUser/${userId}/activate`;

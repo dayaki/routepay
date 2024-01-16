@@ -142,6 +142,8 @@ export const Select = ({
   useLabel,
   noName,
   onSelection,
+  onSearch,
+  canSearch,
 }: {
   label: string;
   selected: any;
@@ -150,12 +152,22 @@ export const Select = ({
   data: [] | undefined;
   onSelect: (item: any) => void;
   onSelection: (item: any) => void;
+  onSearch?: (item: string) => void;
   selector: string;
   noName?: boolean;
+  canSearch?: boolean;
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const styles = useStyles();
   const { colors } = useTheme();
+
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+    if (onSearch) {
+      onSearch(text);
+    }
+  };
   return (
     <>
       <SelectModal
@@ -168,6 +180,9 @@ export const Select = ({
         selected={selected}
         onSelection={onSelection}
         noName={noName}
+        canSearch={canSearch}
+        searchText={searchText}
+        setSearchText={handleSearch}
       />
       <TouchableOpacity
         activeOpacity={0.7}
@@ -597,7 +612,7 @@ const useStyles = () => {
   const { colors } = useTheme();
   return StyleSheet.create({
     wrapper: {
-      marginTop: -40,
+      marginTop: -10,
       marginBottom: ms(30),
     },
     checkbox: {

@@ -20,9 +20,10 @@ import {
   useAppSelector,
   userLogin,
 } from '@store';
+import { LoginNavProps } from '@types';
 import { useLoginStyles } from './styles';
 
-const Login = ({ navigation, route }) => {
+const Login = ({ navigation, route }: LoginNavProps) => {
   const { username, email } = useAppSelector(state => state.user);
   const goBack = route.params?.goBack || true;
   const [userEmail, setUserEmail] = useState(email || '');
@@ -52,11 +53,13 @@ const Login = ({ navigation, route }) => {
         },
       });
       if (!accessToken) {
-        if (message.includes('This email address is not confirmed')) {
+        if (
+          message.toLowerCase().includes('this email address is not confirmed')
+        ) {
           setHasError(
             'Please confirm your account with the email confirmation message sent to your mailbox.',
           );
-        } else if (message.includes('Invalid Login Attempt')) {
+        } else if (message.toLowerCase().includes('invalid login attempt')) {
           setHasError('Invalid email address or password.');
         } else if (twoFactorEnabled) {
           navigation.navigate('verify_2fa', {
