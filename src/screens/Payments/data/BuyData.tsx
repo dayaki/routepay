@@ -40,7 +40,6 @@ const BuyData = ({ navigation, route }) => {
   };
 
   const lookup = async (code: string) => {
-    console.log('billCode', code);
     const data2send: {
       billCode: string;
       payload: { accountNumber?: string };
@@ -58,14 +57,12 @@ const BuyData = ({ navigation, route }) => {
     ) {
       data2send.payload.accountNumber = phone;
     }
-    console.log('payload for lookup', data2send);
     try {
       const { response } = await apiService(
         postBundleLookup,
         'post',
         data2send,
       );
-      console.log('lookiup', response);
       setDataPlans(response);
     } catch (error) {
       console.log('lookup err', error);
@@ -82,7 +79,7 @@ const BuyData = ({ navigation, route }) => {
         externalReference: '',
         payload: {
           mobileNumber: phone,
-          amount: extractAmount(selectedData?.amount || amount),
+          amount: selectedData?.amount || amount,
           dataCode: selectedData?.dataCode,
         },
       },
@@ -100,7 +97,7 @@ const BuyData = ({ navigation, route }) => {
           accountNumber: dataPlans.accountNumber,
           customerName: dataPlans.customerName,
           planId: dataPlans.planId,
-          amount: extractAmount(amount),
+          amount: amount,
         },
       };
     } else if (selectedNetwork?.billCode === 'SMILE') {
@@ -111,7 +108,7 @@ const BuyData = ({ navigation, route }) => {
         externalReference: '',
         payload: {
           mobileNumber: userPhone,
-          amount: extractAmount(amount),
+          amount: amount,
         },
       };
     }

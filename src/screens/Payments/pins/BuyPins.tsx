@@ -4,7 +4,13 @@ import { Button, Header, Input, Select } from '@common';
 import { useStyles } from '../styles';
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { IsBillProvider, OrderPayload } from '@types';
-import { apiService, getUniqueID, moneyFormat, postBundleLookup } from '@utils';
+import {
+  apiService,
+  extractAmount,
+  getUniqueID,
+  moneyFormat,
+  postBundleLookup,
+} from '@utils';
 
 type Payload = {
   billCode: string;
@@ -84,7 +90,7 @@ const BuyNetworkPins = ({ navigation, route }) => {
           confirmationCode: '9678528341',
           mobileNumber: '08000000000',
           serviceType: 'DE',
-          amount: '4700',
+          amount: amount,
         },
       };
     } else {

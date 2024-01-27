@@ -12,7 +12,13 @@ import {
 import { newOrder, useAppDispatch, useAppSelector } from '@store';
 import { useStyles } from '../styles';
 import { IsBillProvider, OrderPayload } from '@types';
-import { apiService, getUniqueID, nairaFormat, postBundleLookup } from '@utils';
+import {
+  apiService,
+  extractAmount,
+  getUniqueID,
+  nairaFormat,
+  postBundleLookup,
+} from '@utils';
 
 type Payload = {
   billCode: string;
@@ -98,7 +104,7 @@ const CableTV = ({ navigation }) => {
             mobileNumber: phone,
             validityPeriod: selectedPlan.validityPeriod,
             dataCode: selectedPlan.dataCode,
-            amount: selectedPlan.amount,
+            amount: extractAmount(selectedPlan.amount),
           },
         },
         orderData: { company: 'Showmax' },
@@ -120,7 +126,7 @@ const CableTV = ({ navigation }) => {
             customerNumber: customerData.customerNumber,
             smartcardNumber: phone,
             paymentCycle: customerData.paymentCycle,
-            amount: customerData.amount,
+            amount: extractAmount(customerData.amount),
           },
         },
         orderData: { company: 'Dstv BoxOffice' },
@@ -140,7 +146,7 @@ const CableTV = ({ navigation }) => {
           payload: {
             smartcardNumber: phone,
             bouquetCode: selectedPlan.bouquetCode,
-            amount: selectedPlan.amount,
+            amount: extractAmount(selectedPlan.amount),
           },
         },
         orderData: {

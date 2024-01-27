@@ -1,23 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Image, TouchableOpacity, View } from 'react-native';
 import { Header, RegularText, TitleText } from '@common';
 import { useStyles } from '../styles';
-import {
-  getCableBills,
-  getPowerBills,
-  useAppDispatch,
-  useAppSelector,
-} from '@store';
+import { useAppSelector } from '@store';
 
 const Bills = ({ navigation }) => {
   const { theme } = useAppSelector(state => state.misc);
   const styles = useStyles();
-  const dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   dispatch(getCableBills());
-  //   dispatch(getPowerBills());
-  // }, [dispatch]);
 
   return (
     <View style={styles.container}>

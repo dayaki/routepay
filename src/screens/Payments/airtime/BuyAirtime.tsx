@@ -49,7 +49,7 @@ const BuyAirtime = ({ navigation, route }) => {
         externalReference: '',
         payload: {
           mobileNumber: phone,
-          amount: extractAmount(amount),
+          amount: amount,
         },
       },
     };

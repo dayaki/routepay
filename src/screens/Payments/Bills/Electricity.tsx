@@ -11,8 +11,6 @@ const Electricity = ({ navigation }) => {
   const [data, setData] = useState<IsBillProvider[]>();
   const styles = useStyles();
 
-  console.log('power', power);
-
   useEffect(() => {
     let fileredData: IsBillProvider[] | undefined;
     if (selectionOption === 'prepaid') {

@@ -62,6 +62,7 @@ export const SelectModal = ({
           {canSearch && (
             <TextInput
               placeholder="Search bank"
+              placeholderTextColor="rgba(0,0,0,0.3)"
               value={searchText}
               onChangeText={setSearchText}
               style={styles.search}
@@ -289,6 +290,7 @@ const useStyles = () => {
       borderRadius: 4,
       paddingVertical: 12,
       paddingLeft: 6,
+      color: '#000',
     },
     logoutText: {
       width: '60%',

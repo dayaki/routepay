@@ -17,7 +17,8 @@ import { useToast } from 'react-native-toast-notifications';
 
 const Register = ({ navigation, route }: RegisterNavProps) => {
   const error = route.params?.error;
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -30,12 +31,11 @@ const Register = ({ navigation, route }: RegisterNavProps) => {
   const styles = useLoginStyles();
   const toast = useToast();
 
-  console.log('error.payload', error);
-
   const handleBlur = () => {
     if (
       !!email &&
-      !!name &&
+      !!firstName &&
+      !!lastName &&
       phone.length === 11 &&
       !!password &&
       password.length > 5
@@ -79,8 +79,8 @@ const Register = ({ navigation, route }: RegisterNavProps) => {
         email,
         phoneNumber: formatPhone(phone),
         password: password,
-        firstName: name.split(' ')[0],
-        lastName: name.split(' ')[1],
+        firstName,
+        lastName,
         status: true,
       };
       setTimeout(() => {
@@ -92,8 +92,8 @@ const Register = ({ navigation, route }: RegisterNavProps) => {
         email,
         phoneNumber: formatPhone(phone),
         password: password,
-        firstName: name.split(' ')[0],
-        lastName: name.split(' ')[1],
+        firstName: firstName,
+        lastName: lastName,
         status: true,
       };
       setTimeout(() => {
@@ -111,8 +111,8 @@ const Register = ({ navigation, route }: RegisterNavProps) => {
         email,
         phoneNumber: formatPhone(phone),
         password: password,
-        firstName: name.split(' ')[0],
-        lastName: name.split(' ')[1],
+        firstName: firstName,
+        lastName: lastName,
         status: true,
       };
       const resp = await apiService(postRegister, 'post', payload);
@@ -161,12 +161,7 @@ const Register = ({ navigation, route }: RegisterNavProps) => {
       </View>
       <View>
         <TitleText text="Create an account" />
-        <View style={styles.texts}>
-          <Text style={styles.label}>
-            Hey there! Enter your details below to begin your journey with{' '}
-            <Text style={styles.brandName}>routepay</Text>.
-          </Text>
-        </View>
+        <View style={styles.texts} />
         {(!!errors || error) && (
           <RegularText
             text={errors || error.message}
@@ -176,9 +171,16 @@ const Register = ({ navigation, route }: RegisterNavProps) => {
           />
         )}
         <Input
-          value={name}
-          onChangeText={setName}
-          placeholder="Your BVN full name"
+          value={firstName}
+          onChangeText={setFirstName}
+          placeholder="Your BVN first name"
+          onBlur={handleBlur}
+          leftIcon={<UserIcon size={16} />}
+        />
+        <Input
+          value={lastName}
+          onChangeText={setLastName}
+          placeholder="Your BVN last name"
           onBlur={handleBlur}
           leftIcon={<UserIcon size={16} />}
         />

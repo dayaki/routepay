@@ -144,7 +144,7 @@ const Dashboard = ({ navigation }) => {
           <View style={styles.row}>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => navigation.navigate('account')}
+              onPress={() => navigation.navigate('edit_profile')}
               style={styles.name}>
               <TitleText
                 text={`${user?.firstName[0]}${user?.lastName[0]}`}

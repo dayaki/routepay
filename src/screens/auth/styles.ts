@@ -138,12 +138,11 @@ export const useLoginStyles = () => {
       marginBottom: ms(10),
     },
     texts: {
-      marginTop: ms(10),
       width: '100%',
       flexDirection: 'row',
       flexWrap: 'wrap',
       alignItems: 'center',
-      marginBottom: ms(40),
+      marginBottom: ms(30),
     },
     label: {
       fontFamily: 'DMSans-Regular',

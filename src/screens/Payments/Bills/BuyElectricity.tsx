@@ -78,7 +78,9 @@ const BuyElectricity = ({ navigation, route }) => {
         transactionReference: getUniqueID(12),
         externalReference: '',
         payload: {
-          mobileNumber: user?.phoneNumber,
+          mobileNumber: user?.phoneNumber.startsWith('234')
+            ? `0${user.phoneNumber.slice(3)}`
+            : user?.phoneNumber,
           customerEmail: user?.email,
           customerName: customerData.customerName,
           address: customerData.address,
@@ -87,7 +89,7 @@ const BuyElectricity = ({ navigation, route }) => {
             customerData.customerNumber !== ''
               ? customerData.customerNumber
               : meter,
-          amount: extractAmount(amount),
+          amount: amount,
         },
       },
       orderData: {
